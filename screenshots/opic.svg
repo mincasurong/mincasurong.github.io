@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Apple SD Gothic Neo, sans-serif">
+  <!-- Gradient Background -->
+  <defs>
+    <linearGradient id="opic-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="50%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#022c22"/>
+    </linearGradient>
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <radialGradient id="card-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#opic-bg)"/>
+
+  <!-- Floating Bokeh Particles -->
+  <circle cx="280" cy="490" r="8" fill="#f59e0b" opacity="0.8"/>
+  <circle cx="295" cy="515" r="4" fill="#ec4899" opacity="0.7"/>
+  <circle cx="310" cy="525" r="3" fill="#06b6d4" opacity="0.6"/>
+  <circle cx="890" cy="450" r="10" fill="#a855f7" opacity="0.7"/>
+  <circle cx="950" cy="480" r="8" fill="#3b82f6" opacity="0.8"/>
+  <circle cx="845" cy="530" r="9" fill="#ef4444" opacity="0.7"/>
+  <circle cx="920" cy="565" r="5" fill="#ec4899" opacity="0.6"/>
+  <circle cx="890" cy="540" r="4" fill="#10b981" opacity="0.8"/>
+  <circle cx="960" cy="590" r="5" fill="#f59e0b" opacity="0.5"/>
+
+  <!-- Centered Glass Card (w: 520, h: 580) -->
+  <rect x="340" y="47" width="520" height="580" rx="32" fill="#064e3b" fill-opacity="0.85" stroke="#10b981" stroke-width="1.5" stroke-opacity="0.3"/>
+  <rect x="340" y="47" width="520" height="580" rx="32" fill="url(#card-glow)"/>
+
+  <!-- AL MASTER Badge -->
+  <g transform="translate(540, 95)">
+    <rect x="0" y="0" width="120" height="120" rx="28" fill="url(#gold-grad)" stroke="#ffffff" stroke-width="3"/>
+    <text x="60" y="65" text-anchor="middle" fill="#111827" font-size="34" font-weight="900" letter-spacing="-0.5">AL</text>
+    <text x="60" y="88" text-anchor="middle" fill="#111827" font-size="11" font-weight="800" letter-spacing="1.5">MASTER</text>
+    <!-- Little Crown on Top-Right -->
+    <circle cx="108" cy="12" r="16" fill="#f59e0b" stroke="#ffffff" stroke-width="2"/>
+    <path d="M102 16 L104 9 L108 14 L112 9 L114 16 Z" fill="white"/>
+  </g>
+
+  <!-- Speaking Coach Pill -->
+  <rect x="475" y="240" width="250" height="28" rx="14" fill="#065f46" stroke="#fbbf24" stroke-width="1"/>
+  <text x="600" y="259" text-anchor="middle" fill="#fef08a" font-size="12" font-weight="bold">✨ AI-Powered Speaking Coach</text>
+
+  <!-- Headline & Subtitle -->
+  <text x="600" y="305" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="900" letter-spacing="-0.5">OPIc AL Master Coach</text>
+  
+  <text x="600" y="340" text-anchor="middle" fill="#e2e8f0" font-size="13.5" font-weight="500">원어민 구어체 필러와 1:1 감정 톤 코칭으로 가장 빠르고 재미있</text>
+  <text x="600" y="360" text-anchor="middle" fill="#e2e8f0" font-size="13.5" font-weight="500">게 <tspan font-weight="bold" fill="#ffffff">Advanced Low (AL)</tspan>를 달성하세요!</text>
+
+  <!-- 4 Feature Pills -->
+  <rect x="380" y="390" width="215" height="38" rx="19" fill="#065f46" fill-opacity="0.8" stroke="#10b981" stroke-opacity="0.3"/>
+  <text x="400" y="414" fill="#fef3c7" font-size="11.5" font-weight="bold">🔥 5대 AL 시그니처 수칙</text>
+
+  <rect x="605" y="390" width="215" height="38" rx="19" fill="#065f46" fill-opacity="0.8" stroke="#10b981" stroke-opacity="0.3"/>
+  <text x="620" y="414" fill="#ecfdf5" font-size="11.5" font-weight="bold">🔊 고음질 Gemini TTS 발화</text>
+
+  <rect x="380" y="440" width="215" height="38" rx="19" fill="#065f46" fill-opacity="0.8" stroke="#10b981" stroke-opacity="0.3"/>
+  <text x="400" y="464" fill="#ecfdf5" font-size="11.5" font-weight="bold">⏱ 100% 실전 기출 47제</text>
+
+  <rect x="605" y="440" width="215" height="38" rx="19" fill="#065f46" fill-opacity="0.8" stroke="#10b981" stroke-opacity="0.3"/>
+  <text x="620" y="464" fill="#ecfdf5" font-size="11.5" font-weight="bold">🛡 정밀 AL 진단 리포트</text>
+
+  <!-- Primary Amber Button -->
+  <rect x="380" y="505" width="440" height="52" rx="16" fill="url(#gold-grad)" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.3))"/>
+  <text x="600" y="538" text-anchor="middle" fill="#111827" font-size="15" font-weight="900" letter-spacing="0.5">지금 바로 학습 시작하기 →</text>
+
+  <!-- Secondary White Button -->
+  <rect x="380" y="570" width="440" height="44" rx="14" fill="#ffffff"/>
+  <!-- Google G Logo -->
+  <circle cx="460" cy="592" r="10" fill="#f8fafc"/>
+  <text x="456" y="597" fill="#ea4335" font-size="13" font-weight="bold">G</text>
+  <text x="480" y="597" fill="#1f2937" font-size="13" font-weight="bold">Google 계정으로 로그인 &amp; 학습 기록 저장</text>
+</svg>
