@@ -21,6 +21,7 @@
     };
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
     mermaid.initialize({
@@ -489,6 +490,60 @@
       justify-content: center;
     }
 
+    .arch-figure {
+      background: #141414;
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      padding: 16px;
+      margin: 20px 0 24px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+    .arch-figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+    }
+    .arch-caption {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 20px;
+      margin: 24px 0 32px;
+    }
+    .chart-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+    .chart-card-title {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 4px 0;
+    }
+    .chart-card-sub {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      margin: 0 0 14px 0;
+    }
+    .chart-canvas-wrap {
+      position: relative;
+      height: 270px;
+      width: 100%;
+    }
+
     .toc-sidebar {
       position: sticky;
       top: 88px;
@@ -735,6 +790,13 @@
         The evaluation runs as a continuous, closed-loop 3-stage state machine inside <code>GeminiRoboticsNode._run_automated_comparison_workflow()</code> in <strong>Mode 1</strong> (<code>three_robot_tower.py</code>):
       </p>
 
+      <figure class="arch-figure">
+        <img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Stage VLA Task Planner Architecture: Isaac Sim 6.0 & ROS 2 Jazzy (3-Arm FR3 Station)" loading="eager" />
+        <figcaption class="arch-caption">
+          Figure 1 — 3-Stage VLA Task Planner Architecture in NVIDIA Isaac Sim 6.0 &amp; ROS 2 Jazzy (Synthesized via Nano Banana Pro / <code>gemini-3-pro-image</code>).
+        </figcaption>
+      </figure>
+
       <div class="mermaid-box">
         <pre class="mermaid">
 flowchart TD
@@ -777,7 +839,38 @@ flowchart TD
         <span>Token Usage, Thinking-Budget Allocation, and Cost Comparison</span>
       </h2>
 
-      <h3 class="sub-heading">2.1 End-to-End Comparison Table (Mode 1 — 9-Block Tower)</h3>
+      <h3 class="sub-heading">2.1 End-to-End Comparison Table &amp; Interactive Charts (Mode 1 — 9-Block Tower)</h3>
+
+      <div id="interactive-charts" class="charts-grid">
+        <div class="chart-card">
+          <h4 class="chart-card-title">API Cost ($ USD) vs. Step-Turn Latency (s)</h4>
+          <p class="chart-card-sub">Stage 3 Hybrid slashes API cost by 76.6% ($0.01972) and step latency by 68.7% (4.17s)</p>
+          <div class="chart-canvas-wrap">
+            <canvas id="costLatencyChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h4 class="chart-card-title">Token Consumption Breakdown by Stage</h4>
+          <p class="chart-card-sub">Input, Thinking, and Output tokens across 9-block tower assembly</p>
+          <div class="chart-canvas-wrap">
+            <canvas id="tokenBreakdownChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h4 class="chart-card-title">Quadratic Cumulative Input Token Trajectory (T1–T13)</h4>
+          <p class="chart-card-sub">Finishing in 10 turns eliminates the 3 heaviest final turns (-10,929 input tokens)</p>
+          <div class="chart-canvas-wrap">
+            <canvas id="cumulativeTokensChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h4 class="chart-card-title">Turn-0 Plan Latency vs. Total Agent Turns</h4>
+          <p class="chart-card-sub">Turn-0 strategy latency (s) and total execution turns required for 9/9 blocks</p>
+          <div class="chart-canvas-wrap">
+            <canvas id="turnsPlanChart"></canvas>
+          </div>
+        </div>
+      </div>
       <div class="table-wrap">
         <table>
           <thead>
@@ -1073,6 +1166,159 @@ flowchart TD
       document.querySelectorAll('.chapter-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof Chart === 'undefined') return;
+      Chart.defaults.color = '#a1a1aa';
+      Chart.defaults.font.family = "'JetBrains Mono', monospace";
+      Chart.defaults.font.size = 11;
+
+      const gridColor = 'rgba(255, 255, 255, 0.06)';
+
+      new Chart(document.getElementById('costLatencyChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Stage 1: ER-2', 'Stage 2: Pure Argon', 'Stage 3: Hybrid (1A+10F)'],
+          datasets: [
+            {
+              label: 'Total API Cost ($ USD)',
+              data: [0.07860, 0.08437, 0.01972],
+              backgroundColor: ['rgba(245, 158, 11, 0.75)', 'rgba(212, 175, 55, 0.75)', 'rgba(16, 185, 129, 0.85)'],
+              borderColor: ['#f59e0b', '#d4af37', '#10b981'],
+              borderWidth: 1.5,
+              borderRadius: 6,
+              yAxisID: 'yCost'
+            },
+            {
+              label: 'Early Step Latency (s)',
+              data: [2.58, 13.31, 4.17],
+              type: 'line',
+              borderColor: '#60a5fa',
+              backgroundColor: '#60a5fa',
+              pointRadius: 5,
+              tension: 0.25,
+              yAxisID: 'yLat'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { grid: { color: gridColor } },
+            yCost: {
+              type: 'linear',
+              position: 'left',
+              grid: { color: gridColor },
+              title: { display: true, text: 'Cost ($ USD)', color: '#d4af37' }
+            },
+            yLat: {
+              type: 'linear',
+              position: 'right',
+              grid: { drawOnChartArea: false },
+              title: { display: true, text: 'Latency (s)', color: '#60a5fa' }
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('tokenBreakdownChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Stage 1: ER-2 (13T)', 'Stage 2: Argon (10T)', 'Stage 3: Hybrid (10T)'],
+          datasets: [
+            {
+              label: 'Input Tokens',
+              data: [48377, 37845, 37448],
+              backgroundColor: 'rgba(212, 175, 55, 0.78)',
+              borderRadius: 4
+            },
+            {
+              label: 'Thinking Tokens',
+              data: [1086, 0, 0],
+              backgroundColor: 'rgba(248, 113, 113, 0.85)',
+              borderRadius: 4
+            },
+            {
+              label: 'Output Action Tokens',
+              data: [727, 868, 829],
+              backgroundColor: 'rgba(16, 185, 129, 0.85)',
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { stacked: true, grid: { color: gridColor } },
+            y: { stacked: true, grid: { color: gridColor }, title: { display: true, text: 'Tokens' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('cumulativeTokensChart'), {
+        type: 'line',
+        data: {
+          labels: ['T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13'],
+          datasets: [
+            {
+              label: 'Stage 1: ER-2 (13 Turns -> 48,377 in tok)',
+              data: [1450, 4250, 7250, 10450, 13850, 17450, 21250, 25250, 29450, 33850, 37845, 41200, 44700, 48377],
+              borderColor: '#f59e0b',
+              backgroundColor: 'rgba(245, 158, 11, 0.12)',
+              fill: true,
+              tension: 0.3
+            },
+            {
+              label: 'Stage 3: Hybrid Argon+Flash-Lite (10 Turns -> 37,448 in tok)',
+              data: [2800, 5600, 8600, 11850, 15300, 18950, 22800, 26850, 30900, 34150, 37448, null, null, null],
+              borderColor: '#10b981',
+              backgroundColor: 'rgba(16, 185, 129, 0.16)',
+              fill: true,
+              tension: 0.3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { grid: { color: gridColor } },
+            y: { grid: { color: gridColor }, title: { display: true, text: 'Cumulative Input Tokens' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('turnsPlanChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Stage 1: ER-2', 'Stage 2: Pure Argon', 'Stage 3: Hybrid (1A+10F)'],
+          datasets: [
+            {
+              label: 'Agent Turns (T)',
+              data: [13, 10, 10],
+              backgroundColor: 'rgba(96, 165, 250, 0.78)',
+              borderRadius: 6
+            },
+            {
+              label: 'Turn-0 Plan Latency (s)',
+              data: [1.99, 8.87, 4.67],
+              backgroundColor: 'rgba(16, 185, 129, 0.78)',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { grid: { color: gridColor } },
+            y: { grid: { color: gridColor } }
+          }
+        }
+      });
+    });
   </script>
 </body>
 </html>
