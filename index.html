@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>We're M9G — Physical AI, Robotics & Agentic Engineering Magazine</title>
+  <title>M9G — Physical AI, Robotics & Agentic Engineering</title>
   <meta name="description" content="M9G (Human x AI Agents) — From Machine to General Intelligence by Agent-enabled System Engineering. Live AI apps, Isaac Sim 6.0 & ROS 2 robotics benchmarks, and IEEE publications." />
-  <meta property="og:title" content="We're M9G — Physical AI, Robotics & Agentic Engineering" />
+  <meta property="og:title" content="M9G — Physical AI, Robotics & Agentic Engineering" />
   <meta property="og:description" content="1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026. Explore live Cloud Run AI apps, VLA multi-robot benchmarks, and IEEE robotics research." />
   <meta property="og:image" content="https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Josefin+Sans:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -20,1028 +20,304 @@
         "@type": "WebSite",
         "@id": "https://mincasurong.github.io/#website",
         "url": "https://mincasurong.github.io/",
-        "name": "We're M9G — Physical AI & Robotics Magazine",
+        "name": "M9G — Physical AI & Robotics",
         "description": "From Machine to General Intelligence by Agent-enabled System Engineering",
-        "inLanguage": ["en", "ko", "ja", "es", "zh"],
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://mincasurong.github.io/?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
+        "inLanguage": ["en", "ko", "ja", "es", "zh"]
       },
       {
         "@type": "Person",
         "@id": "https://mincasurong.github.io/#author",
         "name": "Minsu Chang (M9G)",
-        "url": "https://www.mincasurong.com/",
-        "sameAs": [
-          "https://github.com/mincasurong",
-          "https://www.linkedin.com/in/mincasurong/",
-          "https://www.youtube.com/@mincasurong"
-        ]
+        "url": "https://www.mincasurong.com/"
       }
     ]
   }
   </script>
   <style>
     :root {
-      --maincolor: #d4af37;
-      --maincolor-hover: #f3d266;
-      --emerald: #10b981;
-      --blue: #60a5fa;
-      --bg-body: #0b0d13;
-      --bg-surface: #12151e;
-      --bg-card: #161a25;
-      --bg-elevated: #1c2130;
-      --border-color: #262c3d;
-      --border-gold: rgba(212, 175, 55, 0.38);
-      --text-primary: #fcfcfb;
-      --text-secondary: #a1a9bc;
-      --text-muted: #6e778c;
+      --bg: #ffffff;
+      --surface: #f8f9fa;
+      --surface-hover: #f1f3f4;
+      --border: #dadce0;
+      --border-subtle: #e8eaed;
+      --text-primary: #202124;
+      --text-secondary: #5f6368;
+      --text-muted: #70757a;
+      --g-blue: #1a73e8;
+      --g-blue-dark: #174ea6;
+      --g-blue-bg: #e8f0fe;
+      --g-green: #1e8e3e;
+      --g-green-dark: #137333;
+      --g-green-bg: #e6f4ea;
+      --g-amber: #e37400;
+      --g-amber-bg: #fef7e0;
+      --g-red: #d93025;
+      --g-red-bg: #fce8e6;
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-display: 'Plus Jakarta Sans', sans-serif;
-      --font-pixel: 'Josefin Sans', 'Plus Jakarta Sans', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
-
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-body);
-      color: var(--text-primary);
-      font-family: var(--font-sans);
-      line-height: 1.6;
+      margin: 0; padding: 0; width: 100%; max-width: 100%; overflow-x: hidden;
+      background: var(--bg); color: var(--text-primary);
+      font-family: var(--font-sans); font-size: 16px; line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
     }
-
-    a { color: inherit; text-decoration: none; transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease; }
-
-    .skip-link {
-      position: absolute;
-      top: -100px;
-      left: 16px;
-      background: var(--maincolor);
-      color: #000;
-      font-weight: 700;
-      padding: 8px 16px;
-      border-radius: 6px;
-      z-index: 9999;
-    }
+    img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
+    .skip-link { position: absolute; top: -100px; left: 16px; background: var(--g-blue); color: #fff; font-weight: 600; padding: 8px 16px; border-radius: 4px; z-index: 9999; }
     .skip-link:focus { top: 12px; }
-
     #reading-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
-      width: 0%;
-      background: linear-gradient(90deg, var(--maincolor) 0%, var(--emerald) 100%);
-      z-index: 1000;
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 1000;
+      background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%);
     }
-
-    .pixel-top {
-      background: #07080c;
-      border-bottom: 1px solid var(--border-color);
-      font-size: 12px;
-    }
+    .pixel-top { background: var(--surface); border-bottom: 1px solid var(--border-subtle); font-size: 12.5px; }
     .pixel-top-wrapper {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 0 20px;
-      min-height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      max-width: 1280px; margin: 0 auto; padding: 6px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
     }
-    .pixel-ticker {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-      flex: 1;
-    }
+    .pixel-ticker { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
     .ticker-badge {
-      background: var(--maincolor);
-      color: #000;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 2px 8px;
-      border-radius: 4px;
-      flex-shrink: 0;
+      background: var(--g-blue-bg); color: var(--g-blue);
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 2px 8px; border-radius: 999px; flex-shrink: 0;
     }
-    .ticker-link {
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: 12px;
-    }
-    .ticker-link:hover { color: var(--maincolor); }
-
-    .pixel-top-right {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
-    }
-    .pixel-social {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .pixel-social a {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-secondary);
-      padding: 3px 7px;
-      border-radius: 4px;
-      border: 1px solid transparent;
-    }
-    .pixel-social a:hover {
-      color: var(--maincolor);
-      border-color: var(--border-gold);
-      background: rgba(212, 175, 55, 0.08);
-    }
-
-    .lang-switcher {
-      display: inline-flex;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      overflow: hidden;
-    }
+    .ticker-link { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+    .ticker-link:hover { color: var(--g-blue); }
+    .pixel-top-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+    .pixel-social { display: flex; align-items: center; gap: 10px; }
+    .pixel-social a { font-size: 12px; font-weight: 500; color: var(--text-secondary); padding: 2px 6px; border-radius: 4px; }
+    .pixel-social a:hover { color: var(--g-blue); background: var(--g-blue-bg); }
+    .lang-switcher { display: inline-flex; background: #ffffff; border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
     .lang-btn {
-      background: transparent;
-      border: 0;
-      color: var(--text-secondary);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 4px 7px;
-      cursor: pointer;
-      transition: all 0.15s ease;
+      background: transparent; border: 0; color: var(--text-secondary);
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      padding: 3px 8px; border-radius: 999px; cursor: pointer;
     }
-    .lang-btn:hover { color: #fff; }
-    .lang-btn.active {
-      background: var(--maincolor);
-      color: #000;
-    }
-
-    .pixel-center-header {
-      background: linear-gradient(180deg, #111520 0%, #0b0d13 100%);
-      border-bottom: 1px solid var(--border-color);
-      padding: 26px 0;
-    }
+    .lang-btn:hover { color: var(--text-primary); }
+    .lang-btn.active { background: var(--g-blue); color: #ffffff; }
+    .pixel-center-header { background: #ffffff; border-bottom: 1px solid var(--border-subtle); padding: 24px 0; }
     #pixel-wide-wrapper {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      flex-wrap: wrap;
+      max-width: 1280px; margin: 0 auto; padding: 0 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
     }
-    .pixel-brand-col {
-      max-width: 540px;
-    }
-    .pixel-brand-tag {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--maincolor);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .pixel-wide-title {
-      font-family: var(--font-pixel);
-      font-size: clamp(28px, 4vw, 44px);
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      margin: 0 0 6px 0;
-      line-height: 1.1;
-      color: #fff;
-    }
-    .pixel-wide-title span { color: var(--maincolor); }
-    .pixel-wide-desc {
-      margin: 0;
-      font-size: 13.5px;
-      color: var(--text-secondary);
-    }
-
+    .pixel-brand-col { max-width: 560px; min-width: 0; }
+    .pixel-brand-tag { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g-blue); margin-bottom: 4px; }
+    .pixel-wide-title { font-family: var(--font-display); font-size: clamp(26px, 3.8vw, 40px); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 6px 0; line-height: 1.15; color: var(--text-primary); }
+    .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; } .g-dot { color: #fbbc04; }
+    .pixel-wide-desc { margin: 0; font-size: 14.5px; color: var(--text-secondary); }
     .headerright {
-      flex: 1;
-      min-width: 0; width: 100%;
-      max-width: 680px;
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%);
-      border: 1px solid var(--border-gold);
-      border-radius: 12px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      flex: 1; min-width: 0; max-width: 640px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    .header-promo-text {
-      min-width: 0;
-    }
-    .header-promo-kicker {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--emerald);
-      font-weight: 700;
-      margin-bottom: 3px;
-    }
-    .header-promo-title {
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      margin: 0 0 3px 0;
-    }
-    .header-promo-sub {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin: 0;
-    }
+    .header-promo-text { min-width: 0; }
+    .header-promo-kicker { font-size: 12px; font-weight: 600; color: var(--g-green); margin-bottom: 2px; }
+    .header-promo-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); margin: 0 0 3px 0; }
+    .header-promo-sub { font-size: 12.5px; color: var(--text-secondary); margin: 0; }
     .header-promo-cta {
-      background: var(--maincolor);
-      color: #000;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 9px 14px;
-      border-radius: 8px;
-      white-space: nowrap;
-      flex-shrink: 0;
+      background: var(--g-blue); color: #ffffff; font-size: 13px; font-weight: 600;
+      padding: 9px 16px; border-radius: 999px; white-space: nowrap; flex-shrink: 0;
     }
-    .header-promo-cta:hover { background: var(--maincolor-hover); }
-
+    .header-promo-cta:hover { background: var(--g-blue-dark); }
     .pixel-navigation {
-      position: sticky;
-      top: 0;
-      z-index: 90;
-      background: rgba(14, 17, 25, 0.92);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border-color);
+      position: sticky; top: 0; z-index: 90;
+      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
     }
     #pixel-menu {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 0 20px;
-      min-height: 54px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      position: relative;
+      max-width: 1280px; margin: 0 auto; padding: 0 20px; min-height: 52px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; position: relative;
     }
-    .pixel-nav-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-    .pixel-nav-item {
-      position: static;
-    }
+    .pixel-nav-list { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+    .pixel-nav-item { position: static; }
     .pixel-nav-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      height: 54px;
-      padding: 0 14px;
-      font-family: var(--font-pixel);
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-primary);
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px; height: 52px; padding: 0 14px;
+      font-size: 13.5px; font-weight: 600; color: var(--text-secondary);
+      border-bottom: 2px solid transparent; cursor: pointer;
     }
-    .pixel-nav-link:hover, .pixel-nav-link.active {
-      color: var(--maincolor);
-      border-bottom-color: var(--maincolor);
-    }
-    .pixel-nav-link.blog-pill {
-      color: var(--emerald);
-    }
-
+    .pixel-nav-link:hover, .pixel-nav-link.active { color: var(--g-blue); border-bottom-color: var(--g-blue); }
+    .pixel-nav-link.blog-pill { color: var(--g-green-dark); font-weight: 700; }
     .mega-panel {
-      position: absolute;
-      top: 100%;
-      left: 20px;
-      right: 20px;
-      background: #141824;
-      border: 1px solid var(--border-gold);
-      border-radius: 0 0 14px 14px;
-      padding: 20px;
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.7);
-      display: none;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      z-index: 200;
+      position: absolute; top: 100%; left: 20px; right: 20px;
+      background: #ffffff; border: 1px solid var(--border); border-radius: 0 0 12px 12px;
+      padding: 20px; box-shadow: 0 12px 32px rgba(60, 64, 67, 0.15);
+      display: none; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; z-index: 200;
     }
-    .pixel-nav-item.isMega:hover .mega-panel,
-    .pixel-nav-item.isMega:focus-within .mega-panel {
-      display: grid;
-    }
-    .mega-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.18s ease, border-color 0.18s ease;
-    }
-    .mega-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--maincolor);
-    }
-    .mega-thumb {
-      aspect-ratio: 16 / 9;
-      width: 100%;
-      object-fit: cover;
-      background: #000;
-    }
+    .pixel-nav-item.isMega:hover .mega-panel, .pixel-nav-item.isMega:focus-within .mega-panel { display: grid; }
+    .mega-card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+    .mega-card:hover { border-color: var(--g-blue); }
+    .mega-thumb { aspect-ratio: 16 / 9; width: 100%; object-fit: cover; }
     .mega-body { padding: 10px 12px; }
-    .mega-tag {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--maincolor);
-      text-transform: uppercase;
-    }
-    .mega-title {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: #fff;
-      margin: 4px 0 0 0;
-      line-height: 1.35;
-    }
-
-    .pixel-nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .mega-tag { font-size: 11px; font-weight: 600; color: var(--g-blue); }
+    .mega-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin: 3px 0 0 0; line-height: 1.35; }
     .pixel-search-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      font-family: var(--font-mono);
-      font-size: 12px;
-      padding: 7px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text-primary);
+      font-size: 12.5px; font-weight: 500; padding: 6px 14px; border-radius: 999px; cursor: pointer;
     }
-    .pixel-search-btn:hover {
-      border-color: var(--maincolor);
-      color: var(--maincolor);
-    }
-
+    .pixel-search-btn:hover { border-color: var(--g-blue); color: var(--g-blue); }
     .searchform-wrap {
-      position: fixed;
-      inset: 0;
-      background: rgba(8, 10, 15, 0.92);
-      backdrop-filter: blur(12px);
-      z-index: 999;
-      display: none;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 90px 20px 20px;
+      position: fixed; inset: 0; background: rgba(32, 33, 36, 0.55); backdrop-filter: blur(4px);
+      z-index: 999; display: none; align-items: flex-start; justify-content: center; padding: 90px 16px 20px;
     }
     .searchform-wrap.open { display: flex; }
-    .search-transition-inner {
-      width: 100%;
-      max-width: 680px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-gold);
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
-    }
-    .search-input-row {
-      display: flex;
-      gap: 10px;
-    }
-    .search-input {
-      flex: 1;
-      background: #0c0e14;
-      border: 1px solid var(--border-color);
-      color: #fff;
-      font-size: 15px;
-      padding: 12px 16px;
-      border-radius: 8px;
-      outline: none;
-    }
-    .search-input:focus { border-color: var(--maincolor); }
-    .search-close-btn {
-      background: #232838;
-      border: 0;
-      color: #fff;
-      padding: 0 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .container-pixel {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 28px 20px 72px;
-    }
-
-    .magazine-hero-grid {
-      display: grid;
-      grid-template-columns: 1.35fr 1fr;
-      gap: 18px;
-      margin-bottom: 36px;
-    }
+    .search-transition-inner { width: 100%; max-width: 640px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: 0 16px 40px rgba(60, 64, 67, 0.2); }
+    .search-input-row { display: flex; gap: 10px; }
+    .search-input { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); font-size: 15px; padding: 10px 14px; border-radius: 8px; outline: none; }
+    .search-input:focus { border-color: var(--g-blue); background: #ffffff; }
+    .search-close-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); padding: 0 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    .container-pixel { max-width: 1280px; margin: 0 auto; padding: 32px 20px 72px; }
+    .magazine-hero-grid > *, .hero-sub-grid > *, .pixel-body-grid > *, .apps-grid > *, .videos-grid > *, .archive-grid-3 > *, .blog-feature-banner > * { min-width: 0; max-width: 100%; }
+    .magazine-hero-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 20px; margin-bottom: 40px; }
     .hero-lead-card {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border-gold);
-      background: var(--bg-card);
-      min-height: 430px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      group: true;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: space-between; transition: box-shadow 0.2s ease, border-color 0.2s ease;
     }
-    .hero-lead-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.45s ease;
-    }
-    .hero-lead-card:hover .hero-lead-bg { transform: scale(1.03); }
-    .hero-lead-overlay {
-      position: relative;
-      z-index: 2;
-      background: linear-gradient(180deg, rgba(11,13,19,0.1) 0%, rgba(11,13,19,0.88) 55%, rgba(11,13,19,0.98) 100%);
-      padding: 28px;
-    }
-    .hero-sub-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
+    .hero-lead-card:hover { border-color: var(--g-blue); box-shadow: 0 8px 24px rgba(60, 64, 67, 0.12); }
+    .hero-lead-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--border-subtle); }
+    .hero-lead-body { padding: 24px; }
+    .hero-sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .hero-sub-card {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-      background: var(--bg-card);
-      min-height: 206px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+      display: flex; flex-direction: column; transition: box-shadow 0.2s ease, border-color 0.2s ease;
     }
-    .hero-sub-card:hover { border-color: var(--maincolor); }
-    .hero-sub-card:hover .hero-lead-bg { transform: scale(1.05); }
-    .hero-sub-overlay {
-      position: relative;
-      z-index: 2;
-      background: linear-gradient(180deg, rgba(11,13,19,0.12) 0%, rgba(11,13,19,0.92) 60%, rgba(11,13,19,0.98) 100%);
-      padding: 16px;
-    }
-
-    .cat-pill {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 3px 9px;
-      border-radius: 4px;
-      background: var(--maincolor);
-      color: #000;
-      margin-bottom: 8px;
-    }
-    .cat-pill.emerald {
-      background: var(--emerald);
-      color: #000;
-    }
-    .cat-pill.blue {
-      background: var(--blue);
-      color: #000;
-    }
-
-    .hero-lead-title {
-      font-family: var(--font-display);
-      font-size: clamp(20px, 2.4vw, 28px);
-      font-weight: 800;
-      color: #fff;
-      margin: 0 0 8px 0;
-      line-height: 1.25;
-    }
-    .hero-lead-desc {
-      font-size: 13.5px;
-      color: #d4d8e2;
-      margin: 0 0 14px 0;
-    }
-    .hero-cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .hero-sub-card:hover { border-color: var(--g-blue); box-shadow: 0 6px 18px rgba(60, 64, 67, 0.1); }
+    .hero-sub-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--border-subtle); }
+    .hero-sub-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .kicker { font-size: 12px; font-weight: 600; color: var(--g-blue); margin-bottom: 6px; display: inline-block; }
+    .kicker.green { color: var(--g-green-dark); }
+    .kicker.amber { color: var(--g-amber); }
+    .kicker.red { color: var(--g-red); }
+    .hero-lead-title { font-family: var(--font-display); font-size: clamp(20px, 2.3vw, 26px); font-weight: 700; color: var(--text-primary); margin: 0 0 10px 0; line-height: 1.28; }
+    .hero-lead-desc { font-size: 14.5px; color: var(--text-secondary); margin: 0 0 16px 0; }
+    .hero-cta-row { display: flex; flex-wrap: wrap; gap: 8px; }
     .hero-btn {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
+      font-size: 12.5px; font-weight: 600; padding: 7px 14px; border-radius: 999px;
+      background: #ffffff; border: 1px solid var(--border); color: var(--g-blue);
     }
-    .hero-btn.primary {
-      background: var(--maincolor);
-      border-color: var(--maincolor);
-      color: #000;
-    }
-    .hero-btn:hover {
-      border-color: var(--maincolor);
-      color: var(--maincolor);
-    }
-    .hero-btn.primary:hover {
-      background: var(--maincolor-hover);
-      color: #000;
-    }
-    .hero-sub-title {
-      font-family: var(--font-display);
-      font-size: 14.5px;
-      font-weight: 700;
-      color: #fff;
-      margin: 0 0 4px 0;
-      line-height: 1.3;
-    }
-    .hero-sub-meta {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-secondary);
-    }
-
-    .pixel-body-grid > *, .magazine-hero-grid > *, .hero-sub-grid > *, .apps-grid > *, .videos-grid > *, .archive-grid-3 > *, .blog-feature-banner > * { min-width: 0; max-width: 100%; }
-    .pixel-body-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 340px;
-      gap: 32px;
-      align-items: start;
-    }
-
-    .pixel-section {
-      margin-bottom: 44px;
-      scroll-margin-top: 72px;
-    }
+    .hero-btn.primary { background: var(--g-blue); border-color: var(--g-blue); color: #ffffff; }
+    .hero-btn:hover { background: var(--g-blue-bg); border-color: var(--g-blue); }
+    .hero-btn.primary:hover { background: var(--g-blue-dark); color: #ffffff; }
+    .hero-sub-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); margin: 0 0 6px 0; line-height: 1.35; }
+    .hero-sub-meta { font-size: 12px; font-weight: 500; color: var(--g-blue); }
+    .pixel-body-grid { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 36px; align-items: start; }
+    .pixel-section { margin-bottom: 48px; scroll-margin-top: 70px; }
     .pixel-widget-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 10px;
-      margin-bottom: 20px;
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      border-bottom: 2px solid var(--text-primary); padding-bottom: 10px; margin-bottom: 22px;
     }
-    .pixel-widget-title {
-      font-family: var(--font-pixel);
-      font-size: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #fff;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .pixel-widget-title::before {
-      content: "";
-      display: inline-block;
-      width: 10px;
-      height: 18px;
-      background: var(--maincolor);
-      border-radius: 2px;
-    }
-    .pixel-widget-sub {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--emerald);
-    }
-
-    .apps-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
+    .pixel-widget-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); margin: 0; }
+    .pixel-widget-sub { font-size: 12.5px; font-weight: 600; color: var(--g-green-dark); background: var(--g-green-bg); padding: 3px 10px; border-radius: 999px; }
+    .apps-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
     .app-mag-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      background: #ffffff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+      display: flex; flex-direction: column; transition: box-shadow 0.2s ease, border-color 0.2s ease;
     }
-    .app-mag-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--maincolor);
-    }
-    .app-thumb-wrap {
-      position: relative;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border-color);
-    }
-    .app-thumb-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top;
-      transition: transform 0.35s ease;
-    }
-    .app-mag-card:hover .app-thumb-wrap img { transform: scale(1.04); }
+    .app-mag-card:hover { border-color: var(--g-blue); box-shadow: 0 6px 20px rgba(60, 64, 67, 0.1); }
+    .app-thumb-wrap { position: relative; aspect-ratio: 16 / 9; background: var(--surface); overflow: hidden; border-bottom: 1px solid var(--border-subtle); }
+    .app-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
     .app-badge-overlay {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(11, 13, 19, 0.88);
-      border: 1px solid var(--border-gold);
-      color: var(--maincolor);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
+      position: absolute; top: 10px; left: 10px; background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--border); color: var(--g-blue); font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px;
     }
-    .app-card-body {
-      padding: 18px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .app-card-title {
-      font-family: var(--font-display);
-      font-size: 17px;
-      font-weight: 700;
-      color: #fff;
-      margin: 0 0 8px 0;
-    }
-    .app-card-desc {
-      font-size: 13.5px;
-      color: var(--text-secondary);
-      margin: 0 0 16px 0;
-    }
-    .app-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding-top: 12px;
-      border-top: 1px solid var(--border-color);
-    }
-    .app-domain {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .app-launch-btn {
-      background: var(--maincolor);
-      color: #000;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      padding: 7px 14px;
-      border-radius: 6px;
-    }
-    .app-launch-btn:hover { background: var(--maincolor-hover); }
-
+    .app-card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .app-card-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--text-primary); margin: 0 0 8px 0; }
+    .app-card-desc { font-size: 14px; color: var(--text-secondary); margin: 0 0 16px 0; }
+    .app-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 12px; border-top: 1px solid var(--border-subtle); }
+    .app-domain { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); }
+    .app-launch-btn { color: var(--g-blue); font-size: 13px; font-weight: 600; }
+    .app-launch-btn:hover { text-decoration: underline; }
     .blog-feature-banner {
-      background: linear-gradient(145deg, #161b28 0%, #10141d 100%);
-      border: 1px solid var(--border-gold);
-      border-radius: 14px;
-      padding: 22px;
-      display: grid;
-      grid-template-columns: 1.15fr 1fr;
-      gap: 22px;
-      align-items: center;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px;
+      display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; align-items: center;
     }
-    .blog-feature-img {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      display: block;
-    }
-    .kpi-mini-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 14px 0 18px;
-    }
-    .kpi-mini {
-      background: #0d1017;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-    }
-    .kpi-mini strong {
-      display: block;
-      font-family: var(--font-display);
-      font-size: 18px;
-      color: var(--emerald);
-    }
-    .kpi-mini span {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-secondary);
-    }
-
-    .videos-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
+    .blog-feature-img { width: 100%; border-radius: 10px; border: 1px solid var(--border); }
+    .kpi-mini-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 14px 0 18px; }
+    .kpi-mini { background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; }
+    .kpi-mini strong { display: block; font-family: var(--font-display); font-size: 17px; color: var(--g-green-dark); }
+    .kpi-mini span { font-size: 11px; color: var(--text-secondary); }
+    .videos-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
     .video-mag-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.2s ease, border-color 0.2s ease;
-      display: flex;
-      flex-direction: column;
+      background: #ffffff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+      display: flex; flex-direction: column; transition: box-shadow 0.2s ease, border-color 0.2s ease;
     }
-    .video-mag-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--maincolor);
-    }
-    .video-thumb-box {
-      position: relative;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      overflow: hidden;
-    }
-    .video-thumb-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.35s ease;
-    }
-    .video-mag-card:hover .video-thumb-box img { transform: scale(1.05); }
+    .video-mag-card:hover { border-color: var(--g-blue); box-shadow: 0 6px 18px rgba(60, 64, 67, 0.1); }
+    .video-thumb-box { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
+    .video-thumb-box img { width: 100%; height: 100%; object-fit: cover; }
     .play-pill {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      background: rgba(11, 13, 19, 0.88);
-      border: 1px solid var(--border-gold);
-      color: var(--maincolor);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 999px;
+      position: absolute; bottom: 10px; right: 10px; background: rgba(255, 255, 255, 0.94);
+      color: var(--text-primary); font-family: var(--font-mono); font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px;
     }
-    .video-card-body { padding: 15px 16px; flex: 1; }
-    .video-card-title {
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
-      margin: 0 0 6px 0;
-      line-height: 1.35;
-    }
-    .video-card-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin: 0;
-    }
-
-    .pub-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
+    .video-card-body { padding: 16px; flex: 1; }
+    .video-card-title { font-family: var(--font-display); font-size: 15.5px; font-weight: 700; color: var(--text-primary); margin: 0 0 6px 0; line-height: 1.35; }
+    .video-card-desc { font-size: 13.5px; color: var(--text-secondary); margin: 0; }
+    .pub-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
     .pub-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    .pub-item:hover { border-color: var(--maincolor); }
-    .pub-venue {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--maincolor);
-      text-transform: uppercase;
-    }
-    .pub-title {
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
-      margin: 3px 0 0 0;
-    }
-    .pub-year {
-      font-family: var(--font-mono);
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text-muted);
-      flex-shrink: 0;
-    }
-
-    .archive-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-
-    .sidebar-wrapper {
-      position: sticky;
-      top: 74px;
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-    }
-    .sidebar-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .tabs-header {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      background: #10131c;
-      border-bottom: 1px solid var(--border-color);
-    }
+    .pub-item:hover { border-color: var(--g-blue); background: var(--surface); }
+    .pub-venue { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; color: var(--g-red); text-transform: uppercase; }
+    .pub-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); margin: 3px 0 0 0; }
+    .pub-year { font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--text-muted); flex-shrink: 0; }
+    .archive-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .sidebar-wrapper { position: sticky; top: 72px; display: flex; flex-direction: column; gap: 22px; }
+    .sidebar-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .tabs-header { display: grid; grid-template-columns: repeat(3, 1fr); background: #ffffff; border-bottom: 1px solid var(--border); }
     .tab-trigger {
-      background: transparent;
-      border: 0;
-      border-bottom: 2px solid transparent;
-      color: var(--text-secondary);
-      font-family: var(--font-pixel);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 12px 6px;
-      cursor: pointer;
+      background: transparent; border: 0; border-bottom: 2px solid transparent; color: var(--text-secondary);
+      font-size: 12.5px; font-weight: 600; padding: 12px 6px; cursor: pointer;
     }
-    .tab-trigger.active {
-      color: var(--maincolor);
-      border-bottom-color: var(--maincolor);
-      background: rgba(212, 175, 55, 0.06);
-    }
-    .tab-panel {
-      display: none;
-      padding: 16px;
-    }
+    .tab-trigger.active { color: var(--g-blue); border-bottom-color: var(--g-blue); background: var(--g-blue-bg); }
+    .tab-panel { display: none; padding: 16px; }
     .tab-panel.active { display: block; }
-    .mini-post-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .mini-post {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      padding-bottom: 10px;
-      border-bottom: 1px dashed var(--border-color);
-    }
+    .mini-post-list { display: flex; flex-direction: column; gap: 12px; }
+    .mini-post { display: flex; gap: 10px; align-items: center; padding-bottom: 10px; border-bottom: 1px solid var(--border-subtle); }
     .mini-post:last-child { border-bottom: 0; padding-bottom: 0; }
-    .mini-post img {
-      width: 68px;
-      height: 46px;
-      object-fit: cover;
-      border-radius: 6px;
-      flex-shrink: 0;
-    }
-    .mini-post-title {
-      font-size: 12.5px;
-      font-weight: 600;
-      color: #fff;
-      line-height: 1.3;
-      display: block;
-    }
-    .mini-post-title:hover { color: var(--maincolor); }
-    .mini-post-meta {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    .author-widget {
-      padding: 18px;
-    }
-    .author-formula {
-      background: #0d1017;
-      border: 1px solid var(--border-gold);
-      border-radius: 8px;
-      padding: 12px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      text-align: center;
-      margin: 12px 0;
-    }
-
-    .pixel-footer {
-      background: #07080c;
-      border-top: 1px solid var(--border-color);
-      padding: 36px 20px;
-      font-size: 12.5px;
-      color: var(--text-secondary);
-    }
-    .pixel-footer-inner {
-      max-width: 1320px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    @media (max-width: 1279px) {
-      .container-pixel { max-width: 1140px; }
-    }
+    .mini-post img { width: 68px; height: 46px; object-fit: cover; border-radius: 6px; flex-shrink: 0; border: 1px solid var(--border); }
+    .mini-post-title { font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.3; display: block; }
+    .mini-post-title:hover { color: var(--g-blue); }
+    .mini-post-meta { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); }
+    .author-widget { padding: 18px; }
+    .author-formula { background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: var(--font-mono); font-size: 12px; text-align: center; margin: 12px 0; color: var(--text-primary); }
+    .pixel-footer { background: var(--surface); border-top: 1px solid var(--border); padding: 36px 20px; font-size: 13px; color: var(--text-secondary); }
+    .pixel-footer-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .pixel-footer a:hover { color: var(--g-blue); }
     @media (max-width: 1023px) {
-      .magazine-hero-grid { grid-template-columns: 1fr; }
-      .pixel-body-grid { grid-template-columns: 1fr; }
+      .magazine-hero-grid, .pixel-body-grid, .blog-feature-banner { grid-template-columns: minmax(0, 1fr); }
       .sidebar-wrapper { position: static; }
-      .blog-feature-banner { grid-template-columns: 1fr; }
     }
     @media (max-width: 767px) {
-      .apps-grid, .videos-grid { grid-template-columns: 1fr; }
-      .archive-grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .apps-grid, .videos-grid { grid-template-columns: minmax(0, 1fr); }
+      .archive-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .mega-panel { display: none !important; }
     }
     @media (max-width: 639px) {
-      .hero-sub-grid { grid-template-columns: 1fr; }
-      .archive-grid-3 { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 479px) {
+      .container-pixel { padding: 20px 14px 56px; }
+      .hero-sub-grid, .archive-grid-3 { grid-template-columns: minmax(0, 1fr); }
       .headerright { flex-direction: column; align-items: flex-start; }
-      .kpi-mini-row { grid-template-columns: 1fr; }
+      .kpi-mini-row { grid-template-columns: minmax(0, 1fr); }
     }
   </style>
 </head>
 <body>
   <a class="skip-link" href="#main-wrapper">Skip to content</a>
   <div id="reading-progress"></div>
-
-  <div class="searchform-wrap" id="search-modal" role="dialog" aria-label="Search M9G Magazine">
+  <div class="searchform-wrap" id="search-modal" role="dialog" aria-label="Search M9G">
     <div class="search-transition-inner">
       <div class="search-input-row">
         <input type="text" id="magazine-search-input" class="search-input" placeholder="Search apps, VLA benchmarks, Isaac Sim videos, or IEEE papers..." oninput="filterMagazine(this.value)" />
-        <button class="search-close-btn" onclick="toggleSearch(false)">ESC ✕</button>
+        <button class="search-close-btn" onclick="toggleSearch(false)">Close</button>
       </div>
     </div>
   </div>
-
   <div class="pixel-top">
     <div class="pixel-top-wrapper">
       <div class="pixel-ticker">
-        <span class="ticker-badge" data-i18n="breakingBadge">Highlight</span>
+        <span class="ticker-badge" data-i18n="breakingBadge">Research Update</span>
         <a href="/blog/" class="ticker-link" data-i18n="tickerText">
-          NEW BENCHMARK: Gemini 4 Argon + Flash-Lite Cuts 3-Arm Isaac Sim 6.0 VLA Cost by 76.6% ($0.01972) in 10 Pipelined Turns — Read Report & Watch Video ↗
+          Gemini 4 Argon + Flash-Lite cuts 3-arm Isaac Sim 6.0 VLA planning cost by 76.6% ($0.01972) in 10 pipelined turns — Read report
         </a>
       </div>
       <div class="pixel-top-right">
@@ -1055,161 +331,119 @@
           <button class="lang-btn active" onclick="setLang('en')" id="lang-en">EN</button>
           <button class="lang-btn" onclick="setLang('ko')" id="lang-ko">KO</button>
           <button class="lang-btn" onclick="setLang('ja')" id="lang-ja">JA</button>
-          <button class="lang-btn" onclick="setLang('es')" id="lang-es">ES</button>
           <button class="lang-btn" onclick="setLang('zh')" id="lang-zh">ZH</button>
+          <button class="lang-btn" onclick="setLang('es')" id="lang-es">ES</button>
         </div>
       </div>
     </div>
   </div>
-
   <header class="pixel-center-header">
     <div id="pixel-wide-wrapper">
       <div class="pixel-brand-col">
-        <div class="pixel-brand-tag">
-          <span>PIXEL MAGAZINE EDITION</span>
-          <span>•</span>
-          <span>M9G = HUMAN × AI AGENTS</span>
-        </div>
-        <h1 class="pixel-wide-title">
-          WE'RE <span>M9G</span>
-        </h1>
-        <p class="pixel-wide-desc" data-i18n="heroSubtitle">
-          From Machine to General Intelligence by Agent-enabled System Engineering
-        </p>
+        <div class="pixel-brand-tag" data-i18n="brandKicker">Physical AI • Robotics • Agentic Systems</div>
+        <h1 class="pixel-wide-title">We're <span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span><span class="g-dot">.</span></h1>
+        <p class="pixel-wide-desc" data-i18n="heroSubtitle">From Machine to General Intelligence by Agent-enabled System Engineering</p>
       </div>
-
       <div class="headerright">
         <div class="header-promo-text">
-          <div class="header-promo-kicker">Featured Research Blog • Nano Banana Pro &amp; Chart.js</div>
-          <h2 class="header-promo-title">Mode 1 (3-Arm 9-Block Tower) VLA Planner Benchmark</h2>
-          <p class="header-promo-sub">Gemini Robotics-ER 2 vs. Pure Gemini 4 Argon vs. Stage 3 Hybrid (-76.6% API Cost)</p>
+          <div class="header-promo-kicker" data-i18n="promoKicker">Engineering Report • Isaac Sim 6.0 &amp; ROS 2 Jazzy</div>
+          <h2 class="header-promo-title" data-i18n="promoTitle">Mode 1 (3-Arm 9-Block Tower) VLA Planner Benchmark</h2>
+          <p class="header-promo-sub" data-i18n="promoSub">Gemini Robotics-ER 2 vs. Pure Gemini 4 Argon vs. Stage 3 Hybrid (-76.6% API Cost)</p>
         </div>
-        <a href="/blog/" class="header-promo-cta">Read Blog Report ↗</a>
+        <a href="/blog/" class="header-promo-cta" data-i18n="promoCta">Read Report</a>
       </div>
     </div>
   </header>
-
-  <nav class="pixel-navigation" aria-label="Main Magazine Navigation">
+  <nav class="pixel-navigation" aria-label="Main Navigation">
     <div id="pixel-menu">
       <ul class="pixel-nav-list">
         <li class="pixel-nav-item"><a href="#featured" class="pixel-nav-link active" data-i18n="navFeatured">Featured</a></li>
         <li class="pixel-nav-item isMega">
-          <a href="#live-apps" class="pixel-nav-link" data-i18n="navApps">Live Apps (Free) ▾</a>
+          <a href="#live-apps" class="pixel-nav-link" data-i18n="navApps">Live Apps</a>
           <div class="mega-panel">
             <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mega-card">
               <img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="GeminiSpace" class="mega-thumb" />
-              <div class="mega-body">
-                <span class="mega-tag">1st Place Winner • Web App</span>
-                <div class="mega-title">GeminiSpace: Indoor Spatial AI</div>
-              </div>
+              <div class="mega-body"><span class="mega-tag">1st Place Winner</span><div class="mega-title">GeminiSpace: Indoor Spatial AI</div></div>
             </a>
             <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mega-card">
               <img src="/screenshots/opic.svg" alt="OPIc AI Master Coach" class="mega-thumb" />
-              <div class="mega-body">
-                <span class="mega-tag">Voice AI • Cloud Run</span>
-                <div class="mega-title">OPIc AI Master Coach (AL Prep)</div>
-              </div>
+              <div class="mega-body"><span class="mega-tag">Voice AI • Cloud Run</span><div class="mega-title">OPIc AI Master Coach</div></div>
             </a>
             <a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mega-card">
               <img src="/screenshots/jplt.svg" alt="JLPT N4 Drill Master" class="mega-thumb" />
-              <div class="mega-body">
-                <span class="mega-tag">Gemini 1:1 Tutor • Cloud Run</span>
-                <div class="mega-title">JLPT N4 Mock Exam &amp; Drill Master</div>
-              </div>
+              <div class="mega-body"><span class="mega-tag">Gemini 1:1 Tutor</span><div class="mega-title">JLPT N4 Mock Exam &amp; Drill Master</div></div>
             </a>
             <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="mega-card">
               <img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" alt="UrKuma Android App" class="mega-thumb" />
-              <div class="mega-body">
-                <span class="mega-tag">Google Play • Android</span>
-                <div class="mega-title">UrKuma: Hanja &amp; Japanese Quiz</div>
-              </div>
+              <div class="mega-body"><span class="mega-tag">Google Play • Android</span><div class="mega-title">UrKuma: Hanja &amp; Japanese Quiz</div></div>
             </a>
           </div>
         </li>
-        <li class="pixel-nav-item"><a href="/blog/" class="pixel-nav-link blog-pill" data-i18n="navBlog"> VLA Benchmark Blog</a></li>
-        <li class="pixel-nav-item"><a href="#gemini-diaries" class="pixel-nav-link" data-i18n="navDiaries">Gemini Diaries (8)</a></li>
-        <li class="pixel-nav-item"><a href="#publications" class="pixel-nav-link" data-i18n="navPubs">Publications (5)</a></li>
+        <li class="pixel-nav-item"><a href="/blog/" class="pixel-nav-link blog-pill" data-i18n="navBlog">VLA Benchmark Blog</a></li>
+        <li class="pixel-nav-item"><a href="#gemini-diaries" class="pixel-nav-link" data-i18n="navDiaries">Gemini Diaries</a></li>
+        <li class="pixel-nav-item"><a href="#publications" class="pixel-nav-link" data-i18n="navPubs">Publications</a></li>
         <li class="pixel-nav-item"><a href="#research-archive" class="pixel-nav-link" data-i18n="navArchive">Research Archive</a></li>
       </ul>
-
       <div class="pixel-nav-actions">
-        <button class="pixel-search-btn" onclick="toggleSearch(true)">
-          <span></span>
-          <span data-i18n="searchBtn">Filter</span>
-        </button>
+        <button class="pixel-search-btn" onclick="toggleSearch(true)" data-i18n="searchBtn">Search</button>
       </div>
     </div>
   </nav>
-
   <div class="container-pixel" id="main-wrapper">
-    <section id="featured" class="magazine-hero-grid" aria-label="Featured Magazine Stories">
+    <section id="featured" class="magazine-hero-grid" aria-label="Featured Stories">
       <div class="hero-lead-card searchable-card">
-        <img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="Google Gemini 3 Seoul Hackathon 1st Place - GeminiSpace" class="hero-lead-bg" />
-        <div class="hero-lead-overlay">
-          <span class="cat-pill" data-i18n="hackathonBadge"> 1st Place Winner • Google Hackathon 2026</span>
-          <h2 class="hero-lead-title" data-i18n="hackathonTitle">
-            1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026 (Among 111 Finalists &amp; 1,500+ Applicants)
-          </h2>
-          <p class="hero-lead-desc" data-i18n="hackathonDesc">
-            GeminiSpace turns standard 360° indoor room photos into an interactive indoor semantic map with sub-second Gemini spatial reasoning, Visual SLAM loop closure, and 2D orthographic rendering.
-          </p>
+        <img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="Google Gemini 3 Seoul Hackathon 1st Place - GeminiSpace" class="hero-lead-img" />
+        <div class="hero-lead-body">
+          <span class="kicker amber" data-i18n="hackathonBadge">1st Place Winner • Google Gemini 3 Seoul Hackathon 2026</span>
+          <h2 class="hero-lead-title" data-i18n="hackathonTitle">1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026 (111 Finalists, 1,500+ Applicants)</h2>
+          <p class="hero-lead-desc" data-i18n="hackathonDesc">GeminiSpace converts 360-degree room photos into an interactive indoor semantic map with sub-second Gemini spatial reasoning, Visual SLAM loop closure, and 2D orthographic floorplan rendering.</p>
           <div class="hero-cta-row">
-            <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="hero-btn primary">Launch GeminiSpace App ↗</a>
-            <a href="https://youtu.be/hzUlLTtfd7M?si=LCs8NFTN9zpZ4bCm" target="_blank" rel="noopener noreferrer" class="hero-btn">▶ Watch Demo Video</a>
+            <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="hero-btn primary" data-i18n="launchGeminiSpace">Launch GeminiSpace</a>
+            <a href="https://youtu.be/hzUlLTtfd7M?si=LCs8NFTN9zpZ4bCm" target="_blank" rel="noopener noreferrer" class="hero-btn" data-i18n="watchDemo">Watch Demo</a>
             <a href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/" target="_blank" rel="noopener noreferrer" class="hero-btn">Google Blog</a>
             <a href="https://cerebralvalley.ai/e/gemini-3-seoul-hackathon/hackathon/gallery?project=27" target="_blank" rel="noopener noreferrer" class="hero-btn">Winners Gallery</a>
-            <a href="https://github.com/mincasurong/GeminiSeoulHackathon2026" target="_blank" rel="noopener noreferrer" class="hero-btn">GitHub Repo</a>
+            <a href="https://github.com/mincasurong/GeminiSeoulHackathon2026" target="_blank" rel="noopener noreferrer" class="hero-btn">GitHub</a>
           </div>
         </div>
       </div>
-
       <div class="hero-sub-grid">
         <a href="/blog/" class="hero-sub-card searchable-card">
-          <img src="/screenshots/vla-architecture-nanobanana.png" alt="VLA Task Planner Benchmark Blog" class="hero-lead-bg" />
-          <div class="hero-sub-overlay">
-            <span class="cat-pill emerald">Research Blog • Charts &amp; Video</span>
-            <h3 class="hero-sub-title">ER-2 vs. Gemini 4 Argon VLA Benchmark (-76.6% Cost)</h3>
-            <div class="hero-sub-meta">Isaac Sim 6.0 • 10 Pipelined Turns • $0.01972</div>
+          <img src="/screenshots/vla-architecture-nanobanana.png" alt="VLA Task Planner Benchmark Blog" class="hero-sub-img" />
+          <div class="hero-sub-body">
+            <div><span class="kicker green" data-i18n="sub1Kicker">Robotics Benchmark</span><h3 class="hero-sub-title" data-i18n="sub1Title">ER-2 vs. Gemini 4 Argon VLA Benchmark (-76.6% Cost)</h3></div>
+            <div class="hero-sub-meta">Read report &rarr;</div>
           </div>
         </a>
-
         <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="hero-sub-card searchable-card">
-          <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="Gemini 4 Argon Weekend Sprint" class="hero-lead-bg" />
-          <div class="hero-sub-overlay">
-            <span class="cat-pill">New Video • 1B Tokens</span>
-            <h3 class="hero-sub-title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects</h3>
-            <div class="hero-sub-meta">Isaac Sim, ROS 2, SaaS &amp; Google Cloud Run</div>
+          <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="Gemini 4 Argon Weekend Sprint" class="hero-sub-img" />
+          <div class="hero-sub-body">
+            <div><span class="kicker" data-i18n="sub2Kicker">Engineering Sprint</span><h3 class="hero-sub-title" data-i18n="sub2Title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects</h3></div>
+            <div class="hero-sub-meta">Watch on YouTube &rarr;</div>
           </div>
         </a>
-
         <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="hero-sub-card searchable-card">
-          <img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="EP 12 Multi Robot Collaboration" class="hero-lead-bg" />
-          <div class="hero-sub-overlay">
-            <span class="cat-pill blue">EP 12 • Dual Engine VLA</span>
-            <h3 class="hero-sub-title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 &amp; IsaacSim</h3>
-            <div class="hero-sub-meta">Zero-Token React Flow DAG + Autonomous VLA</div>
+          <img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="EP 12 Multi Robot Collaboration" class="hero-sub-img" />
+          <div class="hero-sub-body">
+            <div><span class="kicker green" data-i18n="sub3Kicker">Isaac Sim &amp; ROS 2</span><h3 class="hero-sub-title" data-i18n="sub3Title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 &amp; IsaacSim</h3></div>
+            <div class="hero-sub-meta">Watch on YouTube &rarr;</div>
           </div>
         </a>
-
         <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="hero-sub-card searchable-card">
-          <img src="/screenshots/opic.svg" alt="OPIc AI Master Coach" class="hero-lead-bg" />
-          <div class="hero-sub-overlay">
-            <span class="cat-pill emerald">100% Free SaaS • Cloud Run</span>
-            <h3 class="hero-sub-title">OPIc AI Master Coach &amp; JLPT N4 AI Tutor Suite</h3>
-            <div class="hero-sub-meta">Real-Time Voice Sparring &amp; 1:1 Exam Drills</div>
+          <img src="/screenshots/opic.svg" alt="OPIc AI Master Coach" class="hero-sub-img" />
+          <div class="hero-sub-body">
+            <div><span class="kicker red" data-i18n="sub4Kicker">Cloud Run Web Apps</span><h3 class="hero-sub-title" data-i18n="sub4Title">OPIc AI Master Coach &amp; JLPT N4 AI Tutor Suite</h3></div>
+            <div class="hero-sub-meta">Launch apps &rarr;</div>
           </div>
         </a>
       </div>
     </section>
-
     <div class="pixel-body-grid">
       <main>
         <section id="live-apps" class="pixel-section">
           <div class="pixel-widget-header">
             <h2 class="pixel-widget-title" data-i18n="appsSectionTitle">Live Deployed Apps &amp; Tools</h2>
-            <span class="pixel-widget-sub" data-i18n="freeBadge"> 100% Free Access on Google Cloud Run &amp; Google Play</span>
+            <span class="pixel-widget-sub" data-i18n="freeBadge">100% Free Access on Google Cloud Run &amp; Google Play</span>
           </div>
-
           <div class="apps-grid">
             <article class="app-mag-card searchable-card">
               <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
@@ -1218,511 +452,241 @@
               </a>
               <div class="app-card-body">
                 <div>
-                  <h3 class="app-card-title"><a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer"> GeminiSpace: Indoor Spatial AI</a></h3>
-                  <p class="app-card-desc" data-i18n="appGeminiSpaceDesc">Transforms 360° multi-view room photos into an interactive indoor spatial map with sub-second Gemini spatial reasoning and Visual SLAM loop closure.</p>
+                  <span class="kicker">Spatial Intelligence</span>
+                  <h3 class="app-card-title"><a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer">GeminiSpace: Indoor Spatial AI</a></h3>
+                  <p class="app-card-desc" data-i18n="appGeminiSpaceDesc">Transforms 360-degree multi-view room photos into an interactive indoor spatial map with sub-second Gemini spatial reasoning and Visual SLAM loop closure.</p>
                 </div>
-                <div class="app-card-footer">
-                  <span class="app-domain">geminispace.mincasurong.com</span>
-                  <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Launch Free ↗</a>
-                </div>
+                <div class="app-card-footer"><span class="app-domain">geminispace.mincasurong.com</span><a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Open app &rarr;</a></div>
               </div>
             </article>
-
             <article class="app-mag-card searchable-card">
               <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
                 <img src="/screenshots/opic.svg" alt="OPIc AI Master Coach" loading="lazy" />
-                <span class="app-badge-overlay">Web App • Voice AI Coach</span>
+                <span class="app-badge-overlay">Web App • Speech AI</span>
               </a>
               <div class="app-card-body">
                 <div>
-                  <h3 class="app-card-title"><a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" data-i18n="opicTitle"> OPIc AI Master Coach</a></h3>
-                  <p class="app-card-desc" data-i18n="opicDesc">Real-time conversational AI voice sparring trainer for test takers targeting Advanced Low (AL). Features native roleplay sparring, instant fluency scoring, and pronunciation feedback.</p>
+                  <span class="kicker green">Voice Evaluation</span>
+                  <h3 class="app-card-title"><a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" data-i18n="opicTitle">OPIc AI Master Coach</a></h3>
+                  <p class="app-card-desc" data-i18n="opicDesc">Real-time conversational AI voice sparring trainer for test takers targeting Advanced Low (AL), with roleplay scenarios and pronunciation scoring.</p>
                 </div>
-                <div class="app-card-footer">
-                  <span class="app-domain">opic.mincasurong.com</span>
-                  <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Launch Free ↗</a>
-                </div>
+                <div class="app-card-footer"><span class="app-domain">opic.mincasurong.com</span><a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Open app &rarr;</a></div>
               </div>
             </article>
-
             <article class="app-mag-card searchable-card">
               <a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
                 <img src="/screenshots/jplt.svg" alt="JLPT N4 Mock Exam & Drill Master" loading="lazy" />
-                <span class="app-badge-overlay">Web App • Gemini 1:1 Tutor</span>
+                <span class="app-badge-overlay">Web App • Adaptive Tutor</span>
               </a>
               <div class="app-card-body">
                 <div>
-                  <h3 class="app-card-title"><a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" data-i18n="jpltTitle"> JLPT N4 Mock Exam &amp; Drill Master</a></h3>
-                  <p class="app-card-desc" data-i18n="jpltDesc">Full-section Japanese proficiency exam drill simulator. Gemini AI analyzes individual weak spots across vocabulary, grammar, and reading in real time with focused drill exercises.</p>
+                  <span class="kicker red">Language Learning</span>
+                  <h3 class="app-card-title"><a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" data-i18n="jpltTitle">JLPT N4 Mock Exam &amp; Drill Master</a></h3>
+                  <p class="app-card-desc" data-i18n="jpltDesc">Full-section Japanese proficiency exam simulator analyzing individual weak points across vocabulary, grammar, and reading in real time.</p>
                 </div>
-                <div class="app-card-footer">
-                  <span class="app-domain">jplt.mincasurong.com</span>
-                  <a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Launch Free ↗</a>
-                </div>
+                <div class="app-card-footer"><span class="app-domain">jplt.mincasurong.com</span><a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Open app &rarr;</a></div>
               </div>
             </article>
-
             <article class="app-mag-card searchable-card">
               <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
                 <img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" alt="UrKuma Hanja Learning Quiz" loading="lazy" />
-                <span class="app-badge-overlay">Android App • Google Play</span>
+                <span class="app-badge-overlay">Android • Google Play</span>
               </a>
               <div class="app-card-body">
                 <div>
-                  <h3 class="app-card-title"><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" data-i18n="bearTitle"> UrKuma (유어쿠마): Hanja &amp; Japanese Quiz</a></h3>
-                  <p class="app-card-desc" data-i18n="bearDesc">Interactive quiz app featuring UrKuma the bear guide to master Hanja (Chinese characters) and Japanese vocabulary in 3 minutes a day.</p>
+                  <span class="kicker amber">Mobile App</span>
+                  <h3 class="app-card-title"><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" data-i18n="bearTitle">UrKuma: Hanja &amp; Japanese Quiz</a></h3>
+                  <p class="app-card-desc" data-i18n="bearDesc">Android quiz application designed to build Hanja (Chinese character) and Japanese vocabulary recall in three-minute daily sessions.</p>
                 </div>
-                <div class="app-card-footer">
-                  <span class="app-domain">play.google.com</span>
-                  <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="downloadPlayBtn">Google Play ↗</a>
-                </div>
+                <div class="app-card-footer"><span class="app-domain">play.google.com</span><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="downloadPlayBtn">Google Play &rarr;</a></div>
               </div>
             </article>
           </div>
         </section>
-
         <section id="vla-blog-spotlight" class="pixel-section">
           <div class="pixel-widget-header">
-            <h2 class="pixel-widget-title">Featured Research Report &amp; Interactive Blog</h2>
-            <span class="pixel-widget-sub">Nano Banana Pro Architecture + 4 Interactive Chart.js Visualizations</span>
+            <h2 class="pixel-widget-title" data-i18n="blogSpotTitle">Engineering Blog: Multi-Robot VLA Benchmark</h2>
+            <span class="pixel-widget-sub">Isaac Sim 6.0 • ROS 2 Jazzy • 3x Franka FR3</span>
           </div>
-
           <div class="blog-feature-banner searchable-card">
-            <a href="/blog/">
-              <img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Stage VLA Task Planner Architecture" class="blog-feature-img" loading="lazy" />
-            </a>
+            <a href="/blog/"><img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Stage VLA Task Planner Architecture" class="blog-feature-img" loading="lazy" /></a>
             <div>
-              <span class="cat-pill emerald">Mode 1 (3-Arm 9-Block Tower) • Zero RGB Tokens</span>
-              <h3 style="font-family:var(--font-display); font-size:20px; font-weight:800; color:#fff; margin:6px 0 8px;">
-                <a href="/blog/">Empirical Comparison of VLA Task Planners: Gemini Robotics-ER 2 vs. Gemini 4 Argon</a>
-              </h3>
-              <p style="font-size:13.5px; color:var(--text-secondary); margin:0;">
-                Side-by-side benchmark in NVIDIA Isaac Sim 6.0 &amp; ROS 2 Jazzy proving how software-pipelined <code>pick || place</code> interleaving and a hybrid 1× Argon Brain + 10× Flash-Lite Executor slash cost and latency.
-              </p>
+              <span class="kicker green" data-i18n="blogSpotKicker">Mode 1 (3-Arm 9-Block Tower) • Symbolic 3D /tf Grounding</span>
+              <h3 style="font-family:var(--font-display); font-size:20px; font-weight:700; color:var(--text-primary); margin:4px 0 8px;"><a href="/blog/" data-i18n="blogSpotHeading">Empirical Comparison of VLA Task Planners: Gemini Robotics-ER 2 vs. Gemini 4 Argon</a></h3>
+              <p style="font-size:14px; color:var(--text-secondary); margin:0;" data-i18n="blogSpotDesc">Side-by-side evaluation in NVIDIA Isaac Sim 6.0 &amp; ROS 2 Jazzy showing how software-pipelined pick || place scheduling and a hybrid 1x Argon Brain + 10x Flash-Lite Executor reduce cost and step latency.</p>
               <div class="kpi-mini-row">
-                <div class="kpi-mini">
-                  <strong>$0.01972</strong>
-                  <span>-76.6% API Cost</span>
-                </div>
-                <div class="kpi-mini">
-                  <strong>10 Turns</strong>
-                  <span>vs. 13 Turns ER-2</span>
-                </div>
-                <div class="kpi-mini">
-                  <strong>4.17s</strong>
-                  <span>-68.7% Step Latency</span>
-                </div>
+                <div class="kpi-mini"><strong>$0.01972</strong><span>-76.6% API Cost</span></div>
+                <div class="kpi-mini"><strong>10 Turns</strong><span>vs. 13 Turns ER-2</span></div>
+                <div class="kpi-mini"><strong>4.17s</strong><span>-68.7% Step Latency</span></div>
               </div>
               <div class="hero-cta-row">
-                <a href="/blog/" class="hero-btn primary">Read Interactive Blog &amp; Charts ↗</a>
-                <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="hero-btn">▶ Watch Video (PPZ4vgVZlyA)</a>
+                <a href="/blog/" class="hero-btn primary" data-i18n="readBlogBtn">Read Full Report</a>
+                <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="hero-btn">YouTube (PPZ4vgVZlyA)</a>
               </div>
             </div>
           </div>
         </section>
-
         <section id="gemini-diaries" class="pixel-section">
           <div class="pixel-widget-header">
             <h2 class="pixel-widget-title" data-i18n="diariesSectionTitle">Build with Gemini Diaries</h2>
-            <span class="pixel-widget-sub">Robotics, VLA, Digital Twins &amp; Agentic Engineering (8 Episodes)</span>
+            <span class="pixel-widget-sub">Robotics, VLA &amp; Digital Twins (8 Episodes)</span>
           </div>
-
           <div class="videos-grid">
             <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" alt="Gemini Robotics ER-2 vs. Gemini 4 Argon Benchmark" loading="lazy" />
-                <span class="play-pill">▶ Benchmark Video</span>
-              </div>
-              <div class="video-card-body">
-                <h3 class="video-card-title">Gemini Robotics ER-2 vs. Gemini 4 Argon: Multi-Robot Task Planner Benchmark (Isaac Sim 6.0 &amp; ROS 2)</h3>
-                <p class="video-card-desc" data-i18n="vlaBenchDesc">Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid Gemini 4 Argon + Flash-Lite cutting API cost by 76.6% ($0.01972) with 0 RGB tokens.</p>
-              </div>
+              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" alt="Gemini Robotics ER-2 vs. Gemini 4 Argon Benchmark" loading="lazy" /><span class="play-pill">Benchmark</span></div>
+              <div class="video-card-body"><span class="kicker green">VLA Task Planning</span><h3 class="video-card-title">Gemini Robotics ER-2 vs. Gemini 4 Argon: Multi-Robot Task Planner Benchmark (Isaac Sim 6.0 &amp; ROS 2)</h3><p class="video-card-desc" data-i18n="vlaBenchDesc">Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid Gemini 4 Argon + Flash-Lite cutting API cost by 76.6% ($0.01972) with 0 RGB tokens.</p></div>
             </a>
-
             <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="Gemini 4 Argon Weekend Sprint" loading="lazy" />
-                <span class="play-pill">▶ Weekend Sprint</span>
-              </div>
-              <div class="video-card-body">
-                <h3 class="video-card-title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS &amp; GCP)</h3>
-                <p class="video-card-desc" data-i18n="sprintDesc">Weekend stress-test across 1B tokens shipping 6 full-stack and Physical AI systems with Gemini 4 Argon, Isaac Sim, ROS 2, and Google Cloud Run.</p>
-              </div>
+              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="Gemini 4 Argon Weekend Sprint" loading="lazy" /><span class="play-pill">Sprint</span></div>
+              <div class="video-card-body"><span class="kicker">Gemini 4 Argon</span><h3 class="video-card-title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS &amp; GCP)</h3><p class="video-card-desc" data-i18n="sprintDesc">Weekend evaluation across 1B tokens shipping 6 full-stack and Physical AI systems with Gemini 4 Argon, Isaac Sim, ROS 2, and Google Cloud Run.</p></div>
             </a>
-
             <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="EP 12 Multi Robot Collaboration" loading="lazy" />
-                <span class="play-pill">▶ EP 12</span>
-              </div>
-              <div class="video-card-body">
-                <h3 class="video-card-title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 &amp; NVIDIA IsaacSim &amp; ROS2</h3>
-                <p class="video-card-desc" data-i18n="ep12Desc">Three FR3 robotic arms cooperatively constructing geometric formations in Isaac Sim with dual zero-token React Flow DAG and Gemini Robotics-ER 2 VLA execution.</p>
-              </div>
+              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="EP 12 Multi Robot Collaboration" loading="lazy" /><span class="play-pill">EP 12</span></div>
+              <div class="video-card-body"><span class="kicker green">Dual Execution Engine</span><h3 class="video-card-title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 &amp; NVIDIA IsaacSim &amp; ROS2</h3><p class="video-card-desc" data-i18n="ep12Desc">Three FR3 robotic arms cooperatively constructing geometric formations in Isaac Sim with dual zero-token React Flow DAG and Gemini Robotics-ER 2 VLA execution.</p></div>
             </a>
-
             <a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/stxaWN7Ct8Y/maxresdefault.jpg" alt="EP 11 FR3 Robots Cooperating" loading="lazy" />
-                <span class="play-pill">▶ EP 11</span>
-              </div>
-              <div class="video-card-body">
-                <h3 class="video-card-title">EP 11. FR3 Robots Cooperating with Gemini Robotics-ER2 &amp; Isaac Sim | React Flow Digital Twin</h3>
-                <p class="video-card-desc" data-i18n="ep11Desc">Cooperative FR3 robotic arms planning and assembling in Isaac Sim via Gemini multi-agent reasoning and React Flow digital twin.</p>
-              </div>
+              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/stxaWN7Ct8Y/maxresdefault.jpg" alt="EP 11 FR3 Robots Cooperating" loading="lazy" /><span class="play-pill">EP 11</span></div>
+              <div class="video-card-body"><span class="kicker">Digital Twin</span><h3 class="video-card-title">EP 11. FR3 Robots Cooperating with Gemini Robotics-ER2 &amp; Isaac Sim | React Flow Digital Twin</h3><p class="video-card-desc" data-i18n="ep11Desc">Cooperative FR3 robotic arms planning and assembling in Isaac Sim via Gemini multi-agent reasoning and React Flow digital twin.</p></div>
             </a>
-
             <a href="https://www.youtube.com/watch?v=MzAGXiZmrdY" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/MzAGXiZmrdY/maxresdefault.jpg" alt="EP 10 Natural Language Input to Isaac Sim" loading="lazy" />
-                <span class="play-pill">▶ EP 10</span>
-              </div>
-              <div class="video-card-body">
-                <h3 class="video-card-title">EP 10. Natural Language to Isaac Sim, ROS 2, &amp; Gemini Robotics-ER 2</h3>
-                <p class="video-card-desc" data-i18n="ep10Desc">End-to-end VLA multi-robot control framework integrating Gemini Robotics-ER 2, Isaac Sim, ROS 2, and real-time Web GUI.</p>
-              </div>
+              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/MzAGXiZmrdY/maxresdefault.jpg" alt="EP 10 Natural Language Input" loading="lazy" /><span class="play-pill">EP 10</span></div>
+              <div class="video-card-body"><span class="kicker green">Natural Language Control</span><h3 class="video-card-title">EP 10. Natural Language to Isaac Sim, ROS 2, &amp; Gemini Robotics-ER 2</h3><p class="video-card-desc" data-i18n="ep10Desc">End-to-end VLA multi-robot control framework integrating Gemini Robotics-ER 2, Isaac Sim, ROS 2, and real-time Web GUI.</p></div>
             </a>
-
             <a href="https://youtu.be/5ydQRDwkg34?si=z_TNSfY_MFlpukyS" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/5ydQRDwkg34/maxresdefault.jpg" alt="EP 7 Random Target Multi-Robots" loading="lazy" />
-                <span class="play-pill">▶ EP 7</span>
-              </div>
-              <div class="video-card-body">
-                <h3 class="video-card-title">EP 7. Random Target Multi-Robots on NVIDIA IsaacSim w/ Antigravity, Gemini, ROS2</h3>
-                <p class="video-card-desc" data-i18n="v3Desc">Dynamic multi-robot collaboration on NVIDIA IsaacSim via ROS2, orchestrated by Antigravity 2.0 and Gemini.</p>
-              </div>
+              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/5ydQRDwkg34/maxresdefault.jpg" alt="EP 7 Random Target Multi-Robots" loading="lazy" /><span class="play-pill">EP 7</span></div>
+              <div class="video-card-body"><span class="kicker">Multi-Robot ROS 2</span><h3 class="video-card-title">EP 7. Random Target Multi-Robots on NVIDIA IsaacSim w/ Antigravity, Gemini, ROS2</h3><p class="video-card-desc" data-i18n="v3Desc">Dynamic multi-robot collaboration on NVIDIA IsaacSim via ROS 2, orchestrated by Antigravity 2.0 and Gemini.</p></div>
             </a>
-
             <a href="https://youtu.be/k9dRqfSosBs" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/k9dRqfSosBs/maxresdefault.jpg" alt="EP 1 TidyUpAI" loading="lazy" />
-                <span class="play-pill">▶ EP 1</span>
-              </div>
-              <div class="video-card-body">
-                <h3 class="video-card-title">EP 1. TidyUpAI</h3>
-                <p class="video-card-desc" data-i18n="v1Desc">An autonomous workspace organizer that declutters, tags, and structures files with zero manual effort.</p>
-              </div>
+              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/k9dRqfSosBs/maxresdefault.jpg" alt="EP 1 TidyUpAI" loading="lazy" /><span class="play-pill">EP 1</span></div>
+              <div class="video-card-body"><span class="kicker amber">Agentic Tooling</span><h3 class="video-card-title">EP 1. TidyUpAI</h3><p class="video-card-desc" data-i18n="v1Desc">Workspace organization agent that categorizes, tags, and structures local directories automatically.</p></div>
             </a>
-
             <a href="https://www.youtube.com/watch?v=mWDwqBfzZ6s" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/mWDwqBfzZ6s/maxresdefault.jpg" alt="EP 0 GeminiSpace v2.0" loading="lazy" />
-                <span class="play-pill">▶ EP 0</span>
-              </div>
-              <div class="video-card-body">
-                <h3 class="video-card-title">EP 0. GeminiSpace v2.0: Eliminating AI Map Hallucinations with Gemini &amp; Visual SLAM!</h3>
-                <p class="video-card-desc" data-i18n="geminiSpaceDesc">Sub-second Gemini spatial reasoning, 360° Visual SLAM loop closure, and photorealistic 2D orthographic rendering.</p>
-              </div>
+              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/mWDwqBfzZ6s/maxresdefault.jpg" alt="EP 0 GeminiSpace v2.0" loading="lazy" /><span class="play-pill">EP 0</span></div>
+              <div class="video-card-body"><span class="kicker">Visual SLAM</span><h3 class="video-card-title">EP 0. GeminiSpace v2.0: Eliminating AI Map Hallucinations with Gemini &amp; Visual SLAM</h3><p class="video-card-desc" data-i18n="geminiSpaceDesc">Sub-second Gemini spatial reasoning, 360-degree Visual SLAM loop closure, and 2D orthographic floorplan rendering.</p></div>
             </a>
           </div>
         </section>
-
         <section id="publications" class="pixel-section">
           <div class="pixel-widget-header">
             <h2 class="pixel-widget-title" data-i18n="pubsSectionTitle">Peer-Reviewed Scientific Publications</h2>
             <span class="pixel-widget-sub">IEEE ICRA • IEEE TNSRE • Applied Sciences • ICORR</span>
           </div>
-
           <div class="videos-grid" style="margin-bottom:20px;">
             <a href="https://youtu.be/lkfVqltgM94" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/lkfVqltgM94/maxresdefault.jpg" alt="AI Therapist IEEE TNSRE" loading="lazy" />
-                <span class="play-pill">▶ IEEE TNSRE</span>
-              </div>
-              <div class="video-card-body">
-                <h3 class="video-card-title">AI Therapist: Expert Verbal Cues for Gait Training (IEEE TNSRE)</h3>
-                <p class="video-card-desc">Robot-assisted gait rehabilitation system incorporating expert therapist verbal cueing and feedback.</p>
-              </div>
+              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/lkfVqltgM94/maxresdefault.jpg" alt="AI Therapist IEEE TNSRE" loading="lazy" /><span class="play-pill">IEEE TNSRE</span></div>
+              <div class="video-card-body"><span class="kicker red">Rehabilitation Robotics</span><h3 class="video-card-title">AI Therapist: Expert Verbal Cues for Gait Training (IEEE TNSRE)</h3><p class="video-card-desc">Robot-assisted gait rehabilitation system incorporating therapist verbal cueing and real-time biofeedback.</p></div>
             </a>
-
             <a href="https://youtu.be/PrO-w9BRhEA" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/PrO-w9BRhEA/maxresdefault.jpg" alt="Imitation Learning in MuJoCo" loading="lazy" />
-                <span class="play-pill">▶ MuJoCo &amp; robomimic</span>
-              </div>
-              <div class="video-card-body">
-                <h3 class="video-card-title">Imitation Learning Simulation in MuJoCo &amp; robomimic</h3>
-                <p class="video-card-desc">Demonstration-driven robotic manipulation policy learning and evaluation in MuJoCo physics simulation.</p>
-              </div>
+              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/PrO-w9BRhEA/maxresdefault.jpg" alt="Imitation Learning in MuJoCo" loading="lazy" /><span class="play-pill">MuJoCo</span></div>
+              <div class="video-card-body"><span class="kicker">Robot Learning</span><h3 class="video-card-title">Imitation Learning Simulation in MuJoCo &amp; robomimic</h3><p class="video-card-desc">Demonstration-driven robotic manipulation policy learning and evaluation in MuJoCo physics simulation.</p></div>
             </a>
           </div>
-
           <div class="pub-list">
-            <a href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card">
-              <div>
-                <div class="pub-venue">IEEE ICRA • DOI: 11128768</div>
-                <h3 class="pub-title">OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</h3>
-              </div>
-              <span class="pub-year">2025</span>
-            </a>
-
-            <a href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card">
-              <div>
-                <div class="pub-venue">IEEE TNSRE • DOI: 9260225</div>
-                <h3 class="pub-title">AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</h3>
-              </div>
-              <span class="pub-year">2020</span>
-            </a>
-
-            <a href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card">
-              <div>
-                <div class="pub-venue">IEEE TNSRE • DOI: 8792083</div>
-                <h3 class="pub-title">Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</h3>
-              </div>
-              <span class="pub-year">2019</span>
-            </a>
-
-            <a href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card">
-              <div>
-                <div class="pub-venue">Applied Sciences (MDPI) • 3413</div>
-                <h3 class="pub-title">Precise flowrate control of fluid gear pump in automated painting system using a repetitive controller</h3>
-              </div>
-              <span class="pub-year">2019</span>
-            </a>
-
-            <a href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card">
-              <div>
-                <div class="pub-venue">ICORR / Rehabweek • DOI: 8009275</div>
-                <h3 class="pub-title">A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</h3>
-              </div>
-              <span class="pub-year">2017</span>
-            </a>
+            <a href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card"><div><div class="pub-venue">IEEE ICRA • DOI: 11128768</div><h3 class="pub-title">OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</h3></div><span class="pub-year">2025</span></a>
+            <a href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card"><div><div class="pub-venue">IEEE TNSRE • DOI: 9260225</div><h3 class="pub-title">AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</h3></div><span class="pub-year">2020</span></a>
+            <a href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card"><div><div class="pub-venue">IEEE TNSRE • DOI: 8792083</div><h3 class="pub-title">Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</h3></div><span class="pub-year">2019</span></a>
+            <a href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card"><div><div class="pub-venue">Applied Sciences (MDPI) • 3413</div><h3 class="pub-title">Precise flowrate control of fluid gear pump in automated painting system using a repetitive controller</h3></div><span class="pub-year">2019</span></a>
+            <a href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card"><div><div class="pub-venue">ICORR / Rehabweek • DOI: 8009275</div><h3 class="pub-title">A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</h3></div><span class="pub-year">2017</span></a>
           </div>
         </section>
-
         <section id="research-archive" class="pixel-section">
           <div class="pixel-widget-header">
             <h2 class="pixel-widget-title" data-i18n="archiveSectionTitle">Research Video Archive</h2>
-            <span class="pixel-widget-sub">Wearable Exoskeletons, VR Rehabilitation &amp; Autonomous Mobile Manipulators</span>
+            <span class="pixel-widget-sub">Exoskeletons, VR Rehabilitation &amp; Mobile Manipulators</span>
           </div>
-
-          <h3 style="font-family:var(--font-mono); font-size:12px; text-transform:uppercase; color:var(--maincolor); letter-spacing:0.1em; margin:0 0 12px;">
-             Track A — Virtual Reality (VR) + Wearable Robots for Rehabilitation
-          </h3>
+          <h3 style="font-size:13px; font-weight:700; text-transform:uppercase; color:var(--g-blue); letter-spacing:0.06em; margin:0 0 12px;" data-i18n="trackATitle">Track A — Virtual Reality (VR) + Wearable Robots for Rehabilitation</h3>
           <div class="archive-grid-3">
-            <a href="https://www.youtube.com/watch?v=XMZuWDLkngs" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/XMZuWDLkngs/maxresdefault.jpg" alt="VR-Integrated Lower Limb Exoskeleton" loading="lazy" />
-              </div>
-              <div class="video-card-body">
-                <h4 class="video-card-title">VR-Integrated Lower Limb Exoskeleton</h4>
-                <p class="video-card-desc">Interactive VR environment with synchronized biofeedback for gait rehabilitation.</p>
-              </div>
-            </a>
-
-            <a href="https://www.youtube.com/watch?v=OgSCmBr1n7c" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/OgSCmBr1n7c/maxresdefault.jpg" alt="Adaptive Impedance Control Exoskeleton" loading="lazy" />
-              </div>
-              <div class="video-card-body">
-                <h4 class="video-card-title">Adaptive Impedance Control Exoskeleton</h4>
-                <p class="video-card-desc">Gamified assist-as-needed gait training using adaptive impedance control.</p>
-              </div>
-            </a>
-
-            <a href="https://www.youtube.com/watch?v=vIm9GvQ3wME" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/vIm9GvQ3wME/maxresdefault.jpg" alt="Virtual Spring-Damper Gait Guidance" loading="lazy" />
-              </div>
-              <div class="video-card-body">
-                <h4 class="video-card-title">Virtual Spring-Damper Gait Guidance</h4>
-                <p class="video-card-desc">Trajectory constraint control along predefined paths for robotic gait assistance.</p>
-              </div>
-            </a>
+            <a href="https://www.youtube.com/watch?v=XMZuWDLkngs" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/XMZuWDLkngs/maxresdefault.jpg" alt="VR-Integrated Lower Limb Exoskeleton" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">VR-Integrated Lower Limb Exoskeleton</h4><p class="video-card-desc">Interactive VR environment with synchronized biofeedback for gait rehabilitation.</p></div></a>
+            <a href="https://www.youtube.com/watch?v=OgSCmBr1n7c" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/OgSCmBr1n7c/maxresdefault.jpg" alt="Adaptive Impedance Control Exoskeleton" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Adaptive Impedance Control Exoskeleton</h4><p class="video-card-desc">Assist-as-needed gait training using adaptive impedance control.</p></div></a>
+            <a href="https://www.youtube.com/watch?v=vIm9GvQ3wME" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/vIm9GvQ3wME/maxresdefault.jpg" alt="Virtual Spring-Damper Gait Guidance" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Virtual Spring-Damper Gait Guidance</h4><p class="video-card-desc">Trajectory constraint control along predefined paths for robotic gait assistance.</p></div></a>
           </div>
-
-          <h3 style="font-family:var(--font-mono); font-size:12px; text-transform:uppercase; color:var(--maincolor); letter-spacing:0.1em; margin:18px 0 12px;">
-             Track B — Mobile Robots, Navigation &amp; Manipulators
-          </h3>
+          <h3 style="font-size:13px; font-weight:700; text-transform:uppercase; color:var(--g-green-dark); letter-spacing:0.06em; margin:20px 0 12px;" data-i18n="trackBTitle">Track B — Mobile Robots, Navigation &amp; Manipulators</h3>
           <div class="archive-grid-3">
-            <a href="https://www.youtube.com/watch?v=NeVCd3w2vmk" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/NeVCd3w2vmk/maxresdefault.jpg" alt="BARN Benchmark Path Planning" loading="lazy" />
-              </div>
-              <div class="video-card-body">
-                <h4 class="video-card-title">BARN Benchmark Path Planning</h4>
-                <p class="video-card-desc">Autonomous mobile navigation and dynamic obstacle avoidance benchmarking.</p>
-              </div>
-            </a>
-
-            <a href="https://www.youtube.com/watch?v=IsrvJgT0ntI" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/IsrvJgT0ntI/maxresdefault.jpg" alt="ROS 2 & MoveIt 2 Motion Planning" loading="lazy" />
-              </div>
-              <div class="video-card-body">
-                <h4 class="video-card-title">ROS 2 &amp; MoveIt 2 Motion Planning</h4>
-                <p class="video-card-desc">Collision-free robotic arm trajectory planning running natively on Windows 10.</p>
-              </div>
-            </a>
-
-            <a href="https://www.youtube.com/watch?v=13gZzn4M_Yg" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
-              <div class="video-thumb-box">
-                <img src="https://img.youtube.com/vi/13gZzn4M_Yg/maxresdefault.jpg" alt="Jetson Nano ROS Autopilot" loading="lazy" />
-              </div>
-              <div class="video-card-body">
-                <h4 class="video-card-title">Jetson Nano ROS Autopilot</h4>
-                <p class="video-card-desc">Edge AI autopilot and sensor-driven motion control on Jetbot platform.</p>
-              </div>
-            </a>
+            <a href="https://www.youtube.com/watch?v=NeVCd3w2vmk" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/NeVCd3w2vmk/maxresdefault.jpg" alt="BARN Benchmark Path Planning" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">BARN Benchmark Path Planning</h4><p class="video-card-desc">Autonomous mobile navigation and dynamic obstacle avoidance benchmarking.</p></div></a>
+            <a href="https://www.youtube.com/watch?v=IsrvJgT0ntI" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/IsrvJgT0ntI/maxresdefault.jpg" alt="ROS 2 & MoveIt 2 Motion Planning" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">ROS 2 &amp; MoveIt 2 Motion Planning</h4><p class="video-card-desc">Collision-free robotic arm trajectory planning running natively on Windows 10.</p></div></a>
+            <a href="https://www.youtube.com/watch?v=13gZzn4M_Yg" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/13gZzn4M_Yg/maxresdefault.jpg" alt="Jetson Nano ROS Autopilot" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Jetson Nano ROS Autopilot</h4><p class="video-card-desc">Edge AI autopilot and sensor-driven motion control on Jetbot platform.</p></div></a>
           </div>
         </section>
       </main>
-
-      <aside class="sidebar-wrapper" id="sidebar-wrapper" aria-label="Magazine Sidebar">
+      <aside class="sidebar-wrapper" id="sidebar-wrapper" aria-label="Sidebar">
         <div class="sidebar-box">
           <div class="tabs-header" role="tablist">
-            <button class="tab-trigger active" role="tab" aria-selected="true" onclick="switchSidebarTab('recent', this)">Recent</button>
-            <button class="tab-trigger" role="tab" aria-selected="false" onclick="switchSidebarTab('popular', this)">Popular</button>
-            <button class="tab-trigger" role="tab" aria-selected="false" onclick="switchSidebarTab('specs', this)">Tech Stack</button>
+            <button class="tab-trigger active" role="tab" aria-selected="true" onclick="switchSidebarTab('recent', this)" data-i18n="tabRecent">Recent</button>
+            <button class="tab-trigger" role="tab" aria-selected="false" onclick="switchSidebarTab('popular', this)" data-i18n="tabPopular">Popular</button>
+            <button class="tab-trigger" role="tab" aria-selected="false" onclick="switchSidebarTab('specs', this)" data-i18n="tabSpecs">Stack</button>
           </div>
-
           <div id="tab-recent" class="tab-panel active" role="tabpanel">
             <div class="mini-post-list">
-              <div class="mini-post">
-                <img src="/screenshots/vla-architecture-nanobanana.png" alt="VLA Benchmark" />
-                <div>
-                  <a href="/blog/" class="mini-post-title">VLA Planner Benchmark: ER-2 vs. Gemini 4 Argon (-76.6% Cost)</a>
-                  <span class="mini-post-meta">Oct 18, 2026 • Blog &amp; Charts</span>
-                </div>
-              </div>
-              <div class="mini-post">
-                <img src="https://img.youtube.com/vi/PPZ4vgVZlyA/hqdefault.jpg" alt="PPZ4vgVZlyA" />
-                <div>
-                  <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="mini-post-title">Side-by-Side Video: 3-Arm 9-Block Tower in Isaac Sim 6.0</a>
-                  <span class="mini-post-meta">Oct 18, 2026 • YouTube</span>
-                </div>
-              </div>
-              <div class="mini-post">
-                <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="sdE7r72gJsU" />
-                <div>
-                  <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="mini-post-title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Projects</a>
-                  <span class="mini-post-meta">Oct 18, 2026 • YouTube</span>
-                </div>
-              </div>
-              <div class="mini-post">
-                <img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="q-D9H9anNl8" />
-                <div>
-                  <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="mini-post-title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2</a>
-                  <span class="mini-post-meta">Oct 9, 2026 • YouTube</span>
-                </div>
-              </div>
+              <div class="mini-post"><img src="/screenshots/vla-architecture-nanobanana.png" alt="VLA Benchmark" /><div><a href="/blog/" class="mini-post-title">VLA Planner Benchmark: ER-2 vs. Gemini 4 Argon (-76.6% Cost)</a><span class="mini-post-meta">Oct 18, 2026 • Engineering Blog</span></div></div>
+              <div class="mini-post"><img src="https://img.youtube.com/vi/PPZ4vgVZlyA/hqdefault.jpg" alt="PPZ4vgVZlyA" /><div><a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="mini-post-title">Side-by-Side Video: 3-Arm 9-Block Tower in Isaac Sim 6.0</a><span class="mini-post-meta">Oct 18, 2026 • YouTube</span></div></div>
+              <div class="mini-post"><img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="sdE7r72gJsU" /><div><a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="mini-post-title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Projects</a><span class="mini-post-meta">Oct 18, 2026 • YouTube</span></div></div>
+              <div class="mini-post"><img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="q-D9H9anNl8" /><div><a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="mini-post-title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2</a><span class="mini-post-meta">Oct 9, 2026 • YouTube</span></div></div>
             </div>
           </div>
-
           <div id="tab-popular" class="tab-panel" role="tabpanel">
             <div class="mini-post-list">
-              <div class="mini-post">
-                <img src="https://img.youtube.com/vi/hzUlLTtfd7M/hqdefault.jpg" alt="GeminiSpace" />
-                <div>
-                  <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mini-post-title"> GeminiSpace: 1st Place Google Gemini 3 Seoul Hackathon</a>
-                  <span class="mini-post-meta">Live App • geminispace.mincasurong.com</span>
-                </div>
-              </div>
-              <div class="mini-post">
-                <img src="/screenshots/opic.svg" alt="OPIc Coach" />
-                <div>
-                  <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mini-post-title"> OPIc AI Master Coach (Real-Time Voice Sparring)</a>
-                  <span class="mini-post-meta">Live App • opic.mincasurong.com</span>
-                </div>
-              </div>
-              <div class="mini-post">
-                <img src="/screenshots/jplt.svg" alt="JLPT N4 Drill" />
-                <div>
-                  <a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mini-post-title"> JLPT N4 Mock Exam &amp; 1:1 AI Tutor</a>
-                  <span class="mini-post-meta">Live App • jplt.mincasurong.com</span>
-                </div>
-              </div>
-              <div class="mini-post">
-                <img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" alt="UrKuma" />
-                <div>
-                  <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="mini-post-title"> UrKuma: Hanja &amp; Japanese Vocabulary Quiz</a>
-                  <span class="mini-post-meta">Android • Google Play</span>
-                </div>
-              </div>
+              <div class="mini-post"><img src="https://img.youtube.com/vi/hzUlLTtfd7M/hqdefault.jpg" alt="GeminiSpace" /><div><a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mini-post-title">GeminiSpace: 1st Place Google Gemini 3 Seoul Hackathon</a><span class="mini-post-meta">geminispace.mincasurong.com</span></div></div>
+              <div class="mini-post"><img src="/screenshots/opic.svg" alt="OPIc Coach" /><div><a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mini-post-title">OPIc AI Master Coach</a><span class="mini-post-meta">opic.mincasurong.com</span></div></div>
+              <div class="mini-post"><img src="/screenshots/jplt.svg" alt="JLPT N4 Drill" /><div><a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mini-post-title">JLPT N4 Mock Exam &amp; Drill Master</a><span class="mini-post-meta">jplt.mincasurong.com</span></div></div>
+              <div class="mini-post"><img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" alt="UrKuma" /><div><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="mini-post-title">UrKuma: Hanja &amp; Japanese Quiz</a><span class="mini-post-meta">Google Play</span></div></div>
             </div>
           </div>
-
           <div id="tab-specs" class="tab-panel" role="tabpanel">
             <div style="font-size:12.5px; color:var(--text-secondary); display:flex; flex-direction:column; gap:10px;">
-              <div><strong style="color:var(--maincolor);">Robotics &amp; Simulation:</strong> NVIDIA Isaac Sim 6.0, ROS 2 Jazzy, MoveIt 2, MuJoCo, robomimic, Franka Emika FR3, Jetson Nano</div>
-              <div><strong style="color:var(--maincolor);">AI &amp; Spatial Models:</strong> Gemini 4 Argon, Gemini 3.8 Flash, Gemini Robotics-ER 2, Nano Banana Pro, Visual SLAM</div>
-              <div><strong style="color:var(--maincolor);">Full-Stack &amp; Cloud:</strong> React 19, TypeScript 5.8, React Flow, Chart.js, Google Cloud Run, Docker, Firebase</div>
+              <div><strong style="color:var(--g-blue);">Robotics &amp; Simulation:</strong> NVIDIA Isaac Sim 6.0, ROS 2 Jazzy, MoveIt 2, MuJoCo, robomimic, Franka Emika FR3, Jetson Nano</div>
+              <div><strong style="color:var(--g-green-dark);">AI &amp; Spatial Models:</strong> Gemini 4 Argon, Gemini 3.8 Flash, Gemini Robotics-ER 2, Visual SLAM</div>
+              <div><strong style="color:var(--g-amber);">Full-Stack &amp; Cloud:</strong> React 19, TypeScript 5.8, React Flow, Google Cloud Run, Docker, Firebase</div>
             </div>
           </div>
         </div>
-
         <div class="sidebar-box author-widget">
-          <div style="font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.12em; color:var(--maincolor); font-weight:700;">
-             Who We Are — The M9G Formula
-          </div>
-          <p style="font-size:13px; color:var(--text-secondary); margin:8px 0;">
-            A team of a human and AI agents exploring Physical AI, Human-Robot Interaction (HRI), assistive rehabilitation robotics, and autonomous multi-arm manipulation.
-          </p>
+          <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--g-blue); font-weight:700;" data-i18n="aboutWidgetTitle">About M9G</div>
+          <p style="font-size:13px; color:var(--text-secondary); margin:8px 0;" data-i18n="aboutWidgetDesc">A human and AI agent engineering team focused on Physical AI, Human-Robot Interaction (HRI), rehabilitation robotics, and multi-arm manipulation.</p>
           <div class="author-formula">
-            <div>m<span style="color:var(--maincolor); font-weight:700;">incasuron</span>g (Human Engineering)</div>
+            <div>m<span style="color:var(--g-blue); font-weight:700;">incasuron</span>g (Human Engineering)</div>
             <div style="font-size:10px; color:var(--text-muted); margin:4px 0;">×</div>
-            <div>m<span style="color:var(--maincolor); font-weight:700;">insu chan</span>g (Agent Intelligence)</div>
+            <div>m<span style="color:var(--g-green-dark); font-weight:700;">insu chan</span>g (Agent Intelligence)</div>
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
-            <a href="/blog/" class="hero-btn primary" style="flex:1; text-align:center;">Read VLA Blog ↗</a>
-            <a href="https://github.com/mincasurong" target="_blank" rel="noopener noreferrer" class="hero-btn" style="flex:1; text-align:center;">GitHub ↗</a>
+            <a href="/blog/" class="hero-btn primary" style="flex:1; text-align:center;" data-i18n="readBlogBtn">Read VLA Blog</a>
+            <a href="https://github.com/mincasurong" target="_blank" rel="noopener noreferrer" class="hero-btn" style="flex:1; text-align:center;">GitHub</a>
           </div>
         </div>
       </aside>
     </div>
   </div>
-
   <footer class="pixel-footer">
     <div class="pixel-footer-inner">
-      <div>
-        © <span id="year-span">2026</span> <strong>M9G</strong> • Built in Public • Pixel Magazine Architecture
-      </div>
-      <div style="display:flex; gap:18px;">
+      <div>© <span id="year-span">2026</span> <strong>M9G</strong> • Built in Public</div>
+      <div style="display:flex; gap:18px; flex-wrap:wrap;">
         <a href="/">Home</a>
-        <a href="/blog/">VLA Research Blog</a>
+        <a href="/blog/">VLA Engineering Blog</a>
         <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer">GeminiSpace</a>
         <a href="https://github.com/mincasurong" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="https://www.linkedin.com/in/mincasurong/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
     </div>
   </footer>
-
   <script>
     document.getElementById('year-span').textContent = new Date().getFullYear();
-
     window.addEventListener('scroll', () => {
       const doc = document.documentElement;
       const scrollTop = doc.scrollTop || document.body.scrollTop;
       const scrollHeight = doc.scrollHeight - doc.clientHeight;
-      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-      document.getElementById('reading-progress').style.width = progress + '%';
+      document.getElementById('reading-progress').style.width = (scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0) + '%';
     });
-
     function switchSidebarTab(tabId, btn) {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.tab-trigger').forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-      });
+      document.querySelectorAll('.tab-trigger').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
       const panel = document.getElementById('tab-' + tabId);
       if (panel) panel.classList.add('active');
-      if (btn) {
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected', 'true');
-      }
+      if (btn) { btn.classList.add('active'); btn.setAttribute('aria-selected', 'true'); }
     }
-
     function toggleSearch(open) {
       const modal = document.getElementById('search-modal');
-      if (open) {
-        modal.classList.add('open');
-        setTimeout(() => document.getElementById('magazine-search-input').focus(), 50);
-      } else {
-        modal.classList.remove('open');
-      }
+      if (open) { modal.classList.add('open'); setTimeout(() => document.getElementById('magazine-search-input').focus(), 50); }
+      else { modal.classList.remove('open'); }
     }
-
     function filterMagazine(query) {
       const q = (query || '').toLowerCase().trim();
       document.querySelectorAll('.searchable-card').forEach(card => {
@@ -1730,79 +694,104 @@
         card.style.display = (!q || text.includes(q)) ? '' : 'none';
       });
     }
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') toggleSearch(false);
-    });
-
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleSearch(false); });
     const M9G_I18N = {
       en: {
+        breakingBadge: "Research Update",
+        tickerText: "Gemini 4 Argon + Flash-Lite cuts 3-arm Isaac Sim 6.0 VLA planning cost by 76.6% ($0.01972) in 10 pipelined turns — Read report",
+        brandKicker: "Physical AI • Robotics • Agentic Systems",
         heroSubtitle: "From Machine to General Intelligence by Agent-enabled System Engineering",
-        navFeatured: "Featured",
-        navApps: "Live Apps (Free) ▾",
-        navBlog: " VLA Benchmark Blog",
-        navDiaries: "Gemini Diaries (8)",
-        navPubs: "Publications (5)",
-        navArchive: "Research Archive",
-        appsSectionTitle: "Live Deployed Apps & Tools",
-        diariesSectionTitle: "Build with Gemini Diaries",
-        pubsSectionTitle: "Peer-Reviewed Scientific Publications",
-        archiveSectionTitle: "Research Video Archive"
+        promoKicker: "Engineering Report • Isaac Sim 6.0 & ROS 2 Jazzy",
+        promoTitle: "Mode 1 (3-Arm 9-Block Tower) VLA Planner Benchmark",
+        promoSub: "Gemini Robotics-ER 2 vs. Pure Gemini 4 Argon vs. Stage 3 Hybrid (-76.6% API Cost)",
+        promoCta: "Read Report",
+        navFeatured: "Featured", navApps: "Live Apps", navBlog: "VLA Benchmark Blog", navDiaries: "Gemini Diaries", navPubs: "Publications", navArchive: "Research Archive", searchBtn: "Search",
+        hackathonBadge: "1st Place Winner • Google Gemini 3 Seoul Hackathon 2026",
+        hackathonTitle: "1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026 (111 Finalists, 1,500+ Applicants)",
+        hackathonDesc: "GeminiSpace converts 360-degree room photos into an interactive indoor semantic map with sub-second Gemini spatial reasoning, Visual SLAM loop closure, and 2D orthographic floorplan rendering.",
+        launchGeminiSpace: "Launch GeminiSpace", watchDemo: "Watch Demo",
+        appsSectionTitle: "Live Deployed Apps & Tools", freeBadge: "100% Free Access on Google Cloud Run & Google Play",
+        blogSpotTitle: "Engineering Blog: Multi-Robot VLA Benchmark", readBlogBtn: "Read Full Report",
+        diariesSectionTitle: "Build with Gemini Diaries", pubsSectionTitle: "Peer-Reviewed Scientific Publications", archiveSectionTitle: "Research Video Archive",
+        tabRecent: "Recent", tabPopular: "Popular", tabSpecs: "Stack", aboutWidgetTitle: "About M9G"
       },
       ko: {
+        breakingBadge: "최신 연구 리포트",
+        tickerText: "Gemini 4 Argon + Flash-Lite 파이프라인 스케줄링(10턴)으로 Isaac Sim 6.0 3대 로봇 팔 VLA API 비용 76.6% 절감 ($0.01972) — 리포트 보기",
+        brandKicker: "피지컬 AI • 로보틱스 • 에이전트 시스템 엔지니어링",
         heroSubtitle: "에이전트 기반 시스템 엔지니어링으로 기계에서 범용 지능(AGI)까지",
-        navFeatured: "주요 소식",
-        navApps: "무료 라이브 앱 ▾",
-        navBlog: " VLA 벤치마크 블로그",
-        navDiaries: "Gemini 빌드 일지 (8)",
-        navPubs: "학술 논문 (5)",
-        navArchive: "연구 비디오 아카이브",
-        appsSectionTitle: "무료 공개 라이브 앱 & 도구 (100% Free)",
-        diariesSectionTitle: "Gemini 빌드 일지 (Build with Gemini Diaries)",
-        pubsSectionTitle: "국제 학술지 및 학술대회 논문 실적",
-        archiveSectionTitle: "로보틱스 연구 아카이브 (Research Archive)"
+        promoKicker: "기술 블로그 • Isaac Sim 6.0 & ROS 2 Jazzy",
+        promoTitle: "3대 FR3 로봇 팔 9블록 타워 조립 VLA 태스크 플래너 벤치마크",
+        promoSub: "Gemini Robotics-ER 2 vs. 순수 Gemini 4 Argon vs. Stage 3 하이브리드 (-76.6% 비용 절감)",
+        promoCta: "블로그 읽기",
+        navFeatured: "주요 소식", navApps: "무료 라이브 앱", navBlog: "VLA 벤치마크 블로그", navDiaries: "Gemini 빌드 일지", navPubs: "학술 논문", navArchive: "연구 아카이브", searchBtn: "검색",
+        hackathonBadge: "구글 제미나이 3 서울 해커톤 2026 1위(대상) 수상",
+        hackathonTitle: "구글 제미나이 3 서울 해커톤 2026 1위 대상 수상 (1,500+ 지원자 및 111개 본선 팀 중 1위)",
+        hackathonDesc: "GeminiSpace는 360° 실내 사진을 서브세컨드 Gemini 공간 추론과 Visual SLAM 루프 클로저를 통해 대화형 실내 시맨틱 지도로 변환합니다.",
+        launchGeminiSpace: "GeminiSpace 실행", watchDemo: "데모 영상 보기",
+        appsSectionTitle: "무료 공개 라이브 앱 & 도구", freeBadge: "Google Cloud Run 및 Google Play 100% 무료 공개",
+        blogSpotTitle: "엔지니어링 블로그: 다중 로봇 VLA 벤치마크", readBlogBtn: "전체 리포트 읽기",
+        diariesSectionTitle: "Gemini 빌드 일지 (Build with Gemini Diaries)", pubsSectionTitle: "국제 학술지 및 학술대회 논문 실적", archiveSectionTitle: "로보틱스 연구 비디오 아카이브",
+        tabRecent: "최신", tabPopular: "인기 앱", tabSpecs: "기술 스택", aboutWidgetTitle: "M9G 소개"
       },
       ja: {
+        breakingBadge: "最新研究レポート",
+        tickerText: "Gemini 4 Argon + Flash-Liteの10ターンパイプライン制御によりIsaac Sim 6.0 3アームVLAのAPIコストを76.6%削減 ($0.01972) — レポートを読む",
+        brandKicker: "フィジカルAI • ロボティクス • エージェントシステム工学",
         heroSubtitle: "エージェント主導システムエンジニアリングで機械から汎用知能へ",
-        navFeatured: "注目記事",
-        navApps: "無料ライブアプリ ▾",
-        navBlog: " VLAベンチマークブログ",
-        navDiaries: "Geminiビルド日記 (8)",
-        navPubs: "発表論文 (5)",
-        navArchive: "研究アーカイブ",
-        appsSectionTitle: "無料公開ライブアプリ・ツール",
-        diariesSectionTitle: "Gemini ビルド日記 (Build with Gemini Diaries)",
-        pubsSectionTitle: "査読付き国際会議・学術誌論文",
-        archiveSectionTitle: "研究ビデオアーカイブ"
-      },
-      es: {
-        heroSubtitle: "De la Máquina a la Inteligencia General mediante Ingeniería de Sistemas con Agentes",
-        navFeatured: "Destacados",
-        navApps: "Apps en Vivo (Gratis) ▾",
-        navBlog: " Blog Benchmark VLA",
-        navDiaries: "Diarios Gemini (8)",
-        navPubs: "Publicaciones (5)",
-        navArchive: "Archivo de Investigación",
-        appsSectionTitle: "Aplicaciones Gratuitas en Vivo",
-        diariesSectionTitle: "Diarios de Construcción con Gemini",
-        pubsSectionTitle: "Publicaciones Científicas Arbitradas",
-        archiveSectionTitle: "Archivo de Videos de Investigación"
+        promoKicker: "技術レポート • Isaac Sim 6.0 & ROS 2 Jazzy",
+        promoTitle: "3台FR3アーム・9ブロックタワー VLAタスクプランナーベンチマーク",
+        promoSub: "Gemini Robotics-ER 2 vs. Gemini 4 Argon vs. Stage 3 ハイブリッド (-76.6% コスト削減)",
+        promoCta: "ブログを読む",
+        navFeatured: "注目", navApps: "無料ライブアプリ", navBlog: "VLAベンチマークブログ", navDiaries: "Geminiビルド日記", navPubs: "発表論文", navArchive: "研究アーカイブ", searchBtn: "検索",
+        hackathonBadge: "Google Gemini 3 ソウルハッカソン 2026 第1位 最優秀賞",
+        hackathonTitle: "Google Gemini 3 ソウルハッカソン 2026 第1位受賞（1,500名以上・111ファイナリスト中）",
+        hackathonDesc: "GeminiSpaceは360°室内写真をGeminiの高速空間推論とVisual SLAMループ閉合によりインタラクティブな屋内セマンティックマップに変換します。",
+        launchGeminiSpace: "GeminiSpaceを起動", watchDemo: "デモ動画を見る",
+        appsSectionTitle: "無料公開ライブアプリ・ツール", freeBadge: "Google Cloud Run & Google Play 100% 無料公開",
+        blogSpotTitle: "エンジニアリングブログ: マルチロボットVLAベンチマーク", readBlogBtn: "レポート全文を読む",
+        diariesSectionTitle: "Gemini ビルド日記 (Build with Gemini Diaries)", pubsSectionTitle: "査読付き国際会議・学術誌論文", archiveSectionTitle: "研究ビデオアーカイブ",
+        tabRecent: "最新", tabPopular: "人気", tabSpecs: "技術スタック", aboutWidgetTitle: "M9Gについて"
       },
       zh: {
+        breakingBadge: "最新研究报告",
+        tickerText: "Gemini 4 Argon + Flash-Lite 10 轮流水线调度将 Isaac Sim 6.0 三机械臂 VLA API 成本降低 76.6% ($0.01972) — 阅读完整报告",
+        brandKicker: "具身物理 AI • 机器人学 • 智能体系统工程",
         heroSubtitle: "通过智能体赋能的系统工程实现从机器到通用人工智能的跨越",
-        navFeatured: "焦点成果",
-        navApps: "免费在线应用 ▾",
-        navBlog: " VLA 基准测试博客",
-        navDiaries: "Gemini 构建日志 (8)",
-        navPubs: "发表论文 (5)",
-        navArchive: "研究视频档案",
-        appsSectionTitle: "免费在线应用与工具 (100% 免费)",
-        diariesSectionTitle: "Gemini 构建日志 (Build with Gemini Diaries)",
-        pubsSectionTitle: "同行评审学术论文",
-        archiveSectionTitle: "机器人研究视频档案"
+        promoKicker: "工程技术博客 • Isaac Sim 6.0 & ROS 2 Jazzy",
+        promoTitle: "三台 FR3 机械臂 9 积木塔 VLA 任务规划器基准测试",
+        promoSub: "Gemini Robotics-ER 2 vs. 纯 Gemini 4 Argon vs. Stage 3 混合架构 (-76.6% API 成本)",
+        promoCta: "阅读报告",
+        navFeatured: "焦点成果", navApps: "免费在线应用", navBlog: "VLA 基准测试博客", navDiaries: "Gemini 构建日志", navPubs: "发表论文", navArchive: "研究视频档案", searchBtn: "搜索",
+        hackathonBadge: "2026 谷歌 Gemini 3 首尔黑客马拉松第一名",
+        hackathonTitle: "荣获 2026 谷歌 Gemini 3 首尔黑客马拉松第一名（1,500+ 申请者与 111 个决赛项目中夺冠）",
+        hackathonDesc: "GeminiSpace 将 360° 室内照片通过亚秒级 Gemini 空间推理与 Visual SLAM 闭环检测转化为交互式室内语义地图。",
+        launchGeminiSpace: "启动 GeminiSpace", watchDemo: "观看演示视频",
+        appsSectionTitle: "免费在线应用与工具", freeBadge: "Google Cloud Run 与 Google Play 100% 免费开放",
+        blogSpotTitle: "工程技术博客：多机器人 VLA 基准测试", readBlogBtn: "阅读完整报告",
+        diariesSectionTitle: "Gemini 构建日志 (Build with Gemini Diaries)", pubsSectionTitle: "同行评审学术论文", archiveSectionTitle: "机器人研究视频档案",
+        tabRecent: "最新", tabPopular: "热门", tabSpecs: "技术栈", aboutWidgetTitle: "关于 M9G"
+      },
+      es: {
+        breakingBadge: "Informe de Investigación",
+        tickerText: "Gemini 4 Argon + Flash-Lite reduce el costo API VLA en Isaac Sim 6.0 en un 76.6% ($0.01972) en 10 turnos segmentados — Leer informe",
+        brandKicker: "IA Física • Robótica • Ingeniería de Sistemas con Agentes",
+        heroSubtitle: "De la Máquina a la Inteligencia General mediante Ingeniería de Sistemas con Agentes",
+        promoKicker: "Blog de Ingeniería • Isaac Sim 6.0 y ROS 2 Jazzy",
+        promoTitle: "Benchmark de Planificadores VLA en Torre de 9 Bloques con 3 Brazos FR3",
+        promoSub: "Gemini Robotics-ER 2 vs. Gemini 4 Argon Puro vs. Etapa 3 Híbrida (-76.6% Costo API)",
+        promoCta: "Leer Informe",
+        navFeatured: "Destacados", navApps: "Apps en Vivo", navBlog: "Blog Benchmark VLA", navDiaries: "Diarios Gemini", navPubs: "Publicaciones", navArchive: "Archivo de Videos", searchBtn: "Buscar",
+        hackathonBadge: "1.er Puesto • Google Gemini 3 Seoul Hackathon 2026",
+        hackathonTitle: "Ganador del 1.er Puesto en Google Gemini 3 Seoul Hackathon 2026 (111 Finalistas, 1,500+ Postulantes)",
+        hackathonDesc: "GeminiSpace transforma fotos interiores de 360° en un mapa semántico interactivo con razonamiento espacial de Gemini y cierre de bucle Visual SLAM.",
+        launchGeminiSpace: "Abrir GeminiSpace", watchDemo: "Ver Video Demo",
+        appsSectionTitle: "Aplicaciones Gratuitas en Vivo", freeBadge: "Acceso 100% Gratuito en Google Cloud Run y Google Play",
+        blogSpotTitle: "Blog de Ingeniería: Benchmark Multirrobot VLA", readBlogBtn: "Leer Informe Completo",
+        diariesSectionTitle: "Diarios de Construcción con Gemini", pubsSectionTitle: "Publicaciones Científicas Arbitradas", archiveSectionTitle: "Archivo de Videos de Investigación",
+        tabRecent: "Reciente", tabPopular: "Popular", tabSpecs: "Tecnologías", aboutWidgetTitle: "Sobre M9G"
       }
     };
-
     function setLang(lang) {
       if (!M9G_I18N[lang]) lang = 'en';
       try { localStorage.setItem('m9g_portfolio_lang', lang); } catch {}
@@ -1816,7 +805,6 @@
         if (dict[key]) el.textContent = dict[key];
       });
     }
-
     try {
       const savedLang = localStorage.getItem('m9g_portfolio_lang');
       if (savedLang && M9G_I18N[savedLang]) setLang(savedLang);
