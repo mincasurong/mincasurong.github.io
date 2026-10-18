@@ -150,9 +150,10 @@
     .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; }
     .brand-sep { color: var(--border); font-weight: 400; }
     .brand-sec { font-size: 13px; font-weight: 600; color: var(--g-blue); }
-    .topnav {
-      display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 500; color: var(--text-secondary); flex-wrap: wrap;
-    }
+    .topnav { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--text-secondary); overflow-x: auto; scrollbar-width: none; white-space: nowrap; min-width: 0; }
+    .topnav::-webkit-scrollbar { display: none; }
+    .topnav a { padding: 4px 7px; line-height: 1.1; border-radius: 6px; }
+    @media (max-width: 600px) { .brand-sec, .brand-sep { display: none; } }
     .topnav a:hover { color: var(--g-blue); }
     .topnav a.back-link {
       color: #ffffff; background: var(--g-blue); font-weight: 600; padding: 5px 12px; border-radius: 999px; font-size: 12.5px;
@@ -297,7 +298,7 @@
   <header class="topbar">
     <div class="topbar-inner">
       <a href="/" class="brand"><span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span><span class="brand-sep">|</span><span class="brand-sec" data-i18n="blogHeaderBrand">Engineering Blog</span></a>
-      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
         <nav class="topnav">
           <a href="/#live-apps" data-i18n="navApps">Apps</a>
           <a href="/#gemini-diaries" data-i18n="navDiaries">Diaries</a>
