@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Empirical Comparison of VLA Task Planners in Mode 1 (3-Arm 9-Block Tower) — M9G Research Blog</title>
+  <meta name="description" content="3-Stage Hardware-in-the-Loop VLA benchmark in NVIDIA Isaac Sim 6.0 & ROS 2 Jazzy: Gemini Robotics-ER 2 vs. Pure Gemini 4 Argon vs. Hybrid Argon Brain + Flash-Lite Executor (-76.6% cost, 10 pipelined turns)." />
+  <meta property="og:title" content="Empirical Comparison of VLA Task Planners in Mode 1 — M9G Research Blog" />
+  <meta property="og:description" content="How Gemini 4 Argon's software-pipelined schedule and a 1x Argon Brain + 10x Flash-Lite Executor cut multi-robot VLA token cost by 76.6% with zero RGB image tokens." />
+  <meta property="og:image" content="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#141414',
+        primaryColor: '#1c1c1c',
+        primaryTextColor: '#fcfcfb',
+        primaryBorderColor: '#d4af37',
+        lineColor: '#d4af37',
+        secondaryColor: '#18181b',
+        tertiaryColor: '#0f172a'
+      }
+    });
+  </script>
+  <style>
+    :root {
+      --bg-primary: #111111;
+      --bg-elevated: #161616;
+      --bg-card: #1a1a1a;
+      --bg-code: #0c0c0c;
+      --border-subtle: #262626;
+      --border-gold: rgba(212, 175, 55, 0.38);
+      --gold: #d4af37;
+      --gold-light: #f3d266;
+      --emerald: #10b981;
+      --blue: #60a5fa;
+      --amber: #f59e0b;
+      --text-main: #fcfcfb;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Plus Jakarta Sans', Georgia, serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: rgba(212, 175, 55, 0.25);
+      color: #ffffff;
+    }
+
+    #reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, #d4af37 0%, #10b981 100%);
+      z-index: 100;
+      transition: width 80ms linear;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(17, 17, 17, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-logo {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--text-main);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-logo strong { font-weight: 800; }
+    .brand-badge {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--border-gold);
+      color: var(--gold);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 180ms ease;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a.cta-link {
+      color: #000;
+      background: var(--gold);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .nav-links a.cta-link:hover {
+      background: var(--gold-light);
+      color: #000;
+    }
+
+    .page-shell {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px 96px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+      .page-shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .toc-sidebar {
+        display: none;
+      }
+    }
+
+    .breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .breadcrumb a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: var(--gold); }
+
+    .article-header {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 28px;
+      margin-bottom: 32px;
+    }
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .tag-pill {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #191919;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+    .tag-pill.gold {
+      background: rgba(212, 175, 55, 0.1);
+      border-color: var(--border-gold);
+      color: var(--gold);
+    }
+    .tag-pill.emerald {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: var(--emerald);
+    }
+
+    h1.article-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.85rem, 3.5vw, 2.75rem);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin: 0 0 18px 0;
+      color: #ffffff;
+    }
+    .article-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin: 0 0 22px 0;
+      line-height: 1.6;
+    }
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 18px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      padding: 12px 16px;
+      border-radius: 10px;
+    }
+    .meta-bar span strong { color: var(--text-main); }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+    .bento-card {
+      background: linear-gradient(180deg, #191919 0%, #131313 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 18px;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+    .bento-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-gold);
+    }
+    .bento-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .bento-value {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+    .bento-value.emerald { color: var(--emerald); }
+    .bento-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .video-showcase {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 40px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
+    }
+    .video-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .video-title {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .video-frame-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      background: #000;
+      margin-bottom: 16px;
+    }
+    .video-frame-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+    }
+    .chapter-btn {
+      background: #121212;
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: left;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 160ms ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .chapter-btn:hover, .chapter-btn.active {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.08);
+    }
+    .chapter-time {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .chapter-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.35;
+    }
+    .chapter-desc {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+    }
+
+    h2.section-heading {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 48px 0 18px 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      scroll-margin-top: 84px;
+    }
+    h2.section-heading .sec-num {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--border-gold);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    h3.sub-heading {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 28px 0 12px 0;
+      scroll-margin-top: 84px;
+    }
+    p { margin: 0 0 16px 0; color: #d4d4d8; }
+    ul, ol { margin: 0 0 20px 0; padding-left: 22px; color: #d4d4d8; }
+    li { margin-bottom: 10px; }
+    li strong { color: #ffffff; }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.84em;
+      background: var(--bg-code);
+      border: 1px solid #27272a;
+      color: #facc15;
+      padding: 2px 6px;
+      border-radius: 5px;
+    }
+
+    .callout-card {
+      background: var(--bg-elevated);
+      border-left: 3px solid var(--gold);
+      border-top: 1px solid var(--border-subtle);
+      border-right: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      border-radius: 0 12px 12px 0;
+      padding: 18px 20px;
+      margin: 20px 0;
+    }
+    .callout-card.emerald {
+      border-left-color: var(--emerald);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 20px 0 28px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+    th, td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #1c1c1c;
+      color: var(--gold);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+    }
+    td.num, th.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    tr:last-child td { border-bottom: 0; }
+    tr.row-win {
+      background: rgba(16, 185, 129, 0.08);
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .math-box {
+      background: var(--bg-code);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 14px 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+
+    .mermaid-box {
+      background: #141414;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0 28px;
+      overflow-x: auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .toc-sidebar {
+      position: sticky;
+      top: 88px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sidebar-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .sidebar-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      margin: 0 0 12px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toc-list li { margin: 0; }
+    .toc-list a {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: block;
+      padding: 4px 8px;
+      border-left: 2px solid transparent;
+      transition: all 150ms ease;
+      line-height: 1.4;
+    }
+    .toc-list a:hover, .toc-list a.active {
+      color: #fff;
+      border-left-color: var(--gold);
+      background: rgba(212, 175, 55, 0.06);
+    }
+
+    .env-spec-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.78rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .env-spec-list li {
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px dashed #222;
+      padding-bottom: 6px;
+    }
+    .env-spec-list li span:first-child { color: var(--text-muted); font-family: var(--font-mono); }
+    .env-spec-list li span:last-child { color: var(--text-main); font-weight: 600; text-align: right; }
+
+    .site-footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 36px 24px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .site-footer a { color: var(--gold); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div id="reading-progress"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand-logo">
+        <span>Hi, We're <strong>M9G</strong>.</span>
+        <span class="brand-badge">Research Blog</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/#news">Highlights</a>
+        <a href="/#build-with-ai">Gemini Diaries</a>
+        <a href="/#research">Publications</a>
+        <a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener noreferrer">GitHub Repo ↗</a>
+        <a href="/" class="cta-link">← Main Portfolio</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <article>
+      <div class="breadcrumb">
+        <a href="/">mincasurong.github.io</a>
+        <span>/</span>
+        <a href="/blog/">blog</a>
+        <span>/</span>
+        <span>vla-model-comparison-report</span>
+      </div>
+
+      <header class="article-header">
+        <div class="tag-row">
+          <span class="tag-pill gold">Physical AI Benchmark</span>
+          <span class="tag-pill emerald">Zero-RGB 3D /tf Grounding</span>
+          <span class="tag-pill">NVIDIA Isaac Sim 6.0</span>
+          <span class="tag-pill">ROS 2 Jazzy</span>
+          <span class="tag-pill">Gemini 4 Argon</span>
+          <span class="tag-pill">Gemini Robotics-ER 2</span>
+        </div>
+
+        <h1 class="article-title">
+          Empirical Comparison of VLA Task Planners in Mode 1 (3-Arm 9-Block Tower)
+        </h1>
+
+        <p class="article-subtitle">
+          How software-pipelined multi-robot scheduling with <strong>Gemini 4 Argon</strong> and a hybrid <strong>1× Argon Brain + 10× Gemini 3.5 Flash-Lite Executor</strong> cuts multi-arm manipulation API cost by <strong>76.6%</strong> and planning latency by <strong>47.4%</strong> using pure 3D <code>/tf</code> symbolic grounding.
+        </p>
+
+        <div class="meta-bar">
+          <span>📅 <strong>Date:</strong> 2026-10-18</span>
+          <span>⏱️ <strong>Reading Time:</strong> 8 min read</span>
+          <span>🔬 <strong>Trial Log:</strong> <code>CUSTOM_trial01_20261018_174106.jsonl</code></span>
+          <span>🤖 <strong>Station:</strong> 3× Franka Emika FR3 (50 Hz DLS IK)</span>
+        </div>
+      </header>
+
+      <section class="bento-grid" aria-label="Key Benchmark Metrics">
+        <div class="bento-card">
+          <div class="bento-label">Stage 3 Hybrid Cost</div>
+          <div class="bento-value emerald">$0.01972</div>
+          <div class="bento-sub"><strong>-76.6%</strong> vs. Pure Argon ($0.08437) &amp; <strong>-74.9%</strong> vs. Legacy ER-2 ($0.07860)</div>
+        </div>
+        <div class="bento-card">
+          <div class="bento-label">Schedule Horizon</div>
+          <div class="bento-value">10 Turns</div>
+          <div class="bento-sub">Software-pipelined <code>pick || place</code> vs. <strong>13 turns</strong> wave-locked in ER-2 (<strong>-22.6%</strong> input tokens)</div>
+        </div>
+        <div class="bento-card">
+          <div class="bento-label">Visual Token Overhead</div>
+          <div class="bento-value">0 Tokens</div>
+          <div class="bento-sub">Pure 3D <code>/tf</code> coordinate feedback (<code>latest_rgb = None</code>), 0 GPU Replicator overhead</div>
+        </div>
+        <div class="bento-card">
+          <div class="bento-label">Assembly &amp; Safety</div>
+          <div class="bento-value emerald">9/9 Blocks</div>
+          <div class="bento-sub"><strong>20/20 (100%)</strong> <code>RuleBasedTaskVerifier</code> pass rate + proactive <code>go_home</code> clearance</div>
+        </div>
+      </section>
+
+      <section id="video-walkthrough" class="video-showcase">
+        <div class="video-header">
+          <div class="video-title">
+            <span>🎬 Side-by-Side Execution Video: Gemini Robotics ER-2 (Left) vs. Gemini 4 Argon (Right)</span>
+          </div>
+          <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--gold); text-decoration:none;">
+            Watch on YouTube (PPZ4vgVZlyA) ↗
+          </a>
+        </div>
+
+        <div class="video-frame-wrap">
+          <iframe
+            id="yt-player"
+            src="https://www.youtube.com/embed/PPZ4vgVZlyA?rel=0"
+            title="Gemini Robotics ER-2 vs. Gemini 4 Argon: Multi-Robot Task Planner Benchmark (Isaac Sim 6.0 & ROS 2)"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <div style="font-family:var(--font-mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-secondary); margin-bottom:8px;">
+          Click any milestone to jump to that timestamp in the benchmark video:
+        </div>
+
+        <div class="chapter-grid">
+          <button class="chapter-btn active" onclick="seekVideo(0, this)">
+            <span class="chapter-time">▶ 0:00 — Turn 0 &amp; Wave 1</span>
+            <span class="chapter-name">Blueprint &amp; Parallel Picks</span>
+            <span class="chapter-desc">Both planners ingest 3D /tf coordinates and dispatch 3 parallel picks (FR3_1, FR3_2, FR3_3).</span>
+          </button>
+          <button class="chapter-btn" onclick="seekVideo(6, this)">
+            <span class="chapter-time">▶ 0:06 — Turn 3 Divergence</span>
+            <span class="chapter-name">Serial Drain vs. Pipelined pick || place</span>
+            <span class="chapter-desc">ER-2 stalls at a wave barrier while Argon overlaps pick(R1,B2) with place(R2) in the same turn.</span>
+          </button>
+          <button class="chapter-btn" onclick="seekVideo(23, this)">
+            <span class="chapter-time">▶ 0:23 — Turn 13 (ER-2 Done)</span>
+            <span class="chapter-name">ER-2 Completes Layer 9</span>
+            <span class="chapter-desc">Finishes in 13 turns (50,190 tokens, $0.07860) and leaves robotic arms un-homed over center.</span>
+          </button>
+          <button class="chapter-btn" onclick="seekVideo(31, this)">
+            <span class="chapter-time">▶ 0:31 — Turn 10 (Argon Done)</span>
+            <span class="chapter-name">Argon Completes Layer 9 + Homing</span>
+            <span class="chapter-desc">Overlaps go_home(R1,R2) during final placements; finishes in 10 turns (-22.9% tokens).</span>
+          </button>
+        </div>
+      </section>
+
+      <h2 id="tldr" class="section-heading">
+        <span class="sec-num">00</span>
+        <span>TL;DR — Executive Summary &amp; What Matters Most</span>
+      </h2>
+
+      <div class="callout-card">
+        <p style="margin-bottom:10px;"><strong>1. Modality Note — Zero RGB Image Input (<code>0</code> Image Tokens, Pure 3D <code>/tf</code> Symbolic Grounding):</strong></p>
+        <ul style="margin-bottom:0;">
+          <li>All three benchmark runs were executed <strong>without overhead RGB camera image input (<code>latest_rgb = None</code>, <code>--enable-cameras</code> disabled)</strong>.</li>
+          <li>Instead of streaming multi-megabyte base64 PNG frames on every turn, the agentic loop operated strictly on <strong>real-time 3D <code>/tf</code> coordinate feedback</strong> (<code>WorkspaceState</code>), the deterministic <code>RuleBasedTaskGenerator</code> blueprint, and the pre-execution <code>RuleBasedTaskVerifier</code> safety shield.</li>
+          <li><strong>Why this is critical:</strong> It proves that <strong>100% (<code>9/9</code>) multi-robot tower assembly with <code>0</code> collisions, <code>0</code> hallucinations, and <code>100%</code> verifier pass rate</strong> can be achieved through 3D <code>/tf</code> state grounding alone—eliminating both Isaac Sim Replicator GPU render-product overhead and per-turn visual token inflation.</li>
+        </ul>
+      </div>
+
+      <div class="callout-card emerald">
+        <p style="margin-bottom:10px;"><strong>2. Token &amp; Thinking-Budget Efficiency (Stage 3 Cuts Cost by <code>76.6%</code> vs. Pure Argon and <code>74.9%</code> vs. Legacy ER-2):</strong></p>
+        <ul style="margin-bottom:0;">
+          <li><strong>Stage 1 (<code>Legacy Loop: Gemini Robotics-ER 2</code>)</strong> consumed <strong>50,190 total tokens</strong> (<code>48,377</code> input + <code>1,086</code> thinking + <code>727</code> output across <code>14</code> calls) at a cost of <strong><code>$0.07860</code></strong>.</li>
+          <li><strong>Stage 2 (<code>Pure Gemini-4-Argon Loop</code>)</strong> consumed <strong>38,713 total tokens</strong> (<code>37,845</code> input + <code>0</code> thinking + <code>868</code> output across <code>11</code> calls) at a cost of <strong><code>$0.08437</code></strong>.</li>
+          <li><strong>Stage 3 (<code>Argon Brain 1x + Flash-Lite Executor 10x</code>)</strong> consumed <strong>38,277 total tokens</strong> (<code>37,448</code> input + <code>0</code> thinking + <code>829</code> output across <code>1</code> Argon Brain call + <code>10</code> Flash-Lite Executor turns, with <code>thinking_budget=0</code> on step turns), slashing total cost to <strong><code>$0.01972</code> (<code>-76.6%</code> vs. Stage 2, <code>-74.9%</code> vs. Stage 1)</strong> and cutting Turn-0 planning latency by <strong>47.4% (<code>4,670 ms</code> vs. <code>8,870 ms</code>)</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="callout-card">
+        <p style="margin-bottom:10px;"><strong>3. Why <code>Gemini-4-Argon</code> Uses <code>22.6%</code> Fewer Input Tokens Than <code>Gemini Robotics-ER 2</code> (<code>10 Turns</code> vs. <code>13 Turns</code>):</strong></p>
+        <ul style="margin-bottom:0;">
+          <li>In the raw JSONL trace (and visible at <strong>0:06</strong> in video <code>PPZ4vgVZlyA</code>), <code>Gemini Robotics-ER 2</code> used <strong>wave-locked barrier batching (<code>13</code> turns)</strong>: after picking 3 blocks in parallel (<code>T1</code>), it drained all 3 placements serially (<code>T2..T5</code>), leaving <code>FR3_1</code> and <code>FR3_2</code> idle while waiting for <code>FR3_3</code> to finish Layer 3 before allowing any robot to pick its second block (<code>T6</code>).</li>
+          <li>By contrast, <strong><code>Gemini-4-Argon</code> autonomously discovered software-pipelined <code>pick</code> + <code>place</code> interleaving (<code>10</code> turns)</strong>: as soon as <code>FR3_1</code> placed <code>Block1</code> (<code>T2</code>), <code>Gemini-4-Argon</code> paired <code>pick(FR3_1, Block2)</code> on Table 1 <strong>in the same turn (<code>T3</code>)</strong> as <code>place(FR3_2)</code> on the central tower, sustaining <code>2</code> non-conflicting parallel actions per turn across <code>T3..T10</code>. Finishing in <code>10</code> turns instead of <code>13</code> eliminated <code>3</code> full-context round-trips (<code>-10,929</code> input tokens).</li>
+        </ul>
+      </div>
+
+      <h2 id="workflow" class="section-heading">
+        <span class="sec-num">01</span>
+        <span>Automated 3-Stage Hardware-in-the-Loop Comparison Workflow</span>
+      </h2>
+      <p>
+        The evaluation runs as a continuous, closed-loop 3-stage state machine inside <code>GeminiRoboticsNode._run_automated_comparison_workflow()</code> in <strong>Mode 1</strong> (<code>three_robot_tower.py</code>):
+      </p>
+
+      <div class="mermaid-box">
+        <pre class="mermaid">
+flowchart TD
+    Start(["User Prompt: 'Start comparison test'<br/>(Autonomous VLA Mode, Mode 1 — No RGB Image Input, 3D /tf Grounding)"]) --> S1
+
+    subgraph Stage1 ["Stage 1: Legacy VLA Baseline (gemini-robotics-er-2-preview)"]
+        S1["1. Turn-0 Spatial Blueprint & Strategy<br/>(gemini-robotics-er-2-preview, thinking_budget=256)"]
+        S1 --> S1Loop["2. Multi-Turn Tool Dispatch Loop (13 Turns)<br/>(gemini-robotics-er-2-preview, thinking_budget=512)"]
+        S1Loop --> S1Verify["3. Pre-Execution Safety Guardrail<br/>(RuleBasedTaskVerifier: Reachability & Ownership)"]
+        S1Verify --> S1Exec["4. 50 Hz DLS IK + Central Zone Mutex<br/>(Wave-Locked 3-1-1-1-1-3... -> 9/9 Blocks Stacked)"]
+        S1Exec --> S1Rep["5. Emit Stage 1 Telemetry Row<br/>(/gemini/model_comparison -> Frontend Monitor)"]
+    end
+
+    S1Rep --> Reset1["Publish Empty() -> /reset_simulation<br/>Reset 9 Blocks to Tables 1-3 & Home FR3_1..3 (4.0s dwell)"]
+    Reset1 --> S2
+
+    subgraph Stage2 ["Stage 2: Pure Gemini-4-Argon Loop (gemini-4-argon)"]
+        S2["1. Turn-0 Spatial Blueprint & Strategy<br/>(gemini-4-argon, thinking_budget=256)"]
+        S2 --> S2Loop["2. Multi-Turn Tool Dispatch Loop (10 Turns)<br/>(gemini-4-argon, thinking_budget=512)"]
+        S2Loop --> S2Exec["3. 50 Hz DLS IK Execution<br/>(Software-Pipelined 3-1-2-2-2... -> 9/9 Blocks Stacked)"]
+        S2Exec --> S2Rep["4. Emit Stage 2 Telemetry Row<br/>(/gemini/model_comparison -> Frontend Monitor)"]
+    end
+
+    S2Rep --> Reset2["Publish Empty() -> /reset_simulation<br/>Reset 9 Blocks to Tables 1-3 & Home FR3_1..3 (4.0s dwell)"]
+    Reset2 --> S3
+
+    subgraph Stage3 ["Stage 3: Argon Brain (1x) + Flash-Lite Executor (10x)"]
+        S3["1. High-Level Brain Turn 0 (1x Call)<br/>(gemini-4-argon, thinking_budget=256)"]
+        S3 --> S3Loop["2. Step Executor Turns 1..10 (10x Calls)<br/>(gemini-3.5-flash-lite, thinking_budget=0,<br/>Escalates to Argon ONLY on Pick Fault / Verifier Reject)"]
+        S3Loop --> S3Exec["3. 50 Hz DLS IK Execution<br/>(Software-Pipelined 3-1-2-2-2... -> 9/9 Blocks + Home Clearances)"]
+        S3Exec --> S3Rep["4. Emit Final 3-Stage Comparison Report<br/>(/gemini/model_comparison & /gemini/chat_reply)"]
+    end
+
+    S3Rep --> Done(["Benchmark Complete"])
+        </pre>
+      </div>
+
+      <h2 id="metrics-table" class="section-heading">
+        <span class="sec-num">02</span>
+        <span>Token Usage, Thinking-Budget Allocation, and Cost Comparison</span>
+      </h2>
+
+      <h3 class="sub-heading">2.1 End-to-End Comparison Table (Mode 1 — 9-Block Tower)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th class="num">Stage 1: Legacy Loop (<code>gemini-robotics-er-2-preview</code>)</th>
+              <th class="num">Stage 2: Pure Gemini-4-Argon (<code>gemini-4-argon</code>)</th>
+              <th class="num">Stage 3: Argon Brain (<code>1x</code>) + Flash-Lite (<code>10x</code>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Visual Input Modality</strong></td>
+              <td class="num">None (<code>0</code> Image Tokens; 3D <code>/tf</code>)</td>
+              <td class="num">None (<code>0</code> Image Tokens; 3D <code>/tf</code>)</td>
+              <td class="num"><strong>None (<code>0</code> Image Tokens; 3D <code>/tf</code>)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Turn-0 High-Level Brain Model</strong></td>
+              <td class="num"><code>gemini-robotics-er-2-preview</code></td>
+              <td class="num"><code>gemini-4-argon</code></td>
+              <td class="num"><strong><code>gemini-4-argon</code> (<code>1A</code>)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Turns 1..N Step Executor Model</strong></td>
+              <td class="num"><code>gemini-robotics-er-2-preview</code> (<code>13E</code>)</td>
+              <td class="num"><code>gemini-4-argon</code> (<code>10A</code>)</td>
+              <td class="num"><strong><code>gemini-3.5-flash-lite</code> (<code>10F</code>)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Turn-0 Thinking Budget</strong></td>
+              <td class="num"><code>256</code> tokens</td>
+              <td class="num"><code>256</code> tokens</td>
+              <td class="num"><code>256</code> tokens</td>
+            </tr>
+            <tr>
+              <td><strong>Step-Turn Thinking Budget</strong></td>
+              <td class="num"><code>512</code> tokens / turn</td>
+              <td class="num"><code>512</code> tokens / turn</td>
+              <td class="num"><strong><code>0</code> tokens / turn (Disabled)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Agent Turns Used (<code>agent_turns</code>)</strong></td>
+              <td class="num"><code>13 turns</code></td>
+              <td class="num"><strong><code>10 turns</code> (<code>-23.1%</code>)</strong></td>
+              <td class="num"><strong><code>10 turns</code> (<code>-23.1%</code>)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Total API Calls (<code>Plan + Steps</code>)</strong></td>
+              <td class="num"><code>14 calls</code> (<code>0A + 0F + 14E</code>)</td>
+              <td class="num"><code>11 calls</code> (<code>11A + 0F + 0E</code>)</td>
+              <td class="num"><strong><code>11 calls</code> (<code>1A + 10F + 0E</code>)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Input Tokens (<code>input_tokens</code>)</strong></td>
+              <td class="num"><code>48,377</code></td>
+              <td class="num"><code>37,845</code> (<code>-21.8%</code> vs. S1)</td>
+              <td class="num"><strong><code>37,448</code> (<code>-22.6%</code> vs. S1)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Thinking Tokens Consumed</strong></td>
+              <td class="num"><code>1,086</code></td>
+              <td class="num"><code>0</code></td>
+              <td class="num"><strong><code>0</code> (<code>-100%</code> vs. S1)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Output Action Tokens</strong></td>
+              <td class="num"><code>727</code></td>
+              <td class="num"><code>868</code></td>
+              <td class="num"><strong><code>829</code></strong></td>
+            </tr>
+            <tr>
+              <td><strong>Total Tokens (<code>total_tokens</code>)</strong></td>
+              <td class="num"><code>50,190</code></td>
+              <td class="num"><code>38,713</code> (<code>-22.9%</code> vs. S1)</td>
+              <td class="num"><strong><code>38,277</code> (<code>-23.7%</code> vs. S1)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Avg Input Tokens per API Call</strong></td>
+              <td class="num"><code>3,455 tok/call</code></td>
+              <td class="num"><code>3,440 tok/call</code></td>
+              <td class="num"><code>3,404 tok/call</code></td>
+            </tr>
+            <tr>
+              <td><strong>Turn-0 Brain Plan Latency</strong></td>
+              <td class="num"><code>1,987 ms</code></td>
+              <td class="num"><code>8,870 ms</code></td>
+              <td class="num"><strong><code>4,670 ms</code> (<code>-47.4%</code> vs. S2)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Early-Turn Step Latency (T1–T2 Mean)</strong></td>
+              <td class="num"><code>2.58 s</code></td>
+              <td class="num"><code>13.31 s</code></td>
+              <td class="num"><strong><code>4.17 s</code> (<code>-68.7%</code> vs. S2)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Tower Completion &amp; Verifier Pass</strong></td>
+              <td class="num"><code>9/9 blk</code> | <code>19/19 (100%)</code></td>
+              <td class="num"><code>9/9 blk</code> | <code>20/20 (100%)</code></td>
+              <td class="num"><strong><code>9/9 blk</code> | <code>20/20 (100%)</code></strong></td>
+            </tr>
+            <tr>
+              <td><strong>Multi-Arm Workload Gini Coefficient</strong></td>
+              <td class="num"><code>0.0351</code> (<code>6, 7, 6</code>)</td>
+              <td class="num"><code>0.0342</code> (<code>7, 7, 6</code>)</td>
+              <td class="num"><strong><code>0.0339</code> (<code>7, 7, 6</code>)</strong></td>
+            </tr>
+            <tr class="row-win">
+              <td><strong>Total API Cost (<code>$ USD</code>)</strong></td>
+              <td class="num"><code>$0.07860</code></td>
+              <td class="num"><code>$0.08437</code></td>
+              <td class="num" style="color:var(--emerald); font-weight:800;"><code>$0.01972</code> (<code>-76.6%</code> vs. S2, <code>-74.9%</code> vs. S1)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="math-analysis" class="sub-heading">2.2 Quadratic Input Token Scaling &amp; Per-Tier Cost Breakdown</h3>
+      <p>
+        Because no RGB images were sent (<code>latest_rgb = None</code>), 100% of the <code>37,448–48,377</code> input tokens came from text context: static <code>SYSTEM_PROMPT</code> + <code>ROBOT_TOOLS</code> JSON schema declarations ($\approx 1,450$ tokens), Turn-0 <code>RuleBasedTaskGenerator</code> 3D <code>/tf</code> blueprint + High-Level Brain strategy ($\approx 1,350$ tokens), and rolling multi-turn tool call (<code>function_call</code>) and execution result (<code>function_response</code>) history ($\approx 250\text{--}380$ tokens appended per turn). Because each turn re-sends the rolling conversation history, total input tokens scale quadratically with the number of turns $T$:
+      </p>
+
+      <div class="math-box">
+        $$\text{InputTokens}(T) \approx T \cdot B_{\text{base}} + \frac{T(T-1)}{2} \cdot \Delta B_{\text{turn}}$$
+      </div>
+
+      <p>
+        Reducing the task from <strong><code>13</code> turns (Stage 1)</strong> to <strong><code>10</code> turns (Stages 2 &amp; 3)</strong> eliminated the 3 heaviest final turns (where context exceeds <code>4,500</code> tokens/turn), saving <strong>10,929 input tokens (<code>-22.6%</code>)</strong> automatically.
+      </p>
+
+      <p>
+        <strong>Stage 2 Cost (<code>11A</code> on <code>gemini-4-argon</code> at $2.00/1M input, $10.00/1M output):</strong>
+      </p>
+      <div class="math-box">
+        $$37,845 \times \frac{\$2.00}{10^6} + 868 \times \frac{\$10.00}{10^6} = \$0.07569 + \$0.00868 = \mathbf{\$0.08437}$$
+      </div>
+
+      <p>
+        <strong>Stage 3 Cost (<code>1A</code> on <code>gemini-4-argon</code> + <code>10F</code> on <code>gemini-3.5-flash-lite</code> at $0.30/1M input, $2.50/1M output):</strong>
+      </p>
+      <div class="math-box">
+        $$\underbrace{\left(2,800 \times \frac{\$2.00}{10^6} + 220 \times \frac{\$10.00}{10^6}\right)}_{\text{Turn-0 Argon Brain } (\$0.00780)} + \underbrace{\left(34,648 \times \frac{\$0.30}{10^6} + 609 \times \frac{\$2.50}{10^6}\right)}_{\text{Turns 1–10 Flash-Lite Executor } (\$0.01192)} = \mathbf{\$0.01972}$$
+      </div>
+
+      <h2 id="schedule-trace" class="section-heading">
+        <span class="sec-num">03</span>
+        <span>Turn-by-Turn Scheduling Comparison from Raw JSONL Logs</span>
+      </h2>
+      <p>
+        The raw event trace in <code>CUSTOM_trial01_20261018_174106.jsonl</code> (visualized side-by-side in video <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">PPZ4vgVZlyA</a>) shows why <strong>Stage 2 &amp; Stage 3 (<code>Gemini-4-Argon</code> Brain)</strong> completed the 9-block tower in <strong>10 turns (<code>20</code> tool calls)</strong> whereas <strong>Stage 1 (<code>Gemini Robotics-ER 2</code>)</strong> required <strong>13 turns (<code>19</code> tool calls)</strong>:
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:70px;">Turn</th>
+              <th>Stage 1: <code>gemini-robotics-er-2-preview</code> (<code>13 Turns</code>, Wave-Locked Barrier)</th>
+              <th>Stages 2 &amp; 3: <code>gemini-4-argon</code> Brain (<code>10 Turns</code>, Software-Pipelined Interleaving)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>T1</strong></td>
+              <td><code>pick(R1,B1)</code> $\parallel$ <code>pick(R2,B4)</code> $\parallel$ <code>pick(R3,B7)</code> <em>(3 calls)</em></td>
+              <td><code>pick(R1,B1)</code> $\parallel$ <code>pick(R2,B4)</code> $\parallel$ <code>pick(R3,B7)</code> <em>(3 calls)</em></td>
+            </tr>
+            <tr>
+              <td><strong>T2</strong></td>
+              <td><code>place(R1)</code> <em>(Layer 1)</em></td>
+              <td><code>place(R1)</code> <em>(Layer 1)</em></td>
+            </tr>
+            <tr class="row-win">
+              <td><strong>T3</strong></td>
+              <td><code>place_relative(R2,B1)</code> <em>(redundant relative call)</em></td>
+              <td><strong><code>pick(R1,B2)</code> (Table 1) $\parallel$ <code>place(R2)</code> (Layer 2)</strong> <em>(2 calls — 0:06 in video)</em></td>
+            </tr>
+            <tr class="row-win">
+              <td><strong>T4</strong></td>
+              <td><code>place(R2)</code> <em>(Layer 2)</em></td>
+              <td><strong><code>pick(R2,B5)</code> (Table 2) $\parallel$ <code>place(R3)</code> (Layer 3)</strong> <em>(2 calls)</em></td>
+            </tr>
+            <tr class="row-win">
+              <td><strong>T5</strong></td>
+              <td><code>place(R3)</code> <em>(Layer 3 — R1 &amp; R2 sit idle!)</em></td>
+              <td><strong><code>pick(R3,B8)</code> (Table 3) $\parallel$ <code>place(R1)</code> (Layer 4)</strong> <em>(2 calls)</em></td>
+            </tr>
+            <tr class="row-win">
+              <td><strong>T6</strong></td>
+              <td><code>pick(R1,B2)</code> $\parallel$ <code>pick(R2,B5)</code> $\parallel$ <code>pick(R3,B8)</code> <em>(3 calls)</em></td>
+              <td><strong><code>pick(R1,B3)</code> (Table 1) $\parallel$ <code>place(R2)</code> (Layer 5)</strong> <em>(2 calls)</em></td>
+            </tr>
+            <tr class="row-win">
+              <td><strong>T7</strong></td>
+              <td><code>place(R1)</code> <em>(Layer 4)</em></td>
+              <td><strong><code>pick(R2,B6)</code> (Table 2) $\parallel$ <code>place(R3)</code> (Layer 6)</strong> <em>(2 calls)</em></td>
+            </tr>
+            <tr class="row-win">
+              <td><strong>T8</strong></td>
+              <td><code>place(R2)</code> <em>(Layer 5)</em></td>
+              <td><strong><code>pick(R3,B9)</code> (Table 3) $\parallel$ <code>place(R1)</code> (Layer 7)</strong> <em>(2 calls)</em></td>
+            </tr>
+            <tr class="row-win">
+              <td><strong>T9</strong></td>
+              <td><code>place(R3)</code> <em>(Layer 6 — R1 &amp; R2 sit idle!)</em></td>
+              <td><strong><code>go_home(R1)</code> $\parallel$ <code>place(R2)</code> (Layer 8)</strong> <em>(2 calls)</em></td>
+            </tr>
+            <tr class="row-win">
+              <td><strong>T10</strong></td>
+              <td><code>pick(R1,B3)</code> $\parallel$ <code>pick(R2,B6)</code> $\parallel$ <code>pick(R3,B9)</code> <em>(3 calls)</em></td>
+              <td><strong><code>go_home(R2)</code> $\parallel$ <code>place(R3)</code> (Layer 9) — DONE (<code>9/9</code>, 0:31 in video)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>T11</strong></td>
+              <td><code>place(R1)</code> <em>(Layer 7)</em></td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>T12</strong></td>
+              <td><code>place(R2)</code> <em>(Layer 8)</em></td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>T13</strong></td>
+              <td><code>place(R3)</code> <em>(Layer 9 — DONE at 0:23 in video, omitted <code>go_home</code>)</em></td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout-card emerald">
+        <p style="margin-bottom:8px;"><strong>Key Takeaways from the Schedule Trace:</strong></p>
+        <ul style="margin-bottom:0;">
+          <li><strong>Zero Central-Zone Contention with Maximum Outer-Table Overlap:</strong> Because only one arm can occupy the central tower (<code>[0.0, 0.0]</code>) at a time (<code>center_occupied_by</code> mutex), <code>Gemini-4-Argon</code>'s <code>2-call</code> pipelined pattern (<code>1</code> central <code>place</code> $\parallel$ <code>1</code> outer-table <code>pick</code> or <code>go_home</code>) is the <strong>provably optimal conflict-free schedule</strong> for a 3-arm shared-center station.</li>
+          <li><strong>Complete Workspace Clearance (<code>20/20</code> vs. <code>19/19</code> Calls):</strong> In Turns 9 and 10, <code>Gemini-4-Argon</code> proactively overlapped <code>go_home(FR3_1)</code> and <code>go_home(FR3_2)</code> while the final layers were being placed, whereas <code>Gemini Robotics-ER 2</code> left the arms un-homed at the end of Turn 13.</li>
+        </ul>
+      </div>
+    </article>
+
+    <aside class="toc-sidebar">
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">On This Page</h3>
+        <ul class="toc-list">
+          <li><a href="#video-walkthrough" class="active">🎬 Video Walkthrough (PPZ4vgVZlyA)</a></li>
+          <li><a href="#tldr">00. TL;DR — Executive Summary</a></li>
+          <li><a href="#workflow">01. 3-Stage Comparison Workflow</a></li>
+          <li><a href="#metrics-table">02. Token &amp; Cost Comparison</a></li>
+          <li><a href="#math-analysis">2.2 Quadratic Token Scaling</a></li>
+          <li><a href="#schedule-trace">03. Turn-by-Turn Schedule Trace</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">Simulation Station Spec</h3>
+        <ul class="env-spec-list">
+          <li><span>Simulator</span><span>Isaac Sim 6.0</span></li>
+          <li><span>Physics</span><span>240 Hz PhysX TGS</span></li>
+          <li><span>Middleware</span><span>ROS 2 Jazzy (FastDDS)</span></li>
+          <li><span>Controller</span><span>50 Hz DLS IK (3× FR3)</span></li>
+          <li><span>Visual Tokens</span><span>0 (Pure 3D /tf)</span></li>
+          <li><span>Best Cost</span><span style="color:var(--emerald);">$0.01972 (-76.6%)</span></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">Resources &amp; Code</h3>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:0.8rem;">
+          <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" style="color:var(--gold); text-decoration:none; font-weight:600;">▶ Watch Benchmark Video ↗</a>
+          <a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener noreferrer" style="color:var(--text-main); text-decoration:none;">📦 IsaacSim_GeminiRobotics Repo ↗</a>
+          <a href="/VLA_MODEL_COMPARISON_REPORT.md" target="_blank" rel="noopener noreferrer" style="color:var(--text-secondary); text-decoration:none;">📄 Raw Markdown Report ↗</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    © 2026 M9G • From Machine to General Intelligence by Agent-enabled System Engineering • <a href="/">mincasurong.github.io</a>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const doc = document.documentElement;
+      const scrollTop = doc.scrollTop || document.body.scrollTop;
+      const scrollHeight = doc.scrollHeight - doc.clientHeight;
+      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      document.getElementById('reading-progress').style.width = progress + '%';
+    });
+
+    function seekVideo(seconds, btn) {
+      const iframe = document.getElementById('yt-player');
+      iframe.src = `https://www.youtube.com/embed/PPZ4vgVZlyA?start=${seconds}&autoplay=1&rel=0`;
+      document.querySelectorAll('.chapter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>

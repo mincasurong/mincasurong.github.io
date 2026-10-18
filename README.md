@@ -17,7 +17,7 @@ A research showcase, engineering diary, and live application platform exploring 
 
 <br/>
 
-[🏆 Highlights & Awards](#-recent-news--highlights) • [📱 Live Deployed Apps](#-live-deployed-apps--tools-100-free-access) • [🎬 Gemini Diaries](#-build-with-gemini-diaries) • [📚 Publications](#-publications--research-archive) • [🛠️ Tech Stack](#-core-tech-stack--frameworks) • [👥 Who We Are](#-who-we-are)
+[🏆 Highlights & Awards](#-recent-news--highlights) • [📱 Live Deployed Apps](#-live-deployed-apps--tools-100-free-access) • [🎬 Gemini Diaries](#-build-with-gemini-diaries) • [📝 Research Blog](https://mincasurong.github.io/blog/) • [📚 Publications](#-publications--research-archive) • [🛠️ Tech Stack](#-core-tech-stack--frameworks) • [👥 Who We Are](#-who-we-are)
 
 </div>
 
@@ -97,20 +97,6 @@ Production applications deployed and maintained on **Google Cloud Run** and **Go
       </a>
     </td>
     <td width="50%" valign="top">
-      <a href="https://patent.mincasurong.com/" target="_blank">
-        <img src="https://github.com/user-attachments/assets/1907981a-03fd-43e6-a515-b81bf7da22a8" width="100%" alt="KIPRIS Patent Intelligence Dual Hub" style="border-radius: 8px;" />
-      </a>
-      <h3>🔎 <a href="https://patent.mincasurong.com/">KIPRIS Patent Intelligence Dual Hub</a></h3>
-      <p><b>Web Application • Google Cloud Run • Enterprise IP RAG</b></p>
-      <p>Dual-engine patent intelligence platform integrating Korean KIPRIS API, rule-based claim verification, and interactive React Flow citation knowledge graphs.</p>
-      <br/>
-      <a href="https://patent.mincasurong.com/" target="_blank">
-        <img src="https://img.shields.io/badge/Live_Web_App-Launch_Patent_Hub-FBBC05?style=for-the-badge&logo=googlecloud&logoColor=black" alt="Launch Patent Hub" />
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
       <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank">
         <img src="https://img.youtube.com/vi/WYOJY8WIwBY/maxresdefault.jpg" width="100%" alt="UrKuma Hanja App Demo" style="border-radius: 8px;" />
       </a>
@@ -121,17 +107,6 @@ Production applications deployed and maintained on **Google Cloud Run** and **Go
       <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank">
         <img src="https://img.shields.io/badge/Google_Play-Get_UrKuma_on_Android-34A853?style=for-the-badge&logo=googleplay&logoColor=white" alt="Download UrKuma on Google Play" />
       </a>
-    </td>
-    <td width="50%" valign="top">
-      <div align="center" style="padding: 36px 16px;">
-        <br/>
-        <h3>🌐 Explore More Tools</h3>
-        <p>All projects and live web applications are continuously updated and documented in public.</p>
-        <br/>
-        <a href="https://www.mincasurong.com/" target="_blank">
-          <img src="https://img.shields.io/badge/Portfolio-mincasurong.com-d4af37?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Visit mincasurong.com" />
-        </a>
-      </div>
     </td>
   </tr>
 </table>
@@ -145,6 +120,22 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
 ### 🤖 Robotics, VLA & Digital Twins
 
 <table>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank">
+        <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" width="100%" alt="Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects" style="border-radius: 8px;" />
+      </a>
+      <h4><a href="https://www.youtube.com/watch?v=sdE7r72gJsU">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS & GCP)</a></h4>
+      <p>Weekend stress-test across 1B tokens shipping 6 full-stack and Physical AI systems: m9g-code CLI harness, Isaac Sim + ROS 2 VLA benchmark, GeminiSpace v2.0, OPIc & JLPT SaaS apps, and Cloud Run orchestration.</p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank">
+        <img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" width="100%" alt="EP 12. Multi Robot Collaboration | Gemini Robotics ER2 & NVIDIA IsaacSim & ROS2" style="border-radius: 8px;" />
+      </a>
+      <h4><a href="https://www.youtube.com/watch?v=q-D9H9anNl8">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 & NVIDIA IsaacSim & ROS2</a></h4>
+      <p>Three Franka Emika FR3 arms cooperatively planning and constructing geometric formations in Isaac Sim with a dual execution engine: zero-token React Flow DAG scheduling and closed-loop Gemini Robotics-ER 2 VLA control.</p>
+    </td>
+  </tr>
   <tr>
     <td width="50%" valign="top">
       <a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y" target="_blank">
@@ -186,11 +177,11 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
       <p>Autonomous workspace organizer that declutters, tags, and structures files with zero manual effort.</p>
     </td>
     <td width="50%" valign="top">
-      <div align="center" style="padding: 24px;">
-        <h3>Explore More Research</h3>
-        <p>Follow along as we push the frontiers of Embodied AI and Physical Robotics.</p>
-        <a href="https://www.mincasurong.com/"><b>Explore mincasurong.com ↗</b></a>
-      </div>
+      <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank">
+        <img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" width="100%" alt="Gemini Robotics ER-2 vs. Gemini 4 Argon VLA Benchmark" style="border-radius: 8px;" />
+      </a>
+      <h4><a href="https://mincasurong.github.io/blog/">📊 Research Blog: Gemini Robotics ER-2 vs. Gemini 4 Argon VLA Task Planner Benchmark (Isaac Sim 6.0 & ROS 2)</a></h4>
+      <p>Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid 1x Argon Brain + 10x Flash-Lite Executor cutting API cost by 76.6% ($0.01972) with 0 RGB image tokens. <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA"><b>Watch Video ↗</b></a> • <a href="https://mincasurong.github.io/blog/"><b>Read Full Blog Report ↗</b></a></p>
     </td>
   </tr>
 </table>
