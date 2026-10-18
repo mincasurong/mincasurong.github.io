@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>M9G — Physical AI, Robotics & Agentic Engineering</title>
-  <meta name="description" content="M9G (Human x AI Agents) — From Machine to General Intelligence by Agent-enabled System Engineering. Live AI apps, Isaac Sim 6.0 & ROS 2 robotics benchmarks, and IEEE publications." />
-  <meta property="og:title" content="M9G — Physical AI, Robotics & Agentic Engineering" />
-  <meta property="og:description" content="1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026. Explore live Cloud Run AI apps, VLA multi-robot benchmarks, and IEEE robotics research." />
+  <title>M9G — Robotics, HRI, Rehabilitation Exoskeletons & Physical AI</title>
+  <meta name="description" content="M9G (Minsu Chang) — Roboticist specializing in Multi-Robot Manipulation, Wearable Rehabilitation Exoskeletons, Human-Robot Interaction (HRI), ROS 2, NVIDIA Isaac Sim, and Physical AI." />
+  <meta property="og:title" content="M9G — Robotics, HRI & Physical AI Research" />
+  <meta property="og:description" content="IEEE ICRA & IEEE TNSRE robotics publications, wearable rehabilitation exoskeletons, multi-arm Franka FR3 manipulation in Isaac Sim 6.0 & ROS 2, and Spatial AI." />
   <meta property="og:image" content="https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -20,14 +20,14 @@
         "@type": "WebSite",
         "@id": "https://mincasurong.github.io/#website",
         "url": "https://mincasurong.github.io/",
-        "name": "M9G — Physical AI & Robotics",
-        "description": "From Machine to General Intelligence by Agent-enabled System Engineering",
-        "inLanguage": ["en", "ko", "ja", "es", "zh"]
+        "name": "M9G — Robotics & Physical AI Research",
+        "inLanguage": ["en", "ko", "ja", "zh", "es"]
       },
       {
         "@type": "Person",
         "@id": "https://mincasurong.github.io/#author",
         "name": "Minsu Chang (M9G)",
+        "jobTitle": "Roboticist & Physical AI Researcher",
         "url": "https://www.mincasurong.com/"
       }
     ]
@@ -37,7 +37,7 @@
     :root {
       --bg: #ffffff;
       --surface: #f8f9fa;
-      --surface-hover: #f1f3f4;
+      --surface-alt: #f1f3f4;
       --border: #dadce0;
       --border-subtle: #e8eaed;
       --text-primary: #202124;
@@ -58,299 +58,187 @@
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
     *, *::before, *::after { box-sizing: border-box; }
-    
     html, body {
-      margin: 0; padding: 0; width: 100%; max-width: 100%;
-      overflow-x: clip;
+      margin: 0; padding: 0; width: 100%; max-width: 100%; overflow-x: clip;
       background: var(--bg); color: var(--text-primary);
-      font-family: var(--font-sans); font-size: 16px; line-height: 1.65;
+      font-family: var(--font-sans); font-size: 15.5px; line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
-    #fluid-canvas {
-      position: fixed; inset: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 0; opacity: 0.75;
+    img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
+    #fluid-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.72; }
+    #reading-progress {
+      position: fixed; top: 0; left: 0; height: 2.5px; width: 0%; z-index: 1000;
+      background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%);
     }
-    .cursor-ring, .cursor-dot {
-      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
-      border-radius: 50%; display: none; will-change: transform;
-    }
+    .cursor-ring, .cursor-dot { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; border-radius: 50%; display: none; will-change: transform; }
     @media (pointer: fine) and (min-width: 1024px) {
       .cursor-ring {
-        display: block; width: 34px; height: 34px;
-        border: 1.5px solid rgba(26, 115, 232, 0.45);
-        background: rgba(212, 175, 55, 0.04);
+        display: block; width: 32px; height: 32px;
+        border: 1.5px solid rgba(26, 115, 232, 0.45); background: rgba(212, 175, 55, 0.04);
         transition: width 0.2s cubic-bezier(0.22, 1, 0.36, 1), height 0.2s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease, border-color 0.2s ease;
       }
-      .cursor-ring.hovering {
-        width: 52px; height: 52px;
-        border-color: rgba(212, 175, 55, 0.75);
-        background: rgba(26, 115, 232, 0.08);
-      }
-      .cursor-dot {
-        display: block; width: 7px; height: 7px;
-        background: #1a73e8;
-        transition: opacity 0.15s ease, transform 0.15s ease;
-      }
+      .cursor-ring.hovering { width: 48px; height: 48px; border-color: rgba(212, 175, 55, 0.8); background: rgba(26, 115, 232, 0.08); }
+      .cursor-dot { display: block; width: 6px; height: 6px; background: #1a73e8; transition: opacity 0.15s ease; }
       .cursor-dot.hovering { opacity: 0; }
     }
     .reveal-on-scroll {
-      opacity: 0; transform: translateY(26px);
-      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .reveal-on-scroll.is-visible {
-      opacity: 1; transform: translateY(0);
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
-    }
+    .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .reveal-on-scroll { opacity: 1; transform: none; transition: none; } }
     .lux-card {
-      position: relative;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 20px rgba(32, 33, 36, 0.04);
-      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease;
+      position: relative; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
+      border: 1px solid var(--border); border-bottom: 2px solid #cbd0d6;
+      border-radius: 14px; box-shadow: 0 2px 12px rgba(32, 33, 36, 0.04);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease;
     }
     .lux-card:hover {
-      transform: translateY(-4px) scale(1.005);
-      border-color: rgba(26, 115, 232, 0.55);
-      box-shadow: 0 16px 36px rgba(26, 115, 232, 0.1), 0 4px 12px rgba(212, 175, 55, 0.08);
+      transform: translateY(-3px); border-color: rgba(26, 115, 232, 0.55);
+      box-shadow: 0 12px 28px rgba(26, 115, 232, 0.09), 0 3px 10px rgba(32, 33, 36, 0.05);
     }
-
-    img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
-    a { color: inherit; text-decoration: none; transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
-    .skip-link { position: absolute; top: -100px; left: 16px; background: var(--g-blue); color: #fff; font-weight: 600; padding: 8px 16px; border-radius: 4px; z-index: 9999; }
-    .skip-link:focus { top: 12px; }
-    #reading-progress {
-      position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 1000;
-      background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%);
-    }
-    .pixel-top { background: var(--surface); border-bottom: 1px solid var(--border-subtle); font-size: 12.5px; }
-    .pixel-top-wrapper {
-      max-width: 1280px; margin: 0 auto; padding: 6px 20px;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-    }
-    .pixel-ticker { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
-    .ticker-badge {
-      background: var(--g-blue-bg); color: var(--g-blue);
-      font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.06em; padding: 2px 8px; border-radius: 999px; flex-shrink: 0;
-    }
-    .ticker-link { color: var(--text-secondary); font-weight: 500; overflow-wrap: anywhere; word-break: break-word; min-width: 0; }
-    .ticker-link:hover { color: var(--g-blue); }
-    .pixel-top-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
-    .pixel-social { display: flex; align-items: center; gap: 10px; }
-    .pixel-social a { font-size: 12px; font-weight: 500; color: var(--text-secondary); padding: 2px 6px; border-radius: 4px; }
-    .pixel-social a:hover { color: var(--g-blue); background: var(--g-blue-bg); }
-    .lang-switcher { display: inline-flex; background: #ffffff; border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
-    .lang-btn {
-      background: transparent; border: 0; color: var(--text-secondary);
-      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-      padding: 3px 8px; border-radius: 999px; cursor: pointer;
-    }
-    .lang-btn:hover { color: var(--text-primary); }
-    .lang-btn.active { background: var(--g-blue); color: #ffffff; }
-    .pixel-center-header { background: #ffffff; border-bottom: 1px solid var(--border-subtle); padding: 24px 0; }
-    #pixel-wide-wrapper {
-      max-width: 1280px; margin: 0 auto; padding: 0 20px;
-      display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
-    }
-    .pixel-brand-col { max-width: 560px; min-width: 0; }
-    .pixel-brand-tag { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g-blue); margin-bottom: 4px; }
-    .pixel-wide-title { font-family: var(--font-display); font-size: clamp(26px, 3.8vw, 40px); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 6px 0; line-height: 1.15; color: var(--text-primary); }
-    .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; } .g-dot { color: #fbbc04; }
-    .pixel-wide-desc { margin: 0; font-size: 14.5px; color: var(--text-secondary); }
-    .headerright {
-      flex: 1; min-width: 0; max-width: 640px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    }
-    .header-promo-text { min-width: 0; }
-    .header-promo-kicker { font-size: 12px; font-weight: 600; color: var(--g-green); margin-bottom: 2px; }
-    .header-promo-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); margin: 0 0 3px 0; }
-    .header-promo-sub { font-size: 12.5px; color: var(--text-secondary); margin: 0; }
-    .header-promo-cta {
-      background: var(--g-blue); color: #ffffff; font-size: 13px; font-weight: 600;
-      padding: 9px 16px; border-radius: 999px; white-space: nowrap; flex-shrink: 0;
-    }
-    .header-promo-cta:hover { background: var(--g-blue-dark); }
-    .pixel-navigation {
-      position: sticky; top: 0; z-index: 90;
-      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px);
+    .site-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
-    #pixel-menu {
-      max-width: 1280px; margin: 0 auto; padding: 0 20px; min-height: 52px;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px; position: relative;
+    .nav-inner {
+      max-width: 1080px; margin: 0 auto; padding: 4px 14px; min-height: 42px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
-    .pixel-nav-list { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
-    .pixel-nav-item { position: static; }
-    .pixel-nav-link {
-      display: inline-flex; align-items: center; gap: 6px; height: 52px; padding: 0 14px;
-      font-size: 13.5px; font-weight: 600; color: var(--text-secondary);
-      border-bottom: 2px solid transparent; cursor: pointer;
+    .brand-link {
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+      font-family: var(--font-display); font-size: 16px; font-weight: 800; letter-spacing: -0.02em; line-height: 1;
     }
-    .pixel-nav-link:hover, .pixel-nav-link.active { color: var(--g-blue); border-bottom-color: var(--g-blue); }
-    .pixel-nav-link.blog-pill { color: var(--g-green-dark); font-weight: 700; }
-    .mega-panel {
-      position: absolute; top: 100%; left: 20px; right: 20px;
-      background: #ffffff; border: 1px solid var(--border); border-radius: 0 0 12px 12px;
-      padding: 20px; box-shadow: 0 12px 32px rgba(60, 64, 67, 0.15);
-      display: none; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; z-index: 200;
+    .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; } .g-dot { color: #fbbc04; }
+    .brand-role {
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+      color: var(--g-green-dark); background: var(--g-green-bg);
+      padding: 2px 7px; border-radius: 999px; line-height: 1.1;
     }
-    .pixel-nav-item.isMega:hover .mega-panel, .pixel-nav-item.isMega:focus-within .mega-panel { display: grid; }
-    .mega-card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
-    .mega-card:hover { border-color: var(--g-blue); }
-    .mega-thumb { aspect-ratio: 16 / 9; width: 100%; object-fit: cover; }
-    .mega-body { padding: 10px 12px; }
-    .mega-tag { font-size: 11px; font-weight: 600; color: var(--g-blue); }
-    .mega-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin: 3px 0 0 0; line-height: 1.35; }
-    .pixel-search-btn {
-      background: var(--surface); border: 1px solid var(--border); color: var(--text-primary);
-      font-size: 12.5px; font-weight: 500; padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    .anchor-menu {
+      display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0;
+      overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; min-width: 0;
     }
-    .pixel-search-btn:hover { border-color: var(--g-blue); color: var(--g-blue); }
-    .searchform-wrap {
-      position: fixed; inset: 0; background: rgba(32, 33, 36, 0.55); backdrop-filter: blur(4px);
-      z-index: 999; display: none; align-items: flex-start; justify-content: center; padding: 90px 16px 20px;
+    .anchor-menu::-webkit-scrollbar { display: none; }
+    .anchor-link {
+      display: inline-block; padding: 5px 9px; font-size: 12.5px; font-weight: 600;
+      line-height: 1.15; color: var(--text-secondary); border-radius: 6px; white-space: nowrap;
     }
-    .searchform-wrap.open { display: flex; }
-    .search-transition-inner { width: 100%; max-width: 640px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: 0 16px 40px rgba(60, 64, 67, 0.2); }
-    .search-input-row { display: flex; gap: 10px; }
-    .search-input { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); font-size: 15px; padding: 10px 14px; border-radius: 8px; outline: none; }
+    .anchor-link:hover, .anchor-link.active { color: var(--g-blue); background: var(--g-blue-bg); }
+    .anchor-link.blog-highlight { color: var(--g-green-dark); font-weight: 700; }
+    .anchor-link.blog-highlight:hover { background: var(--g-green-bg); color: var(--g-green-dark); }
+    .nav-controls { display: flex; align-items: center; gap: 6px; flex-shrink: 0; position: relative; }
+    .icon-btn {
+      width: 30px; height: 30px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text-secondary);
+      display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;
+    }
+    .icon-btn:hover { border-color: var(--g-blue); color: var(--g-blue); background: var(--g-blue-bg); }
+    .lang-dropdown-wrap { position: relative; }
+    .lang-box-btn {
+      height: 30px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text-primary);
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700; line-height: 1;
+      display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+    }
+    .lang-box-btn:hover { border-color: var(--g-blue); color: var(--g-blue); }
+    .lang-popup {
+      position: absolute; top: calc(100% + 6px); right: 0; min-width: 132px;
+      background: #ffffff; border: 1px solid var(--border); border-radius: 10px;
+      box-shadow: 0 10px 28px rgba(32, 33, 36, 0.14); padding: 4px; display: none; z-index: 300;
+    }
+    .lang-popup.open { display: block; }
+    .lang-option {
+      width: 100%; text-align: left; background: transparent; border: 0; border-radius: 6px;
+      padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text-secondary);
+      display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+    }
+    .lang-option:hover { background: var(--surface); color: var(--text-primary); }
+    .lang-option.active { background: var(--g-blue-bg); color: var(--g-blue); font-weight: 700; }
+    .search-modal {
+      position: fixed; inset: 0; background: rgba(32, 33, 36, 0.5); backdrop-filter: blur(4px);
+      z-index: 999; display: none; align-items: flex-start; justify-content: center; padding: 72px 14px 20px;
+    }
+    .search-modal.open { display: flex; }
+    .search-box { width: 100%; max-width: 560px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 12px; box-shadow: 0 16px 40px rgba(32, 33, 36, 0.2); display: flex; gap: 8px; }
+    .search-input { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); font-size: 14px; padding: 8px 12px; border-radius: 8px; outline: none; min-width: 0; }
     .search-input:focus { border-color: var(--g-blue); background: #ffffff; }
-    .search-close-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); padding: 0 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-    .container-pixel { max-width: 1280px; margin: 0 auto; padding: 32px 20px 72px; }
-    .magazine-hero-grid > *, .hero-sub-grid > *, .pixel-body-grid > *, .apps-grid > *, .videos-grid > *, .archive-grid-3 > *, .blog-feature-banner > * { min-width: 0; max-width: 100%; }
-    .magazine-hero-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 20px; margin-bottom: 40px; }
-    .hero-lead-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
-      display: flex; flex-direction: column; justify-content: space-between; transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    .search-close { background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); padding: 0 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; }
+    .main-container { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 22px 16px 64px; }
+    .main-container > *, .pillars-grid > *, .pub-video-grid > *, .archive-grid > *, .vla-grid > *, .apps-compact-grid > * { min-width: 0; max-width: 100%; }
+    .section-block { margin-bottom: 38px; scroll-margin-top: 52px; }
+    .section-head {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+      border-bottom: 1.5px solid var(--text-primary); padding-bottom: 7px; margin-bottom: 16px;
     }
-    .hero-lead-card:hover { border-color: var(--g-blue); box-shadow: 0 8px 24px rgba(60, 64, 67, 0.12); }
-    .hero-lead-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--border-subtle); }
-    .hero-lead-body { padding: 24px; }
-    .hero-sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .hero-sub-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
-      display: flex; flex-direction: column; transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    .section-title { font-family: var(--font-display); font-size: 18px; font-weight: 800; color: var(--text-primary); margin: 0; letter-spacing: -0.01em; }
+    .section-badge { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--g-blue); background: var(--g-blue-bg); padding: 2px 9px; border-radius: 999px; }
+    .section-badge.green { color: var(--g-green-dark); background: var(--g-green-bg); }
+    .section-badge.amber { color: var(--g-amber); background: var(--g-amber-bg); }
+    .intro-hero { padding: 22px 24px; margin-bottom: 34px; }
+    .intro-top-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; flex-wrap: wrap; margin-bottom: 16px; }
+    .intro-kicker { font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--g-blue); margin-bottom: 4px; display: block; }
+    .intro-heading { font-family: var(--font-display); font-size: clamp(22px, 3.2vw, 32px); font-weight: 800; color: var(--text-primary); margin: 0 0 8px 0; line-height: 1.2; letter-spacing: -0.02em; }
+    .intro-bio { font-size: 14.5px; color: var(--text-secondary); margin: 0; max-width: 720px; line-height: 1.62; }
+    .intro-bio strong { color: var(--text-primary); font-weight: 600; }
+    .intro-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .pill-link {
+      font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; padding: 5px 11px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text-primary);
     }
-    .hero-sub-card:hover { border-color: var(--g-blue); box-shadow: 0 6px 18px rgba(60, 64, 67, 0.1); }
-    .hero-sub-img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--border-subtle); }
-    .hero-sub-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .kicker { font-size: 12px; font-weight: 600; color: var(--g-blue); margin-bottom: 6px; display: inline-block; }
-    .kicker.green { color: var(--g-green-dark); }
-    .kicker.amber { color: var(--g-amber); }
-    .kicker.red { color: var(--g-red); }
-    .hero-lead-title { font-family: var(--font-display); font-size: clamp(20px, 2.3vw, 26px); font-weight: 700; color: var(--text-primary); margin: 0 0 10px 0; line-height: 1.28; }
-    .hero-lead-desc { font-size: 14.5px; color: var(--text-secondary); margin: 0 0 16px 0; }
-    .hero-cta-row { display: flex; flex-wrap: wrap; gap: 8px; }
-    .hero-btn {
-      font-size: 12.5px; font-weight: 600; padding: 7px 14px; border-radius: 999px;
-      background: #ffffff; border: 1px solid var(--border); color: var(--g-blue);
+    .pill-link:hover { border-color: var(--g-blue); color: var(--g-blue); background: var(--g-blue-bg); }
+    .pill-link.primary { background: var(--g-blue); border-color: var(--g-blue); color: #ffffff; }
+    .pill-link.primary:hover { background: var(--g-blue-dark); color: #ffffff; }
+    .pillars-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; background: var(--surface); padding: 12px; border-radius: 12px; border: 1px solid var(--border-subtle); }
+    .pillar-box { background: #ffffff; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px 12px; }
+    .pillar-tag { font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; text-transform: uppercase; margin-bottom: 3px; display: block; }
+    .pillar-title { font-family: var(--font-display); font-size: 13.5px; font-weight: 700; color: var(--text-primary); margin: 0 0 3px 0; }
+    .pillar-desc { font-size: 12px; color: var(--text-secondary); margin: 0; line-height: 1.4; }
+    .pub-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .pub-row {
+      padding: 11px 15px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
     }
-    .hero-btn.primary { background: var(--g-blue); border-color: var(--g-blue); color: #ffffff; }
-    .hero-btn:hover { background: var(--g-blue-bg); border-color: var(--g-blue); }
-    .hero-btn.primary:hover { background: var(--g-blue-dark); color: #ffffff; }
-    .hero-sub-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); margin: 0 0 6px 0; line-height: 1.35; }
-    .hero-sub-meta { font-size: 12px; font-weight: 500; color: var(--g-blue); }
-    .pixel-body-grid { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 36px; align-items: start; }
-    .pixel-section { margin-bottom: 48px; scroll-margin-top: 70px; }
-    .pixel-widget-header {
-      display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-      border-bottom: 2px solid var(--text-primary); padding-bottom: 10px; margin-bottom: 22px;
+    .pub-venue { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--g-red); text-transform: uppercase; letter-spacing: 0.04em; }
+    .pub-title { font-family: var(--font-display); font-size: 14.5px; font-weight: 700; color: var(--text-primary); margin: 2px 0 0 0; line-height: 1.35; }
+    .pub-year { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--text-muted); flex-shrink: 0; }
+    .pub-video-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+    .archive-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .media-card { overflow: hidden; display: flex; flex-direction: column; }
+    .thumb-16x9 { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border-bottom: 1px solid var(--border-subtle); }
+    .thumb-16x9 img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+    .media-card:hover .thumb-16x9 img { transform: scale(1.03); }
+    .thumb-tag { position: absolute; bottom: 8px; right: 8px; background: rgba(255, 255, 255, 0.94); color: var(--text-primary); font-family: var(--font-mono); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+    .card-pad { padding: 12px 14px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-kicker { font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; color: var(--g-blue); text-transform: uppercase; margin-bottom: 3px; display: block; }
+    .card-kicker.green { color: var(--g-green-dark); }
+    .card-kicker.amber { color: var(--g-amber); }
+    .card-kicker.red { color: var(--g-red); }
+    .card-h3 { font-family: var(--font-display); font-size: 14.5px; font-weight: 700; color: var(--text-primary); margin: 0 0 4px 0; line-height: 1.32; }
+    .card-p { font-size: 12.5px; color: var(--text-secondary); margin: 0; line-height: 1.45; }
+    .vla-banner { padding: 18px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 18px; align-items: center; margin-bottom: 16px; }
+    .vla-banner img { width: 100%; border-radius: 8px; border: 1px solid var(--border); }
+    .kpi-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 10px 0 14px; }
+    .kpi-pill { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 7px 8px; text-align: center; }
+    .kpi-pill strong { display: block; font-family: var(--font-mono); font-size: 14px; color: var(--g-green-dark); }
+    .kpi-pill span { font-size: 10.5px; color: var(--text-secondary); }
+    .vla-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .apps-compact-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .site-footer { position: relative; z-index: 1; background: var(--surface); border-top: 1px solid var(--border); padding: 24px 16px; font-size: 12px; color: var(--text-secondary); }
+    .footer-inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 900px) {
+      .pillars-grid, .vla-banner { grid-template-columns: minmax(0, 1fr); }
+      .vla-grid, .archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .apps-compact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-    .pixel-widget-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); margin: 0; }
-    .pixel-widget-sub { font-size: 12.5px; font-weight: 600; color: var(--g-green-dark); background: var(--g-green-bg); padding: 3px 10px; border-radius: 999px; }
-    .apps-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-    .app-mag-card {
-      background: #ffffff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
-      display: flex; flex-direction: column; transition: box-shadow 0.2s ease, border-color 0.2s ease;
-    }
-    .app-mag-card:hover { border-color: var(--g-blue); box-shadow: 0 6px 20px rgba(60, 64, 67, 0.1); }
-    .app-thumb-wrap { position: relative; aspect-ratio: 16 / 9; background: var(--surface); overflow: hidden; border-bottom: 1px solid var(--border-subtle); }
-    .app-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-    .app-badge-overlay {
-      position: absolute; top: 10px; left: 10px; background: rgba(255, 255, 255, 0.94);
-      border: 1px solid var(--border); color: var(--g-blue); font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px;
-    }
-    .app-card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .app-card-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--text-primary); margin: 0 0 8px 0; }
-    .app-card-desc { font-size: 14px; color: var(--text-secondary); margin: 0 0 16px 0; }
-    .app-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 12px; border-top: 1px solid var(--border-subtle); }
-    .app-domain { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); }
-    .app-launch-btn { color: var(--g-blue); font-size: 13px; font-weight: 600; }
-    .app-launch-btn:hover { text-decoration: underline; }
-    .blog-feature-banner {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px;
-      display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; align-items: center;
-    }
-    .blog-feature-img { width: 100%; border-radius: 10px; border: 1px solid var(--border); }
-    .kpi-mini-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 14px 0 18px; }
-    .kpi-mini { background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; }
-    .kpi-mini strong { display: block; font-family: var(--font-display); font-size: 17px; color: var(--g-green-dark); }
-    .kpi-mini span { font-size: 11px; color: var(--text-secondary); }
-    .videos-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-    .video-mag-card {
-      background: #ffffff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
-      display: flex; flex-direction: column; transition: box-shadow 0.2s ease, border-color 0.2s ease;
-    }
-    .video-mag-card:hover { border-color: var(--g-blue); box-shadow: 0 6px 18px rgba(60, 64, 67, 0.1); }
-    .video-thumb-box { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
-    .video-thumb-box img { width: 100%; height: 100%; object-fit: cover; }
-    .play-pill {
-      position: absolute; bottom: 10px; right: 10px; background: rgba(255, 255, 255, 0.94);
-      color: var(--text-primary); font-family: var(--font-mono); font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px;
-    }
-    .video-card-body { padding: 16px; flex: 1; }
-    .video-card-title { font-family: var(--font-display); font-size: 15.5px; font-weight: 700; color: var(--text-primary); margin: 0 0 6px 0; line-height: 1.35; }
-    .video-card-desc { font-size: 13.5px; color: var(--text-secondary); margin: 0; }
-    .pub-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
-    .pub-item {
-      background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    }
-    .pub-item:hover { border-color: var(--g-blue); background: var(--surface); }
-    .pub-venue { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; color: var(--g-red); text-transform: uppercase; }
-    .pub-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-primary); margin: 3px 0 0 0; }
-    .pub-year { font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--text-muted); flex-shrink: 0; }
-    .archive-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
-    .sidebar-wrapper { position: sticky; top: 72px; display: flex; flex-direction: column; gap: 22px; }
-    .sidebar-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-    .tabs-header { display: grid; grid-template-columns: repeat(3, 1fr); background: #ffffff; border-bottom: 1px solid var(--border); }
-    .tab-trigger {
-      background: transparent; border: 0; border-bottom: 2px solid transparent; color: var(--text-secondary);
-      font-size: 12.5px; font-weight: 600; padding: 12px 6px; cursor: pointer;
-    }
-    .tab-trigger.active { color: var(--g-blue); border-bottom-color: var(--g-blue); background: var(--g-blue-bg); }
-    .tab-panel { display: none; padding: 16px; }
-    .tab-panel.active { display: block; }
-    .mini-post-list { display: flex; flex-direction: column; gap: 12px; }
-    .mini-post { display: flex; gap: 10px; align-items: center; padding-bottom: 10px; border-bottom: 1px solid var(--border-subtle); }
-    .mini-post:last-child { border-bottom: 0; padding-bottom: 0; }
-    .mini-post img { width: 68px; height: 46px; object-fit: cover; border-radius: 6px; flex-shrink: 0; border: 1px solid var(--border); }
-    .mini-post-title { font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.3; display: block; }
-    .mini-post-title:hover { color: var(--g-blue); }
-    .mini-post-meta { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); }
-    .author-widget { padding: 18px; }
-    .author-formula { background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: var(--font-mono); font-size: 12px; text-align: center; margin: 12px 0; color: var(--text-primary); }
-    .pixel-footer { background: var(--surface); border-top: 1px solid var(--border); padding: 36px 20px; font-size: 13px; color: var(--text-secondary); }
-    .pixel-footer-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    .pixel-footer a:hover { color: var(--g-blue); }
-    @media (max-width: 1023px) {
-      .magazine-hero-grid, .pixel-body-grid, .blog-feature-banner { grid-template-columns: minmax(0, 1fr); }
-      .sidebar-wrapper { position: static; }
-    }
-    @media (max-width: 767px) {
-      .apps-grid, .videos-grid { grid-template-columns: minmax(0, 1fr); }
-      .archive-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .mega-panel { display: none !important; }
-    }
-    @media (max-width: 639px) {
-      .container-pixel { padding: 20px 14px 56px; }
-      .hero-sub-grid, .archive-grid-3 { grid-template-columns: minmax(0, 1fr); }
-      .headerright { flex-direction: column; align-items: flex-start; }
-      .kpi-mini-row { grid-template-columns: minmax(0, 1fr); }
+    @media (max-width: 600px) {
+      .brand-role { display: none; }
+      .nav-inner { padding: 4px 10px; min-height: 38px; }
+      .anchor-link { padding: 4px 7px; font-size: 11.5px; }
+      .main-container { padding: 16px 12px 48px; }
+      .intro-hero { padding: 16px; }
+      .pub-video-grid, .vla-grid, .archive-grid, .apps-compact-grid { grid-template-columns: minmax(0, 1fr); }
     }
   </style>
 </head>
@@ -358,366 +246,213 @@
   <canvas id="fluid-canvas"></canvas>
   <div id="cursor-ring" class="cursor-ring"></div>
   <div id="cursor-dot" class="cursor-dot"></div>
-  <a class="skip-link" href="#main-wrapper">Skip to content</a>
   <div id="reading-progress"></div>
-  <div class="searchform-wrap" id="search-modal" role="dialog" aria-label="Search M9G">
-    <div class="search-transition-inner">
-      <div class="search-input-row">
-        <input type="text" id="magazine-search-input" class="search-input" placeholder="Search apps, VLA benchmarks, Isaac Sim videos, or IEEE papers..." oninput="filterMagazine(this.value)" />
-        <button class="search-close-btn" onclick="toggleSearch(false)">Close</button>
-      </div>
+  <div class="search-modal" id="search-modal" role="dialog" aria-label="Search Portfolio">
+    <div class="search-box">
+      <input type="text" id="magazine-search-input" class="search-input" placeholder="Filter publications, robotics demos, VLA blog, or tools..." oninput="filterCards(this.value)" />
+      <button class="search-close" onclick="toggleSearch(false)">ESC</button>
     </div>
   </div>
-  <div class="pixel-top">
-    <div class="pixel-top-wrapper">
-      <div class="pixel-ticker">
-        <span class="ticker-badge" data-i18n="breakingBadge">Research Update</span>
-        <a href="/blog/" class="ticker-link" data-i18n="tickerText">
-          Gemini 4 Argon + Flash-Lite cuts 3-arm Isaac Sim 6.0 VLA planning cost by 76.6% ($0.01972) in 10 pipelined turns — Read report
-        </a>
-      </div>
-      <div class="pixel-top-right">
-        <div class="pixel-social">
-          <a href="https://github.com/mincasurong" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/mincasurong/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="https://www.youtube.com/@mincasurong" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="mailto:produsoup@gmail.com">Email</a>
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a href="#intro" class="brand-link">
+        <span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span><span class="g-dot">.</span></span>
+        <span class="brand-role" data-i18n="brandRole">Robotics &amp; Physical AI</span>
+      </a>
+      <ul class="anchor-menu">
+        <li><a href="#intro" class="anchor-link active" data-i18n="navIntro">Intro</a></li>
+        <li><a href="#publications" class="anchor-link" data-i18n="navPubs">Publications</a></li>
+        <li><a href="#robotics-vla" class="anchor-link" data-i18n="navRobotics">Isaac Sim &amp; VLA</a></li>
+        <li><a href="/blog/" class="anchor-link blog-highlight" data-i18n="navBlog">VLA Blog</a></li>
+        <li><a href="#applied-ai" class="anchor-link" data-i18n="navApps">Applied AI</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="icon-btn" onclick="toggleSearch(true)" aria-label="Search" title="Filter portfolio">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+        <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
+          <button class="lang-box-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
+            <span id="current-lang-label">EN</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="lang-popup" id="lang-popup">
+            <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span><span>EN</span></button>
+            <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span><span>KO</span></button>
+            <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span><span>JA</span></button>
+            <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span><span>ZH</span></button>
+            <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span><span>ES</span></button>
+          </div>
         </div>
-        <div class="lang-switcher" role="group" aria-label="Language Selector">
-          <button class="lang-btn active" onclick="setLang('en')" id="lang-en">EN</button>
-          <button class="lang-btn" onclick="setLang('ko')" id="lang-ko">KO</button>
-          <button class="lang-btn" onclick="setLang('ja')" id="lang-ja">JA</button>
-          <button class="lang-btn" onclick="setLang('zh')" id="lang-zh">ZH</button>
-          <button class="lang-btn" onclick="setLang('es')" id="lang-es">ES</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <header class="pixel-center-header">
-    <div id="pixel-wide-wrapper">
-      <div class="pixel-brand-col">
-        <div class="pixel-brand-tag" data-i18n="brandKicker">Physical AI • Robotics • Agentic Systems</div>
-        <h1 class="pixel-wide-title">We're <span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span><span class="g-dot">.</span></h1>
-        <p class="pixel-wide-desc" data-i18n="heroSubtitle">From Machine to General Intelligence by Agent-enabled System Engineering</p>
-      </div>
-      <div class="headerright">
-        <div class="header-promo-text">
-          <div class="header-promo-kicker" data-i18n="promoKicker">Engineering Report • Isaac Sim 6.0 &amp; ROS 2 Jazzy</div>
-          <h2 class="header-promo-title" data-i18n="promoTitle">Mode 1 (3-Arm 9-Block Tower) VLA Planner Benchmark</h2>
-          <p class="header-promo-sub" data-i18n="promoSub">Gemini Robotics-ER 2 vs. Pure Gemini 4 Argon vs. Stage 3 Hybrid (-76.6% API Cost)</p>
-        </div>
-        <a href="/blog/" class="header-promo-cta" data-i18n="promoCta">Read Report</a>
       </div>
     </div>
   </header>
-  <nav class="pixel-navigation" aria-label="Main Navigation">
-    <div id="pixel-menu">
-      <ul class="pixel-nav-list">
-        <li class="pixel-nav-item"><a href="#featured" class="pixel-nav-link active" data-i18n="navFeatured">Featured</a></li>
-        <li class="pixel-nav-item isMega">
-          <a href="#live-apps" class="pixel-nav-link" data-i18n="navApps">Live Apps</a>
-          <div class="mega-panel">
-            <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mega-card">
-              <img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="GeminiSpace" class="mega-thumb" />
-              <div class="mega-body"><span class="mega-tag">1st Place Winner</span><div class="mega-title">GeminiSpace: Indoor Spatial AI</div></div>
-            </a>
-            <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mega-card">
-              <img src="/screenshots/opic.svg" alt="OPIc AI Master Coach" class="mega-thumb" />
-              <div class="mega-body"><span class="mega-tag">Voice AI • Cloud Run</span><div class="mega-title">OPIc AI Master Coach</div></div>
-            </a>
-            <a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mega-card">
-              <img src="/screenshots/jplt.svg" alt="JLPT N4 Drill Master" class="mega-thumb" />
-              <div class="mega-body"><span class="mega-tag">Gemini 1:1 Tutor</span><div class="mega-title">JLPT N4 Mock Exam &amp; Drill Master</div></div>
-            </a>
-            <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="mega-card">
-              <img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" alt="UrKuma Android App" class="mega-thumb" />
-              <div class="mega-body"><span class="mega-tag">Google Play • Android</span><div class="mega-title">UrKuma: Hanja &amp; Japanese Quiz</div></div>
-            </a>
+  <main class="main-container" id="main-wrapper">
+    <section id="intro" class="section-block">
+      <div class="lux-card intro-hero reveal-on-scroll">
+        <div class="intro-top-row">
+          <div>
+            <span class="intro-kicker" data-i18n="introKicker">Roboticist &amp; Agent-Enabled System Engineer • M9G = Human × AI Agents</span>
+            <h1 class="intro-heading" data-i18n="introHeading">Hi, we're M9G — Engineering Physical AI &amp; Embodied Robotics</h1>
+            <p class="intro-bio" data-i18n="introBio">
+              Our foundation is rooted in <strong>robotics</strong>, <strong>human-robot interaction (HRI)</strong>, nonlinear and adaptive control theory, and physical simulation. From <strong>wearable rehabilitation exoskeletons</strong> and smart prosthetic ankles to <strong>multi-arm manipulation in NVIDIA Isaac Sim &amp; ROS 2</strong>, we build intelligent robotic systems that bridge control engineering and foundation models.
+            </p>
+            <div class="intro-links">
+              <a href="#publications" class="pill-link primary" data-i18n="btnPubs">IEEE &amp; MDPI Publications</a>
+              <a href="/blog/" class="pill-link" data-i18n="btnVlaBlog">3-Arm VLA Benchmark Blog</a>
+              <a href="https://github.com/mincasurong" target="_blank" rel="noopener noreferrer" class="pill-link">GitHub</a>
+              <a href="https://www.linkedin.com/in/mincasurong/" target="_blank" rel="noopener noreferrer" class="pill-link">LinkedIn</a>
+              <a href="https://www.youtube.com/@mincasurong" target="_blank" rel="noopener noreferrer" class="pill-link">YouTube</a>
+              <a href="mailto:produsoup@gmail.com" class="pill-link">produsoup@gmail.com</a>
+            </div>
           </div>
-        </li>
-        <li class="pixel-nav-item"><a href="/blog/" class="pixel-nav-link blog-pill" data-i18n="navBlog">VLA Benchmark Blog</a></li>
-        <li class="pixel-nav-item"><a href="#gemini-diaries" class="pixel-nav-link" data-i18n="navDiaries">Gemini Diaries</a></li>
-        <li class="pixel-nav-item"><a href="#publications" class="pixel-nav-link" data-i18n="navPubs">Publications</a></li>
-        <li class="pixel-nav-item"><a href="#research-archive" class="pixel-nav-link" data-i18n="navArchive">Research Archive</a></li>
-      </ul>
-      <div class="pixel-nav-actions">
-        <button class="pixel-search-btn" onclick="toggleSearch(true)" data-i18n="searchBtn">Search</button>
-      </div>
-    </div>
-  </nav>
-  <div class="container-pixel" id="main-wrapper">
-    <section id="featured" class="magazine-hero-grid" aria-label="Featured Stories">
-      <div class="hero-lead-card lux-card reveal-on-scroll searchable-card">
-        <img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="Google Gemini 3 Seoul Hackathon 1st Place - GeminiSpace" class="hero-lead-img" />
-        <div class="hero-lead-body">
-          <span class="kicker amber" data-i18n="hackathonBadge">1st Place Winner • Google Gemini 3 Seoul Hackathon 2026</span>
-          <h2 class="hero-lead-title" data-i18n="hackathonTitle">1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026 (111 Finalists, 1,500+ Applicants)</h2>
-          <p class="hero-lead-desc" data-i18n="hackathonDesc">GeminiSpace converts 360-degree room photos into an interactive indoor semantic map with sub-second Gemini spatial reasoning, Visual SLAM loop closure, and 2D orthographic floorplan rendering.</p>
-          <div class="hero-cta-row">
-            <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="hero-btn primary" data-i18n="launchGeminiSpace">Launch GeminiSpace</a>
-            <a href="https://youtu.be/hzUlLTtfd7M?si=LCs8NFTN9zpZ4bCm" target="_blank" rel="noopener noreferrer" class="hero-btn" data-i18n="watchDemo">Watch Demo</a>
-            <a href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/" target="_blank" rel="noopener noreferrer" class="hero-btn">Google Blog</a>
-            <a href="https://cerebralvalley.ai/e/gemini-3-seoul-hackathon/hackathon/gallery?project=27" target="_blank" rel="noopener noreferrer" class="hero-btn">Winners Gallery</a>
-            <a href="https://github.com/mincasurong/GeminiSeoulHackathon2026" target="_blank" rel="noopener noreferrer" class="hero-btn">GitHub</a>
+        </div>
+        <div class="pillars-grid">
+          <div class="pillar-box">
+            <span class="pillar-tag" style="color:var(--g-blue);" data-i18n="p1Tag">01 · Manipulation &amp; Sim</span>
+            <h2 class="pillar-title" data-i18n="p1Title">Multi-Robot Control &amp; VLA</h2>
+            <p class="pillar-desc" data-i18n="p1Desc">3-Arm Franka Emika FR3 coordination, 50 Hz DLS IK, ROS 2 Jazzy, MoveIt 2, MuJoCo, and NVIDIA Isaac Sim 6.0.</p>
+          </div>
+          <div class="pillar-box">
+            <span class="pillar-tag" style="color:var(--g-red);" data-i18n="p2Tag">02 · Wearable Robotics &amp; HRI</span>
+            <h2 class="pillar-title" data-i18n="p2Title">Rehabilitation Exoskeletons</h2>
+            <p class="pillar-desc" data-i18n="p2Desc">Lower-limb exoskeletons, adaptive impedance gait training, smart prosthetic ankle control, and VR biofeedback.</p>
+          </div>
+          <div class="pillar-box">
+            <span class="pillar-tag" style="color:var(--g-green-dark);" data-i18n="p3Tag">03 · Autonomous Navigation</span>
+            <h2 class="pillar-title" data-i18n="p3Title">Mobile Robots &amp; Spatial AI</h2>
+            <p class="pillar-desc" data-i18n="p3Desc">Online planner parameter adaptation (ICRA), BARN navigation, 360-degree Visual SLAM, and edge autopilot.</p>
           </div>
         </div>
       </div>
-      <div class="hero-sub-grid">
-        <a href="/blog/" class="hero-sub-card lux-card reveal-on-scroll searchable-card">
-          <img src="/screenshots/vla-architecture-nanobanana.png" alt="VLA Task Planner Benchmark Blog" class="hero-sub-img" />
-          <div class="hero-sub-body">
-            <div><span class="kicker green" data-i18n="sub1Kicker">Robotics Benchmark</span><h3 class="hero-sub-title" data-i18n="sub1Title">ER-2 vs. Gemini 4 Argon VLA Benchmark (-76.6% Cost)</h3></div>
-            <div class="hero-sub-meta">Read report &rarr;</div>
-          </div>
+    </section>
+    <section id="publications" class="section-block">
+      <div class="section-head">
+        <h2 class="section-title" data-i18n="pubsSectionTitle">Peer-Reviewed Robotics Publications &amp; Research Archive</h2>
+        <span class="section-badge">IEEE ICRA • IEEE TNSRE • Applied Sciences • ICORR</span>
+      </div>
+      <div class="pub-list">
+        <a href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener noreferrer" class="lux-card pub-row reveal-on-scroll searchable-card">
+          <div><div class="pub-venue">IEEE ICRA • DOI: 11128768</div><h3 class="pub-title">OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</h3></div>
+          <span class="pub-year">2025</span>
         </a>
-        <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="hero-sub-card lux-card reveal-on-scroll searchable-card">
-          <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="Gemini 4 Argon Weekend Sprint" class="hero-sub-img" />
-          <div class="hero-sub-body">
-            <div><span class="kicker" data-i18n="sub2Kicker">Engineering Sprint</span><h3 class="hero-sub-title" data-i18n="sub2Title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects</h3></div>
-            <div class="hero-sub-meta">Watch on YouTube &rarr;</div>
-          </div>
+        <a href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener noreferrer" class="lux-card pub-row reveal-on-scroll searchable-card">
+          <div><div class="pub-venue">IEEE TNSRE • DOI: 9260225</div><h3 class="pub-title">AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</h3></div>
+          <span class="pub-year">2020</span>
         </a>
-        <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="hero-sub-card lux-card reveal-on-scroll searchable-card">
-          <img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="EP 12 Multi Robot Collaboration" class="hero-sub-img" />
-          <div class="hero-sub-body">
-            <div><span class="kicker green" data-i18n="sub3Kicker">Isaac Sim &amp; ROS 2</span><h3 class="hero-sub-title" data-i18n="sub3Title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 &amp; IsaacSim</h3></div>
-            <div class="hero-sub-meta">Watch on YouTube &rarr;</div>
-          </div>
+        <a href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener noreferrer" class="lux-card pub-row reveal-on-scroll searchable-card">
+          <div><div class="pub-venue">IEEE TNSRE • DOI: 8792083</div><h3 class="pub-title">Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</h3></div>
+          <span class="pub-year">2019</span>
         </a>
-        <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="hero-sub-card lux-card reveal-on-scroll searchable-card">
-          <img src="/screenshots/opic.svg" alt="OPIc AI Master Coach" class="hero-sub-img" />
-          <div class="hero-sub-body">
-            <div><span class="kicker red" data-i18n="sub4Kicker">Cloud Run Web Apps</span><h3 class="hero-sub-title" data-i18n="sub4Title">OPIc AI Master Coach &amp; JLPT N4 AI Tutor Suite</h3></div>
-            <div class="hero-sub-meta">Launch apps &rarr;</div>
+        <a href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener noreferrer" class="lux-card pub-row reveal-on-scroll searchable-card">
+          <div><div class="pub-venue">Applied Sciences (MDPI) • 3413</div><h3 class="pub-title">Precise flowrate control of fluid gear pump in automated painting system using a repetitive controller</h3></div>
+          <span class="pub-year">2019</span>
+        </a>
+        <a href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener noreferrer" class="lux-card pub-row reveal-on-scroll searchable-card">
+          <div><div class="pub-venue">ICORR / Rehabweek • DOI: 8009275</div><h3 class="pub-title">A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</h3></div>
+          <span class="pub-year">2017</span>
+        </a>
+      </div>
+      <div class="pub-video-grid">
+        <a href="https://youtu.be/lkfVqltgM94" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card">
+          <div class="thumb-16x9"><img src="https://img.youtube.com/vi/lkfVqltgM94/maxresdefault.jpg" alt="AI Therapist IEEE TNSRE" loading="lazy" /><span class="thumb-tag">IEEE TNSRE</span></div>
+          <div class="card-pad"><div><span class="card-kicker red">Robot-Assisted Rehabilitation</span><h3 class="card-h3">AI Therapist: Expert Verbal Cues for Gait Training</h3><p class="card-p">Exoskeleton gait rehabilitation system incorporating therapist verbal cueing and real-time biofeedback.</p></div></div>
+        </a>
+        <a href="https://youtu.be/PrO-w9BRhEA" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card">
+          <div class="thumb-16x9"><img src="https://img.youtube.com/vi/PrO-w9BRhEA/maxresdefault.jpg" alt="Imitation Learning in MuJoCo" loading="lazy" /><span class="thumb-tag">MuJoCo &amp; robomimic</span></div>
+          <div class="card-pad"><div><span class="card-kicker">Robot Manipulation Learning</span><h3 class="card-h3">Imitation Learning Simulation in MuJoCo &amp; robomimic</h3><p class="card-p">Demonstration-driven robotic manipulation policy learning and evaluation in MuJoCo physics simulation.</p></div></div>
+        </a>
+      </div>
+      <div class="archive-grid">
+        <a href="https://www.youtube.com/watch?v=XMZuWDLkngs" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card"><div class="thumb-16x9"><img src="https://img.youtube.com/vi/XMZuWDLkngs/maxresdefault.jpg" alt="VR Lower Limb Exoskeleton" loading="lazy" /><span class="thumb-tag">Exoskeleton</span></div><div class="card-pad"><div><span class="card-kicker red">Wearable Robotics</span><h4 class="card-h3">VR-Integrated Lower Limb Exoskeleton</h4><p class="card-p">Synchronized VR environment and biofeedback for gait rehabilitation.</p></div></div></a>
+        <a href="https://www.youtube.com/watch?v=OgSCmBr1n7c" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card"><div class="thumb-16x9"><img src="https://img.youtube.com/vi/OgSCmBr1n7c/maxresdefault.jpg" alt="Adaptive Impedance Control" loading="lazy" /><span class="thumb-tag">Impedance Control</span></div><div class="card-pad"><div><span class="card-kicker red">Control Theory</span><h4 class="card-h3">Adaptive Impedance Control Exoskeleton</h4><p class="card-p">Assist-as-needed gait training using adaptive impedance control.</p></div></div></a>
+        <a href="https://www.youtube.com/watch?v=vIm9GvQ3wME" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card"><div class="thumb-16x9"><img src="https://img.youtube.com/vi/vIm9GvQ3wME/maxresdefault.jpg" alt="Virtual Spring Damper" loading="lazy" /><span class="thumb-tag">Trajectory Control</span></div><div class="card-pad"><div><span class="card-kicker red">Gait Guidance</span><h4 class="card-h3">Virtual Spring-Damper Gait Guidance</h4><p class="card-p">Trajectory constraint control along predefined gait paths.</p></div></div></a>
+        <a href="https://www.youtube.com/watch?v=NeVCd3w2vmk" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card"><div class="thumb-16x9"><img src="https://img.youtube.com/vi/NeVCd3w2vmk/maxresdefault.jpg" alt="BARN Benchmark" loading="lazy" /><span class="thumb-tag">Autonomous Nav</span></div><div class="card-pad"><div><span class="card-kicker green">Mobile Robotics</span><h4 class="card-h3">BARN Benchmark Path Planning</h4><p class="card-p">Autonomous navigation and dynamic obstacle avoidance benchmarking.</p></div></div></a>
+        <a href="https://www.youtube.com/watch?v=IsrvJgT0ntI" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card"><div class="thumb-16x9"><img src="https://img.youtube.com/vi/IsrvJgT0ntI/maxresdefault.jpg" alt="ROS 2 MoveIt 2" loading="lazy" /><span class="thumb-tag">ROS 2 / MoveIt 2</span></div><div class="card-pad"><div><span class="card-kicker">Motion Planning</span><h4 class="card-h3">ROS 2 &amp; MoveIt 2 Manipulator Planning</h4><p class="card-p">Collision-free 7-DoF robotic arm trajectory planning on Windows 10.</p></div></div></a>
+        <a href="https://www.youtube.com/watch?v=13gZzn4M_Yg" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card"><div class="thumb-16x9"><img src="https://img.youtube.com/vi/13gZzn4M_Yg/maxresdefault.jpg" alt="Jetson Nano ROS" loading="lazy" /><span class="thumb-tag">Jetson Nano</span></div><div class="card-pad"><div><span class="card-kicker green">Edge Robotics</span><h4 class="card-h3">Jetson Nano ROS Autopilot</h4><p class="card-p">Edge AI sensor-driven motion control on Jetbot mobile platform.</p></div></div></a>
+      </div>
+    </section>
+    <section id="robotics-vla" class="section-block">
+      <div class="section-head">
+        <h2 class="section-title" data-i18n="vlaSectionTitle">Multi-Robot VLA &amp; NVIDIA Isaac Sim 6.0 Engineering</h2>
+        <span class="section-badge green">Franka Emika FR3 • ROS 2 Jazzy • Symbolic 3D /tf</span>
+      </div>
+      <div class="lux-card vla-banner reveal-on-scroll searchable-card">
+        <a href="/blog/"><img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Stage VLA Task Planner Architecture" loading="lazy" /></a>
+        <div>
+          <span class="card-kicker green" data-i18n="blogSpotKicker">Engineering Report • Mode 1 (3-Arm 9-Block Tower)</span>
+          <h3 style="font-family:var(--font-display); font-size:18px; font-weight:800; color:var(--text-primary); margin:3px 0 6px;"><a href="/blog/" data-i18n="blogSpotHeading">Empirical Comparison of VLA Task Planners: Gemini Robotics-ER 2 vs. Gemini 4 Argon</a></h3>
+          <p class="card-p" data-i18n="blogSpotDesc">Side-by-side evaluation in NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) &amp; ROS 2 Jazzy (50 Hz DLS IK) showing how software-pipelined pick || place scheduling and a hybrid 1x Argon Brain + 10x Flash-Lite Executor cut API cost and latency with zero RGB tokens.</p>
+          <div class="kpi-strip">
+            <div class="kpi-pill"><strong>$0.01972</strong><span>-76.6% API Cost</span></div>
+            <div class="kpi-pill"><strong>10 Turns</strong><span>vs. 13 Turns ER-2</span></div>
+            <div class="kpi-pill"><strong>4.17s</strong><span>-68.7% Latency</span></div>
           </div>
+          <div class="intro-links">
+            <a href="/blog/" class="pill-link primary" data-i18n="readBlogBtn">Read Engineering Blog</a>
+            <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="pill-link">Watch Benchmark Video</a>
+            <a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener noreferrer" class="pill-link">IsaacSim_GeminiRobotics Repo</a>
+          </div>
+        </div>
+      </div>
+      <div class="vla-grid">
+        <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card">
+          <div class="thumb-16x9"><img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" alt="ER-2 vs Argon Benchmark" loading="lazy" /><span class="thumb-tag">Benchmark</span></div>
+          <div class="card-pad"><div><span class="card-kicker green">Isaac Sim 6.0 &amp; ROS 2</span><h3 class="card-h3">ER-2 vs. Gemini 4 Argon: 3-Arm 9-Block Tower Benchmark</h3><p class="card-p" data-i18n="vlaBenchDesc">10-turn software-pipelined schedule vs. 13-turn wave-locked barrier on 3 Franka FR3 arms.</p></div></div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card">
+          <div class="thumb-16x9"><img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="EP 12 Multi Robot Collaboration" loading="lazy" /><span class="thumb-tag">EP 12</span></div>
+          <div class="card-pad"><div><span class="card-kicker green">Dual Execution Engine</span><h3 class="card-h3">EP 12. Multi-Robot Collaboration in Isaac Sim &amp; ROS 2</h3><p class="card-p" data-i18n="ep12Desc">Zero-token React Flow wavefront DAG scheduler + autonomous VLA manipulation across 3 FR3 arms.</p></div></div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card">
+          <div class="thumb-16x9"><img src="https://img.youtube.com/vi/stxaWN7Ct8Y/maxresdefault.jpg" alt="EP 11 FR3 Digital Twin" loading="lazy" /><span class="thumb-tag">EP 11</span></div>
+          <div class="card-pad"><div><span class="card-kicker">Digital Twin</span><h3 class="card-h3">EP 11. Cooperative FR3 Assembly &amp; React Flow Digital Twin</h3><p class="card-p" data-i18n="ep11Desc">Multi-arm cooperative planning and geometric assembly in NVIDIA Isaac Sim.</p></div></div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=MzAGXiZmrdY" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card">
+          <div class="thumb-16x9"><img src="https://img.youtube.com/vi/MzAGXiZmrdY/maxresdefault.jpg" alt="EP 10 Natural Language VLA" loading="lazy" /><span class="thumb-tag">EP 10</span></div>
+          <div class="card-pad"><div><span class="card-kicker green">VLA Telemetry</span><h3 class="card-h3">EP 10. Natural Language to Isaac Sim, ROS 2 &amp; ER 2</h3><p class="card-p" data-i18n="ep10Desc">End-to-end natural language multi-robot control with real-time web monitoring.</p></div></div>
+        </a>
+        <a href="https://youtu.be/5ydQRDwkg34?si=z_TNSfY_MFlpukyS" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card">
+          <div class="thumb-16x9"><img src="https://img.youtube.com/vi/5ydQRDwkg34/maxresdefault.jpg" alt="EP 7 Random Target Multi-Robots" loading="lazy" /><span class="thumb-tag">EP 7</span></div>
+          <div class="card-pad"><div><span class="card-kicker">WSL2 &amp; Windows ROS 2</span><h3 class="card-h3">EP 7. Dynamic Multi-Robot Coordination in Isaac Sim</h3><p class="card-p" data-i18n="v3Desc">Cross-OS FastDDS multi-robot task execution in NVIDIA Isaac Sim.</p></div></div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="lux-card media-card reveal-on-scroll searchable-card">
+          <div class="thumb-16x9"><img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="Gemini 4 Argon Weekend Sprint" loading="lazy" /><span class="thumb-tag">Sprint</span></div>
+          <div class="card-pad"><div><span class="card-kicker amber">1B Token Benchmark</span><h3 class="card-h3">Gemini 4 Argon Sprint: Isaac Sim, ROS 2 &amp; Cloud Systems</h3><p class="card-p" data-i18n="sprintDesc">Stress-testing 1B tokens across Isaac Sim + ROS 2 pipelines, CLI harnesses, and Cloud Run services.</p></div></div>
         </a>
       </div>
     </section>
-    <div class="pixel-body-grid">
-      <main>
-        <section id="live-apps" class="pixel-section">
-          <div class="pixel-widget-header">
-            <h2 class="pixel-widget-title" data-i18n="appsSectionTitle">Live Deployed Apps &amp; Tools</h2>
-            <span class="pixel-widget-sub" data-i18n="freeBadge">100% Free Access on Google Cloud Run &amp; Google Play</span>
-          </div>
-          <div class="apps-grid">
-            <article class="app-mag-card lux-card reveal-on-scroll searchable-card">
-              <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
-                <img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="GeminiSpace Indoor Spatial AI" loading="lazy" />
-                <span class="app-badge-overlay">Web App • 1st Place Winner</span>
-              </a>
-              <div class="app-card-body">
-                <div>
-                  <span class="kicker">Spatial Intelligence</span>
-                  <h3 class="app-card-title"><a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer">GeminiSpace: Indoor Spatial AI</a></h3>
-                  <p class="app-card-desc" data-i18n="appGeminiSpaceDesc">Transforms 360-degree multi-view room photos into an interactive indoor spatial map with sub-second Gemini spatial reasoning and Visual SLAM loop closure.</p>
-                </div>
-                <div class="app-card-footer"><span class="app-domain">geminispace.mincasurong.com</span><a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Open app &rarr;</a></div>
-              </div>
-            </article>
-            <article class="app-mag-card lux-card reveal-on-scroll searchable-card">
-              <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
-                <img src="/screenshots/opic.svg" alt="OPIc AI Master Coach" loading="lazy" />
-                <span class="app-badge-overlay">Web App • Speech AI</span>
-              </a>
-              <div class="app-card-body">
-                <div>
-                  <span class="kicker green">Voice Evaluation</span>
-                  <h3 class="app-card-title"><a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" data-i18n="opicTitle">OPIc AI Master Coach</a></h3>
-                  <p class="app-card-desc" data-i18n="opicDesc">Real-time conversational AI voice sparring trainer for test takers targeting Advanced Low (AL), with roleplay scenarios and pronunciation scoring.</p>
-                </div>
-                <div class="app-card-footer"><span class="app-domain">opic.mincasurong.com</span><a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Open app &rarr;</a></div>
-              </div>
-            </article>
-            <article class="app-mag-card lux-card reveal-on-scroll searchable-card">
-              <a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
-                <img src="/screenshots/jplt.svg" alt="JLPT N4 Mock Exam & Drill Master" loading="lazy" />
-                <span class="app-badge-overlay">Web App • Adaptive Tutor</span>
-              </a>
-              <div class="app-card-body">
-                <div>
-                  <span class="kicker red">Language Learning</span>
-                  <h3 class="app-card-title"><a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" data-i18n="jpltTitle">JLPT N4 Mock Exam &amp; Drill Master</a></h3>
-                  <p class="app-card-desc" data-i18n="jpltDesc">Full-section Japanese proficiency exam simulator analyzing individual weak points across vocabulary, grammar, and reading in real time.</p>
-                </div>
-                <div class="app-card-footer"><span class="app-domain">jplt.mincasurong.com</span><a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Open app &rarr;</a></div>
-              </div>
-            </article>
-            <article class="app-mag-card lux-card reveal-on-scroll searchable-card">
-              <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
-                <img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" alt="UrKuma Hanja Learning Quiz" loading="lazy" />
-                <span class="app-badge-overlay">Android • Google Play</span>
-              </a>
-              <div class="app-card-body">
-                <div>
-                  <span class="kicker amber">Mobile App</span>
-                  <h3 class="app-card-title"><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" data-i18n="bearTitle">UrKuma: Hanja &amp; Japanese Quiz</a></h3>
-                  <p class="app-card-desc" data-i18n="bearDesc">Android quiz application designed to build Hanja (Chinese character) and Japanese vocabulary recall in three-minute daily sessions.</p>
-                </div>
-                <div class="app-card-footer"><span class="app-domain">play.google.com</span><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="downloadPlayBtn">Google Play &rarr;</a></div>
-              </div>
-            </article>
-          </div>
-        </section>
-        <section id="vla-blog-spotlight" class="pixel-section">
-          <div class="pixel-widget-header">
-            <h2 class="pixel-widget-title" data-i18n="blogSpotTitle">Engineering Blog: Multi-Robot VLA Benchmark</h2>
-            <span class="pixel-widget-sub">Isaac Sim 6.0 • ROS 2 Jazzy • 3x Franka FR3</span>
-          </div>
-          <div class="blog-feature-banner lux-card reveal-on-scroll searchable-card">
-            <a href="/blog/"><img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Stage VLA Task Planner Architecture" class="blog-feature-img" loading="lazy" /></a>
-            <div>
-              <span class="kicker green" data-i18n="blogSpotKicker">Mode 1 (3-Arm 9-Block Tower) • Symbolic 3D /tf Grounding</span>
-              <h3 style="font-family:var(--font-display); font-size:20px; font-weight:700; color:var(--text-primary); margin:4px 0 8px;"><a href="/blog/" data-i18n="blogSpotHeading">Empirical Comparison of VLA Task Planners: Gemini Robotics-ER 2 vs. Gemini 4 Argon</a></h3>
-              <p style="font-size:14px; color:var(--text-secondary); margin:0;" data-i18n="blogSpotDesc">Side-by-side evaluation in NVIDIA Isaac Sim 6.0 &amp; ROS 2 Jazzy showing how software-pipelined pick || place scheduling and a hybrid 1x Argon Brain + 10x Flash-Lite Executor reduce cost and step latency.</p>
-              <div class="kpi-mini-row">
-                <div class="kpi-mini"><strong>$0.01972</strong><span>-76.6% API Cost</span></div>
-                <div class="kpi-mini"><strong>10 Turns</strong><span>vs. 13 Turns ER-2</span></div>
-                <div class="kpi-mini"><strong>4.17s</strong><span>-68.7% Step Latency</span></div>
-              </div>
-              <div class="hero-cta-row">
-                <a href="/blog/" class="hero-btn primary" data-i18n="readBlogBtn">Read Full Report</a>
-                <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="hero-btn">YouTube (PPZ4vgVZlyA)</a>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section id="gemini-diaries" class="pixel-section">
-          <div class="pixel-widget-header">
-            <h2 class="pixel-widget-title" data-i18n="diariesSectionTitle">Build with Gemini Diaries</h2>
-            <span class="pixel-widget-sub">Robotics, VLA &amp; Digital Twins (8 Episodes)</span>
-          </div>
-          <div class="videos-grid">
-            <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
-              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" alt="Gemini Robotics ER-2 vs. Gemini 4 Argon Benchmark" loading="lazy" /><span class="play-pill">Benchmark</span></div>
-              <div class="video-card-body"><span class="kicker green">VLA Task Planning</span><h3 class="video-card-title">Gemini Robotics ER-2 vs. Gemini 4 Argon: Multi-Robot Task Planner Benchmark (Isaac Sim 6.0 &amp; ROS 2)</h3><p class="video-card-desc" data-i18n="vlaBenchDesc">Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid Gemini 4 Argon + Flash-Lite cutting API cost by 76.6% ($0.01972) with 0 RGB tokens.</p></div>
-            </a>
-            <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
-              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="Gemini 4 Argon Weekend Sprint" loading="lazy" /><span class="play-pill">Sprint</span></div>
-              <div class="video-card-body"><span class="kicker">Gemini 4 Argon</span><h3 class="video-card-title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS &amp; GCP)</h3><p class="video-card-desc" data-i18n="sprintDesc">Weekend evaluation across 1B tokens shipping 6 full-stack and Physical AI systems with Gemini 4 Argon, Isaac Sim, ROS 2, and Google Cloud Run.</p></div>
-            </a>
-            <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
-              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="EP 12 Multi Robot Collaboration" loading="lazy" /><span class="play-pill">EP 12</span></div>
-              <div class="video-card-body"><span class="kicker green">Dual Execution Engine</span><h3 class="video-card-title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 &amp; NVIDIA IsaacSim &amp; ROS2</h3><p class="video-card-desc" data-i18n="ep12Desc">Three FR3 robotic arms cooperatively constructing geometric formations in Isaac Sim with dual zero-token React Flow DAG and Gemini Robotics-ER 2 VLA execution.</p></div>
-            </a>
-            <a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
-              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/stxaWN7Ct8Y/maxresdefault.jpg" alt="EP 11 FR3 Robots Cooperating" loading="lazy" /><span class="play-pill">EP 11</span></div>
-              <div class="video-card-body"><span class="kicker">Digital Twin</span><h3 class="video-card-title">EP 11. FR3 Robots Cooperating with Gemini Robotics-ER2 &amp; Isaac Sim | React Flow Digital Twin</h3><p class="video-card-desc" data-i18n="ep11Desc">Cooperative FR3 robotic arms planning and assembling in Isaac Sim via Gemini multi-agent reasoning and React Flow digital twin.</p></div>
-            </a>
-            <a href="https://www.youtube.com/watch?v=MzAGXiZmrdY" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
-              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/MzAGXiZmrdY/maxresdefault.jpg" alt="EP 10 Natural Language Input" loading="lazy" /><span class="play-pill">EP 10</span></div>
-              <div class="video-card-body"><span class="kicker green">Natural Language Control</span><h3 class="video-card-title">EP 10. Natural Language to Isaac Sim, ROS 2, &amp; Gemini Robotics-ER 2</h3><p class="video-card-desc" data-i18n="ep10Desc">End-to-end VLA multi-robot control framework integrating Gemini Robotics-ER 2, Isaac Sim, ROS 2, and real-time Web GUI.</p></div>
-            </a>
-            <a href="https://youtu.be/5ydQRDwkg34?si=z_TNSfY_MFlpukyS" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
-              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/5ydQRDwkg34/maxresdefault.jpg" alt="EP 7 Random Target Multi-Robots" loading="lazy" /><span class="play-pill">EP 7</span></div>
-              <div class="video-card-body"><span class="kicker">Multi-Robot ROS 2</span><h3 class="video-card-title">EP 7. Random Target Multi-Robots on NVIDIA IsaacSim w/ Antigravity, Gemini, ROS2</h3><p class="video-card-desc" data-i18n="v3Desc">Dynamic multi-robot collaboration on NVIDIA IsaacSim via ROS 2, orchestrated by Antigravity 2.0 and Gemini.</p></div>
-            </a>
-            <a href="https://youtu.be/k9dRqfSosBs" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
-              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/k9dRqfSosBs/maxresdefault.jpg" alt="EP 1 TidyUpAI" loading="lazy" /><span class="play-pill">EP 1</span></div>
-              <div class="video-card-body"><span class="kicker amber">Agentic Tooling</span><h3 class="video-card-title">EP 1. TidyUpAI</h3><p class="video-card-desc" data-i18n="v1Desc">Workspace organization agent that categorizes, tags, and structures local directories automatically.</p></div>
-            </a>
-            <a href="https://www.youtube.com/watch?v=mWDwqBfzZ6s" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
-              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/mWDwqBfzZ6s/maxresdefault.jpg" alt="EP 0 GeminiSpace v2.0" loading="lazy" /><span class="play-pill">EP 0</span></div>
-              <div class="video-card-body"><span class="kicker">Visual SLAM</span><h3 class="video-card-title">EP 0. GeminiSpace v2.0: Eliminating AI Map Hallucinations with Gemini &amp; Visual SLAM</h3><p class="video-card-desc" data-i18n="geminiSpaceDesc">Sub-second Gemini spatial reasoning, 360-degree Visual SLAM loop closure, and 2D orthographic floorplan rendering.</p></div>
-            </a>
-          </div>
-        </section>
-        <section id="publications" class="pixel-section">
-          <div class="pixel-widget-header">
-            <h2 class="pixel-widget-title" data-i18n="pubsSectionTitle">Peer-Reviewed Scientific Publications</h2>
-            <span class="pixel-widget-sub">IEEE ICRA • IEEE TNSRE • Applied Sciences • ICORR</span>
-          </div>
-          <div class="videos-grid" style="margin-bottom:20px;">
-            <a href="https://youtu.be/lkfVqltgM94" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
-              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/lkfVqltgM94/maxresdefault.jpg" alt="AI Therapist IEEE TNSRE" loading="lazy" /><span class="play-pill">IEEE TNSRE</span></div>
-              <div class="video-card-body"><span class="kicker red">Rehabilitation Robotics</span><h3 class="video-card-title">AI Therapist: Expert Verbal Cues for Gait Training (IEEE TNSRE)</h3><p class="video-card-desc">Robot-assisted gait rehabilitation system incorporating therapist verbal cueing and real-time biofeedback.</p></div>
-            </a>
-            <a href="https://youtu.be/PrO-w9BRhEA" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
-              <div class="video-thumb-box"><img src="https://img.youtube.com/vi/PrO-w9BRhEA/maxresdefault.jpg" alt="Imitation Learning in MuJoCo" loading="lazy" /><span class="play-pill">MuJoCo</span></div>
-              <div class="video-card-body"><span class="kicker">Robot Learning</span><h3 class="video-card-title">Imitation Learning Simulation in MuJoCo &amp; robomimic</h3><p class="video-card-desc">Demonstration-driven robotic manipulation policy learning and evaluation in MuJoCo physics simulation.</p></div>
-            </a>
-          </div>
-          <div class="pub-list">
-            <a href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener noreferrer" class="pub-item lux-card reveal-on-scroll searchable-card"><div><div class="pub-venue">IEEE ICRA • DOI: 11128768</div><h3 class="pub-title">OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</h3></div><span class="pub-year">2025</span></a>
-            <a href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener noreferrer" class="pub-item lux-card reveal-on-scroll searchable-card"><div><div class="pub-venue">IEEE TNSRE • DOI: 9260225</div><h3 class="pub-title">AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</h3></div><span class="pub-year">2020</span></a>
-            <a href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener noreferrer" class="pub-item lux-card reveal-on-scroll searchable-card"><div><div class="pub-venue">IEEE TNSRE • DOI: 8792083</div><h3 class="pub-title">Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</h3></div><span class="pub-year">2019</span></a>
-            <a href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener noreferrer" class="pub-item lux-card reveal-on-scroll searchable-card"><div><div class="pub-venue">Applied Sciences (MDPI) • 3413</div><h3 class="pub-title">Precise flowrate control of fluid gear pump in automated painting system using a repetitive controller</h3></div><span class="pub-year">2019</span></a>
-            <a href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener noreferrer" class="pub-item lux-card reveal-on-scroll searchable-card"><div><div class="pub-venue">ICORR / Rehabweek • DOI: 8009275</div><h3 class="pub-title">A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</h3></div><span class="pub-year">2017</span></a>
-          </div>
-        </section>
-        <section id="research-archive" class="pixel-section">
-          <div class="pixel-widget-header">
-            <h2 class="pixel-widget-title" data-i18n="archiveSectionTitle">Research Video Archive</h2>
-            <span class="pixel-widget-sub">Exoskeletons, VR Rehabilitation &amp; Mobile Manipulators</span>
-          </div>
-          <h3 style="font-size:13px; font-weight:700; text-transform:uppercase; color:var(--g-blue); letter-spacing:0.06em; margin:0 0 12px;" data-i18n="trackATitle">Track A — Virtual Reality (VR) + Wearable Robots for Rehabilitation</h3>
-          <div class="archive-grid-3">
-            <a href="https://www.youtube.com/watch?v=XMZuWDLkngs" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/XMZuWDLkngs/maxresdefault.jpg" alt="VR-Integrated Lower Limb Exoskeleton" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">VR-Integrated Lower Limb Exoskeleton</h4><p class="video-card-desc">Interactive VR environment with synchronized biofeedback for gait rehabilitation.</p></div></a>
-            <a href="https://www.youtube.com/watch?v=OgSCmBr1n7c" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/OgSCmBr1n7c/maxresdefault.jpg" alt="Adaptive Impedance Control Exoskeleton" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Adaptive Impedance Control Exoskeleton</h4><p class="video-card-desc">Assist-as-needed gait training using adaptive impedance control.</p></div></a>
-            <a href="https://www.youtube.com/watch?v=vIm9GvQ3wME" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/vIm9GvQ3wME/maxresdefault.jpg" alt="Virtual Spring-Damper Gait Guidance" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Virtual Spring-Damper Gait Guidance</h4><p class="video-card-desc">Trajectory constraint control along predefined paths for robotic gait assistance.</p></div></a>
-          </div>
-          <h3 style="font-size:13px; font-weight:700; text-transform:uppercase; color:var(--g-green-dark); letter-spacing:0.06em; margin:20px 0 12px;" data-i18n="trackBTitle">Track B — Mobile Robots, Navigation &amp; Manipulators</h3>
-          <div class="archive-grid-3">
-            <a href="https://www.youtube.com/watch?v=NeVCd3w2vmk" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/NeVCd3w2vmk/maxresdefault.jpg" alt="BARN Benchmark Path Planning" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">BARN Benchmark Path Planning</h4><p class="video-card-desc">Autonomous mobile navigation and dynamic obstacle avoidance benchmarking.</p></div></a>
-            <a href="https://www.youtube.com/watch?v=IsrvJgT0ntI" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/IsrvJgT0ntI/maxresdefault.jpg" alt="ROS 2 & MoveIt 2 Motion Planning" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">ROS 2 &amp; MoveIt 2 Motion Planning</h4><p class="video-card-desc">Collision-free robotic arm trajectory planning running natively on Windows 10.</p></div></a>
-            <a href="https://www.youtube.com/watch?v=13gZzn4M_Yg" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/13gZzn4M_Yg/maxresdefault.jpg" alt="Jetson Nano ROS Autopilot" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Jetson Nano ROS Autopilot</h4><p class="video-card-desc">Edge AI autopilot and sensor-driven motion control on Jetbot platform.</p></div></a>
-          </div>
-        </section>
-      </main>
-      <aside class="sidebar-wrapper" id="sidebar-wrapper" aria-label="Sidebar">
-        <div class="sidebar-box lux-card reveal-on-scroll">
-          <div class="tabs-header" role="tablist">
-            <button class="tab-trigger active" role="tab" aria-selected="true" onclick="switchSidebarTab('recent', this)" data-i18n="tabRecent">Recent</button>
-            <button class="tab-trigger" role="tab" aria-selected="false" onclick="switchSidebarTab('popular', this)" data-i18n="tabPopular">Popular</button>
-            <button class="tab-trigger" role="tab" aria-selected="false" onclick="switchSidebarTab('specs', this)" data-i18n="tabSpecs">Stack</button>
-          </div>
-          <div id="tab-recent" class="tab-panel active" role="tabpanel">
-            <div class="mini-post-list">
-              <div class="mini-post"><img src="/screenshots/vla-architecture-nanobanana.png" alt="VLA Benchmark" /><div><a href="/blog/" class="mini-post-title">VLA Planner Benchmark: ER-2 vs. Gemini 4 Argon (-76.6% Cost)</a><span class="mini-post-meta">Oct 18, 2026 • Engineering Blog</span></div></div>
-              <div class="mini-post"><img src="https://img.youtube.com/vi/PPZ4vgVZlyA/hqdefault.jpg" alt="PPZ4vgVZlyA" /><div><a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="mini-post-title">Side-by-Side Video: 3-Arm 9-Block Tower in Isaac Sim 6.0</a><span class="mini-post-meta">Oct 18, 2026 • YouTube</span></div></div>
-              <div class="mini-post"><img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="sdE7r72gJsU" /><div><a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="mini-post-title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Projects</a><span class="mini-post-meta">Oct 18, 2026 • YouTube</span></div></div>
-              <div class="mini-post"><img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="q-D9H9anNl8" /><div><a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="mini-post-title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2</a><span class="mini-post-meta">Oct 9, 2026 • YouTube</span></div></div>
-            </div>
-          </div>
-          <div id="tab-popular" class="tab-panel" role="tabpanel">
-            <div class="mini-post-list">
-              <div class="mini-post"><img src="https://img.youtube.com/vi/hzUlLTtfd7M/hqdefault.jpg" alt="GeminiSpace" /><div><a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mini-post-title">GeminiSpace: 1st Place Google Gemini 3 Seoul Hackathon</a><span class="mini-post-meta">geminispace.mincasurong.com</span></div></div>
-              <div class="mini-post"><img src="/screenshots/opic.svg" alt="OPIc Coach" /><div><a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mini-post-title">OPIc AI Master Coach</a><span class="mini-post-meta">opic.mincasurong.com</span></div></div>
-              <div class="mini-post"><img src="/screenshots/jplt.svg" alt="JLPT N4 Drill" /><div><a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="mini-post-title">JLPT N4 Mock Exam &amp; Drill Master</a><span class="mini-post-meta">jplt.mincasurong.com</span></div></div>
-              <div class="mini-post"><img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" alt="UrKuma" /><div><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="mini-post-title">UrKuma: Hanja &amp; Japanese Quiz</a><span class="mini-post-meta">Google Play</span></div></div>
-            </div>
-          </div>
-          <div id="tab-specs" class="tab-panel" role="tabpanel">
-            <div style="font-size:12.5px; color:var(--text-secondary); display:flex; flex-direction:column; gap:10px;">
-              <div><strong style="color:var(--g-blue);">Robotics &amp; Simulation:</strong> NVIDIA Isaac Sim 6.0, ROS 2 Jazzy, MoveIt 2, MuJoCo, robomimic, Franka Emika FR3, Jetson Nano</div>
-              <div><strong style="color:var(--g-green-dark);">AI &amp; Spatial Models:</strong> Gemini 4 Argon, Gemini 3.8 Flash, Gemini Robotics-ER 2, Visual SLAM</div>
-              <div><strong style="color:var(--g-amber);">Full-Stack &amp; Cloud:</strong> React 19, TypeScript 5.8, React Flow, Google Cloud Run, Docker, Firebase</div>
-            </div>
-          </div>
-        </div>
-        <div class="sidebar-box author-widget">
-          <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--g-blue); font-weight:700;" data-i18n="aboutWidgetTitle">About M9G</div>
-          <p style="font-size:13px; color:var(--text-secondary); margin:8px 0;" data-i18n="aboutWidgetDesc">A human and AI agent engineering team focused on Physical AI, Human-Robot Interaction (HRI), rehabilitation robotics, and multi-arm manipulation.</p>
-          <div class="author-formula">
-            <div>m<span style="color:var(--g-blue); font-weight:700;">incasuron</span>g (Human Engineering)</div>
-            <div style="font-size:10px; color:var(--text-muted); margin:4px 0;">×</div>
-            <div>m<span style="color:var(--g-green-dark); font-weight:700;">insu chan</span>g (Agent Intelligence)</div>
-          </div>
-          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
-            <a href="/blog/" class="hero-btn primary" style="flex:1; text-align:center;" data-i18n="readBlogBtn">Read VLA Blog</a>
-            <a href="https://github.com/mincasurong" target="_blank" rel="noopener noreferrer" class="hero-btn" style="flex:1; text-align:center;">GitHub</a>
-          </div>
-        </div>
-      </aside>
-    </div>
-  </div>
-  <footer class="pixel-footer">
-    <div class="pixel-footer-inner">
-      <div>© <span id="year-span">2026</span> <strong>M9G</strong> • Built in Public</div>
-      <div style="display:flex; gap:18px; flex-wrap:wrap;">
-        <a href="/">Home</a>
+    <section id="applied-ai" class="section-block" style="margin-bottom:0;">
+      <div class="section-head">
+        <h2 class="section-title" data-i18n="appsSectionTitle">Spatial AI &amp; Open Web Tools</h2>
+        <span class="section-badge amber" data-i18n="hackathonBadge">Includes 1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026</span>
+      </div>
+      <div class="apps-compact-grid">
+        <article class="lux-card media-card reveal-on-scroll searchable-card">
+          <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="thumb-16x9"><img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="GeminiSpace Spatial AI" loading="lazy" /><span class="thumb-tag">1st Place Winner</span></a>
+          <div class="card-pad"><div><span class="card-kicker amber">360° Visual SLAM</span><h3 class="card-h3"><a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer">GeminiSpace: Indoor Spatial AI</a></h3><p class="card-p" data-i18n="appGeminiSpaceDesc">1st Place at Google Gemini 3 Seoul Hackathon 2026. Converts 360° room photos into an interactive semantic map.</p></div><div style="margin-top:8px; font-size:11.5px; display:flex; gap:8px; flex-wrap:wrap;"><a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" style="color:var(--g-blue); font-weight:600;">Launch App &rarr;</a><a href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/" target="_blank" rel="noopener noreferrer" style="color:var(--text-secondary);">Google Blog</a></div></div>
+        </article>
+        <article class="lux-card media-card reveal-on-scroll searchable-card">
+          <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="thumb-16x9"><img src="/screenshots/opic.svg" alt="OPIc AI Coach" loading="lazy" /><span class="thumb-tag">Voice AI</span></a>
+          <div class="card-pad"><div><span class="card-kicker green">Speech Sparring</span><h3 class="card-h3"><a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" data-i18n="opicTitle">OPIc AI Master Coach</a></h3><p class="card-p" data-i18n="opicDesc">Real-time voice sparring and pronunciation feedback for ACTFL OPIc Advanced Low preparation.</p></div><div style="margin-top:8px; font-size:11.5px;"><a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" style="color:var(--g-blue); font-weight:600;">opic.mincasurong.com &rarr;</a></div></div>
+        </article>
+        <article class="lux-card media-card reveal-on-scroll searchable-card">
+          <a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="thumb-16x9"><img src="/screenshots/jplt.svg" alt="JLPT N4 Drill" loading="lazy" /><span class="thumb-tag">Adaptive Drill</span></a>
+          <div class="card-pad"><div><span class="card-kicker red">Proficiency Simulator</span><h3 class="card-h3"><a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" data-i18n="jpltTitle">JLPT N4 Exam &amp; Drill Master</a></h3><p class="card-p" data-i18n="jpltDesc">Japanese proficiency mock exam and real-time weak-spot drill simulator.</p></div><div style="margin-top:8px; font-size:11.5px;"><a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" style="color:var(--g-blue); font-weight:600;">jplt.mincasurong.com &rarr;</a></div></div>
+        </article>
+        <article class="lux-card media-card reveal-on-scroll searchable-card">
+          <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="thumb-16x9"><img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" alt="UrKuma Android" loading="lazy" /><span class="thumb-tag">Google Play</span></a>
+          <div class="card-pad"><div><span class="card-kicker">Android App</span><h3 class="card-h3"><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" data-i18n="bearTitle">UrKuma: Hanja &amp; Vocabulary</a></h3><p class="card-p" data-i18n="bearDesc">Three-minute daily Hanja and Japanese vocabulary recall quiz on Google Play.</p></div><div style="margin-top:8px; font-size:11.5px;"><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" style="color:var(--g-blue); font-weight:600;">Google Play &rarr;</a></div></div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year-span">2026</span> <strong>M9G</strong> (m<span style="color:var(--g-blue);">incasuron</span>g × m<span style="color:var(--g-green-dark);">insu chan</span>g) • Robotics &amp; Physical AI</div>
+      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="#intro">Intro</a>
+        <a href="#publications">Publications</a>
         <a href="/blog/">VLA Engineering Blog</a>
-        <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer">GeminiSpace</a>
         <a href="https://github.com/mincasurong" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="https://www.linkedin.com/in/mincasurong/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
@@ -731,130 +466,140 @@
       const scrollHeight = doc.scrollHeight - doc.clientHeight;
       document.getElementById('reading-progress').style.width = (scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0) + '%';
     });
-    function switchSidebarTab(tabId, btn) {
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.tab-trigger').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
-      const panel = document.getElementById('tab-' + tabId);
-      if (panel) panel.classList.add('active');
-      if (btn) { btn.classList.add('active'); btn.setAttribute('aria-selected', 'true'); }
-    }
     function toggleSearch(open) {
       const modal = document.getElementById('search-modal');
-      if (open) { modal.classList.add('open'); setTimeout(() => document.getElementById('magazine-search-input').focus(), 50); }
+      if (open) { modal.classList.add('open'); setTimeout(() => document.getElementById('magazine-search-input').focus(), 40); }
       else { modal.classList.remove('open'); }
     }
-    function filterMagazine(query) {
+    function filterCards(query) {
       const q = (query || '').toLowerCase().trim();
       document.querySelectorAll('.searchable-card').forEach(card => {
         const text = card.textContent.toLowerCase();
         card.style.display = (!q || text.includes(q)) ? '' : 'none';
       });
     }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleSearch(false); });
+    function toggleLangMenu(e) {
+      e.stopPropagation();
+      document.getElementById('lang-popup').classList.toggle('open');
+    }
+    document.addEventListener('click', e => {
+      const wrap = document.getElementById('lang-dropdown-wrap');
+      if (wrap && !wrap.contains(e.target)) document.getElementById('lang-popup').classList.remove('open');
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        toggleSearch(false);
+        document.getElementById('lang-popup').classList.remove('open');
+      }
+    });
     const M9G_I18N = {
       en: {
-        breakingBadge: "Research Update",
-        tickerText: "Gemini 4 Argon + Flash-Lite cuts 3-arm Isaac Sim 6.0 VLA planning cost by 76.6% ($0.01972) in 10 pipelined turns — Read report",
-        brandKicker: "Physical AI • Robotics • Agentic Systems",
-        heroSubtitle: "From Machine to General Intelligence by Agent-enabled System Engineering",
-        promoKicker: "Engineering Report • Isaac Sim 6.0 & ROS 2 Jazzy",
-        promoTitle: "Mode 1 (3-Arm 9-Block Tower) VLA Planner Benchmark",
-        promoSub: "Gemini Robotics-ER 2 vs. Pure Gemini 4 Argon vs. Stage 3 Hybrid (-76.6% API Cost)",
-        promoCta: "Read Report",
-        navFeatured: "Featured", navApps: "Live Apps", navBlog: "VLA Benchmark Blog", navDiaries: "Gemini Diaries", navPubs: "Publications", navArchive: "Research Archive", searchBtn: "Search",
-        hackathonBadge: "1st Place Winner • Google Gemini 3 Seoul Hackathon 2026",
-        hackathonTitle: "1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026 (111 Finalists, 1,500+ Applicants)",
-        hackathonDesc: "GeminiSpace converts 360-degree room photos into an interactive indoor semantic map with sub-second Gemini spatial reasoning, Visual SLAM loop closure, and 2D orthographic floorplan rendering.",
-        launchGeminiSpace: "Launch GeminiSpace", watchDemo: "Watch Demo",
-        appsSectionTitle: "Live Deployed Apps & Tools", freeBadge: "100% Free Access on Google Cloud Run & Google Play",
-        blogSpotTitle: "Engineering Blog: Multi-Robot VLA Benchmark", readBlogBtn: "Read Full Report",
-        diariesSectionTitle: "Build with Gemini Diaries", pubsSectionTitle: "Peer-Reviewed Scientific Publications", archiveSectionTitle: "Research Video Archive",
-        tabRecent: "Recent", tabPopular: "Popular", tabSpecs: "Stack", aboutWidgetTitle: "About M9G"
+        brandRole: "Robotics & Physical AI",
+        navIntro: "Intro", navPubs: "Publications", navRobotics: "Isaac Sim & VLA", navBlog: "VLA Blog", navApps: "Applied AI",
+        introKicker: "Roboticist & Agent-Enabled System Engineer • M9G = Human × AI Agents",
+        introHeading: "Hi, we're M9G — Engineering Physical AI & Embodied Robotics",
+        introBio: "Our foundation is rooted in robotics, human-robot interaction (HRI), nonlinear and adaptive control theory, and physical simulation. From wearable rehabilitation exoskeletons and smart prosthetic ankles to multi-arm manipulation in NVIDIA Isaac Sim & ROS 2, we build robotic systems that bridge control engineering and foundation models.",
+        btnPubs: "IEEE & MDPI Publications", btnVlaBlog: "3-Arm VLA Benchmark Blog",
+        p1Tag: "01 · Manipulation & Sim", p1Title: "Multi-Robot Control & VLA", p1Desc: "3-Arm Franka Emika FR3 coordination, 50 Hz DLS IK, ROS 2 Jazzy, MoveIt 2, MuJoCo, and NVIDIA Isaac Sim 6.0.",
+        p2Tag: "02 · Wearable Robotics & HRI", p2Title: "Rehabilitation Exoskeletons", p2Desc: "Lower-limb exoskeletons, adaptive impedance gait training, smart prosthetic ankle control, and VR biofeedback.",
+        p3Tag: "03 · Autonomous Navigation", p3Title: "Mobile Robots & Spatial AI", p3Desc: "Online planner parameter adaptation (ICRA), BARN navigation, 360-degree Visual SLAM, and edge autopilot.",
+        pubsSectionTitle: "Peer-Reviewed Robotics Publications & Research Archive",
+        vlaSectionTitle: "Multi-Robot VLA & NVIDIA Isaac Sim 6.0 Engineering",
+        blogSpotKicker: "Engineering Report • Mode 1 (3-Arm 9-Block Tower)",
+        blogSpotHeading: "Empirical Comparison of VLA Task Planners: Gemini Robotics-ER 2 vs. Gemini 4 Argon",
+        blogSpotDesc: "Side-by-side evaluation in NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) & ROS 2 Jazzy (50 Hz DLS IK) showing how software-pipelined pick || place scheduling and a hybrid 1x Argon Brain + 10x Flash-Lite Executor cut API cost and latency with zero RGB tokens.",
+        readBlogBtn: "Read Engineering Blog",
+        appsSectionTitle: "Spatial AI & Open Web Tools",
+        hackathonBadge: "Includes 1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026"
       },
       ko: {
-        breakingBadge: "최신 연구 리포트",
-        tickerText: "Gemini 4 Argon + Flash-Lite 파이프라인 스케줄링(10턴)으로 Isaac Sim 6.0 3대 로봇 팔 VLA API 비용 76.6% 절감 ($0.01972) — 리포트 보기",
-        brandKicker: "피지컬 AI • 로보틱스 • 에이전트 시스템 엔지니어링",
-        heroSubtitle: "에이전트 기반 시스템 엔지니어링으로 기계에서 범용 지능(AGI)까지",
-        promoKicker: "기술 블로그 • Isaac Sim 6.0 & ROS 2 Jazzy",
-        promoTitle: "3대 FR3 로봇 팔 9블록 타워 조립 VLA 태스크 플래너 벤치마크",
-        promoSub: "Gemini Robotics-ER 2 vs. 순수 Gemini 4 Argon vs. Stage 3 하이브리드 (-76.6% 비용 절감)",
-        promoCta: "블로그 읽기",
-        navFeatured: "주요 소식", navApps: "무료 라이브 앱", navBlog: "VLA 벤치마크 블로그", navDiaries: "Gemini 빌드 일지", navPubs: "학술 논문", navArchive: "연구 아카이브", searchBtn: "검색",
-        hackathonBadge: "구글 제미나이 3 서울 해커톤 2026 1위(대상) 수상",
-        hackathonTitle: "구글 제미나이 3 서울 해커톤 2026 1위 대상 수상 (1,500+ 지원자 및 111개 본선 팀 중 1위)",
-        hackathonDesc: "GeminiSpace는 360° 실내 사진을 서브세컨드 Gemini 공간 추론과 Visual SLAM 루프 클로저를 통해 대화형 실내 시맨틱 지도로 변환합니다.",
-        launchGeminiSpace: "GeminiSpace 실행", watchDemo: "데모 영상 보기",
-        appsSectionTitle: "무료 공개 라이브 앱 & 도구", freeBadge: "Google Cloud Run 및 Google Play 100% 무료 공개",
-        blogSpotTitle: "엔지니어링 블로그: 다중 로봇 VLA 벤치마크", readBlogBtn: "전체 리포트 읽기",
-        diariesSectionTitle: "Gemini 빌드 일지 (Build with Gemini Diaries)", pubsSectionTitle: "국제 학술지 및 학술대회 논문 실적", archiveSectionTitle: "로보틱스 연구 비디오 아카이브",
-        tabRecent: "최신", tabPopular: "인기 앱", tabSpecs: "기술 스택", aboutWidgetTitle: "M9G 소개"
+        brandRole: "로보틱스 & 피지컬 AI",
+        navIntro: "소개", navPubs: "학술 논문", navRobotics: "Isaac Sim & VLA", navBlog: "VLA 블로그", navApps: "공간 AI & 도구",
+        introKicker: "로보틱스 연구자 & 에이전트 시스템 엔지니어 • M9G = Human × AI Agents",
+        introHeading: "안녕하세요, M9G입니다 — 로보틱스, HRI 및 피지컬 AI 엔지니어링",
+        introBio: "저희의 연구 기반은 로보틱스, 인간-로봇 상호작용(HRI), 적응형 제어 이론 및 물리 시뮬레이션에 뿌리를 두고 있습니다. 하지 재활 외골격 로봇과 스마트 의족 제어부터 NVIDIA Isaac Sim 및 ROS 2 기반 다중 로봇 매니퓰레이션까지, 제어 공학과 파운데이션 모델을 결합한 로봇 시스템을 구축합니다.",
+        btnPubs: "IEEE & MDPI 학술 논문", btnVlaBlog: "3대 로봇 팔 VLA 벤치마크 블로그",
+        p1Tag: "01 · 매니퓰레이션 & 시뮬레이션", p1Title: "다중 로봇 제어 및 VLA", p1Desc: "3대 Franka Emika FR3 협동 제어, 50 Hz DLS 역기구학, ROS 2 Jazzy, MoveIt 2, MuJoCo 및 NVIDIA Isaac Sim 6.0.",
+        p2Tag: "02 · 웨어러블 로보틱스 & HRI", p2Title: "재활 외골격 및 보조 로봇", p2Desc: "하지 외골격 보행 재활, 적응형 임피던스 제어, 스마트 의족 지형 인식 및 VR 생체 피드백.",
+        p3Tag: "03 · 자율주행 네비게이션", p3Title: "모바일 로봇 및 공간 AI", p3Desc: "온라인 플래너 파라미터 적응 제어(ICRA), BARN 자율주행 벤치마크, 360° Visual SLAM 및 엣지 오토파일럿.",
+        pubsSectionTitle: "국제 학술지·학술대회 로보틱스 논문 및 연구 아카이브",
+        vlaSectionTitle: "다중 로봇 VLA 및 NVIDIA Isaac Sim 6.0 엔지니어링",
+        blogSpotKicker: "엔지니어링 리포트 • Mode 1 (3대 FR3 9블록 타워 조립)",
+        blogSpotHeading: "VLA 태스크 플래너 실증 비교: Gemini Robotics-ER 2 vs. Gemini 4 Argon",
+        blogSpotDesc: "NVIDIA Isaac Sim 6.0 및 ROS 2 Jazzy 환경에서 소프트웨어 파이프라인 스케줄링(10턴)과 하이브리드 Argon Brain + Flash-Lite 실행기를 통해 카메라 이미지 없이 API 비용을 76.6% 절감한 실증 분석.",
+        readBlogBtn: "엔지니어링 블로그 읽기",
+        appsSectionTitle: "공간 지능(Spatial AI) 및 공개 웹 도구",
+        hackathonBadge: "구글 제미나이 3 서울 해커톤 2026 1위(대상) 수상작 포함"
       },
       ja: {
-        breakingBadge: "最新研究レポート",
-        tickerText: "Gemini 4 Argon + Flash-Liteの10ターンパイプライン制御によりIsaac Sim 6.0 3アームVLAのAPIコストを76.6%削減 ($0.01972) — レポートを読む",
-        brandKicker: "フィジカルAI • ロボティクス • エージェントシステム工学",
-        heroSubtitle: "エージェント主導システムエンジニアリングで機械から汎用知能へ",
-        promoKicker: "技術レポート • Isaac Sim 6.0 & ROS 2 Jazzy",
-        promoTitle: "3台FR3アーム・9ブロックタワー VLAタスクプランナーベンチマーク",
-        promoSub: "Gemini Robotics-ER 2 vs. Gemini 4 Argon vs. Stage 3 ハイブリッド (-76.6% コスト削減)",
-        promoCta: "ブログを読む",
-        navFeatured: "注目", navApps: "無料ライブアプリ", navBlog: "VLAベンチマークブログ", navDiaries: "Geminiビルド日記", navPubs: "発表論文", navArchive: "研究アーカイブ", searchBtn: "検索",
-        hackathonBadge: "Google Gemini 3 ソウルハッカソン 2026 第1位 最優秀賞",
-        hackathonTitle: "Google Gemini 3 ソウルハッカソン 2026 第1位受賞（1,500名以上・111ファイナリスト中）",
-        hackathonDesc: "GeminiSpaceは360°室内写真をGeminiの高速空間推論とVisual SLAMループ閉合によりインタラクティブな屋内セマンティックマップに変換します。",
-        launchGeminiSpace: "GeminiSpaceを起動", watchDemo: "デモ動画を見る",
-        appsSectionTitle: "無料公開ライブアプリ・ツール", freeBadge: "Google Cloud Run & Google Play 100% 無料公開",
-        blogSpotTitle: "エンジニアリングブログ: マルチロボットVLAベンチマーク", readBlogBtn: "レポート全文を読む",
-        diariesSectionTitle: "Gemini ビルド日記 (Build with Gemini Diaries)", pubsSectionTitle: "査読付き国際会議・学術誌論文", archiveSectionTitle: "研究ビデオアーカイブ",
-        tabRecent: "最新", tabPopular: "人気", tabSpecs: "技術スタック", aboutWidgetTitle: "M9Gについて"
+        brandRole: "ロボティクス & フィジカルAI",
+        navIntro: "紹介", navPubs: "発表論文", navRobotics: "Isaac Sim & VLA", navBlog: "VLAブログ", navApps: "空間AI・ツール",
+        introKicker: "ロボティクス研究者 & エージェントシステムエンジニア • M9G = Human × AI Agents",
+        introHeading: "こんにちは、M9Gです — ロボティクス・HRI・フィジカルAI工学",
+        introBio: "私たちの基盤はロボティクス、ヒューマン・ロボット・インタラクション（HRI）、適応制御理論、物理シミュレーションにあります。下肢リハビリ外骨格やスマート義足制御から、NVIDIA Isaac SimおよびROS 2を用いたマルチアーム協調操作まで、制御工学と基盤モデルを融合したロボットシステムを開発しています。",
+        btnPubs: "IEEE & MDPI 発表論文", btnVlaBlog: "3アームVLAベンチマークブログ",
+        p1Tag: "01 · マニピュレーション", p1Title: "マルチロボット制御 & VLA", p1Desc: "3台Franka Emika FR3協調制御、50 Hz DLS逆運動学、ROS 2 Jazzy、MoveIt 2、MuJoCo、NVIDIA Isaac Sim 6.0。",
+        p2Tag: "02 · ウェアラブルロボティクス", p2Title: "リハビリ外骨格ロボット", p2Desc: "下肢外骨格歩行支援、適応インピーダンス制御、スマート義足地形識別、VRバイオフィードバック。",
+        p3Tag: "03 · 自律移動ナビゲーション", p3Title: "移動ロボット & 空間AI", p3Desc: "オンラインプランナ適応制御(ICRA)、BARNナビゲーション、360° Visual SLAM、エッジ自律走行。",
+        pubsSectionTitle: "査読付きロボティクス論文 & 研究ビデオアーカイブ",
+        vlaSectionTitle: "マルチロボットVLA & NVIDIA Isaac Sim 6.0 エンジニアリング",
+        blogSpotKicker: "技術レポート • Mode 1 (3アーム・9ブロックタワー)",
+        blogSpotHeading: "VLAタスクプランナー実証比較: Gemini Robotics-ER 2 vs. Gemini 4 Argon",
+        blogSpotDesc: "NVIDIA Isaac Sim 6.0とROS 2 Jazzyにおいて、10ターンパイプライン計画とハイブリッド実行器によりAPIコストを76.6%削減した実証比較。",
+        readBlogBtn: "技術ブログを読む",
+        appsSectionTitle: "空間AI & 公開Webツール",
+        hackathonBadge: "Google Gemini 3 ソウルハッカソン 2026 第1位受賞作を含む"
       },
       zh: {
-        breakingBadge: "最新研究报告",
-        tickerText: "Gemini 4 Argon + Flash-Lite 10 轮流水线调度将 Isaac Sim 6.0 三机械臂 VLA API 成本降低 76.6% ($0.01972) — 阅读完整报告",
-        brandKicker: "具身物理 AI • 机器人学 • 智能体系统工程",
-        heroSubtitle: "通过智能体赋能的系统工程实现从机器到通用人工智能的跨越",
-        promoKicker: "工程技术博客 • Isaac Sim 6.0 & ROS 2 Jazzy",
-        promoTitle: "三台 FR3 机械臂 9 积木塔 VLA 任务规划器基准测试",
-        promoSub: "Gemini Robotics-ER 2 vs. 纯 Gemini 4 Argon vs. Stage 3 混合架构 (-76.6% API 成本)",
-        promoCta: "阅读报告",
-        navFeatured: "焦点成果", navApps: "免费在线应用", navBlog: "VLA 基准测试博客", navDiaries: "Gemini 构建日志", navPubs: "发表论文", navArchive: "研究视频档案", searchBtn: "搜索",
-        hackathonBadge: "2026 谷歌 Gemini 3 首尔黑客马拉松第一名",
-        hackathonTitle: "荣获 2026 谷歌 Gemini 3 首尔黑客马拉松第一名（1,500+ 申请者与 111 个决赛项目中夺冠）",
-        hackathonDesc: "GeminiSpace 将 360° 室内照片通过亚秒级 Gemini 空间推理与 Visual SLAM 闭环检测转化为交互式室内语义地图。",
-        launchGeminiSpace: "启动 GeminiSpace", watchDemo: "观看演示视频",
-        appsSectionTitle: "免费在线应用与工具", freeBadge: "Google Cloud Run 与 Google Play 100% 免费开放",
-        blogSpotTitle: "工程技术博客：多机器人 VLA 基准测试", readBlogBtn: "阅读完整报告",
-        diariesSectionTitle: "Gemini 构建日志 (Build with Gemini Diaries)", pubsSectionTitle: "同行评审学术论文", archiveSectionTitle: "机器人研究视频档案",
-        tabRecent: "最新", tabPopular: "热门", tabSpecs: "技术栈", aboutWidgetTitle: "关于 M9G"
+        brandRole: "机器人学与具身物理 AI",
+        navIntro: "简介", navPubs: "发表论文", navRobotics: "Isaac Sim 与 VLA", navBlog: "VLA 博客", navApps: "空间 AI 工具",
+        introKicker: "机器人学研究者与智能体系统工程师 • M9G = Human × AI Agents",
+        introHeading: "你好，我们是 M9G — 专注于机器人学、人机交互与具身物理 AI",
+        introBio: "我们的根基源于机器人技术、人机交互（HRI）、非线性与自适应控制理论以及物理仿真。从下肢康复外骨骼与智能假肢踝关节控制，到基于 NVIDIA Isaac Sim 与 ROS 2 的多机械臂协同操控，我们致力于构建连接控制工程与基础模型的机器人系统。",
+        btnPubs: "IEEE 与 MDPI 学术论文", btnVlaBlog: "三机械臂 VLA 基准测试博客",
+        p1Tag: "01 · 机械臂操控与仿真", p1Title: "多机器人控制与 VLA", p1Desc: "3 台 Franka Emika FR3 协同控制、50 Hz DLS 逆运动学、ROS 2 Jazzy、MoveIt 2、MuJoCo 与 NVIDIA Isaac Sim 6.0。",
+        p2Tag: "02 · 穿戴式机器人与 HRI", p2Title: "康复外骨骼机器人", p2Desc: "下肢外骨骼步态康复、自适应阻抗控制、智能假肢地形识别与 VR 生物反馈。",
+        p3Tag: "03 · 自主移动导航", p3Title: "移动机器人与空间 AI", p3Desc: "在线规划器参数自适应 (ICRA)、BARN 导航基准、360° Visual SLAM 与边缘自动驾驶。",
+        pubsSectionTitle: "同行评审机器人学论文与研究档案",
+        vlaSectionTitle: "多机器人 VLA 与 NVIDIA Isaac Sim 6.0 工程实践",
+        blogSpotKicker: "工程技术报告 • Mode 1 (三机械臂 9 积木塔)",
+        blogSpotHeading: "VLA 任务规划器实证对比：Gemini Robotics-ER 2 vs. Gemini 4 Argon",
+        blogSpotDesc: "在 NVIDIA Isaac Sim 6.0 与 ROS 2 Jazzy 中通过 10 轮软件流水线调度与混合执行器将单次实验 API 成本降低 76.6% ($0.01972)。",
+        readBlogBtn: "阅读工程技术博客",
+        appsSectionTitle: "空间智能 (Spatial AI) 与开源 Web 工具",
+        hackathonBadge: "含 2026 谷歌 Gemini 3 首尔黑客马拉松第一名获奖项目"
       },
       es: {
-        breakingBadge: "Informe de Investigación",
-        tickerText: "Gemini 4 Argon + Flash-Lite reduce el costo API VLA en Isaac Sim 6.0 en un 76.6% ($0.01972) en 10 turnos segmentados — Leer informe",
-        brandKicker: "IA Física • Robótica • Ingeniería de Sistemas con Agentes",
-        heroSubtitle: "De la Máquina a la Inteligencia General mediante Ingeniería de Sistemas con Agentes",
-        promoKicker: "Blog de Ingeniería • Isaac Sim 6.0 y ROS 2 Jazzy",
-        promoTitle: "Benchmark de Planificadores VLA en Torre de 9 Bloques con 3 Brazos FR3",
-        promoSub: "Gemini Robotics-ER 2 vs. Gemini 4 Argon Puro vs. Etapa 3 Híbrida (-76.6% Costo API)",
-        promoCta: "Leer Informe",
-        navFeatured: "Destacados", navApps: "Apps en Vivo", navBlog: "Blog Benchmark VLA", navDiaries: "Diarios Gemini", navPubs: "Publicaciones", navArchive: "Archivo de Videos", searchBtn: "Buscar",
-        hackathonBadge: "1.er Puesto • Google Gemini 3 Seoul Hackathon 2026",
-        hackathonTitle: "Ganador del 1.er Puesto en Google Gemini 3 Seoul Hackathon 2026 (111 Finalistas, 1,500+ Postulantes)",
-        hackathonDesc: "GeminiSpace transforma fotos interiores de 360° en un mapa semántico interactivo con razonamiento espacial de Gemini y cierre de bucle Visual SLAM.",
-        launchGeminiSpace: "Abrir GeminiSpace", watchDemo: "Ver Video Demo",
-        appsSectionTitle: "Aplicaciones Gratuitas en Vivo", freeBadge: "Acceso 100% Gratuito en Google Cloud Run y Google Play",
-        blogSpotTitle: "Blog de Ingeniería: Benchmark Multirrobot VLA", readBlogBtn: "Leer Informe Completo",
-        diariesSectionTitle: "Diarios de Construcción con Gemini", pubsSectionTitle: "Publicaciones Científicas Arbitradas", archiveSectionTitle: "Archivo de Videos de Investigación",
-        tabRecent: "Reciente", tabPopular: "Popular", tabSpecs: "Tecnologías", aboutWidgetTitle: "Sobre M9G"
+        brandRole: "Robótica e IA Física",
+        navIntro: "Intro", navPubs: "Publicaciones", navRobotics: "Isaac Sim y VLA", navBlog: "Blog VLA", navApps: "IA Aplicada",
+        introKicker: "Investigador en Robótica e Ingeniería de Sistemas • M9G = Human × AI Agents",
+        introHeading: "Hola, somos M9G — Robótica, HRI e Inteligencia Física",
+        introBio: "Nuestra base está arraigada en la robótica, la interacción humano-robot (HRI), la teoría de control adaptativo y la simulación física. Desde exoesqueletos portátiles de rehabilitación hasta manipulación multirrobot con brazos Franka FR3 en NVIDIA Isaac Sim y ROS 2.",
+        btnPubs: "Publicaciones IEEE y MDPI", btnVlaBlog: "Blog Benchmark VLA 3 Brazos",
+        p1Tag: "01 · Manipulación y Sim", p1Title: "Control Multirrobot y VLA", p1Desc: "Coordinación de 3 brazos Franka Emika FR3, cinemática inversa DLS a 50 Hz, ROS 2 Jazzy, MoveIt 2, MuJoCo e Isaac Sim 6.0.",
+        p2Tag: "02 · Robótica Portátil y HRI", p2Title: "Exoesqueletos de Rehabilitación", p2Desc: "Exoesqueletos de miembro inferior, control de impedancia adaptativo, tobillo protésico inteligente y biorretroalimentación RV.",
+        p3Tag: "03 · Navegación Autónoma", p3Title: "Robots Móviles e IA Espacial", p3Desc: "Adaptación online de parámetros de planificación (ICRA), navegación BARN, Visual SLAM 360° y autopiloto en el borde.",
+        pubsSectionTitle: "Publicaciones Científicas de Robótica y Archivo de Investigación",
+        vlaSectionTitle: "Ingeniería Multirrobot VLA y NVIDIA Isaac Sim 6.0",
+        blogSpotKicker: "Informe de Ingeniería • Modo 1 (Torre de 9 Bloques con 3 Brazos)",
+        blogSpotHeading: "Comparación Empírica de Planificadores VLA: Gemini Robotics-ER 2 vs. Gemini 4 Argon",
+        blogSpotDesc: "Evaluación lado a lado en NVIDIA Isaac Sim 6.0 y ROS 2 Jazzy reduciendo el costo API en un 76.6% ($0.01972) en 10 turnos segmentados.",
+        readBlogBtn: "Leer Blog de Ingeniería",
+        appsSectionTitle: "IA Espacial y Herramientas Web Abiertas",
+        hackathonBadge: "Incluye Ganador del 1.er Puesto en Google Gemini 3 Seoul Hackathon 2026"
       }
     };
     function setLang(lang) {
       if (!M9G_I18N[lang]) lang = 'en';
       try { localStorage.setItem('m9g_portfolio_lang', lang); } catch {}
       document.documentElement.lang = lang;
-      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById('lang-' + lang);
-      if (activeBtn) activeBtn.classList.add('active');
+      const lbl = document.getElementById('current-lang-label');
+      if (lbl) lbl.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      const popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.remove('open');
       const dict = M9G_I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
@@ -865,149 +610,94 @@
       const savedLang = localStorage.getItem('m9g_portfolio_lang');
       if (savedLang && M9G_I18N[savedLang]) setLang(savedLang);
     } catch {}
-
     (function initFluidAndCursor() {
       const canvas = document.getElementById('fluid-canvas');
       if (canvas) {
         const ctx = canvas.getContext('2d');
         const mouse = { x: -1000, y: -1000, radius: 170 };
-        const palette = [
-          'rgba(26, 115, 232, ',
-          'rgba(212, 175, 55, ',
-          'rgba(30, 142, 62, ',
-          'rgba(217, 48, 37, '
-        ];
-        let width = window.innerWidth;
-        let height = window.innerHeight;
-        let particles = [];
-        const count = window.innerWidth < 640 ? 32 : 62;
-        const connDist = 135;
-        const connDistSq = connDist * connDist;
-
+        const palette = ['rgba(26, 115, 232, ', 'rgba(212, 175, 55, ', 'rgba(30, 142, 62, ', 'rgba(217, 48, 37, '];
+        let width = window.innerWidth, height = window.innerHeight, particles = [];
+        const count = window.innerWidth < 640 ? 30 : 58;
+        const connDist = 135, connDistSq = connDist * connDist;
         function resize() {
           const dpr = Math.min(window.devicePixelRatio || 1, 2);
-          width = window.innerWidth;
-          height = window.innerHeight;
-          canvas.width = width * dpr;
-          canvas.height = height * dpr;
+          width = window.innerWidth; height = window.innerHeight;
+          canvas.width = width * dpr; canvas.height = height * dpr;
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
           particles = [];
           for (let i = 0; i < count; i++) {
-            const r = Math.random() * 1.8 + 1.0;
+            const r = Math.random() * 1.7 + 0.9;
             particles.push({
-              x: Math.random() * width,
-              y: Math.random() * height,
-              vx: (Math.random() - 0.5) * 0.28,
-              vy: (Math.random() - 0.5) * 0.28,
-              radius: r,
-              baseRadius: r,
-              alpha: Math.random() * 0.42 + 0.22,
+              x: Math.random() * width, y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.26, vy: (Math.random() - 0.5) * 0.26,
+              radius: r, baseRadius: r, alpha: Math.random() * 0.38 + 0.2,
               colorPrefix: palette[i % palette.length]
             });
           }
         }
         window.addEventListener('resize', resize);
         window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
-        window.addEventListener('touchmove', e => {
-          if (e.touches && e.touches[0]) {
-            mouse.x = e.touches[0].clientX;
-            mouse.y = e.touches[0].clientY;
-          }
-        }, { passive: true });
+        window.addEventListener('touchmove', e => { if (e.touches && e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } }, { passive: true });
         document.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
         resize();
-
         function step() {
           ctx.clearRect(0, 0, width, height);
           for (let i = 0; i < particles.length; i++) {
             const p1 = particles[i];
             for (let j = i + 1; j < particles.length; j++) {
               const p2 = particles[j];
-              const dx = p1.x - p2.x;
-              const dy = p1.y - p2.y;
-              const dSq = dx * dx + dy * dy;
+              const dx = p1.x - p2.x, dy = p1.y - p2.y, dSq = dx * dx + dy * dy;
               if (dSq < connDistSq) {
-                const d = Math.sqrt(dSq);
-                const a = (1 - d / connDist) * 0.14;
-                ctx.beginPath();
-                ctx.moveTo(p1.x, p1.y);
-                ctx.lineTo(p2.x, p2.y);
+                const a = (1 - Math.sqrt(dSq) / connDist) * 0.13;
+                ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
                 ctx.strokeStyle = (i % 2 === 0 ? 'rgba(212, 175, 55, ' : 'rgba(26, 115, 232, ') + a + ')';
-                ctx.lineWidth = 0.75;
-                ctx.stroke();
+                ctx.lineWidth = 0.7; ctx.stroke();
               }
             }
           }
           for (let i = 0; i < particles.length; i++) {
             const p = particles[i];
-            p.x += p.vx;
-            p.y += p.vy;
-            if (p.x < 0) p.x = width;
-            if (p.x > width) p.x = 0;
-            if (p.y < 0) p.y = height;
-            if (p.y > height) p.y = 0;
-            const mdx = mouse.x - p.x;
-            const mdy = mouse.y - p.y;
-            const mdSq = mdx * mdx + mdy * mdy;
-            const mRadSq = mouse.radius * mouse.radius;
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < 0) p.x = width; if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height; if (p.y > height) p.y = 0;
+            const mdx = mouse.x - p.x, mdy = mouse.y - p.y, mdSq = mdx * mdx + mdy * mdy, mRadSq = mouse.radius * mouse.radius;
             if (mdSq < mRadSq) {
-              const md = Math.sqrt(mdSq);
-              const force = (mouse.radius - md) / mouse.radius;
+              const force = (mouse.radius - Math.sqrt(mdSq)) / mouse.radius;
               const ang = Math.atan2(mdy, mdx);
-              p.x -= Math.cos(ang) * force * 1.6;
-              p.y -= Math.sin(ang) * force * 1.6;
-              p.radius = p.baseRadius + force * 1.5;
-            } else if (p.radius > p.baseRadius) {
-              p.radius -= 0.05;
-            }
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fillStyle = p.colorPrefix + p.alpha + ')';
-            ctx.fill();
+              p.x -= Math.cos(ang) * force * 1.5; p.y -= Math.sin(ang) * force * 1.5;
+              p.radius = p.baseRadius + force * 1.4;
+            } else if (p.radius > p.baseRadius) { p.radius -= 0.05; }
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.colorPrefix + p.alpha + ')'; ctx.fill();
           }
           requestAnimationFrame(step);
         }
         requestAnimationFrame(step);
       }
-
-      const ring = document.getElementById('cursor-ring');
-      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring'), dot = document.getElementById('cursor-dot');
       if (ring && dot && window.matchMedia('(pointer: fine)').matches) {
         let tx = -100, ty = -100, rx = -100, ry = -100, vx = 0, vy = 0;
         window.addEventListener('mousemove', e => {
-          tx = e.clientX;
-          ty = e.clientY;
-          dot.style.transform = 'translate3d(' + (tx - 3.5) + 'px, ' + (ty - 3.5) + 'px, 0)';
+          tx = e.clientX; ty = e.clientY;
+          dot.style.transform = 'translate3d(' + (tx - 3) + 'px, ' + (ty - 3) + 'px, 0)';
           const t = e.target;
           const hover = !!(t && (t.tagName === 'A' || t.tagName === 'BUTTON' || (t.closest && (t.closest('a') || t.closest('button')))));
-          ring.classList.toggle('hovering', hover);
-          dot.classList.toggle('hovering', hover);
+          ring.classList.toggle('hovering', hover); dot.classList.toggle('hovering', hover);
         }, { passive: true });
         function springLoop() {
-          const stiffness = 0.18;
-          const damping = 0.72;
-          vx = (vx + (tx - rx) * stiffness) * damping;
-          vy = (vy + (ty - ry) * stiffness) * damping;
-          rx += vx;
-          ry += vy;
-          const offset = ring.classList.contains('hovering') ? 26 : 17;
+          vx = (vx + (tx - rx) * 0.18) * 0.72; vy = (vy + (ty - ry) * 0.18) * 0.72;
+          rx += vx; ry += vy;
+          const offset = ring.classList.contains('hovering') ? 24 : 16;
           ring.style.transform = 'translate3d(' + (rx - offset) + 'px, ' + (ry - offset) + 'px, 0)';
           requestAnimationFrame(springLoop);
         }
         requestAnimationFrame(springLoop);
       }
-
       const io = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            io.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); } });
+      }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
       document.querySelectorAll('.reveal-on-scroll').forEach(el => io.observe(el));
     })();
-
   </script>
 </body>
 </html>

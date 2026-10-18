@@ -134,10 +134,15 @@
       background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border);
     }
-    .topbar-inner {
-      max-width: 1140px; margin: 0 auto; padding: 8px 16px; min-height: 56px;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-    }
+    .topbar-inner { max-width: 1080px; margin: 0 auto; padding: 4px 14px; min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .lang-dropdown-wrap { position: relative; }
+    .lang-box-btn { height: 28px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: var(--font-mono); font-size: 11px; font-weight: 700; line-height: 1; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+    .lang-box-btn:hover { border-color: var(--g-blue); color: var(--g-blue); }
+    .lang-popup { position: absolute; top: calc(100% + 6px); right: 0; min-width: 132px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 10px 28px rgba(32, 33, 36, 0.14); padding: 4px; display: none; z-index: 300; }
+    .lang-popup.open { display: block; }
+    .lang-option { width: 100%; text-align: left; background: transparent; border: 0; border-radius: 6px; padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+    .lang-option:hover { background: var(--surface); color: var(--text); }
+    .lang-option.active { background: var(--g-blue-bg); color: var(--g-blue); font-weight: 700; }
     .brand {
       font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text);
       display: flex; align-items: center; gap: 8px;
@@ -300,12 +305,18 @@
           <a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="/" class="back-link" data-i18n="navPortfolio">Portfolio</a>
         </nav>
-        <div class="lang-switcher" role="group" aria-label="Language Selector">
-          <button class="lang-btn active" onclick="setLang('en')" id="lang-en">EN</button>
-          <button class="lang-btn" onclick="setLang('ko')" id="lang-ko">KO</button>
-          <button class="lang-btn" onclick="setLang('ja')" id="lang-ja">JA</button>
-          <button class="lang-btn" onclick="setLang('zh')" id="lang-zh">ZH</button>
-          <button class="lang-btn" onclick="setLang('es')" id="lang-es">ES</button>
+        <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
+          <button class="lang-box-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
+            <span id="current-lang-label">EN</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="lang-popup" id="lang-popup">
+            <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span><span>EN</span></button>
+            <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span><span>KO</span></button>
+            <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span><span>JA</span></button>
+            <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span><span>ZH</span></button>
+            <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span><span>ES</span></button>
+          </div>
         </div>
       </div>
     </div>
@@ -668,13 +679,25 @@
         sideContents: "Contenido", sideConfig: "Configuración de Estación", sideLinks: "Enlaces"
       }
     };
+    function toggleLangMenu(e) {
+      e.stopPropagation();
+      document.getElementById('lang-popup').classList.toggle('open');
+    }
+    document.addEventListener('click', e => {
+      const wrap = document.getElementById('lang-dropdown-wrap');
+      if (wrap && !wrap.contains(e.target)) document.getElementById('lang-popup').classList.remove('open');
+    });
     function setLang(lang) {
       if (!BLOG_I18N[lang]) lang = 'en';
       try { localStorage.setItem('m9g_portfolio_lang', lang); } catch {}
       document.documentElement.lang = lang;
-      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById('lang-' + lang);
-      if (activeBtn) activeBtn.classList.add('active');
+      const lbl = document.getElementById('current-lang-label');
+      if (lbl) lbl.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      const popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.remove('open');
       const dict = BLOG_I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
