@@ -11,16 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']]
-      },
-      svg: { fontCache: 'global' }
-    };
-  </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -56,12 +47,82 @@
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
     *, *::before, *::after { box-sizing: border-box; }
+    
     html, body {
-      margin: 0; padding: 0; width: 100%; max-width: 100%; overflow-x: hidden;
-      background: var(--bg); color: var(--text);
-      font-family: var(--font-sans); font-size: 16px; line-height: 1.68;
+      margin: 0; padding: 0; width: 100%; max-width: 100%;
+      overflow-x: clip;
+      background: var(--bg); color: var(--text-primary);
+      font-family: var(--font-sans); font-size: 16px; line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
+    #fluid-canvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; opacity: 0.75;
+    }
+    .cursor-ring, .cursor-dot {
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+      border-radius: 50%; display: none; will-change: transform;
+    }
+    @media (pointer: fine) and (min-width: 1024px) {
+      .cursor-ring {
+        display: block; width: 34px; height: 34px;
+        border: 1.5px solid rgba(26, 115, 232, 0.45);
+        background: rgba(212, 175, 55, 0.04);
+        transition: width 0.2s cubic-bezier(0.22, 1, 0.36, 1), height 0.2s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease, border-color 0.2s ease;
+      }
+      .cursor-ring.hovering {
+        width: 52px; height: 52px;
+        border-color: rgba(212, 175, 55, 0.75);
+        background: rgba(26, 115, 232, 0.08);
+      }
+      .cursor-dot {
+        display: block; width: 7px; height: 7px;
+        background: #1a73e8;
+        transition: opacity 0.15s ease, transform 0.15s ease;
+      }
+      .cursor-dot.hovering { opacity: 0; }
+    }
+    .reveal-on-scroll {
+      opacity: 0; transform: translateY(26px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-on-scroll.is-visible {
+      opacity: 1; transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+    }
+    .lux-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(32, 33, 36, 0.04);
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease;
+    }
+    .lux-card:hover {
+      transform: translateY(-4px) scale(1.005);
+      border-color: rgba(26, 115, 232, 0.55);
+      box-shadow: 0 16px 36px rgba(26, 115, 232, 0.1), 0 4px 12px rgba(212, 175, 55, 0.08);
+    }
+
+    .layout, .topbar, footer { position: relative; z-index: 1; }
+    .formula-card {
+      background: linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(232, 240, 254, 0.45));
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--g-blue);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 14px 0 18px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text);
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    
     img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
     a { color: inherit; text-decoration: none; }
     #progress-bar {
@@ -183,8 +244,12 @@
     .table-scroll { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: 10px; background: #ffffff; margin: 16px 0 24px; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
     th, td { padding: 10px 12px; border-bottom: 1px solid var(--border-subtle); text-align: left; vertical-align: top; color: var(--text); }
-    th { background: var(--surface); font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
-    td.num, th.num { text-align: right; white-space: nowrap; }
+    th { background: var(--surface); font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    td.num, th.num { text-align: right; }
+    @media (max-width: 640px) {
+      table { table-layout: fixed; width: 100%; }
+      th, td { padding: 6px 5px; font-size: 11px; overflow-wrap: anywhere; word-break: break-word; white-space: normal; }
+    }
     tr:last-child td { border-bottom: 0; }
     tr.highlight-row td { background: var(--g-green-bg); }
     .math-block { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin: 14px 0 18px; text-align: center; font-size: 0.92rem; color: var(--text); }
@@ -220,6 +285,9 @@
   </style>
 </head>
 <body>
+  <canvas id="fluid-canvas"></canvas>
+  <div id="cursor-ring" class="cursor-ring"></div>
+  <div id="cursor-dot" class="cursor-dot"></div>
   <div id="progress-bar"></div>
   <header class="topbar">
     <div class="topbar-inner">
@@ -257,12 +325,12 @@
         We evaluate three multi-robot task-planning configurations on a 3-arm Franka Emika FR3 station in NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) bridged over FastDDS unicast to ROS 2 Jazzy (50 Hz damped least-squares inverse kinematics). Operating strictly on 3D /tf coordinate feedback without RGB camera frames, a software-pipelined schedule generated by Gemini 4 Argon paired with a Gemini 3.5 Flash-Lite step executor reduces per-trial API cost from $0.08437 to $0.01972 (-76.6%) and finishes in 10 turns instead of 13.
       </p>
       <div class="spec-strip">
-        <div class="spec-cell"><div class="spec-label" data-i18n="kpi1Label">Stage 3 Trial Cost</div><div class="spec-val green">$0.01972</div><div class="spec-note" data-i18n="kpi1Note">-76.6% vs. Stage 2 ($0.08437)</div></div>
-        <div class="spec-cell"><div class="spec-label" data-i18n="kpi2Label">Execution Horizon</div><div class="spec-val">10 Turns</div><div class="spec-note" data-i18n="kpi2Note">vs. 13 turns in ER-2 (-22.6% in tok)</div></div>
-        <div class="spec-cell"><div class="spec-label" data-i18n="kpi3Label">Visual Input</div><div class="spec-val amber">0 Tokens</div><div class="spec-note" data-i18n="kpi3Note">Symbolic 3D /tf grounding only</div></div>
-        <div class="spec-cell"><div class="spec-label" data-i18n="kpi4Label">Task Completion</div><div class="spec-val green">9 / 9 Blocks</div><div class="spec-note" data-i18n="kpi4Note">20 / 20 verifier checks passed</div></div>
+        <div class="spec-cell lux-card reveal-on-scroll"><div class="spec-label" data-i18n="kpi1Label">Stage 3 Trial Cost</div><div class="spec-val green">$0.01972</div><div class="spec-note" data-i18n="kpi1Note">-76.6% vs. Stage 2 ($0.08437)</div></div>
+        <div class="spec-cell lux-card reveal-on-scroll"><div class="spec-label" data-i18n="kpi2Label">Execution Horizon</div><div class="spec-val">10 Turns</div><div class="spec-note" data-i18n="kpi2Note">vs. 13 turns in ER-2 (-22.6% in tok)</div></div>
+        <div class="spec-cell lux-card reveal-on-scroll"><div class="spec-label" data-i18n="kpi3Label">Visual Input</div><div class="spec-val amber">0 Tokens</div><div class="spec-note" data-i18n="kpi3Note">Symbolic 3D /tf grounding only</div></div>
+        <div class="spec-cell lux-card reveal-on-scroll"><div class="spec-label" data-i18n="kpi4Label">Task Completion</div><div class="spec-val green">9 / 9 Blocks</div><div class="spec-note" data-i18n="kpi4Note">20 / 20 verifier checks passed</div></div>
       </div>
-      <section id="video-walkthrough" class="media-block">
+      <section id="video-walkthrough" class="media-block lux-card reveal-on-scroll">
         <div class="media-header">
           <span data-i18n="videoHeader">Side-by-Side Execution: Gemini Robotics-ER 2 (Left) vs. Gemini 4 Argon (Right)</span>
           <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer">YouTube (PPZ4vgVZlyA)</a>
@@ -301,13 +369,13 @@
       </ol>
       <h2 id="architecture" data-i18n="sec2Title">2. Three-Stage Evaluation Pipeline</h2>
       <p data-i18n="sec2Intro">Each trial executes three sequential stages inside the same simulation process, resetting all nine blocks to their source tables and homing FR3_1..3 (4.0 s settle window) between stages:</p>
-      <figure class="figure-box">
+      <figure class="figure-box lux-card reveal-on-scroll">
         <img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Stage VLA Task Planner Architecture in Isaac Sim 6.0 and ROS 2 Jazzy" />
         <figcaption class="figure-caption" data-i18n="fig1Caption">Figure 1. Three-stage hardware-in-the-loop evaluation pipeline comparing Legacy ER-2 (Stage 1), Pure Gemini 4 Argon (Stage 2), and Hybrid Argon Brain + Flash-Lite Executor (Stage 3).</figcaption>
       </figure>
       <h2 id="metrics" data-i18n="sec3Title">3. Quantitative Benchmark Results</h2>
       <div class="data-fig-grid">
-        <div class="data-fig">
+        <div class="data-fig lux-card reveal-on-scroll">
           <div class="data-fig-head"><span class="data-fig-title" data-i18n="fig2aTitle">Figure 2A. API Cost per 9-Block Trial</span><span class="data-fig-unit">Unit: USD (lower is better)</span></div>
           <div class="bar-metric-row">
             <div class="bar-metric-top"><span class="bar-metric-name">Stage 1: Legacy ER-2 (14 calls)</span><span class="bar-metric-val"><strong>$0.07860</strong> ($0.0605 in + $0.0181 out/think)</span></div>
@@ -322,7 +390,7 @@
             <div class="bar-track"><div class="bar-fill" style="width:23.4%; background:var(--g-green);"></div></div>
           </div>
         </div>
-        <div class="data-fig">
+        <div class="data-fig lux-card reveal-on-scroll">
           <div class="data-fig-head"><span class="data-fig-title" data-i18n="fig2bTitle">Figure 2B. Token Volume &amp; Step Latency</span><span class="data-fig-unit">Total tokens &amp; Turns 1–2 mean latency</span></div>
           <div class="bar-metric-row">
             <div class="bar-metric-top"><span class="bar-metric-name">Stage 1: Legacy ER-2 (13 turns)</span><span class="bar-metric-val"><strong>50,190 tok</strong> (48,377 in / 1,086 think / 727 out) • 2.58 s</span></div>
@@ -337,7 +405,7 @@
             <div class="bar-track"><div class="bar-fill" style="width:74.6%; background:var(--g-green);"></div><div class="bar-fill" style="width:1.6%; background:var(--g-blue);"></div></div>
           </div>
         </div>
-        <div class="data-fig">
+        <div class="data-fig lux-card reveal-on-scroll">
           <div class="data-fig-head"><span class="data-fig-title" data-i18n="fig2cTitle">Figure 2C. Cumulative Input Token Trajectory (Turns 0–13)</span><span class="data-fig-unit">Quadratic history accumulation</span></div>
           <svg viewBox="0 0 600 220" width="100%" height="auto" role="img" aria-label="Cumulative input tokens from Turn 0 to Turn 13">
             <line x1="48" y1="20" x2="570" y2="20" stroke="#e8eaed" stroke-dasharray="3,3" />
@@ -389,10 +457,10 @@
         </table>
       </div>
       <h3 id="scaling-model" data-i18n="sec3SubTitle">3.1 Quadratic Input Token Growth &amp; Cost Decomposition</h3>
-      <p data-i18n="sec3P1">With camera streams disabled, input tokens consist of the static system prompt and tool schemas ($B_{\text{base}} \approx 2,800$ tokens including the Turn-0 strategy) plus $\Delta B_{\text{turn}} \approx 250\text{--}380$ tokens of tool-call and controller-response history appended per turn. Because the full conversation history is re-sent on each turn, cumulative input tokens grow quadratically with turn count $T$:</p>
-      <div class="math-block">$$\text{InputTokens}(T) \approx T \cdot B_{\text{base}} + \frac{T(T-1)}{2} \cdot \Delta B_{\text{turn}}$$</div>
+      <p data-i18n="sec3P1">With camera streams disabled, input tokens consist of the static system prompt and tool schemas (B<sub>base</sub> &approx; 2,800 tokens including the Turn-0 strategy) plus &Delta;B<sub>turn</sub> &approx; 250–380 tokens of tool-call and controller-response history appended per turn. Because the full conversation history is re-sent on each turn, cumulative input tokens grow quadratically with turn count <em>T</em>:</p>
+      <div class="formula-card"><strong>InputTokens(T)</strong> &approx; T &middot; B<sub>base</sub> + [ T(T &minus; 1) / 2 ] &middot; &Delta;B<sub>turn</sub></div>
       <p data-i18n="sec3P2">Reducing the schedule from 13 turns to 10 turns eliminates the three largest context turns at the tail of the episode (where each call exceeds 4,500 input tokens), saving 10,929 input tokens. Under per-token API pricing (gemini-4-argon at $2.00/1M input and $10.00/1M output; gemini-3.5-flash-lite at $0.30/1M input and $2.50/1M output), Stage 3 cost decomposes into:</p>
-      <div class="math-block">$$C_{\text{Stage 3}} = \underbrace{\left(2,800 \times \frac{\$2.00}{10^6} + 220 \times \frac{\$10.00}{10^6}\right)}_{\text{Turn 0 Argon Brain } (\$0.00780)} + \underbrace{\left(34,648 \times \frac{\$0.30}{10^6} + 609 \times \frac{\$2.50}{10^6}\right)}_{\text{Turns 1–10 Flash-Lite } (\$0.01192)} = \mathbf{\$0.01972}$$</div>
+      <div class="formula-card"><strong>C<sub>Stage 3</sub></strong> = <span class="c-blue">[ 2,800 &times; ($2.00 / 1M) + 220 &times; ($10.00 / 1M) ]<sub>Turn 0 Argon Brain ($0.00780)</sub></span> + <span class="c-green">[ 34,648 &times; ($0.30 / 1M) + 609 &times; ($2.50 / 1M) ]<sub>Turns 1–10 Flash-Lite ($0.01192)</sub></span> = <strong class="c-green">$0.01972</strong></div>
       <h2 id="schedule-trace" data-i18n="sec4Title">4. Turn-by-Turn Schedule Trace</h2>
       <p data-i18n="sec4Intro">Only one robotic arm may occupy the central tower zone ([0.0, 0.0]) at a time, whereas outer-table pick and go_home motions execute in independent zones. Overlapping one central place with one outer-table pick or go_home on every turn after Turn 2 is the shortest conflict-free schedule for a 3-arm shared-center station:</p>
       <div class="table-scroll">
@@ -417,7 +485,7 @@
       </div>
     </article>
     <aside class="sidebar">
-      <div class="side-panel">
+      <div class="side-panel lux-card reveal-on-scroll">
         <h3 class="side-heading" data-i18n="sideContents">Contents</h3>
         <ul class="side-links">
           <li><a href="#video-walkthrough" data-i18n="tocVideo">Side-by-Side Execution Video</a></li>
@@ -428,7 +496,7 @@
           <li><a href="#schedule-trace" data-i18n="tocSec4">4. Turn-by-Turn Schedule</a></li>
         </ul>
       </div>
-      <div class="side-panel">
+      <div class="side-panel lux-card reveal-on-scroll">
         <h3 class="side-heading" data-i18n="sideConfig">Station Configuration</h3>
         <ul class="kv-list">
           <li><span>Simulator</span><span>Isaac Sim 6.0</span></li>
@@ -439,7 +507,7 @@
           <li><span>Stage 3 Cost</span><span style="color:var(--g-green-dark);">$0.01972 (-76.6%)</span></li>
         </ul>
       </div>
-      <div class="side-panel">
+      <div class="side-panel lux-card reveal-on-scroll">
         <h3 class="side-heading" data-i18n="sideLinks">Links</h3>
         <ul class="side-links">
           <li><a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer">Benchmark Video (YouTube)</a></li>
@@ -617,6 +685,149 @@
       const savedLang = localStorage.getItem('m9g_portfolio_lang');
       if (savedLang && BLOG_I18N[savedLang]) setLang(savedLang);
     } catch {}
+
+    (function initFluidAndCursor() {
+      const canvas = document.getElementById('fluid-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        const mouse = { x: -1000, y: -1000, radius: 170 };
+        const palette = [
+          'rgba(26, 115, 232, ',
+          'rgba(212, 175, 55, ',
+          'rgba(30, 142, 62, ',
+          'rgba(217, 48, 37, '
+        ];
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let particles = [];
+        const count = window.innerWidth < 640 ? 32 : 62;
+        const connDist = 135;
+        const connDistSq = connDist * connDist;
+
+        function resize() {
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width * dpr;
+          canvas.height = height * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          particles = [];
+          for (let i = 0; i < count; i++) {
+            const r = Math.random() * 1.8 + 1.0;
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.28,
+              vy: (Math.random() - 0.5) * 0.28,
+              radius: r,
+              baseRadius: r,
+              alpha: Math.random() * 0.42 + 0.22,
+              colorPrefix: palette[i % palette.length]
+            });
+          }
+        }
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+        window.addEventListener('touchmove', e => {
+          if (e.touches && e.touches[0]) {
+            mouse.x = e.touches[0].clientX;
+            mouse.y = e.touches[0].clientY;
+          }
+        }, { passive: true });
+        document.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+        resize();
+
+        function step() {
+          ctx.clearRect(0, 0, width, height);
+          for (let i = 0; i < particles.length; i++) {
+            const p1 = particles[i];
+            for (let j = i + 1; j < particles.length; j++) {
+              const p2 = particles[j];
+              const dx = p1.x - p2.x;
+              const dy = p1.y - p2.y;
+              const dSq = dx * dx + dy * dy;
+              if (dSq < connDistSq) {
+                const d = Math.sqrt(dSq);
+                const a = (1 - d / connDist) * 0.14;
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = (i % 2 === 0 ? 'rgba(212, 175, 55, ' : 'rgba(26, 115, 232, ') + a + ')';
+                ctx.lineWidth = 0.75;
+                ctx.stroke();
+              }
+            }
+          }
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+            const mdx = mouse.x - p.x;
+            const mdy = mouse.y - p.y;
+            const mdSq = mdx * mdx + mdy * mdy;
+            const mRadSq = mouse.radius * mouse.radius;
+            if (mdSq < mRadSq) {
+              const md = Math.sqrt(mdSq);
+              const force = (mouse.radius - md) / mouse.radius;
+              const ang = Math.atan2(mdy, mdx);
+              p.x -= Math.cos(ang) * force * 1.6;
+              p.y -= Math.sin(ang) * force * 1.6;
+              p.radius = p.baseRadius + force * 1.5;
+            } else if (p.radius > p.baseRadius) {
+              p.radius -= 0.05;
+            }
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.colorPrefix + p.alpha + ')';
+            ctx.fill();
+          }
+          requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+      if (ring && dot && window.matchMedia('(pointer: fine)').matches) {
+        let tx = -100, ty = -100, rx = -100, ry = -100, vx = 0, vy = 0;
+        window.addEventListener('mousemove', e => {
+          tx = e.clientX;
+          ty = e.clientY;
+          dot.style.transform = 'translate3d(' + (tx - 3.5) + 'px, ' + (ty - 3.5) + 'px, 0)';
+          const t = e.target;
+          const hover = !!(t && (t.tagName === 'A' || t.tagName === 'BUTTON' || (t.closest && (t.closest('a') || t.closest('button')))));
+          ring.classList.toggle('hovering', hover);
+          dot.classList.toggle('hovering', hover);
+        }, { passive: true });
+        function springLoop() {
+          const stiffness = 0.18;
+          const damping = 0.72;
+          vx = (vx + (tx - rx) * stiffness) * damping;
+          vy = (vy + (ty - ry) * stiffness) * damping;
+          rx += vx;
+          ry += vy;
+          const offset = ring.classList.contains('hovering') ? 26 : 17;
+          ring.style.transform = 'translate3d(' + (rx - offset) + 'px, ' + (ry - offset) + 'px, 0)';
+          requestAnimationFrame(springLoop);
+        }
+        requestAnimationFrame(springLoop);
+      }
+
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => io.observe(el));
+    })();
+
   </script>
 </body>
 </html>

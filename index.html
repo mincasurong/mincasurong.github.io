@@ -58,12 +58,65 @@
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
     *, *::before, *::after { box-sizing: border-box; }
+    
     html, body {
-      margin: 0; padding: 0; width: 100%; max-width: 100%; overflow-x: hidden;
+      margin: 0; padding: 0; width: 100%; max-width: 100%;
+      overflow-x: clip;
       background: var(--bg); color: var(--text-primary);
-      font-family: var(--font-sans); font-size: 16px; line-height: 1.6;
+      font-family: var(--font-sans); font-size: 16px; line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
+    #fluid-canvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; opacity: 0.75;
+    }
+    .cursor-ring, .cursor-dot {
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+      border-radius: 50%; display: none; will-change: transform;
+    }
+    @media (pointer: fine) and (min-width: 1024px) {
+      .cursor-ring {
+        display: block; width: 34px; height: 34px;
+        border: 1.5px solid rgba(26, 115, 232, 0.45);
+        background: rgba(212, 175, 55, 0.04);
+        transition: width 0.2s cubic-bezier(0.22, 1, 0.36, 1), height 0.2s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease, border-color 0.2s ease;
+      }
+      .cursor-ring.hovering {
+        width: 52px; height: 52px;
+        border-color: rgba(212, 175, 55, 0.75);
+        background: rgba(26, 115, 232, 0.08);
+      }
+      .cursor-dot {
+        display: block; width: 7px; height: 7px;
+        background: #1a73e8;
+        transition: opacity 0.15s ease, transform 0.15s ease;
+      }
+      .cursor-dot.hovering { opacity: 0; }
+    }
+    .reveal-on-scroll {
+      opacity: 0; transform: translateY(26px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-on-scroll.is-visible {
+      opacity: 1; transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+    }
+    .lux-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(32, 33, 36, 0.04);
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease;
+    }
+    .lux-card:hover {
+      transform: translateY(-4px) scale(1.005);
+      border-color: rgba(26, 115, 232, 0.55);
+      box-shadow: 0 16px 36px rgba(26, 115, 232, 0.1), 0 4px 12px rgba(212, 175, 55, 0.08);
+    }
+
     img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
     a { color: inherit; text-decoration: none; transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
     .skip-link { position: absolute; top: -100px; left: 16px; background: var(--g-blue); color: #fff; font-weight: 600; padding: 8px 16px; border-radius: 4px; z-index: 9999; }
@@ -83,7 +136,7 @@
       font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; text-transform: uppercase;
       letter-spacing: 0.06em; padding: 2px 8px; border-radius: 999px; flex-shrink: 0;
     }
-    .ticker-link { color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+    .ticker-link { color: var(--text-secondary); font-weight: 500; overflow-wrap: anywhere; word-break: break-word; min-width: 0; }
     .ticker-link:hover { color: var(--g-blue); }
     .pixel-top-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
     .pixel-social { display: flex; align-items: center; gap: 10px; }
@@ -302,6 +355,9 @@
   </style>
 </head>
 <body>
+  <canvas id="fluid-canvas"></canvas>
+  <div id="cursor-ring" class="cursor-ring"></div>
+  <div id="cursor-dot" class="cursor-dot"></div>
   <a class="skip-link" href="#main-wrapper">Skip to content</a>
   <div id="reading-progress"></div>
   <div class="searchform-wrap" id="search-modal" role="dialog" aria-label="Search M9G">
@@ -391,7 +447,7 @@
   </nav>
   <div class="container-pixel" id="main-wrapper">
     <section id="featured" class="magazine-hero-grid" aria-label="Featured Stories">
-      <div class="hero-lead-card searchable-card">
+      <div class="hero-lead-card lux-card reveal-on-scroll searchable-card">
         <img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="Google Gemini 3 Seoul Hackathon 1st Place - GeminiSpace" class="hero-lead-img" />
         <div class="hero-lead-body">
           <span class="kicker amber" data-i18n="hackathonBadge">1st Place Winner • Google Gemini 3 Seoul Hackathon 2026</span>
@@ -407,28 +463,28 @@
         </div>
       </div>
       <div class="hero-sub-grid">
-        <a href="/blog/" class="hero-sub-card searchable-card">
+        <a href="/blog/" class="hero-sub-card lux-card reveal-on-scroll searchable-card">
           <img src="/screenshots/vla-architecture-nanobanana.png" alt="VLA Task Planner Benchmark Blog" class="hero-sub-img" />
           <div class="hero-sub-body">
             <div><span class="kicker green" data-i18n="sub1Kicker">Robotics Benchmark</span><h3 class="hero-sub-title" data-i18n="sub1Title">ER-2 vs. Gemini 4 Argon VLA Benchmark (-76.6% Cost)</h3></div>
             <div class="hero-sub-meta">Read report &rarr;</div>
           </div>
         </a>
-        <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="hero-sub-card searchable-card">
+        <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="hero-sub-card lux-card reveal-on-scroll searchable-card">
           <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="Gemini 4 Argon Weekend Sprint" class="hero-sub-img" />
           <div class="hero-sub-body">
             <div><span class="kicker" data-i18n="sub2Kicker">Engineering Sprint</span><h3 class="hero-sub-title" data-i18n="sub2Title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects</h3></div>
             <div class="hero-sub-meta">Watch on YouTube &rarr;</div>
           </div>
         </a>
-        <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="hero-sub-card searchable-card">
+        <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="hero-sub-card lux-card reveal-on-scroll searchable-card">
           <img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="EP 12 Multi Robot Collaboration" class="hero-sub-img" />
           <div class="hero-sub-body">
             <div><span class="kicker green" data-i18n="sub3Kicker">Isaac Sim &amp; ROS 2</span><h3 class="hero-sub-title" data-i18n="sub3Title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 &amp; IsaacSim</h3></div>
             <div class="hero-sub-meta">Watch on YouTube &rarr;</div>
           </div>
         </a>
-        <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="hero-sub-card searchable-card">
+        <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="hero-sub-card lux-card reveal-on-scroll searchable-card">
           <img src="/screenshots/opic.svg" alt="OPIc AI Master Coach" class="hero-sub-img" />
           <div class="hero-sub-body">
             <div><span class="kicker red" data-i18n="sub4Kicker">Cloud Run Web Apps</span><h3 class="hero-sub-title" data-i18n="sub4Title">OPIc AI Master Coach &amp; JLPT N4 AI Tutor Suite</h3></div>
@@ -445,7 +501,7 @@
             <span class="pixel-widget-sub" data-i18n="freeBadge">100% Free Access on Google Cloud Run &amp; Google Play</span>
           </div>
           <div class="apps-grid">
-            <article class="app-mag-card searchable-card">
+            <article class="app-mag-card lux-card reveal-on-scroll searchable-card">
               <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
                 <img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="GeminiSpace Indoor Spatial AI" loading="lazy" />
                 <span class="app-badge-overlay">Web App • 1st Place Winner</span>
@@ -459,7 +515,7 @@
                 <div class="app-card-footer"><span class="app-domain">geminispace.mincasurong.com</span><a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Open app &rarr;</a></div>
               </div>
             </article>
-            <article class="app-mag-card searchable-card">
+            <article class="app-mag-card lux-card reveal-on-scroll searchable-card">
               <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
                 <img src="/screenshots/opic.svg" alt="OPIc AI Master Coach" loading="lazy" />
                 <span class="app-badge-overlay">Web App • Speech AI</span>
@@ -473,7 +529,7 @@
                 <div class="app-card-footer"><span class="app-domain">opic.mincasurong.com</span><a href="https://opic.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Open app &rarr;</a></div>
               </div>
             </article>
-            <article class="app-mag-card searchable-card">
+            <article class="app-mag-card lux-card reveal-on-scroll searchable-card">
               <a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
                 <img src="/screenshots/jplt.svg" alt="JLPT N4 Mock Exam & Drill Master" loading="lazy" />
                 <span class="app-badge-overlay">Web App • Adaptive Tutor</span>
@@ -487,7 +543,7 @@
                 <div class="app-card-footer"><span class="app-domain">jplt.mincasurong.com</span><a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener noreferrer" class="app-launch-btn" data-i18n="tryFreeBtn">Open app &rarr;</a></div>
               </div>
             </article>
-            <article class="app-mag-card searchable-card">
+            <article class="app-mag-card lux-card reveal-on-scroll searchable-card">
               <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener noreferrer" class="app-thumb-wrap">
                 <img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" alt="UrKuma Hanja Learning Quiz" loading="lazy" />
                 <span class="app-badge-overlay">Android • Google Play</span>
@@ -508,7 +564,7 @@
             <h2 class="pixel-widget-title" data-i18n="blogSpotTitle">Engineering Blog: Multi-Robot VLA Benchmark</h2>
             <span class="pixel-widget-sub">Isaac Sim 6.0 • ROS 2 Jazzy • 3x Franka FR3</span>
           </div>
-          <div class="blog-feature-banner searchable-card">
+          <div class="blog-feature-banner lux-card reveal-on-scroll searchable-card">
             <a href="/blog/"><img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Stage VLA Task Planner Architecture" class="blog-feature-img" loading="lazy" /></a>
             <div>
               <span class="kicker green" data-i18n="blogSpotKicker">Mode 1 (3-Arm 9-Block Tower) • Symbolic 3D /tf Grounding</span>
@@ -532,35 +588,35 @@
             <span class="pixel-widget-sub">Robotics, VLA &amp; Digital Twins (8 Episodes)</span>
           </div>
           <div class="videos-grid">
-            <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
+            <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
               <div class="video-thumb-box"><img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" alt="Gemini Robotics ER-2 vs. Gemini 4 Argon Benchmark" loading="lazy" /><span class="play-pill">Benchmark</span></div>
               <div class="video-card-body"><span class="kicker green">VLA Task Planning</span><h3 class="video-card-title">Gemini Robotics ER-2 vs. Gemini 4 Argon: Multi-Robot Task Planner Benchmark (Isaac Sim 6.0 &amp; ROS 2)</h3><p class="video-card-desc" data-i18n="vlaBenchDesc">Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid Gemini 4 Argon + Flash-Lite cutting API cost by 76.6% ($0.01972) with 0 RGB tokens.</p></div>
             </a>
-            <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
+            <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
               <div class="video-thumb-box"><img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" alt="Gemini 4 Argon Weekend Sprint" loading="lazy" /><span class="play-pill">Sprint</span></div>
               <div class="video-card-body"><span class="kicker">Gemini 4 Argon</span><h3 class="video-card-title">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS &amp; GCP)</h3><p class="video-card-desc" data-i18n="sprintDesc">Weekend evaluation across 1B tokens shipping 6 full-stack and Physical AI systems with Gemini 4 Argon, Isaac Sim, ROS 2, and Google Cloud Run.</p></div>
             </a>
-            <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
+            <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
               <div class="video-thumb-box"><img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="EP 12 Multi Robot Collaboration" loading="lazy" /><span class="play-pill">EP 12</span></div>
               <div class="video-card-body"><span class="kicker green">Dual Execution Engine</span><h3 class="video-card-title">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 &amp; NVIDIA IsaacSim &amp; ROS2</h3><p class="video-card-desc" data-i18n="ep12Desc">Three FR3 robotic arms cooperatively constructing geometric formations in Isaac Sim with dual zero-token React Flow DAG and Gemini Robotics-ER 2 VLA execution.</p></div>
             </a>
-            <a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
+            <a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
               <div class="video-thumb-box"><img src="https://img.youtube.com/vi/stxaWN7Ct8Y/maxresdefault.jpg" alt="EP 11 FR3 Robots Cooperating" loading="lazy" /><span class="play-pill">EP 11</span></div>
               <div class="video-card-body"><span class="kicker">Digital Twin</span><h3 class="video-card-title">EP 11. FR3 Robots Cooperating with Gemini Robotics-ER2 &amp; Isaac Sim | React Flow Digital Twin</h3><p class="video-card-desc" data-i18n="ep11Desc">Cooperative FR3 robotic arms planning and assembling in Isaac Sim via Gemini multi-agent reasoning and React Flow digital twin.</p></div>
             </a>
-            <a href="https://www.youtube.com/watch?v=MzAGXiZmrdY" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
+            <a href="https://www.youtube.com/watch?v=MzAGXiZmrdY" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
               <div class="video-thumb-box"><img src="https://img.youtube.com/vi/MzAGXiZmrdY/maxresdefault.jpg" alt="EP 10 Natural Language Input" loading="lazy" /><span class="play-pill">EP 10</span></div>
               <div class="video-card-body"><span class="kicker green">Natural Language Control</span><h3 class="video-card-title">EP 10. Natural Language to Isaac Sim, ROS 2, &amp; Gemini Robotics-ER 2</h3><p class="video-card-desc" data-i18n="ep10Desc">End-to-end VLA multi-robot control framework integrating Gemini Robotics-ER 2, Isaac Sim, ROS 2, and real-time Web GUI.</p></div>
             </a>
-            <a href="https://youtu.be/5ydQRDwkg34?si=z_TNSfY_MFlpukyS" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
+            <a href="https://youtu.be/5ydQRDwkg34?si=z_TNSfY_MFlpukyS" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
               <div class="video-thumb-box"><img src="https://img.youtube.com/vi/5ydQRDwkg34/maxresdefault.jpg" alt="EP 7 Random Target Multi-Robots" loading="lazy" /><span class="play-pill">EP 7</span></div>
               <div class="video-card-body"><span class="kicker">Multi-Robot ROS 2</span><h3 class="video-card-title">EP 7. Random Target Multi-Robots on NVIDIA IsaacSim w/ Antigravity, Gemini, ROS2</h3><p class="video-card-desc" data-i18n="v3Desc">Dynamic multi-robot collaboration on NVIDIA IsaacSim via ROS 2, orchestrated by Antigravity 2.0 and Gemini.</p></div>
             </a>
-            <a href="https://youtu.be/k9dRqfSosBs" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
+            <a href="https://youtu.be/k9dRqfSosBs" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
               <div class="video-thumb-box"><img src="https://img.youtube.com/vi/k9dRqfSosBs/maxresdefault.jpg" alt="EP 1 TidyUpAI" loading="lazy" /><span class="play-pill">EP 1</span></div>
               <div class="video-card-body"><span class="kicker amber">Agentic Tooling</span><h3 class="video-card-title">EP 1. TidyUpAI</h3><p class="video-card-desc" data-i18n="v1Desc">Workspace organization agent that categorizes, tags, and structures local directories automatically.</p></div>
             </a>
-            <a href="https://www.youtube.com/watch?v=mWDwqBfzZ6s" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
+            <a href="https://www.youtube.com/watch?v=mWDwqBfzZ6s" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
               <div class="video-thumb-box"><img src="https://img.youtube.com/vi/mWDwqBfzZ6s/maxresdefault.jpg" alt="EP 0 GeminiSpace v2.0" loading="lazy" /><span class="play-pill">EP 0</span></div>
               <div class="video-card-body"><span class="kicker">Visual SLAM</span><h3 class="video-card-title">EP 0. GeminiSpace v2.0: Eliminating AI Map Hallucinations with Gemini &amp; Visual SLAM</h3><p class="video-card-desc" data-i18n="geminiSpaceDesc">Sub-second Gemini spatial reasoning, 360-degree Visual SLAM loop closure, and 2D orthographic floorplan rendering.</p></div>
             </a>
@@ -572,21 +628,21 @@
             <span class="pixel-widget-sub">IEEE ICRA • IEEE TNSRE • Applied Sciences • ICORR</span>
           </div>
           <div class="videos-grid" style="margin-bottom:20px;">
-            <a href="https://youtu.be/lkfVqltgM94" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
+            <a href="https://youtu.be/lkfVqltgM94" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
               <div class="video-thumb-box"><img src="https://img.youtube.com/vi/lkfVqltgM94/maxresdefault.jpg" alt="AI Therapist IEEE TNSRE" loading="lazy" /><span class="play-pill">IEEE TNSRE</span></div>
               <div class="video-card-body"><span class="kicker red">Rehabilitation Robotics</span><h3 class="video-card-title">AI Therapist: Expert Verbal Cues for Gait Training (IEEE TNSRE)</h3><p class="video-card-desc">Robot-assisted gait rehabilitation system incorporating therapist verbal cueing and real-time biofeedback.</p></div>
             </a>
-            <a href="https://youtu.be/PrO-w9BRhEA" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card">
+            <a href="https://youtu.be/PrO-w9BRhEA" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card">
               <div class="video-thumb-box"><img src="https://img.youtube.com/vi/PrO-w9BRhEA/maxresdefault.jpg" alt="Imitation Learning in MuJoCo" loading="lazy" /><span class="play-pill">MuJoCo</span></div>
               <div class="video-card-body"><span class="kicker">Robot Learning</span><h3 class="video-card-title">Imitation Learning Simulation in MuJoCo &amp; robomimic</h3><p class="video-card-desc">Demonstration-driven robotic manipulation policy learning and evaluation in MuJoCo physics simulation.</p></div>
             </a>
           </div>
           <div class="pub-list">
-            <a href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card"><div><div class="pub-venue">IEEE ICRA • DOI: 11128768</div><h3 class="pub-title">OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</h3></div><span class="pub-year">2025</span></a>
-            <a href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card"><div><div class="pub-venue">IEEE TNSRE • DOI: 9260225</div><h3 class="pub-title">AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</h3></div><span class="pub-year">2020</span></a>
-            <a href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card"><div><div class="pub-venue">IEEE TNSRE • DOI: 8792083</div><h3 class="pub-title">Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</h3></div><span class="pub-year">2019</span></a>
-            <a href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card"><div><div class="pub-venue">Applied Sciences (MDPI) • 3413</div><h3 class="pub-title">Precise flowrate control of fluid gear pump in automated painting system using a repetitive controller</h3></div><span class="pub-year">2019</span></a>
-            <a href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener noreferrer" class="pub-item searchable-card"><div><div class="pub-venue">ICORR / Rehabweek • DOI: 8009275</div><h3 class="pub-title">A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</h3></div><span class="pub-year">2017</span></a>
+            <a href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener noreferrer" class="pub-item lux-card reveal-on-scroll searchable-card"><div><div class="pub-venue">IEEE ICRA • DOI: 11128768</div><h3 class="pub-title">OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</h3></div><span class="pub-year">2025</span></a>
+            <a href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener noreferrer" class="pub-item lux-card reveal-on-scroll searchable-card"><div><div class="pub-venue">IEEE TNSRE • DOI: 9260225</div><h3 class="pub-title">AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</h3></div><span class="pub-year">2020</span></a>
+            <a href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener noreferrer" class="pub-item lux-card reveal-on-scroll searchable-card"><div><div class="pub-venue">IEEE TNSRE • DOI: 8792083</div><h3 class="pub-title">Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</h3></div><span class="pub-year">2019</span></a>
+            <a href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener noreferrer" class="pub-item lux-card reveal-on-scroll searchable-card"><div><div class="pub-venue">Applied Sciences (MDPI) • 3413</div><h3 class="pub-title">Precise flowrate control of fluid gear pump in automated painting system using a repetitive controller</h3></div><span class="pub-year">2019</span></a>
+            <a href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener noreferrer" class="pub-item lux-card reveal-on-scroll searchable-card"><div><div class="pub-venue">ICORR / Rehabweek • DOI: 8009275</div><h3 class="pub-title">A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</h3></div><span class="pub-year">2017</span></a>
           </div>
         </section>
         <section id="research-archive" class="pixel-section">
@@ -596,20 +652,20 @@
           </div>
           <h3 style="font-size:13px; font-weight:700; text-transform:uppercase; color:var(--g-blue); letter-spacing:0.06em; margin:0 0 12px;" data-i18n="trackATitle">Track A — Virtual Reality (VR) + Wearable Robots for Rehabilitation</h3>
           <div class="archive-grid-3">
-            <a href="https://www.youtube.com/watch?v=XMZuWDLkngs" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/XMZuWDLkngs/maxresdefault.jpg" alt="VR-Integrated Lower Limb Exoskeleton" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">VR-Integrated Lower Limb Exoskeleton</h4><p class="video-card-desc">Interactive VR environment with synchronized biofeedback for gait rehabilitation.</p></div></a>
-            <a href="https://www.youtube.com/watch?v=OgSCmBr1n7c" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/OgSCmBr1n7c/maxresdefault.jpg" alt="Adaptive Impedance Control Exoskeleton" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Adaptive Impedance Control Exoskeleton</h4><p class="video-card-desc">Assist-as-needed gait training using adaptive impedance control.</p></div></a>
-            <a href="https://www.youtube.com/watch?v=vIm9GvQ3wME" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/vIm9GvQ3wME/maxresdefault.jpg" alt="Virtual Spring-Damper Gait Guidance" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Virtual Spring-Damper Gait Guidance</h4><p class="video-card-desc">Trajectory constraint control along predefined paths for robotic gait assistance.</p></div></a>
+            <a href="https://www.youtube.com/watch?v=XMZuWDLkngs" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/XMZuWDLkngs/maxresdefault.jpg" alt="VR-Integrated Lower Limb Exoskeleton" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">VR-Integrated Lower Limb Exoskeleton</h4><p class="video-card-desc">Interactive VR environment with synchronized biofeedback for gait rehabilitation.</p></div></a>
+            <a href="https://www.youtube.com/watch?v=OgSCmBr1n7c" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/OgSCmBr1n7c/maxresdefault.jpg" alt="Adaptive Impedance Control Exoskeleton" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Adaptive Impedance Control Exoskeleton</h4><p class="video-card-desc">Assist-as-needed gait training using adaptive impedance control.</p></div></a>
+            <a href="https://www.youtube.com/watch?v=vIm9GvQ3wME" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/vIm9GvQ3wME/maxresdefault.jpg" alt="Virtual Spring-Damper Gait Guidance" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Virtual Spring-Damper Gait Guidance</h4><p class="video-card-desc">Trajectory constraint control along predefined paths for robotic gait assistance.</p></div></a>
           </div>
           <h3 style="font-size:13px; font-weight:700; text-transform:uppercase; color:var(--g-green-dark); letter-spacing:0.06em; margin:20px 0 12px;" data-i18n="trackBTitle">Track B — Mobile Robots, Navigation &amp; Manipulators</h3>
           <div class="archive-grid-3">
-            <a href="https://www.youtube.com/watch?v=NeVCd3w2vmk" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/NeVCd3w2vmk/maxresdefault.jpg" alt="BARN Benchmark Path Planning" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">BARN Benchmark Path Planning</h4><p class="video-card-desc">Autonomous mobile navigation and dynamic obstacle avoidance benchmarking.</p></div></a>
-            <a href="https://www.youtube.com/watch?v=IsrvJgT0ntI" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/IsrvJgT0ntI/maxresdefault.jpg" alt="ROS 2 & MoveIt 2 Motion Planning" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">ROS 2 &amp; MoveIt 2 Motion Planning</h4><p class="video-card-desc">Collision-free robotic arm trajectory planning running natively on Windows 10.</p></div></a>
-            <a href="https://www.youtube.com/watch?v=13gZzn4M_Yg" target="_blank" rel="noopener noreferrer" class="video-mag-card searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/13gZzn4M_Yg/maxresdefault.jpg" alt="Jetson Nano ROS Autopilot" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Jetson Nano ROS Autopilot</h4><p class="video-card-desc">Edge AI autopilot and sensor-driven motion control on Jetbot platform.</p></div></a>
+            <a href="https://www.youtube.com/watch?v=NeVCd3w2vmk" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/NeVCd3w2vmk/maxresdefault.jpg" alt="BARN Benchmark Path Planning" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">BARN Benchmark Path Planning</h4><p class="video-card-desc">Autonomous mobile navigation and dynamic obstacle avoidance benchmarking.</p></div></a>
+            <a href="https://www.youtube.com/watch?v=IsrvJgT0ntI" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/IsrvJgT0ntI/maxresdefault.jpg" alt="ROS 2 & MoveIt 2 Motion Planning" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">ROS 2 &amp; MoveIt 2 Motion Planning</h4><p class="video-card-desc">Collision-free robotic arm trajectory planning running natively on Windows 10.</p></div></a>
+            <a href="https://www.youtube.com/watch?v=13gZzn4M_Yg" target="_blank" rel="noopener noreferrer" class="video-mag-card lux-card reveal-on-scroll searchable-card"><div class="video-thumb-box"><img src="https://img.youtube.com/vi/13gZzn4M_Yg/maxresdefault.jpg" alt="Jetson Nano ROS Autopilot" loading="lazy" /></div><div class="video-card-body"><h4 class="video-card-title">Jetson Nano ROS Autopilot</h4><p class="video-card-desc">Edge AI autopilot and sensor-driven motion control on Jetbot platform.</p></div></a>
           </div>
         </section>
       </main>
       <aside class="sidebar-wrapper" id="sidebar-wrapper" aria-label="Sidebar">
-        <div class="sidebar-box">
+        <div class="sidebar-box lux-card reveal-on-scroll">
           <div class="tabs-header" role="tablist">
             <button class="tab-trigger active" role="tab" aria-selected="true" onclick="switchSidebarTab('recent', this)" data-i18n="tabRecent">Recent</button>
             <button class="tab-trigger" role="tab" aria-selected="false" onclick="switchSidebarTab('popular', this)" data-i18n="tabPopular">Popular</button>
@@ -809,6 +865,149 @@
       const savedLang = localStorage.getItem('m9g_portfolio_lang');
       if (savedLang && M9G_I18N[savedLang]) setLang(savedLang);
     } catch {}
+
+    (function initFluidAndCursor() {
+      const canvas = document.getElementById('fluid-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        const mouse = { x: -1000, y: -1000, radius: 170 };
+        const palette = [
+          'rgba(26, 115, 232, ',
+          'rgba(212, 175, 55, ',
+          'rgba(30, 142, 62, ',
+          'rgba(217, 48, 37, '
+        ];
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let particles = [];
+        const count = window.innerWidth < 640 ? 32 : 62;
+        const connDist = 135;
+        const connDistSq = connDist * connDist;
+
+        function resize() {
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width * dpr;
+          canvas.height = height * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          particles = [];
+          for (let i = 0; i < count; i++) {
+            const r = Math.random() * 1.8 + 1.0;
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.28,
+              vy: (Math.random() - 0.5) * 0.28,
+              radius: r,
+              baseRadius: r,
+              alpha: Math.random() * 0.42 + 0.22,
+              colorPrefix: palette[i % palette.length]
+            });
+          }
+        }
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+        window.addEventListener('touchmove', e => {
+          if (e.touches && e.touches[0]) {
+            mouse.x = e.touches[0].clientX;
+            mouse.y = e.touches[0].clientY;
+          }
+        }, { passive: true });
+        document.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+        resize();
+
+        function step() {
+          ctx.clearRect(0, 0, width, height);
+          for (let i = 0; i < particles.length; i++) {
+            const p1 = particles[i];
+            for (let j = i + 1; j < particles.length; j++) {
+              const p2 = particles[j];
+              const dx = p1.x - p2.x;
+              const dy = p1.y - p2.y;
+              const dSq = dx * dx + dy * dy;
+              if (dSq < connDistSq) {
+                const d = Math.sqrt(dSq);
+                const a = (1 - d / connDist) * 0.14;
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = (i % 2 === 0 ? 'rgba(212, 175, 55, ' : 'rgba(26, 115, 232, ') + a + ')';
+                ctx.lineWidth = 0.75;
+                ctx.stroke();
+              }
+            }
+          }
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+            const mdx = mouse.x - p.x;
+            const mdy = mouse.y - p.y;
+            const mdSq = mdx * mdx + mdy * mdy;
+            const mRadSq = mouse.radius * mouse.radius;
+            if (mdSq < mRadSq) {
+              const md = Math.sqrt(mdSq);
+              const force = (mouse.radius - md) / mouse.radius;
+              const ang = Math.atan2(mdy, mdx);
+              p.x -= Math.cos(ang) * force * 1.6;
+              p.y -= Math.sin(ang) * force * 1.6;
+              p.radius = p.baseRadius + force * 1.5;
+            } else if (p.radius > p.baseRadius) {
+              p.radius -= 0.05;
+            }
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.colorPrefix + p.alpha + ')';
+            ctx.fill();
+          }
+          requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+      if (ring && dot && window.matchMedia('(pointer: fine)').matches) {
+        let tx = -100, ty = -100, rx = -100, ry = -100, vx = 0, vy = 0;
+        window.addEventListener('mousemove', e => {
+          tx = e.clientX;
+          ty = e.clientY;
+          dot.style.transform = 'translate3d(' + (tx - 3.5) + 'px, ' + (ty - 3.5) + 'px, 0)';
+          const t = e.target;
+          const hover = !!(t && (t.tagName === 'A' || t.tagName === 'BUTTON' || (t.closest && (t.closest('a') || t.closest('button')))));
+          ring.classList.toggle('hovering', hover);
+          dot.classList.toggle('hovering', hover);
+        }, { passive: true });
+        function springLoop() {
+          const stiffness = 0.18;
+          const damping = 0.72;
+          vx = (vx + (tx - rx) * stiffness) * damping;
+          vy = (vy + (ty - ry) * stiffness) * damping;
+          rx += vx;
+          ry += vy;
+          const offset = ring.classList.contains('hovering') ? 26 : 17;
+          ring.style.transform = 'translate3d(' + (rx - offset) + 'px, ' + (ry - offset) + 'px, 0)';
+          requestAnimationFrame(springLoop);
+        }
+        requestAnimationFrame(springLoop);
+      }
+
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => io.observe(el));
+    })();
+
   </script>
 </body>
 </html>
