@@ -3,3 +3,6 @@ private/
 .env.*
 *.env
 .senpi/
+404.html
+*REPORT*.md
+*report*.md
