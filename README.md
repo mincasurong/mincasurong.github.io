@@ -2,7 +2,7 @@
 
 # M9G: from <span style="color:#1a73e8;">Machine</span> to <span style="color:#1a73e8;">General Intelligence</span>
 
-### *by Agent-enabled System Engineering*
+### *by Agent-enabled System Engineering* &nbsp; [<kbd>&nbsp;🔵 LinkedIn ↗&nbsp;</kbd>](https://www.linkedin.com/in/mincasurong/) &nbsp; [<kbd>&nbsp;⚫ GitHub ↗&nbsp;</kbd>](https://github.com/mincasurong)
 
 [🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [👥 About](#-who-we-are) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎥 Archive](#-research-archive) • [📝 VLA Blog ↗](https://mincasurong.github.io/blog/)
 
@@ -78,21 +78,14 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
       <p>Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid Gemini 4 Argon + Flash-Lite cutting API cost by 76.6% ($0.01972) with 0 RGB tokens.</p>
     </td>
     <td width="50%" valign="top">
-      <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank">
-        <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" width="100%" alt="Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects" style="border-radius: 8px;" />
-      </a>
-      <h4><a href="https://www.youtube.com/watch?v=sdE7r72gJsU">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS & GCP)</a></h4>
-      <p>Weekend stress-test across 1B tokens shipping 6 full-stack and Physical AI systems with Gemini 4 Argon, Isaac Sim, ROS 2, and Google Cloud Run.</p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
       <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank">
         <img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" width="100%" alt="EP 12. Multi Robot Collaboration | Gemini Robotics ER2 & NVIDIA IsaacSim & ROS2" style="border-radius: 8px;" />
       </a>
       <h4><a href="https://www.youtube.com/watch?v=q-D9H9anNl8">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 & NVIDIA IsaacSim & ROS2</a></h4>
       <p>Three FR3 robotic arms cooperatively constructing geometric formations in Isaac Sim with dual zero-token React Flow DAG and Gemini Robotics-ER 2 VLA execution.</p>
     </td>
+  </tr>
+  <tr>
     <td width="50%" valign="top">
       <a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y" target="_blank">
         <img src="https://img.youtube.com/vi/stxaWN7Ct8Y/maxresdefault.jpg" width="100%" alt="EP 11. FR3 Robots Cooperating with Gemini Robotics-ER2 & Isaac Sim | React Flow Digital Twin" style="border-radius: 8px;" />
@@ -100,8 +93,6 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
       <h4><a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y">EP 11. FR3 Robots Cooperating with Gemini Robotics-ER2 & Isaac Sim | React Flow Digital Twin</a></h4>
       <p>Cooperative FR3 robotic arms planning and assembling in Isaac Sim via Gemini multi-agent reasoning and React Flow digital twin.</p>
     </td>
-  </tr>
-  <tr>
     <td width="50%" valign="top">
       <a href="https://www.youtube.com/watch?v=MzAGXiZmrdY" target="_blank">
         <img src="https://img.youtube.com/vi/MzAGXiZmrdY/maxresdefault.jpg" width="100%" alt="EP 10. From natural language input - Isaac Sim, ROS 2, and Gemini Robotics-ER 2." style="border-radius: 8px;" />
@@ -109,6 +100,8 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
       <h4><a href="https://www.youtube.com/watch?v=MzAGXiZmrdY">EP 10. From natural language input - Isaac Sim, ROS 2, and Gemini Robotics-ER 2.</a></h4>
       <p>End-to-end VLA multi-robot control framework integrating Gemini Robotics-ER 2, Isaac Sim, ROS 2, and real-time Web GUI.</p>
     </td>
+  </tr>
+  <tr>
     <td width="50%" valign="top">
       <a href="https://youtu.be/5ydQRDwkg34?si=z_TNSfY_MFlpukyS" target="_blank">
         <img src="https://img.youtube.com/vi/5ydQRDwkg34/maxresdefault.jpg" width="100%" alt="EP 7. Random Target Multi-Robots on NVIDIA IsaacSim w/ Antigravity, Gemini, ROS2" style="border-radius: 8px;" />
@@ -116,6 +109,7 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
       <h4><a href="https://youtu.be/5ydQRDwkg34?si=z_TNSfY_MFlpukyS">EP 7. Random Target Multi-Robots on NVIDIA IsaacSim w/ Antigravity, Gemini, ROS2</a></h4>
       <p>Dynamic multi-robot collaboration on NVIDIA IsaacSim via ROS2, orchestrated by Antigravity 2.0 and Gemini.</p>
     </td>
+    <td width="50%" valign="top"></td>
   </tr>
 </table>
 
@@ -206,19 +200,12 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
 
 <table>
   <tr>
-    <td width="50%" valign="top">
-      <a href="https://youtu.be/k9dRqfSosBs" target="_blank">
-        <img src="https://img.youtube.com/vi/k9dRqfSosBs/maxresdefault.jpg" width="100%" alt="EP 1. TidyUpAI" style="border-radius: 8px;" />
+    <td width="100%" valign="top">
+      <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank">
+        <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" width="55%" alt="Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects" style="border-radius: 8px;" />
       </a>
-      <h4><a href="https://youtu.be/k9dRqfSosBs">EP 1. TidyUpAI</a></h4>
-      <p>An autonomous workspace organizer that declutters, tags, and structures files with zero manual effort.</p>
-    </td>
-    <td width="50%" valign="top">
-      <a href="https://www.youtube.com/watch?v=mWDwqBfzZ6s" target="_blank">
-        <img src="https://img.youtube.com/vi/mWDwqBfzZ6s/maxresdefault.jpg" width="100%" alt="EP 0. GeminiSpace v2.0: Eliminating AI Map Hallucinations with Gemini & Visual SLAM!" style="border-radius: 8px;" />
-      </a>
-      <h4><a href="https://www.youtube.com/watch?v=mWDwqBfzZ6s">EP 0. GeminiSpace v2.0: Eliminating AI Map Hallucinations with Gemini & Visual SLAM!</a></h4>
-      <p>Sub-second Gemini spatial reasoning, 360° Visual SLAM loop closure, and photorealistic 2D orthographic rendering.</p>
+      <h4><a href="https://www.youtube.com/watch?v=sdE7r72gJsU">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS & GCP)</a></h4>
+      <p>Weekend stress-test across 1B tokens shipping 6 full-stack and Physical AI systems with Gemini 4 Argon, Isaac Sim, ROS 2, and Google Cloud Run.</p>
     </td>
   </tr>
 </table>
