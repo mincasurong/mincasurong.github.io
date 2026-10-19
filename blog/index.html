@@ -705,10 +705,7 @@
         if (dict[key]) el.textContent = dict[key];
       });
     }
-    try {
-      const savedLang = localStorage.getItem('m9g_portfolio_lang');
-      if (savedLang && BLOG_I18N[savedLang]) setLang(savedLang);
-    } catch {}
+    setLang('en');
 
     (function initFluidAndCursor() {
       const canvas = document.getElementById('fluid-canvas');
