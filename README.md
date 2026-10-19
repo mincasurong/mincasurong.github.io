@@ -10,20 +10,13 @@ A research showcase, engineering diary, and live application platform exploring 
 
 <br/>
 
-[![Website](https://img.shields.io/badge/Website-mincasurong.com-d4af37?style=for-the-badge&logo=googlechrome&logoColor=white)](https://www.mincasurong.com/)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Minsu_Chang-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mincasurong/)
-[![GitHub](https://img.shields.io/badge/GitHub-mincasurong-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mincasurong)
-[![Email](https://img.shields.io/badge/Contact-produsoup%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:produsoup@gmail.com)
-
-<br/>
-
-[🏆 Highlights & Awards](#-recent-news--highlights) • [📱 Live Deployed Apps](#-live-deployed-apps--tools-100-free-access) • [🎬 Gemini Diaries](#-build-with-gemini-diaries) • [📝 Research Blog](https://mincasurong.github.io/blog/) • [📚 Publications](#-publications--research-archive) • [🛠️ Tech Stack](#-core-tech-stack--frameworks) • [👥 Who We Are](#-who-we-are)
+[🏆 Gemini Hackathon](#-1-recent-news--highlights) • [🤖 Gemini × Robotic Arm Series](#-2-gemini--robotic-arm-series-isaac-sim--ros-2) • [👥 Who We Are](#-3-who-we-are) • [📚 Publications](#-4-peer-reviewed-scientific-publications) • [📱 Gemini Apps & Diaries](#-5-gemini-diaries--live-deployed-apps) • [🎥 Research Archive](#-6-research-video-archive) • [📝 VLA Benchmark Blog](https://mincasurong.github.io/blog/)
 
 </div>
 
 ---
 
-## 🏆 Recent News & Highlights
+## 🏆 1. Recent News & Highlights
 
 ### 🥇 1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026
 
@@ -52,81 +45,18 @@ We developed **GeminiSpace**, a Vision-Language-Action (VLA) navigation system t
 
 ---
 
-## 📱 Live Deployed Apps & Tools (100% Free Access)
+## 🤖 2. Gemini × Robotic Arm Series (Isaac Sim & ROS 2)
 
-Production applications deployed and maintained on **Google Cloud Run** and **Google Play**:
-
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <a href="https://geminispace.mincasurong.com/" target="_blank">
-        <img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" width="100%" alt="GeminiSpace Spatial AI" style="border-radius: 8px;" />
-      </a>
-      <h3>🌐 <a href="https://geminispace.mincasurong.com/">GeminiSpace: Indoor Spatial AI</a></h3>
-      <p><b>Web Application • Google Cloud Run • 1st Place Winner</b></p>
-      <p>Transforms 360° multi-view room photos into an interactive indoor spatial map with sub-second Gemini spatial reasoning and Visual SLAM loop closure.</p>
-      <br/>
-      <a href="https://geminispace.mincasurong.com/" target="_blank">
-        <img src="https://img.shields.io/badge/Live_Web_App-Launch_GeminiSpace-00C853?style=for-the-badge&logo=googlecloud&logoColor=white" alt="Launch GeminiSpace" />
-      </a>
-    </td>
-    <td width="50%" valign="top">
-      <a href="https://opic.mincasurong.com/" target="_blank">
-        <img src="https://github.com/user-attachments/assets/18ba78a7-32ea-4690-8ea4-971d860b58f8" width="100%" alt="OPIc AI Master Coach" style="border-radius: 8px;" />
-      </a>
-      <h3>🎙️ <a href="https://opic.mincasurong.com/">OPIc AI Master Coach</a></h3>
-      <p><b>Web Application • Google Cloud Run • Gemini & Speech AI</b></p>
-      <p>Real-time conversational AI voice sparring trainer for test takers targeting Advanced Low (AL). Features native roleplay sparring, instant fluency scoring, and pronunciation feedback.</p>
-      <br/>
-      <a href="https://opic.mincasurong.com/" target="_blank">
-        <img src="https://img.shields.io/badge/Live_Web_App-Launch_OPIc_Coach-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" alt="Launch OPIc Coach" />
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <a href="https://jplt.mincasurong.com/" target="_blank">
-        <img src="https://github.com/user-attachments/assets/76a5cd9d-ef41-4728-a6f0-5e3fa4d480d0" width="100%" alt="JLPT N4 Mock Exam & Drill Master" style="border-radius: 8px;" />
-      </a>
-      <h3>🇯🇵 <a href="https://jplt.mincasurong.com/">JLPT N4 Mock Exam & Drill Master</a></h3>
-      <p><b>Web Application • Google Cloud Run • Gemini 1:1 Tutor</b></p>
-      <p>Full-section Japanese proficiency exam drill simulator. Gemini AI analyzes individual weak spots across vocabulary, grammar, and reading in real time with focused drill exercises.</p>
-      <br/>
-      <a href="https://jplt.mincasurong.com/" target="_blank">
-        <img src="https://img.shields.io/badge/Live_Web_App-Launch_JLPT_Drill-EA4335?style=for-the-badge&logo=googlecloud&logoColor=white" alt="Launch JLPT Drill" />
-      </a>
-    </td>
-    <td width="50%" valign="top">
-      <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank">
-        <img src="https://img.youtube.com/vi/WYOJY8WIwBY/maxresdefault.jpg" width="100%" alt="UrKuma Hanja App Demo" style="border-radius: 8px;" />
-      </a>
-      <h3>🐻 <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl">UrKuma (유어쿠마): Hanja Learning Quiz</a></h3>
-      <p><b>Android Mobile App • Google Play Store</b></p>
-      <p>An interactive quiz app featuring UrKuma the bear guide to master Hanja (Chinese characters) and Japanese vocabulary in 3 minutes a day.</p>
-      <br/>
-      <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank">
-        <img src="https://img.shields.io/badge/Google_Play-Get_UrKuma_on_Android-34A853?style=for-the-badge&logo=googleplay&logoColor=white" alt="Download UrKuma on Google Play" />
-      </a>
-    </td>
-  </tr>
-</table>
-
----
-
-## 🎬 Build with Gemini Diaries
-
-Documenting our builder journey in spatial intelligence, robotics, agent-driven engineering, and deployed applications using **Google AI Studio**, **Antigravity**, and **Gemini**.
-
-### 🤖 Robotics, VLA & Digital Twins
+Multi-robot VLA manipulation, React Flow digital twins, and hardware-in-the-loop benchmarks in **NVIDIA Isaac Sim 6.0** and **ROS 2 Jazzy**:
 
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank">
-        <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" width="100%" alt="Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects" style="border-radius: 8px;" />
+      <a href="https://mincasurong.github.io/blog/" target="_blank">
+        <img src="https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png" width="100%" alt="VLA Task Planner Benchmark Architecture" style="border-radius: 8px;" />
       </a>
-      <h4><a href="https://www.youtube.com/watch?v=sdE7r72gJsU">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS & GCP)</a></h4>
-      <p>Weekend stress-test across 1B tokens shipping 6 full-stack and Physical AI systems: m9g-code CLI harness, Isaac Sim + ROS 2 VLA benchmark, GeminiSpace v2.0, OPIc & JLPT SaaS apps, and Cloud Run orchestration.</p>
+      <h4><a href="https://mincasurong.github.io/blog/">📊 Featured Blog: Empirical Comparison of VLA Task Planners (ER-2 vs. Gemini 4 Argon)</a></h4>
+      <p>Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid 1x Argon Brain + 10x Flash-Lite Executor cutting API cost by 76.6% ($0.01972) with 0 RGB image tokens. <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA"><b>Watch Video ↗</b></a> • <a href="https://mincasurong.github.io/blog/"><b>Read Blog ↗</b></a></p>
     </td>
     <td width="50%" valign="top">
       <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank">
@@ -161,36 +91,34 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
       <p>Dynamic multi-robot collaboration on NVIDIA IsaacSim via ROS2, orchestrated by Antigravity 2.0 and Gemini.</p>
     </td>
     <td width="50%" valign="top">
-      <a href="https://www.youtube.com/watch?v=mWDwqBfzZ6s" target="_blank">
-        <img src="https://img.youtube.com/vi/mWDwqBfzZ6s/maxresdefault.jpg" width="100%" alt="EP 0. GeminiSpace v2.0" style="border-radius: 8px;" />
+      <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank">
+        <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" width="100%" alt="Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects" style="border-radius: 8px;" />
       </a>
-      <h4><a href="https://www.youtube.com/watch?v=mWDwqBfzZ6s">EP 0. GeminiSpace v2.0: Eliminating AI Map Hallucinations</a></h4>
-      <p>Sub-second Gemini spatial reasoning, 360° Visual SLAM loop closure, and photorealistic 2D orthographic rendering.</p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <a href="https://youtu.be/k9dRqfSosBs" target="_blank">
-        <img src="https://img.youtube.com/vi/k9dRqfSosBs/maxresdefault.jpg" width="100%" alt="EP 1. TidyUpAI" style="border-radius: 8px;" />
-      </a>
-      <h4><a href="https://youtu.be/k9dRqfSosBs">EP 1. TidyUpAI</a></h4>
-      <p>Autonomous workspace organizer that declutters, tags, and structures files with zero manual effort.</p>
-    </td>
-    <td width="50%" valign="top">
-      <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank">
-        <img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" width="100%" alt="Gemini Robotics ER-2 vs. Gemini 4 Argon VLA Benchmark" style="border-radius: 8px;" />
-      </a>
-      <h4><a href="https://mincasurong.github.io/blog/">📊 Research Blog: Gemini Robotics ER-2 vs. Gemini 4 Argon VLA Task Planner Benchmark (Isaac Sim 6.0 & ROS 2)</a></h4>
-      <p>Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid 1x Argon Brain + 10x Flash-Lite Executor cutting API cost by 76.6% ($0.01972) with 0 RGB image tokens. <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA"><b>Watch Video ↗</b></a> • <a href="https://mincasurong.github.io/blog/"><b>Read Full Blog Report ↗</b></a></p>
+      <h4><a href="https://www.youtube.com/watch?v=sdE7r72gJsU">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS & GCP)</a></h4>
+      <p>Weekend stress-test across 1B tokens shipping 6 full-stack and Physical AI systems: m9g-code CLI harness, Isaac Sim + ROS 2 VLA benchmark, GeminiSpace v2.0, OPIc & JLPT SaaS apps, and Cloud Run orchestration.</p>
     </td>
   </tr>
 </table>
 
 ---
 
-## 📚 Publications & Research Archive
+## 👥 3. Who We Are
 
-### 📄 Peer-Reviewed Scientific Publications
+> **A team of a human and AI agents**
+
+Our foundation is rooted in a profound passion for **robotics**, complemented by extensive expertise in **human-robot interaction (HRI)**, advanced control theory, and sophisticated machine learning techniques. Our professional experience encompasses a broad spectrum, ranging from **assistive and rehabilitation robotics** to the development of **agentic systems** for industrial automation.
+
+```text
+The M9G Formula:
+M9G represents our journey and dual alignment:
+  m incasuron g  (Human Engineering)
+  ×
+  m insu chan g  (Agent-enabled Intelligence)
+```
+
+---
+
+## 📚 4. Peer-Reviewed Scientific Publications
 
 | Year | Venue | Paper Title | IEEE Xplore / MDPI Link |
 | :---: | :---: | :--- | :---: |
@@ -200,12 +128,57 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
 | **2019** | **Applied Sciences** | Precise flowrate control of fluid gear pump in automated painting system using a repetitive controller | [MDPI: 3413](https://www.mdpi.com/2076-3417/9/16/3413) |
 | **2017** | **ICORR / Rehabweek** | A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model | [DOI: 8009275](https://ieeexplore.ieee.org/document/8009275) |
 
-<br/>
+---
 
-### 🎥 Research Video Archive
+## 📱 5. Gemini Diaries & Live Deployed Apps (100% Free Access)
+
+Production applications deployed on **Google Cloud Run** and **Google Play**, alongside our applied Gemini engineering diaries:
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://opic.mincasurong.com/" target="_blank">
+        <img src="https://github.com/user-attachments/assets/18ba78a7-32ea-4690-8ea4-971d860b58f8" width="100%" alt="OPIc AI Master Coach" style="border-radius: 8px;" />
+      </a>
+      <h3>🎙️ <a href="https://opic.mincasurong.com/">OPIc AI Master Coach</a></h3>
+      <p><b>Web Application • Google Cloud Run • Gemini & Speech AI</b></p>
+      <p>Real-time conversational AI voice sparring trainer for test takers targeting Advanced Low (AL). Features native roleplay sparring, instant fluency scoring, and pronunciation feedback.</p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://jplt.mincasurong.com/" target="_blank">
+        <img src="https://github.com/user-attachments/assets/76a5cd9d-ef41-4728-a6f0-5e3fa4d480d0" width="100%" alt="JLPT N4 Mock Exam & Drill Master" style="border-radius: 8px;" />
+      </a>
+      <h3>🇯🇵 <a href="https://jplt.mincasurong.com/">JLPT N4 Mock Exam & Drill Master</a></h3>
+      <p><b>Web Application • Google Cloud Run • Gemini 1:1 Tutor</b></p>
+      <p>Full-section Japanese proficiency exam drill simulator. Gemini AI analyzes individual weak spots across vocabulary, grammar, and reading in real time with focused drill exercises.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank">
+        <img src="https://img.youtube.com/vi/WYOJY8WIwBY/maxresdefault.jpg" width="100%" alt="UrKuma Hanja App Demo" style="border-radius: 8px;" />
+      </a>
+      <h3>🐻 <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl">UrKuma (유어쿠마): Hanja Learning Quiz</a></h3>
+      <p><b>Android Mobile App • Google Play Store</b></p>
+      <p>An interactive quiz app featuring UrKuma the bear guide to master Hanja (Chinese characters) and Japanese vocabulary in 3 minutes a day.</p>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://youtu.be/k9dRqfSosBs" target="_blank">
+        <img src="https://img.youtube.com/vi/k9dRqfSosBs/maxresdefault.jpg" width="100%" alt="EP 1. TidyUpAI" style="border-radius: 8px;" />
+      </a>
+      <h3>🗂️ <a href="https://youtu.be/k9dRqfSosBs">EP 1. TidyUpAI & EP 0. GeminiSpace v2.0</a></h3>
+      <p><b>Applied Gemini Diaries • Spatial AI & Workspace Automation</b></p>
+      <p>Autonomous workspace organization (<a href="https://youtu.be/k9dRqfSosBs">EP 1. TidyUpAI</a>) and Visual SLAM loop-closure floorplan rendering (<a href="https://www.youtube.com/watch?v=mWDwqBfzZ6s">EP 0. GeminiSpace v2.0</a>).</p>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 🎥 6. Research Video Archive
 
 <details open>
-<summary><b>🦿 Virtual Reality (VR) + Wearable Robots for Rehabilitation (Click to expand/collapse)</b></summary>
+<summary><b>🦿 Virtual Reality (VR) + Wearable Robots for Rehabilitation</b></summary>
 <br/>
 
 <table>
@@ -237,7 +210,7 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
 </details>
 
 <details open>
-<summary><b>🚙 Mobile Robots, Navigation & Manipulators (Click to expand/collapse)</b></summary>
+<summary><b>🚙 Mobile Robots, Navigation & Manipulators</b></summary>
 <br/>
 
 <table>
@@ -270,37 +243,13 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
 
 ---
 
-## 🛠️ Core Tech Stack & Frameworks
-
 <div align="center">
 
-| Domain | Technologies |
-| :--- | :--- |
-| **Robotics & Simulation** | `NVIDIA Isaac Sim` `ROS 2` `MoveIt 2` `MuJoCo` `robomimic` `Franka Emika FR3` `Jetson Nano` |
-| **AI & Spatial Intelligence** | `Google Gemini 3.8 / 3.7 Flash` `Gemini Robotics-ER 2` `Visual SLAM` `VLA Models` `PyTorch` |
-| **Full-Stack & Digital Twins** | `React 19` `TypeScript 5.8` `React Flow` `Vite 6` `Tailwind CSS v4` `Express` `Motion` |
-| **Cloud & Agentic DevOps** | `Google Cloud Run` `Google AI Studio` `Antigravity 2.0` `Docker` `GitHub Actions` `Firebase` |
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Minsu_Chang-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mincasurong/)
+[![GitHub](https://img.shields.io/badge/GitHub-mincasurong-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mincasurong)
+[![Email](https://img.shields.io/badge/Contact-produsoup%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:produsoup@gmail.com)
 
-</div>
+<br/>
+<sub>© 2026 M9G • Built in Public • <a href="https://mincasurong.github.io/">mincasurong.github.io</a></sub>
 
----
-
-## 👥 Who We Are
-
-> **A team of a human and AI agents**
-
-Our foundation is rooted in a profound passion for **robotics**, complemented by extensive expertise in **human-robot interaction (HRI)**, advanced control theory, and sophisticated machine learning techniques. Our professional experience encompasses a broad spectrum, ranging from **assistive and rehabilitation robotics** to the development of **agentic systems** for industrial automation.
-
-```text
-The M9G Formula:
-M9G represents our journey and dual alignment:
-  m incasuron g  (Human Engineering)
-  ×
-  m insu chan g  (Agent-enabled Intelligence)
-```
-
----
-
-<div align="center">
-  <sub>© 2026 M9G • Built in Public • <a href="https://www.mincasurong.com/">mincasurong.com</a></sub>
 </div>
