@@ -4,7 +4,7 @@
 
 ### *by Agent-enabled System Engineering* &nbsp; [<kbd>&nbsp;🔵 LinkedIn ↗&nbsp;</kbd>](https://www.linkedin.com/in/mincasurong/) &nbsp; [<kbd>&nbsp;⚫ GitHub ↗&nbsp;</kbd>](https://github.com/mincasurong)
 
-[🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [👥 About](#-who-we-are) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎥 Archive](#-research-archive) • [📝 VLA Blog ↗](https://mincasurong.github.io/blog/)
+[🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎥 Archive](#-research-archive) • [👥 About](#-who-we-are) • [📝 VLA Blog ↗](https://mincasurong.github.io/blog/)
 
 </div>
 
@@ -112,18 +112,6 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
     <td width="50%" valign="top"></td>
   </tr>
 </table>
-
----
-
-## 👥 Who We Are
-
-**`A TEAM OF A HUMAN AND AI AGENTS`**
-
-### Hi, we're M9G
-
-Our foundation is rooted in a profound passion for **robotics**, complemented by extensive expertise in **human-robot interaction (HRI)**, advanced control theory, and sophisticated machine learning techniques.
-
-Our professional experience encompasses a broad spectrum, ranging from **assistive and rehabilitation robotics** to the development of **agentic systems** for industrial automation.
 
 ---
 
@@ -271,6 +259,18 @@ Selected research demonstrations across **wearable robotics**, VR gait rehabilit
     </td>
   </tr>
 </table>
+
+---
+
+## 👥 Who We Are
+
+**`A TEAM OF A HUMAN AND AI AGENTS`**
+
+### Hi, we're M9G
+
+Our foundation is rooted in a profound passion for **robotics**, complemented by extensive expertise in **human-robot interaction (HRI)**, advanced control theory, and sophisticated machine learning techniques.
+
+Our professional experience encompasses a broad spectrum, ranging from **assistive and rehabilitation robotics** to the development of **agentic systems** for industrial automation.
 
 ---
 
