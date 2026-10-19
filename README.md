@@ -10,7 +10,7 @@ A research showcase, engineering diary, and live application platform exploring 
 
 <br/>
 
-[🏆 Gemini Hackathon](#-1-recent-news--highlights) • [🤖 Gemini × Robotic Arm Series](#-2-gemini--robotic-arm-series-isaac-sim--ros-2) • [👥 Who We Are](#-3-who-we-are) • [📚 Publications](#-4-peer-reviewed-scientific-publications) • [📱 Gemini Apps & Diaries](#-5-gemini-diaries--live-deployed-apps) • [🎥 Research Archive](#-6-research-video-archive) • [📝 VLA Benchmark Blog](https://mincasurong.github.io/blog/)
+[🏆 Gemini Hackathon](#-1-recent-news--highlights) • [🤖 Gemini × Robotic Arm Series](#-2-gemini--robotic-arm-series-isaac-sim--ros-2) • [👥 Who We Are](#-3-who-we-are) • [📚 Publications](#-4-peer-reviewed-scientific-publications) • [📱 Gemini Apps & Diaries](#-5-gemini-diaries--live-deployed-apps-100-free-access) • [🎥 Research Archive](#-6-research-video-archive) • [📝 VLA Benchmark Blog](https://mincasurong.github.io/blog/)
 
 </div>
 
