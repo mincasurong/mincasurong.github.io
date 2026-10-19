@@ -278,7 +278,7 @@ Selected research demonstrations across **wearable robotics**, VR gait rehabilit
 
 **The M9G Formula**: `m incasuron g` and `m insu chan g`
 
-[produsoup@gmail.com](mailto:produsoup@gmail.com) &nbsp;•&nbsp; [LinkedIn](https://www.linkedin.com/in/mincasurong/) &nbsp;•&nbsp; [GitHub](https://github.com/mincasurong)
+[<kbd>&nbsp;🔵 LinkedIn ↗&nbsp;</kbd>](https://www.linkedin.com/in/mincasurong/) &nbsp; [<kbd>&nbsp;⚫ GitHub ↗&nbsp;</kbd>](https://github.com/mincasurong)
 
 <sub>© 2026 Build in Public • <a href="https://mincasurong.github.io/">mincasurong.github.io</a></sub>
 
