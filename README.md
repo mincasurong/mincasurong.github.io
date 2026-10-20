@@ -4,7 +4,7 @@
 
 ### *by Agent-enabled System Engineering* &nbsp; [<kbd>&nbsp;🔵 LinkedIn ↗&nbsp;</kbd>](https://www.linkedin.com/in/mincasurong/) &nbsp; [<kbd>&nbsp;⚫ GitHub ↗&nbsp;</kbd>](https://github.com/mincasurong)
 
-[🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎥 Archive](#-research-archive) • [👥 About](#-who-we-are) • [📝 VLA Blog ↗](https://mincasurong.github.io/blog/)
+[🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎥 Archive](#-research-archive) • [👥 About](#-who-we-are) • [📝 VLA Blog ↗](https://mincasurong.github.io/blog/) • [🧠 Agent Harness Blog ↗](https://mincasurong.github.io/blog/m9g-agent-corps/)
 
 </div>
 
@@ -184,7 +184,23 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
   </tr>
 </table>
 
-### 🎬 Demo Videos
+### 🎬 Demo Videos & Engineering Blog
+
+<table>
+  <tr>
+    <td width="42%" valign="middle">
+      <a href="https://mincasurong.github.io/blog/m9g-agent-corps/">
+        <img src="https://mincasurong.github.io/screenshots/m9g-agent-corps-architecture.png" width="100%" alt="m9g-agent-corps vs. Production Coding Harnesses Architecture" style="border-radius: 8px;" />
+      </a>
+    </td>
+    <td width="58%" valign="middle">
+      <p><code>mincasurong.github.io/blog/m9g-agent-corps</code> • <b>31 Modules Audited • m9g vs. OmO / Claude Code / Codex / agy</b></p>
+      <h3><a href="https://mincasurong.github.io/blog/m9g-agent-corps/">Dissecting m9g-agent-corps: Why Production Harnesses Outperform Custom Wrappers — and What Antigravity (agy) Actually Is</a></h3>
+      <p>Code-level audit of our 3-tier multi-agent coding corps (<code>src/ag_harness/</code>), the 6 reliability gaps vs. OmO / Claude Code / Codex, and the dual surface of Google Antigravity (<code>agy</code>).</p>
+      <p><a href="https://mincasurong.github.io/blog/m9g-agent-corps/"><b>Read Agent Harness Blog ↗</b></a> &nbsp;•&nbsp; <a href="https://www.youtube.com/watch?v=sdE7r72gJsU"><b>Watch Weekend Sprint Video ↗</b></a></p>
+    </td>
+  </tr>
+</table>
 
 <table>
   <tr>
