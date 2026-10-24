@@ -7,9 +7,147 @@
     <meta name="description" content="Interactive webpage for We're M9G (Minsu Chang, Ph.D.) — From Machine to General Intelligence by Agent-enabled System Engineering. ROS 1/2, MoveIt 1/2 & NVIDIA Jetson Nano Tutorials, VLA Benchmarks, 16 Publications, and 11 US/KR Patents." />
     <meta property="og:title" content="We're M9G — Robotics, Agentic AI & Tutorials" />
     <meta property="og:description" content="Interactive webpage for We're M9G — ROS/MoveIt/Jetson Tutorials, VLA Benchmarks, 16 Publications, 11 US/KR Patents, and Medical Exoskeleton Research." />
-    <script type="module" crossorigin src="/assets/index-CUgyI4_0.js?v=20261025a"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Bt7xwmGO.css?v=20261025a">
+    <script type="module" crossorigin src="/assets/index-CUgyI4_0.js?v=20261025b"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Bt7xwmGO.css?v=20261025b">
     <style>
+      /* Unified Google-Blog Topbar & Concise Single-Row Navigation */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: rgba(17, 17, 17, 0.88);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: background-color 0.25s ease, border-color 0.25s ease;
+      }
+      html.light .topbar {
+        background: rgba(255, 255, 255, 0.90) !important;
+        border-bottom: 1px solid #dadce0 !important;
+      }
+      .topbar-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: #f8fafc;
+        text-decoration: none;
+        letter-spacing: -0.02em;
+        flex-shrink: 0;
+      }
+      html.light .brand {
+        color: #202124 !important;
+      }
+      .brand-sep {
+        color: #475569;
+        font-weight: 300;
+      }
+      html.light .brand-sep {
+        color: #dadce0 !important;
+      }
+      .brand-sec {
+        color: #94a3b8;
+        font-weight: 500;
+        font-size: 0.92rem;
+      }
+      html.light .brand-sec {
+        color: #5f6368 !important;
+      }
+      .topnav {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        overflow-x: auto;
+        max-width: 100%;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .topnav::-webkit-scrollbar {
+        display: none;
+      }
+      .topnav a {
+        color: #cbd5e1;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 6px 11px;
+        border-radius: 999px;
+        transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+        white-space: nowrap;
+      }
+      .topnav a:hover {
+        background: rgba(212, 175, 55, 0.14);
+        color: #d4af37;
+      }
+      html.light .topnav a {
+        color: #5f6368 !important;
+      }
+      html.light .topnav a:hover {
+        background: #e8f0fe !important;
+        color: #1a73e8 !important;
+      }
+      .topnav a.nav-pill {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: #f8fafc;
+      }
+      html.light .topnav a.nav-pill {
+        border: 1px solid #dadce0 !important;
+        color: #202124 !important;
+      }
+      html.light .topnav a.nav-pill:hover {
+        border-color: #1a73e8 !important;
+        color: #1a73e8 !important;
+      }
+      .topbar-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: #e2e8f0;
+        border-radius: 999px;
+        padding: 5px 11px;
+        font-size: 0.76rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: all 0.15s ease;
+        flex-shrink: 0;
+      }
+      .topbar-btn:hover {
+        border-color: #d4af37;
+        color: #d4af37;
+      }
+      html.light .topbar-btn {
+        background: #f8f9fa !important;
+        border: 1px solid #dadce0 !important;
+        color: #5f6368 !important;
+      }
+      html.light .topbar-btn:hover {
+        border-color: #1a73e8 !important;
+        color: #1a73e8 !important;
+        background: #e8f0fe !important;
+      }
+      @media (max-width: 640px) {
+        .topbar-inner {
+          padding: 0 12px;
+          gap: 8px;
+        }
+        .brand-sep,
+        .brand-sec {
+          display: none;
+        }
+      }
       .hero-pill-btn {
         display: inline-flex;
         align-items: center;
@@ -185,7 +323,7 @@
         background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%) !important;
         height: 3px !important;
       }
-          #hero { padding-top: 7rem !important; padding-bottom: 3.5rem !important; }
+          #hero { padding-top: 4rem !important; padding-bottom: 3.5rem !important; }
     </style>
   </head>
   <body>

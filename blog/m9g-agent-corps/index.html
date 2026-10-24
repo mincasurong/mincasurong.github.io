@@ -317,10 +317,9 @@
       <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
         <nav class="topnav">
           <a href="/tutorials/">Tutorials</a>
-          <a href="/archive/">Archive &amp; Patents</a>
-          <a href="/blog/" data-i18n="navVlaBlog">VLA Benchmark Blog</a>
-          <a href="/#build-with-ai" data-i18n="navDiaries">Gemini Diaries</a>
-          <a href="/#research" data-i18n="navPubs">Publications</a>
+          <a href="/blog/">VLA Blog</a>
+          <a href="/blog/m9g-agent-corps/">Agent Blog</a>
+          <a href="/archive/">Archive</a>
           <a href="/" class="back-link" data-i18n="navPortfolio">Portfolio</a>
         </nav>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
@@ -813,7 +812,7 @@
         if (dict[key]) el.textContent = dict[key];
       });
     }
-    setLang('en');
+    setLang((function(){ try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch { return 'en'; } })());
 
     (function initFluidAndCursor() {
       const canvas = document.getElementById('fluid-canvas');
