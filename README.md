@@ -4,7 +4,7 @@
 
 ### *by Agent-enabled System Engineering* &nbsp; [<kbd>&nbsp;🔵 LinkedIn ↗&nbsp;</kbd>](https://www.linkedin.com/in/mincasurong/) &nbsp; [<kbd>&nbsp;⚫ GitHub ↗&nbsp;</kbd>](https://github.com/mincasurong)
 
-[🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎓 Tutorials ↗](https://mincasurong.github.io/tutorials/) • [🏛️ Full Archive & Patents ↗](https://mincasurong.github.io/archive/) • [📝 VLA Blog ↗](https://mincasurong.github.io/blog/) • [🧠 Agent Harness Blog ↗](https://mincasurong.github.io/blog/m9g-agent-corps/)
+[🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎓 Tutorials ↗](https://mincasurong.github.io/tutorials/) • [🏛️ Full Archive & Patents ↗](https://mincasurong.github.io/archive/) • [📝 Engineering Blog ↗](https://mincasurong.github.io/blog/)
 
 </div>
 
