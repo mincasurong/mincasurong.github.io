@@ -1,0 +1,1364 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patents, Publications &amp; Research Archive | Minsu Chang, Ph.D.</title>
+  <meta name="description" content="Complete archive of Minsu Chang, Ph.D. (Mincasurong): 11 US/KR Patents, 16 Research Publications, KFDA Medical Exoskeletons (SUBAR), Gemini 3 Seoul Hackathon Epilogue, Google Cloud OnBoard Recap, Teaching Assistant Lectures (LQR/MATLAB), and AIESEC Hungary." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070b14;
+      --bg-elev: rgba(15, 23, 42, 0.78);
+      --bg-card: rgba(15, 23, 42, 0.65);
+      --bg-code: #050811;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border: rgba(51, 65, 85, 0.55);
+      --accent-blue: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-indigo: #818cf8;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+    html.light {
+      --bg: #f8fafc;
+      --bg-elev: rgba(255, 255, 255, 0.9);
+      --bg-card: rgba(255, 255, 255, 0.96);
+      --bg-code: #0f172a;
+      --text: #0f172a;
+      --text-muted: #334155;
+      --text-dim: #475569;
+      --border: rgba(203, 213, 225, 0.9);
+      --accent-blue: #0284c7;
+      --accent-emerald: #059669;
+      --accent-indigo: #4f46e5;
+      --accent-amber: #d97706;
+      --accent-rose: #e11d48;
+      --shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.72;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      background-image:
+        radial-gradient(circle at 12% 8%, rgba(56, 189, 248, 0.08), transparent 32%),
+        radial-gradient(circle at 88% 15%, rgba(129, 140, 248, 0.08), transparent 32%);
+      background-attachment: fixed;
+    }
+    h1, h2, h3, h4, .font-display { font-family: 'Outfit', sans-serif; letter-spacing: -0.02em; }
+    code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+    a { color: var(--accent-blue); text-decoration: none; transition: opacity 0.15s ease; }
+    a:hover { opacity: 0.86; }
+
+    /* Sticky Top Navigation */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: var(--bg-elev);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--text);
+    }
+    .brand-badge {
+      padding: 0.22rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      background: linear-gradient(135deg, #2563eb, #10b981);
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .topbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+    .nav-pill {
+      padding: 0.38rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .nav-pill:hover, .nav-pill.active {
+      color: var(--accent-blue);
+      border-color: var(--accent-blue);
+    }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .lang-bar {
+      display: flex;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.18rem;
+    }
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.24rem 0.5rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .lang-btn.active {
+      background: var(--accent-blue);
+      color: #050811;
+    }
+    html.light .lang-btn.active { color: #fff; }
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.42rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-pill:hover { border-color: var(--accent-blue); }
+
+    /* Hero */
+    .hero {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 3.2rem 1.5rem 2rem;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.34rem 0.88rem;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(129, 140, 248, 0.14);
+      color: var(--accent-indigo);
+      border: 1px solid rgba(129, 140, 248, 0.35);
+      margin-bottom: 1.1rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4.2vw, 3.3rem);
+      font-weight: 900;
+      line-height: 1.12;
+      margin-bottom: 1rem;
+    }
+    .gradient-text {
+      background: linear-gradient(95deg, #38bdf8 0%, #818cf8 55%, #10b981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.08rem;
+      color: var(--text-muted);
+      max-width: 960px;
+      margin-bottom: 1.65rem;
+    }
+
+    /* Section Filter Bar */
+    .filter-bar {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .filter-btn {
+      padding: 0.55rem 1.1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--text);
+      background: rgba(56, 189, 248, 0.12);
+    }
+
+    /* Layout */
+    .layout {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 5rem;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2.25rem;
+      align-items: start;
+    }
+    @media (max-width: 1040px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc-sidebar { position: static !important; }
+    }
+    .toc-sidebar {
+      position: sticky;
+      top: 5.2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+    .toc-group-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-blue);
+      margin: 0.85rem 0 0.45rem;
+      font-weight: 700;
+    }
+    .toc-group-title:first-child { margin-top: 0; }
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.22rem;
+    }
+    .toc-list a {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 0.34rem 0.6rem;
+      border-radius: 8px;
+      border-left: 2px solid transparent;
+      transition: all 0.15s ease;
+    }
+    .toc-list a:hover {
+      color: var(--text);
+      background: rgba(56, 189, 248, 0.08);
+      border-left-color: var(--accent-blue);
+    }
+
+    /* Cards & Sections */
+    .archive-section {
+      margin-bottom: 3rem;
+      scroll-margin-top: 5.5rem;
+    }
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.68rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+      background: rgba(56, 189, 248, 0.14);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .section-badge.emerald {
+      background: rgba(16, 185, 129, 0.14);
+      color: var(--accent-emerald);
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+    .section-badge.amber {
+      background: rgba(251, 191, 36, 0.14);
+      color: var(--accent-amber);
+      border-color: rgba(251, 191, 36, 0.35);
+    }
+    .section-badge.indigo {
+      background: rgba(129, 140, 248, 0.14);
+      color: var(--accent-indigo);
+      border-color: rgba(129, 140, 248, 0.35);
+    }
+    .section-card h2 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      margin-bottom: 0.65rem;
+      color: var(--text);
+    }
+    .section-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 1.4rem 0 0.55rem;
+      color: var(--accent-blue);
+    }
+    .section-card p {
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+      font-size: 0.96rem;
+    }
+
+    /* Item List (Patents & Publications) */
+    .pub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+    .pub-item {
+      padding: 1.1rem 1.25rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.38);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: border-color 0.2s ease;
+    }
+    html.light .pub-item { background: rgba(241, 245, 249, 0.75); }
+    .pub-item:hover { border-color: var(--accent-blue); }
+    .pub-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      min-width: 2.3rem;
+      padding-top: 0.15rem;
+    }
+    .pub-body { flex: 1; }
+    .pub-title {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 0.96rem;
+      margin-bottom: 0.25rem;
+    }
+    .pub-authors {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+    .pub-venue {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      color: var(--accent-emerald);
+    }
+    .pub-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.38rem 0.78rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--accent-blue);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      font-weight: 700;
+      white-space: nowrap;
+      align-self: center;
+    }
+    .pub-link:hover {
+      background: var(--accent-blue);
+      color: #050811;
+    }
+
+    /* Video Grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 1.15rem;
+      margin: 1.1rem 0;
+    }
+    .video-card {
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    html.light .video-card { background: #f8fafc; }
+    .video-frame {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #000;
+    }
+    .video-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .video-body {
+      padding: 0.85rem 1rem;
+    }
+    .video-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .video-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Press & Resource Chips */
+    .resource-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin: 0.9rem 0;
+    }
+    .resource-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.42rem 0.85rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent-blue);
+    }
+    .resource-chip.emerald {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: var(--accent-emerald);
+    }
+    .resource-chip.amber {
+      background: rgba(251, 191, 36, 0.1);
+      border-color: rgba(251, 191, 36, 0.3);
+      color: var(--accent-amber);
+    }
+
+    /* Bilingual Box */
+    .bilingual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.2rem;
+    }
+    .bilingual-box {
+      padding: 1.35rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.4);
+    }
+    html.light .bilingual-box { background: rgba(241, 245, 249, 0.8); }
+
+    /* Table */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.88rem;
+    }
+    .spec-table th, .spec-table td {
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .spec-table th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="/" class="brand">
+        <span class="brand-badge">M9G</span>
+        <span>Minsu Chang, Ph.D.</span>
+      </a>
+      <nav class="topbar-nav">
+        <a href="/" class="nav-pill" data-i18n="nav_home">← Main Portfolio</a>
+        <a href="/tutorials/" class="nav-pill" data-i18n="nav_tutorials">ROS / MoveIt / Jetson Tutorials</a>
+        <a href="/archive/" class="nav-pill active" data-i18n="nav_archive">Patents, Research &amp; Archive</a>
+        <a href="/blog/" class="nav-pill">VLA Blog</a>
+        <a href="/blog/m9g-agent-corps/" class="nav-pill">M9G Agent Corps</a>
+      </nav>
+      <div class="topbar-actions">
+        <div class="lang-bar" role="group" aria-label="Language switcher">
+          <button class="lang-btn active" onclick="setLang('en')" id="lang-en">EN</button>
+          <button class="lang-btn" onclick="setLang('ko')" id="lang-ko">KO</button>
+          <button class="lang-btn" onclick="setLang('ja')" id="lang-ja">JA</button>
+          <button class="lang-btn" onclick="setLang('es')" id="lang-es">ES</button>
+          <button class="lang-btn" onclick="setLang('zh')" id="lang-zh">ZH</button>
+        </div>
+        <button class="btn-pill" id="themeBtn" onclick="toggleTheme()">
+          <span id="themeIcon">☀️</span>
+          <span id="themeText">Light</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="eyebrow" data-i18n="hero_eyebrow">COMPLETE KNOWLEDGE ARCHIVE · MINCASURONG.COM × GITHUB.IO</div>
+    <h1>
+      <span class="gradient-text" data-i18n="hero_title_1">Patents, Publications, Medical Robotics</span><br />
+      <span data-i18n="hero_title_2">&amp; Agentic AI Milestones</span>
+    </h1>
+    <p class="hero-sub" data-i18n="hero_sub">
+      The unified repository of every patent, research article, clinical rehabilitation robot video (SUBAR &amp; AI Therapist), Gemini 3 Seoul Hackathon epilogue, Google Cloud OnBoard technical recap, Sogang University LQR/MATLAB control lecture, and global exchange milestone from mincasurong.com.
+    </p>
+
+    <div class="filter-bar" role="tablist">
+      <button class="filter-btn active" onclick="filterSection('all')" id="tab-all" data-i18n="tab_all">All Archive Sections (5)</button>
+      <button class="filter-btn" onclick="filterSection('patents')" id="tab-patents" data-i18n="tab_patents">11 Patents &amp; 16 Publications</button>
+      <button class="filter-btn" onclick="filterSection('rehab')" id="tab-rehab" data-i18n="tab_rehab">Research (~2022): KFDA Exoskeletons (14 Videos)</button>
+      <button class="filter-btn" onclick="filterSection('hackathon')" id="tab-hackathon" data-i18n="tab_hackathon">Gemini 3 Hackathon Epilogue &amp; Cloud OnBoard</button>
+      <button class="filter-btn" onclick="filterSection('beyond')" id="tab-beyond" data-i18n="tab_beyond">TA Control Lectures (7 Videos), App Dev &amp; AIESEC</button>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="layout">
+    <!-- Sticky Sidebar TOC -->
+    <aside class="toc-sidebar">
+      <div class="toc-group-title">1. IP &amp; Publications</div>
+      <ul class="toc-list">
+        <li><a href="#patents">11 Registered &amp; Published Patents (US/KR)</a></li>
+        <li><a href="#publications">16 Peer-Reviewed Publications (2016–2025)</a></li>
+      </ul>
+      <div class="toc-group-title">2. Research (~2022)</div>
+      <ul class="toc-list">
+        <li><a href="#research-2022">KFDA SUBAR &amp; AI Therapist (10 Demos)</a></li>
+        <li><a href="#media-reports">TV Broadcasts &amp; 4 Korean Press Reports</a></li>
+        <li><a href="#jetbot-2021">2021 Personal Project: JetBot Nano</a></li>
+      </ul>
+      <div class="toc-group-title">3. Agentic Era (2026)</div>
+      <ul class="toc-list">
+        <li><a href="#hackathon-epilogue">Gemini 3 Seoul Hackathon Epilogue (EN/KR)</a></li>
+        <li><a href="#cloud-onboard">Google Cloud OnBoard Recap (ADK/MCP/A2A)</a></li>
+      </ul>
+      <div class="toc-group-title">4. Beyond Research</div>
+      <ul class="toc-list">
+        <li><a href="#teaching-assistant">Sogang TA &amp; 7 MATLAB/LQR Control Videos</a></li>
+        <li><a href="#app-dev">Side Project: UrKuma Mobile App</a></li>
+        <li><a href="#aiesec">AIESEC Exchange Teacher in Hungary</a></li>
+      </ul>
+    </aside>
+
+    <!-- Content Column -->
+    <div>
+
+      <!-- ===================================================================== -->
+      <!-- SECTION 1: 11 PATENTS & 16 PUBLICATIONS -->
+      <!-- ===================================================================== -->
+      <div class="archive-section" data-cat="patents">
+        <article class="section-card" id="patents">
+          <span class="section-badge emerald">INTELLECTUAL PROPERTY · 7 US PATENTS + 4 KR REGISTERED PATENTS</span>
+          <h2>11 Patents — Semiconductor Mobile Robotics, Autonomous Lab Automation &amp; Exoskeleton Control</h2>
+          <p>Spanning autonomous mobile robot safety-margin adaptation and material synthesis transfer systems at Samsung Electronics to KFDA-certified lower-limb rehabilitation exoskeletons at Sogang University.</p>
+
+          <div class="pub-list">
+            <div class="pub-item">
+              <div class="pub-num">P01</div>
+              <div class="pub-body">
+                <div class="pub-title">Mobile machine for adjusting safety margin and moving method thereof</div>
+                <div class="pub-authors"><strong>Minsu CHANG</strong>, SeungYeon Kim, JANG Jun-Won, Won Je CHOI, Daewoong Han, PARK HyunKyu</div>
+                <div class="pub-venue">US Patent Application Pub. No. US20260072439A1</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/US20260072439A1/en" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">P02</div>
+              <div class="pub-body">
+                <div class="pub-title">Transfer system</div>
+                <div class="pub-authors"><strong>Minsu CHANG</strong>, SeungYeon Kim, JANG Jun-Won, Daewoong Han, Hyun Do CHOI, HA Taesin</div>
+                <div class="pub-venue">US Patent Application Pub. No. US20260028212A1</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/US20260028212A1/en" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">P03</div>
+              <div class="pub-body">
+                <div class="pub-title">Material synthesis device, material synthesis platform, and method of operating material synthesis device</div>
+                <div class="pub-authors">Sangyoon Lee, Dongseon LEE, <strong>Minsu CHANG</strong>, Jaejun Chang, Jaehyung Jang, Taesin HA</div>
+                <div class="pub-venue">US Patent Application Pub. No. US20250232845A1</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/US20250232845A1/en?inventor=Minsu+CHANG" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">P04</div>
+              <div class="pub-body">
+                <div class="pub-title">Automatic evaporator system</div>
+                <div class="pub-authors">Hyun Do CHOI, Bosung Kim, SeungYeon Kim, Seoungjin SEO, <strong>Minsu CHANG</strong>, Jun-Won JANG, Hyunjeong JEON, Wooram HONG</div>
+                <div class="pub-venue">US Patent Application Pub. No. US20250180449A1</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/US20250180449A1/en" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">P05</div>
+              <div class="pub-body">
+                <div class="pub-title">Liquid processing apparatus and liquid processing system including the same</div>
+                <div class="pub-authors">SeungYeon Kim, Bosung Kim, Seoungjin SEO, <strong>Minsu CHANG</strong>, Jun-Won JANG, Hyunjeong JEON, Hyun Do CHOI, Dai HEO, Wooram HONG</div>
+                <div class="pub-venue">US Patent Application Pub. No. US20250180450A1</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/US20250180450A1/en" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">P06</div>
+              <div class="pub-body">
+                <div class="pub-title">Platform system</div>
+                <div class="pub-authors">Daewoong Han, SeungYeon Kim, <strong>Minsu CHANG</strong>, Jun-Won JANG, Taesin HA</div>
+                <div class="pub-venue">US Patent Application Pub. No. US20250122061A1</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/US20250122061A1/en" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">P07</div>
+              <div class="pub-body">
+                <div class="pub-title">Optical monitoring device</div>
+                <div class="pub-authors">Wooram HONG, Hyukju Kwon, Gahee Kim, Won Seok Oh, Hyunjeong JEON, Hyun Do CHOI, <strong>Minsu CHANG</strong>, Younsuk Choi</div>
+                <div class="pub-venue">US Granted Patent No. US12411092B2</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/US12411092B2/en" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">P08</div>
+              <div class="pub-body">
+                <div class="pub-title">Robot of assisting to exercise one's lower body, the production method of it, and the controlling method of it</div>
+                <div class="pub-authors">JEON, Do Young, <strong>CHANG, Min-su</strong></div>
+                <div class="pub-venue">KR Registered Patent No. 10-2262191 (Pub. KR20200142384A)</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/KR20200142384A/en" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">P09</div>
+              <div class="pub-body">
+                <div class="pub-title">Robot for assisting muscular strength in walking</div>
+                <div class="pub-authors">JEON, Do Young, <strong>CHANG, Min-su</strong></div>
+                <div class="pub-venue">KR Registered Patent No. 10-2218260 (Pub. KR20200142347A)</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/KR20200142347A/en" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">P10</div>
+              <div class="pub-body">
+                <div class="pub-title">REHABILITATION ROBOT FOR GAIT ASSISTANT DRIVEN BY A MOTOR</div>
+                <div class="pub-authors"><strong>CHANG, Min-su</strong>, JEON, Do Young</div>
+                <div class="pub-venue">KR Registered Patent No. 10-2132113 (KR102132113B1)</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/KR102132113B1/en" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">P11</div>
+              <div class="pub-body">
+                <div class="pub-title">STABILIZATION CONTROL METHOD FOR EXOSKELETON ROBOT OF LEGS</div>
+                <div class="pub-authors">SEO, Chang-Hoon, JEON, Do-Young, <strong>CHANG, Min-Su</strong></div>
+                <div class="pub-venue">KR Registered Patent No. 10-1940901 (KR101940901B1)</div>
+              </div>
+              <a class="pub-link" href="https://patents.google.com/patent/KR101940901B1/en" target="_blank" rel="noopener">Google Patents ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 16 Research Publications -->
+        <article class="section-card" id="publications">
+          <span class="section-badge">PEER-REVIEWED RESEARCH · 16 ARTICLES (IEEE ICRA, IEEE TNSRE, BIOROB, ICCAS, ICORR)</span>
+          <h2>16 Research Articles (2016 – 2025)</h2>
+          <p>Complete publication record from mobile robot online parameter adaptation (ICRA 2025) to AI therapists and lower-limb exoskeleton control (IEEE TNSRE 2019, 2020).</p>
+
+          <div class="pub-list">
+            <div class="pub-item">
+              <div class="pub-num">J01</div>
+              <div class="pub-body">
+                <div class="pub-title">OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Junwon Jang, Daewoong Han, Wonje Choi, Seungyeon Kim, Hyunkyu Park, Hyundo Choi</div>
+                <div class="pub-venue">2025 IEEE International Conference on Robotics and Automation (ICRA), May 19–23, 2025, Atlanta, USA · DOI: 10.1109/ICRA55743.2025.11128768</div>
+              </div>
+              <a class="pub-link" href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener">IEEE Xplore ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">J02</div>
+              <div class="pub-body">
+                <div class="pub-title">AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Tae-woo Kim, Jaewon Beom, Sunjae Won, Doyoung Jeon</div>
+                <div class="pub-venue">IEEE Transactions on Neural Systems &amp; Rehabilitation Engineering (TNSRE), Nov 2020 · DOI: 10.1109/TNSRE.2020.3038175</div>
+              </div>
+              <a class="pub-link" href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener">IEEE Xplore ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">J03</div>
+              <div class="pub-body">
+                <div class="pub-title">Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Kyungsoon Kim, Doyoung Jeon</div>
+                <div class="pub-venue">IEEE Transactions on Neural Systems &amp; Rehabilitation Engineering (TNSRE), Aug 2019 · DOI: 10.1109/TNSRE.2019.2933874</div>
+              </div>
+              <a class="pub-link" href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener">IEEE Xplore ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">J04</div>
+              <div class="pub-body">
+                <div class="pub-title">Precise flowrate control of fluid gear pump in automated painting system using a repetitive controller</div>
+                <div class="pub-authors">Kiyang Park, <strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">Applied Sciences, Aug 2019 · DOI: 10.3390/app9163413</div>
+              </div>
+              <a class="pub-link" href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener">MDPI ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C05</div>
+              <div class="pub-body">
+                <div class="pub-title">Development of the AI therapist estimating the Borg scale of stroke patients in robot-assisted gait training</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">The 8th IEEE RAS/EMBS International Conference on Biomedical Robotics &amp; Biomechatronics (BioRob), New York (Online), 2020</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C06</div>
+              <div class="pub-body">
+                <div class="pub-title">Intelligent Impedance Control Using Reinforcement Learning for the effective Robot-Assisted Rehabilitation</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">The 19th International Conference on Control, Automation and Systems (ICCAS 2019), Jeju, 2019</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C07</div>
+              <div class="pub-body">
+                <div class="pub-title">AI Therapist realizing the Expert's Verbal Cue for the Effective Robotic Gait Rehabilitation</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">The 19th International Conference on Control, Automation and Systems (ICCAS 2019), Jeju, 2019</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C08</div>
+              <div class="pub-body">
+                <div class="pub-title">Development of the AI Therapist realizing the Expert’s Verbal Cue for the Effective Robotic Gait Rehabilitation</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">International Neurorehabilitation Symposium (INRS) in RehabWeek, Toronto, 2019</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C09</div>
+              <div class="pub-body">
+                <div class="pub-title">The AI Supervisor for the effective treadmill training system of rehabilitation and exercise</div>
+                <div class="pub-authors">Jaeyoung Kim, <strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">International Conference on Neurorehabilitation (ICNR), Pisa, 2018</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C10</div>
+              <div class="pub-body">
+                <div class="pub-title">An Expert System for the Effective Treadmill Training System of Rehabilitation and Exercise by using ANFIS</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">International Conference on Control, Automation and Systems (ICCAS), Pyeongchang, 2018</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C11</div>
+              <div class="pub-body">
+                <div class="pub-title">The effective rehabilitation method realizing various environments in robot assisted gait training 🏆 (Best Presentation Award)</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">International Conference on Control, Automation and Systems (ICCAS), Jeju, 2017 · Best Presentation Award for Interactive Poster Sessions</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C12</div>
+              <div class="pub-body">
+                <div class="pub-title">A method of specific muscle group training of lower limb using an exoskeletal robot</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">International Conference on Control, Automation and Systems (ICCAS), Jeju, 2017</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C13</div>
+              <div class="pub-body">
+                <div class="pub-title">Realization of Virtual Impedance in the Lower Limb Assistive Robot SUBAR</div>
+                <div class="pub-authors">Yeongmin Kim, <strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">International Conference on Control, Automation and Systems (ICCAS), Jeju, 2017</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C14</div>
+              <div class="pub-body">
+                <div class="pub-title">Realization of the Effects of Various Environments in Robot-assisted Gait Training</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">International Neurorehabilitation Symposium (INRS) in RehabWeek, London, 2017</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">C15</div>
+              <div class="pub-body">
+                <div class="pub-title">A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Yeongmin Kim, Yoseph Lee, Doyoung Jeon</div>
+                <div class="pub-venue">International Conference on Rehabilitation Robotics (ICORR) in RehabWeek, London, 2017 · DOI: 10.1109/ICORR.2017.8009275</div>
+              </div>
+              <a class="pub-link" href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener">IEEE Xplore ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">J16</div>
+              <div class="pub-body">
+                <div class="pub-title">보행재활로봇의 개발 경험과 이슈 (Development Experience and Issues of Gait Rehabilitation Robots)</div>
+                <div class="pub-authors"><strong>장민수 (Minsu Chang)</strong>, 전도영 (Doyoung Jeon)</div>
+                <div class="pub-venue">로봇과 인간 (Robotics and Human), vol. 13(2), 2016</div>
+              </div>
+              <a class="pub-link" href="https://www.dbpia.co.kr/Journal/articleDetail?nodeId=NODE06688056" target="_blank" rel="noopener">DBpia ↗</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- SECTION 2: RESEARCH (~2022) — KFDA EXOSKELETONS, AI THERAPIST & 14 VIDEOS -->
+      <!-- ===================================================================== -->
+      <div class="archive-section" data-cat="rehab">
+        <article class="section-card" id="research-2022">
+          <span class="section-badge amber">RESEARCH (~2022) · KFDA MEDICAL EXOSKELETON (6 HOSPITALS) &amp; AI THERAPIST</span>
+          <h2>Gait Rehabilitation Exoskeletons (SUBAR) &amp; Clinical AI Therapist</h2>
+          <p>
+            I earned my B.S. (2016), M.S. (2018), and Ph.D. (2022) degrees in Mechanical Engineering from <strong>Sogang University</strong>, Seoul, South Korea. My academic journey focused on hardware development and control algorithms for gait rehabilitation robots. Our research team achieved <strong>medical device certification from the Korea Food and Drug Administration (KFDA)</strong>, enabling the deployment of our rehabilitation robots (<strong>SUBAR</strong>) in <strong>six hospitals across Korea</strong>. Over three years, we collected clinical robotic data from stroke patients and physical therapists, using machine learning and control algorithms to develop and implement an <strong>AI-driven therapist</strong> for gait rehabilitation.
+          </p>
+          <p>
+            <strong>Core Technical Stack (~2022):</strong> Control System Design, Machine Learning (ANFIS, PSO, RL), Human-Robot Interaction, Mechanical CAD (NX, SolidWorks), and real-time software in Python, C/C++, MATLAB/Simulink, LabVIEW, OpenSim, and ROS.
+          </p>
+
+          <h3>10 Clinical &amp; Control System Video Demonstrations</h3>
+          <div class="video-grid">
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/lkfVqltgM94" title="AI therapist (Ver. 1)" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">1. AI Therapist (Ver. 1 — IEEE TNSRE 2020)</div>
+                <div class="video-desc">Implements the professional physical therapist's real-time verbal cues in robot-assisted gait training.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/f8BIsrCcrJc" title="SUBAR robot" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">2. SUBAR Exoskeleton Robot (Hospital Deployment)</div>
+                <div class="video-desc">KFDA-certified lower-limb exoskeleton deployed across Korean hospitals for stroke patient gait rehabilitation.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/RY4-IJOvfYM" title="SUBAR with AI therapist Ver 2" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">3. SUBAR with AI Therapist (Ver. 2, Korean)</div>
+                <div class="video-desc">Realizes expert physical therapist decision-making and adaptive parameters during robot-assisted gait training.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/3yqJfj5o_KY" title="How to use SUBAR" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">4. How to Use SUBAR (Clinical UI Manual)</div>
+                <div class="video-desc">Walkthrough of SUBAR's clinical touchscreen user interface across operating modes and motions.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/OgSCmBr1n7c" title="Lower limb training with visual feedback" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">5. Lower-Limb Training with Visual Feedback (SMART 2D Game)</div>
+                <div class="video-desc">Interactive visual feedback system encouraging active patient participation during lower-limb training.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/XMZuWDLkngs" title="VR-integrated robot for rehabilitation" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">6. VR-Integrated Exoskeleton for Rehabilitation</div>
+                <div class="video-desc">Combines the lower-limb exoskeleton with an immersive Virtual Reality (VR) environment for engaging gait training.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/vIm9GvQ3wME" title="Task-oriented training with virtual-tunnel and guidance" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">7. Task-Oriented Training with Virtual Tunnel &amp; Assist-as-Needed</div>
+                <div class="video-desc">EXOWheel visual feedback with virtual-tunnel impedance guidance assisting the patient only as needed.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/tL8TIbaDNmw" title="AI estimator Borg scale" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">8. AI Estimator for Stroke Patient Borg Scale (IEEE BioRob 2020)</div>
+                <div class="video-desc">Machine learning estimator predicting Rating of Perceived Exertion (Borg scale) from clinical and robotic sensor data.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/FolhmHGtZVI" title="Global optimization PSO" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">9. Global Optimization (PSO &amp; Neuro-Fuzzy ANFIS)</div>
+                <div class="video-desc">Particle Swarm Optimization (PSO) for training adaptive neuro-fuzzy inference systems.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/AVq_a6j4AME" title="Anthropometry-based control OpenSim" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">10. Anthropometry-Based Control (OpenSim Musculoskeletal Simulation)</div>
+                <div class="video-desc">OpenSim biomechanical simulation used to design personalized exoskeleton control laws.</div>
+              </div>
+            </div>
+          </div>
+
+          <h3 id="media-reports">National TV Broadcasts &amp; Korean Press Coverage</h3>
+          <div class="video-grid">
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/NMzz8CKThP8" title="YonhapnewsTV Broadcast" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">YonhapnewsTV — 고령화로 늘어나는 재활수요…의료기기 국산화 시급</div>
+                <div class="video-desc">National broadcast featuring our KFDA-certified gait rehabilitation exoskeleton in clinical use.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/IBtf4MTXPI8" title="YTN Science Broadcast" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">YTN Science — 중증 환자 재활 돕는다…'웨어러블 로봇'의 진화</div>
+                <div class="video-desc">Science broadcast highlighting wearable robot rehabilitation for severe stroke and burn patients.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="resource-row">
+            <a class="resource-chip amber" href="https://health.chosun.com/site/data/html_dir/2018/10/01/2018100101209.html" target="_blank" rel="noopener">📰 헬스조선: 중앙대병원, 지능형 하지재활로봇 치료 도입 ↗</a>
+            <a class="resource-chip amber" href="https://news.joins.com/article/22869195" target="_blank" rel="noopener">📰 중앙일보: 재활훈련 로봇이 도와드립니다 ↗</a>
+            <a class="resource-chip amber" href="https://www.mk.co.kr/news/it/view/2018/12/808910/" target="_blank" rel="noopener">📰 매일경제: 한림대 한강성심병원, 화상 로봇재활치료 국내 첫 시행 ↗</a>
+            <a class="resource-chip amber" href="https://www.chosun.com/economy/science/2020/09/16/BGZOVQPFIREFHGV5I3JSST674I/" target="_blank" rel="noopener">📰 조선일보: 입는 로봇이 화상 환자의 재활 고통 줄인다 ↗</a>
+          </div>
+
+          <h3 id="jetbot-2021">2021 Personal Project: NVIDIA Jetson Nano &amp; JetBot Autonomous Driving</h3>
+          <p>Self-directed embedded AI training project (Python, ROS, and Deep Learning on NVIDIA Jetson Nano) to reduce software development cost and bridge perception with mobile control:</p>
+          <div class="video-grid">
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/O6DmuPCxNg8" title="JetBot Nano Project 1 Assembling" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">Jetson Nano Project (1) — Assembling the Yahboom JetBot</div>
+                <div class="video-desc">Hardware build and board bring-up of the Jetson Nano mobile robot platform.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/13gZzn4M_Yg" title="Jetson Nano Project 2 Object Detection Auto-Pilot" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">Jetson Nano Project (2) — Object Detection &amp; Auto-Pilot First Trial</div>
+                <div class="video-desc">Real-time object detection and autonomous navigation using Python, ROS, and NVIDIA Jetson Nano.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- SECTION 3: GEMINI 3 SEOUL HACKATHON EPILOGUE & GOOGLE CLOUD ONBOARD -->
+      <!-- ===================================================================== -->
+      <div class="archive-section" data-cat="hackathon">
+        <article class="section-card" id="hackathon-epilogue">
+          <span class="section-badge indigo">1ST PLACE WINNER 🏆 · GOOGLE GEMINI 3 SEOUL HACKATHON 2026</span>
+          <h2>Gemini 3 Seoul Hackathon Epilogue — Building "GeminiSpace" Solo in 7 Hours</h2>
+          <p>
+            <strong>1st Place Winner🎉🏆🥇</strong> among <strong>111 projects, &gt;300 candidates, and 1,515 applicants</strong> (219 pre-screened finalists on-site) hosted by <strong>Google DeepMind &amp; Cerebral Valley</strong> in Seoul (Feb 28, 2026).
+          </p>
+
+          <div class="resource-row">
+            <a class="resource-chip emerald" href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/" target="_blank" rel="noopener">🏆 Google Korea Official Blog Post (KR) ↗</a>
+            <a class="resource-chip" href="https://cerebralvalley.ai/e/gemini-3-seoul-hackathon/hackathon/gallery" target="_blank" rel="noopener">🏅 Cerebral Valley Winners Gallery ↗</a>
+            <a class="resource-chip" href="https://github.com/mincasurong/GeminiSeoulHackathon2026" target="_blank" rel="noopener">💻 GitHub: GeminiSeoulHackathon2026 ↗</a>
+            <a class="resource-chip amber" href="https://biz.chosun.com/en/en-it/2026/02/24/GR45FZSCGVCMHF7HOGBXTWMEGA/" target="_blank" rel="noopener">📰 Chosun Biz News (English) ↗</a>
+            <a class="resource-chip amber" href="https://www.etnews.com/20260224000243" target="_blank" rel="noopener">📰 ETNews (한글 뉴스) ↗</a>
+          </div>
+
+          <div class="video-grid" style="max-width:680px;">
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/hzUlLTtfd7M" title="GeminiSpace Gemini 3 Seoul Hackathon 1st Place Demo" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">GeminiSpace — Generative Spatial Mapping &amp; Zero-SLAM Trajectory Planning</div>
+                <div class="video-desc">Turns standard room photos into 2D floor plans, topological graphs, and 3D voxel maps using Google AI Studio, Antigravity, and Nano Banana.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bilingual-grid">
+            <div class="bilingual-box">
+              <h3 style="margin-top:0;">English Reflection</h3>
+              <p><em>"Do my best to be right place at right time."</em></p>
+              <p>I am Minsu Chang (Mincasurong), the 1st-place winner of the Gemini 3 Seoul Hackathon 2026.</p>
+              <p>I built <strong>GeminiSpace</strong>, a Vision-Language system that uses generative AI to bypass computationally heavy SLAM. Using <strong>Google AI Studio, Antigravity, and the Nano Banana model</strong>, it turns standard room photos into 2D floor plans, topological graphs, and 3D voxel maps. Just ask, <em>"How do I get to the table?"</em> and it instantly generates a step-by-step trajectory.</p>
+              <p style="margin-bottom:0;">Had a great time networking and building under pressure. Huge thanks to Cerebral Valley and Google DeepMind for hosting!</p>
+            </div>
+
+            <div class="bilingual-box">
+              <h3 style="margin-top:0;">한국어 우승 후기 (Original Epilogue)</h3>
+              <p>너무나 대단하신 SWE, Google Developer Experts, Google DeepMind, Cerebral Valley 분들 앞에서 발표할 수 있음에 영광이었습니다. 결과물은 7시간 동안 <strong>Google AI Studio, Antigravity, Gemini API</strong> 만으로 만든 것입니다. 열띤 Ideation은 Gemini(Web)과만 했습니다. 저는 Gemini Pro 유저인지라, 오후 1시 즈음에 Google AI Studio의 rate limit, 오후 3시에 Antigravity의 Flash 제외 모든 모델 limit을 경험했습니다🤣😂. 그래도 Gemini와 함께 기획부터 결과물 제작까지 모든 것을 함께하는 과정이 재밌었습니다.</p>
+              <p>저는 Agent 시대에 AI, 사람 모두 함께하는 협업이 참 어렵습니다. 3년 전부터 AI와 함께 연구개발하는 걸 즐겨왔고, 그래서 solo로 참가했습니다. 아직 많이 부족합니다. 사람, Agent 모두와 조화롭게 협업을 하는 분들이 존경스럽습니다. 이번 해커톤에서 그런 분들이 참 많이 계셨고 많이 보고 배웠습니다. 더욱 성장하고 발전할 수 있도록 많은 도움과 응원 부탁드립니다.😄</p>
+              <p style="margin-bottom:0;"><strong>P.S.</strong> Gemini를 사용하기 시작한 것은 집에서 Side Project로 <em>'아내를 위한 교육 앱 만들기 (UrKuma)'</em> 였습니다. 고객(아내)께서 귀여운 곰돌이 UI 탑재된 앱을 원했습니다. 하나의 구독으로 Image-Gen, Video-Gen, Code 모두 다 되는 게 Gemini라 생각해서 그렇게 시작했습니다. Google 생태계는 알수록 재밌습니다. Nano🍌, Veo, NotebookLM, Flutter, Google Cloud, Gemini Robotics, AlphaFold 등 무궁무진하고 배울 게 많습니다. 거인의 어깨 위에 조용히 앉아, 거대한 framework을 배우고 또 저의 본업에 접목하는 삶을 계속 살아가겠습니다. 감사합니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Google Cloud OnBoard Recap -->
+        <article class="section-card" id="cloud-onboard">
+          <span class="section-badge">TECHNICAL RECAP · GOOGLE CLOUD ONBOARD: GOOGLE SKILLS EDITION (WESTIN JOSUN PARNAS)</span>
+          <h2>Architecting Enterprise-Grade Agentic Services on Vertex AI</h2>
+          <p>
+            What's the best way to follow up a solo win at the Google Gemini 3 Seoul Hackathon? By diving even deeper into the Google AI ecosystem! Building a rapid 7-hour prototype (<strong>GeminiSpace</strong>) is very different from building a scalable, enterprise-grade service. To take my multi-agent collaboration platform (<strong>Gouncil / M9G Agent Corps</strong>) to the next level, I attended the <strong>Google Cloud OnBoard — Google Skills Edition</strong> at the Westin Josun Parnas.
+          </p>
+
+          <h3>1. The Google AI Vision: Multimodality and Scale</h3>
+          <p>
+            Keynote sessions from Google Cloud and Google DeepMind leaders showcased the expansion of the <strong>Vertex AI Model Garden</strong> (200+ models including <strong>Gemini 3, Gemma 3</strong>, and open weights) alongside <strong>GenMedia on Vertex AI</strong> (<strong>Veo</strong> for video and <strong>Lyria</strong> for music). We are no longer just prompting text; we are orchestrating complex, multi-sensory data pipelines.
+          </p>
+
+          <h3>2. Track 1: AI Build-up — ADK, MCP vs. A2A Protocols &amp; Cloud Run</h3>
+          <p>
+            <strong>Agent Development Kit (ADK) &amp; Protocols:</strong> Learning the architectural distinction between the <strong>Model Context Protocol (MCP)</strong>—used to connect agents to tools and APIs—and the <strong>Agent2Agent (A2A)</strong> protocol for dynamic communication between distinct autonomous agents (e.g., a Travel Agent collaborating with a Flight Agent) provided the exact routing blueprint for the <strong>Gouncil</strong> platform.<br />
+            <strong>Serverless AI on Cloud Run:</strong> Hosting LangGraph and ADK directly on <strong>Cloud Run</strong>, connecting to Vector Databases (<strong>AlloyDB / Cloud SQL</strong>), and automating CI/CD with <strong>Cloud Build</strong>.
+          </p>
+
+          <h3>3. The Highlight: 4-Layer Vertex AI Memory Architecture</h3>
+          <p>Presented by Generative AI Field Solution Architect Sang-woon So, Vertex AI solves long-horizon context retention by separating agent memory into four human-like cognitive layers:</p>
+          <table class="spec-table">
+            <thead>
+              <tr><th>Memory Layer</th><th>Cognitive Role &amp; Vertex AI Implementation</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>1. Session Memory (Short-Term)</strong></td><td>Captures contextual dialog state and tool return values during an active, ongoing session.</td></tr>
+              <tr><td><strong>2. Personalized Memory Bank (Long-Term)</strong></td><td>Stores user preferences, profiles, and accumulated insights across multiple interactions over time.</td></tr>
+              <tr><td><strong>3. External Information Grounding</strong></td><td>Accesses real-time world state and location-based facts via Google Search &amp; Google Maps Grounding.</td></tr>
+              <tr><td><strong>4. Internal Information Retrieval</strong></td><td>Fetches enterprise/domain data using the RAG Engine and ScaNN-based Vertex AI Vector Search.</td></tr>
+            </tbody>
+          </table>
+        </article>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- SECTION 4: BEYOND RESEARCH — TA LECTURES, APP DEV & AIESEC HUNGARY -->
+      <!-- ===================================================================== -->
+      <div class="archive-section" data-cat="beyond">
+        <article class="section-card" id="teaching-assistant">
+          <span class="section-badge emerald">TEACHING ASSISTANT · SOGANG UNIVERSITY MECHANICAL ENGINEERING (2016 – 2020)</span>
+          <h2>Control Theory &amp; Robotics Teaching Assistant Lectures (LQR &amp; MATLAB)</h2>
+          <p>Nine consecutive semesters of undergraduate and graduate teaching assistantships at Sogang University, including online MATLAB &amp; LQR control practice lectures recorded during the COVID-19 pandemic.</p>
+
+          <table class="spec-table">
+            <thead>
+              <tr><th>Semester</th><th>Courses Taught (Teaching Assistant)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>2016-2</strong></td><td>Automatic Control</td></tr>
+              <tr><td><strong>2017-1</strong></td><td>Automatic Control, Advanced Control I</td></tr>
+              <tr><td><strong>2017-2</strong></td><td>Design and Control of the Robot, Experiments for Mechanical Engineering, Advanced Control II</td></tr>
+              <tr><td><strong>2018-1</strong></td><td>Automatic Control, Advanced Control I</td></tr>
+              <tr><td><strong>2018-2</strong></td><td>Design and Control of the Robot, Experiments for Mechanical Engineering</td></tr>
+              <tr><td><strong>2019-1</strong></td><td>Automatic Control</td></tr>
+              <tr><td><strong>2019-2</strong></td><td>Research Project I</td></tr>
+              <tr><td><strong>2020-1</strong></td><td>Research Project II, Automatic Control</td></tr>
+              <tr><td><strong>2020-2</strong></td><td>Advanced Control I</td></tr>
+            </tbody>
+          </table>
+
+          <div class="resource-row">
+            <a class="resource-chip emerald" href="https://youtube.com/playlist?list=PLqOt-5LGFKZuG2rmubGnM0TPNJxMo3oGx" target="_blank" rel="noopener">🎬 Full Online Control Lectures YouTube Playlist (PLqOt-5LGFKZuG2rmubGnM0TPNJxMo3oGx) ↗</a>
+          </div>
+
+          <h3>7 Featured Online Control &amp; MATLAB Practice Lectures (Korean)</h3>
+          <div class="video-grid">
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/dbXWJYNTXzM" title="LQR Control MATLAB Practice" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">1. Best of My Lectures — LQR Control (고등제어I LQR MATLAB 실습)</div>
+                <div class="video-desc">Linear Quadratic Regulator (LQR) state-feedback design and MATLAB simulation practice.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/serOwHvDHyk" title="Design and Control of the Robot MATLAB 1/3" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">2. Advanced Control I / Robot Control (1/7) — 로봇설계제어 MATLAB 실습 1/3</div>
+                <div class="video-desc">Dynamic modeling and control simulation in MATLAB (Part 1).</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/DIaA5g3gZXI" title="Design and Control of the Robot MATLAB 2/3" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">3. Advanced Control I TA (2/7) — 로봇설계제어 MATLAB 실습 2/3</div>
+                <div class="video-desc">Manipulator trajectory tracking and feedback control in MATLAB (Part 2).</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/50-Fo8XmIxQ" title="Research Project II Week 3" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">4. Research Project II (3/6) — 연구프로젝트II 3주차 2/2</div>
+                <div class="video-desc">Experimental system identification and control implementation guide.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/n57MuTffhzg" title="Research Project II Week 5" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">5. Research Project II (5/6) — 연구프로젝트II 5주차 실습</div>
+                <div class="video-desc">Week 5 hands-on engineering lab session.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/Aq2zU0oDT_Q" title="Automatic Control MATLAB Practice" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">6. Automatic Control (1/4) — 4/16 자동제어 실습 MATLAB 2/2</div>
+                <div class="video-desc">Classical root-locus, Bode plot, and PID controller design in MATLAB.</div>
+              </div>
+            </div>
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/gor1sdTf9WE" title="Automatic Control May 21 Practice" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">7. Automatic Control (2/4) — 5월 21일 자동제어 실습</div>
+                <div class="video-desc">Frequency-domain analysis and closed-loop stability verification in MATLAB.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Side Project: UrKuma App Dev -->
+        <article class="section-card" id="app-dev">
+          <span class="section-badge amber">SIDE PROJECT · FLUTTER &amp; GEMINI MULTIMODAL APP DEV</span>
+          <h2>UrKuma (얼쿠마 한자 / KumaKanji) — Mindful Character Learning Sanctuary</h2>
+          <p>
+            <em>"Step out of your weekday suit. Leave the office noise behind. This isn't just a study tool; it is a sanctuary."</em><br />
+            Accompanied by <strong>UrKuma</strong> (your gentle bear guide) and soothing seasonal themes, you can immerse yourself in the flow of learning. Let the rhythm of the quiz wash over you. By concentrating on the simple beauty of the characters, you aren't working—you are resting. Reclaim your time. Switch off the world, and switch on your focus.
+          </p>
+          <div class="resource-row">
+            <a class="resource-chip emerald" href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener">▶️ Google Play Store: UrKuma (com.studio.kumakanji) ↗</a>
+          </div>
+          <div class="video-grid" style="max-width:560px;">
+            <div class="video-card">
+              <div class="video-frame"><iframe src="https://www.youtube.com/embed/WYOJY8WIwBY" title="UrKuma App Preview" loading="lazy" allowfullscreen></iframe></div>
+              <div class="video-body">
+                <div class="video-title">UrKuma Mobile App Walkthrough</div>
+                <div class="video-desc">Built with Flutter and Gemini image/video/code generation as a gift for my wife—the project that sparked my journey into the Gemini ecosystem.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- AIESEC Exchange in Hungary -->
+        <article class="section-card" id="aiesec">
+          <span class="section-badge indigo">GLOBAL LEADERSHIP · AIESEC EXCHANGE TEACHER IN HUNGARY (2014)</span>
+          <h2>AIESEC Exchange Teacher in Hungary — Winter &amp; Summer 2014</h2>
+          <p>
+            I visited Hungary twice as an exchange teacher—experiences that remain some of my most challenging yet rewarding memories prior to starting my robotics research career, gained through my two-year involvement with <strong>AIESEC</strong>.
+          </p>
+          <div class="bilingual-grid">
+            <div class="bilingual-box">
+              <h3 style="margin-top:0;">💡 Winter 2014: The Magellan Project</h3>
+              <p style="margin-bottom:0;">
+                At <strong>Ferenc Földes Secondary School</strong> (Miskolc, Hungary), I led 10 classes where I shared insights into Korean culture, history, and my own academic journey. Beyond the presentations, I found deep fulfillment in discussing life goals with the students. Living in a multicultural environment, I spent my free time with a diverse group of friends from Brazil, Italy, Taiwan, and Hungary, which broadened my global perspective.
+              </p>
+            </div>
+            <div class="bilingual-box">
+              <h3 style="margin-top:0;">💡 Summer 2014: English Youth Camp</h3>
+              <p style="margin-bottom:0;">
+                Later that year, I returned to Hungary to collaborate with educators from <strong>nine different countries</strong>. My focus was on making English accessible and engaging; I designed interactive activities to help students feel comfortable with the language while facilitating discussions on everything from daily life to pressing global issues.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Theme synchronization with main portfolio
+    function applyTheme(theme) {
+      const root = document.documentElement;
+      const icon = document.getElementById('themeIcon');
+      const text = document.getElementById('themeText');
+      if (theme === 'light') {
+        root.classList.add('light');
+        root.classList.remove('dark');
+        if (icon) icon.textContent = '🌙';
+        if (text) text.textContent = 'Dark';
+      } else {
+        root.classList.add('dark');
+        root.classList.remove('light');
+        if (icon) icon.textContent = '☀️';
+        if (text) text.textContent = 'Light';
+      }
+    }
+    function toggleTheme() {
+      const current = document.documentElement.classList.contains('light') ? 'light' : 'dark';
+      const next = current === 'light' ? 'dark' : 'light';
+      localStorage.setItem('m9g_theme', next);
+      applyTheme(next);
+    }
+    applyTheme(localStorage.getItem('m9g_theme') || 'dark');
+
+    // Category filter
+    function filterSection(cat) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('tab-' + cat);
+      if (activeBtn) activeBtn.classList.add('active');
+      document.querySelectorAll('.archive-section').forEach(sec => {
+        if (cat === 'all' || sec.getAttribute('data-cat') === cat) {
+          sec.style.display = '';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    }
+
+    // 5-Language UI Dictionary
+    const I18N = {
+      en: {
+        nav_home: "← Main Portfolio",
+        nav_tutorials: "ROS / MoveIt / Jetson Tutorials",
+        nav_archive: "Patents, Research & Archive",
+        hero_eyebrow: "COMPLETE KNOWLEDGE ARCHIVE · MINCASURONG.COM × GITHUB.IO",
+        hero_title_1: "Patents, Publications, Medical Robotics",
+        hero_title_2: "& Agentic AI Milestones",
+        hero_sub: "The unified repository of every patent, research article, clinical rehabilitation robot video (SUBAR & AI Therapist), Gemini 3 Seoul Hackathon epilogue, Google Cloud OnBoard technical recap, Sogang University LQR/MATLAB control lecture, and global exchange milestone from mincasurong.com.",
+        tab_all: "All Archive Sections (5)",
+        tab_patents: "11 Patents & 16 Publications",
+        tab_rehab: "Research (~2022): KFDA Exoskeletons (14 Videos)",
+        tab_hackathon: "Gemini 3 Hackathon Epilogue & Cloud OnBoard",
+        tab_beyond: "TA Control Lectures (7 Videos), App Dev & AIESEC"
+      },
+      ko: {
+        nav_home: "← 메인 포트폴리오",
+        nav_tutorials: "ROS / MoveIt / Jetson 튜토리얼",
+        nav_archive: "특허 · 논문 · 연구 아카이브",
+        hero_eyebrow: "통합 지식 아카이브 · MINCASURONG.COM × GITHUB.IO",
+        hero_title_1: "특허 11건, 논문 16편, 의료용 재활로봇(SUBAR)",
+        hero_title_2: "& 에이전틱 AI 마일스톤 총람",
+        hero_sub: "mincasurong.com의 모든 한·미 특허 11건, 학술논문 16편, 식약처(KFDA) 인증 보행재활로봇 SUBAR 및 AI 치료사 영상 14편, 제미나이 3 서울 해커톤 1위 우승 후기(국/영문), Google Cloud OnBoard 기술 리캡, 서강대 자동제어/고등제어(LQR·MATLAB) 실습 강의 7편, UrKuma 앱 및 헝가리 AIESEC 교환교사 기록을 통합했습니다.",
+        tab_all: "전체 아카이브 보기 (5)",
+        tab_patents: "특허 11건 & 논문 16편",
+        tab_rehab: "연구(~2022): KFDA 재활로봇 & AI 치료사 (14개 영상)",
+        tab_hackathon: "Gemini 3 해커톤 우승 후기 & Cloud OnBoard",
+        tab_beyond: "서강대 제어 조교 강의(7편) · 앱 개발 · AIESEC"
+      },
+      ja: {
+        nav_home: "← メインポートフォリオ",
+        nav_tutorials: "ROS / MoveIt / Jetson チュートリアル",
+        nav_archive: "特許・論文・研究アーカイブ",
+        hero_eyebrow: "総合ナレッジアーカイブ · MINCASURONG.COM × GITHUB.IO",
+        hero_title_1: "特許11件・論文16編・医療リハビリロボット",
+        hero_title_2: "& エージェンティックAIの軌跡",
+        hero_sub: "mincasurong.comの米国・韓国特許11件、学術論文16編、KFDA認証リハビリロボットSUBAR＆AIセラピスト動画14本、Gemini 3 ソウルハッカソン優勝エピローグ、Google Cloud OnBoard技術レポート、西江大学LQR/MATLAB制御講義7本を統合。",
+        tab_all: "全セクション表示 (5)",
+        tab_patents: "特許11件 & 論文16編",
+        tab_rehab: "研究(~2022): 医療外骨格ロボット (動画14本)",
+        tab_hackathon: "Gemini 3 ハッカソン後記 & Cloud OnBoard",
+        tab_beyond: "TA制御講義(7本)・アプリ開発・AIESEC"
+      },
+      es: {
+        nav_home: "← Portafolio Principal",
+        nav_tutorials: "Tutoriales ROS / MoveIt / Jetson",
+        nav_archive: "Patentes, Investigación y Archivo",
+        hero_eyebrow: "ARCHIVO COMPLETO · MINCASURONG.COM × GITHUB.IO",
+        hero_title_1: "11 Patentes, 16 Publicaciones, Robótica Médica",
+        hero_title_2: "e Hitos de IA Agéntica",
+        hero_sub: "Repositorio unificado con las 11 patentes (EE.UU./Corea), 16 artículos científicos, 14 videos clínicos de exoesqueletos SUBAR y AI Therapist, epílogo del Gemini 3 Seoul Hackathon, Google Cloud OnBoard y 7 clases de control LQR/MATLAB.",
+        tab_all: "Todas las Secciones (5)",
+        tab_patents: "11 Patentes y 16 Publicaciones",
+        tab_rehab: "Investigación (~2022): Exoesqueletos KFDA (14 Videos)",
+        tab_hackathon: "Epílogo Gemini 3 Hackathon y Cloud OnBoard",
+        tab_beyond: "Clases de Control (7 Videos), App Dev y AIESEC"
+      },
+      zh: {
+        nav_home: "← 返回主作品集",
+        nav_tutorials: "ROS / MoveIt / Jetson 教程",
+        nav_archive: "专利、论文与研究档案",
+        hero_eyebrow: "完整知识档案库 · MINCASURONG.COM × GITHUB.IO",
+        hero_title_1: "11项专利、16篇论文、医疗康复外骨骼机器人",
+        hero_title_2: "与智能体 AI 里程碑",
+        hero_sub: "完整收录 mincasurong.com 的 11 项美韩专利、16 篇学术论文、KFDA 认证下肢康复外骨骼 SUBAR 与 AI 治疗师 14 部演示视频、Gemini 3 首尔黑客松夺冠后记、Google Cloud OnBoard 技术总结及西江大学 LQR/MATLAB 控制讲座。",
+        tab_all: "全部档案板块 (5)",
+        tab_patents: "11项专利 & 16篇论文",
+        tab_rehab: "早期研究(~2022): KFDA 医疗外骨骼 (14部视频)",
+        tab_hackathon: "Gemini 3 黑客松后记 & Cloud OnBoard",
+        tab_beyond: "控制工程助教讲座(7部) · 应用开发 · AIESEC"
+      }
+    };
+
+    function setLang(lang) {
+      const dict = I18N[lang] || I18N.en;
+      localStorage.setItem('m9g_portfolio_lang', lang);
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.id === 'lang-' + lang);
+      });
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+    setLang(localStorage.getItem('m9g_portfolio_lang') || 'en');
+  </script>
+</body>
+</html>

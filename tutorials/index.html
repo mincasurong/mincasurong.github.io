@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROS 2, MoveIt 2 &amp; Jetson Nano Edge AI Tutorials — M9G Engineering Hub</title>
+  <meta name="description" content="Hands-on robotics and Edge AI tutorials by Minsu Chang, PhD (M9G): ROS 2 Foxy & MoveIt 2 on Windows 10, ROS 1 Melodic & MoveIt 1 in WSL2, ROS Navigation Stack, and an 8-module NVIDIA Jetson Nano + CSI Camera Vision & Transfer Learning Bootcamp." />
+  <meta property="og:title" content="ROS / MoveIt / Jetson Nano Tutorials Hub — We're M9G" />
+  <meta property="og:description" content="Complete step-by-step robotics manipulation, mobile navigation, and NVIDIA Jetson Nano SSD-MobileNet / TensorRT transfer learning bootcamp." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('m9g_theme');
+        if (t === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.add('light');
+        }
+      } catch (e) {
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f8f9fa;
+      --surface-alt: #f1f3f4;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --border: #dadce0;
+      --border-subtle: #e8eaed;
+      --text: #202124;
+      --text-body: #3c4043;
+      --text-secondary: #5f6368;
+      --text-muted: #70757a;
+      --accent: #1a73e8;
+      --accent-bg: #e8f0fe;
+      --accent-border: rgba(26, 115, 232, 0.35);
+      --gold: #d4af37;
+      --g-green: #1e8e3e;
+      --g-green-dark: #137333;
+      --g-green-bg: #e6f4ea;
+      --g-amber: #e37400;
+      --g-amber-bg: #fef7e0;
+      --g-red: #d93025;
+      --g-red-bg: #fce8e6;
+      --code-bg: #0f172a;
+      --code-text: #e2e8f0;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    }
+    html.dark {
+      --bg: #111111;
+      --surface: #181818;
+      --surface-alt: #222222;
+      --card-bg: rgba(22, 22, 22, 0.9);
+      --border: #2a2a2a;
+      --border-subtle: #222222;
+      --text: #fcfcfb;
+      --text-body: #d1d5db;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent: #d4af37;
+      --accent-bg: rgba(212, 175, 55, 0.14);
+      --accent-border: rgba(212, 175, 55, 0.4);
+      --g-green-dark: #34d399;
+      --g-green-bg: rgba(16, 185, 129, 0.14);
+      --g-amber: #fbbf24;
+      --g-amber-bg: rgba(245, 158, 11, 0.14);
+      --code-bg: #09090b;
+      --code-text: #f1f5f9;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; width: 100%; max-width: 100%;
+      overflow-x: clip;
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-sans); font-size: 15.5px; line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+    #fluid-canvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; opacity: 0.65;
+    }
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 100;
+      background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%);
+    }
+    html.dark #progress-bar {
+      background: linear-gradient(90deg, #d4af37 0%, #f59e0b 50%, #fef08a 100%);
+    }
+    a { color: inherit; text-decoration: none; }
+    img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
+
+    /* Topbar */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--card-bg); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner {
+      max-width: 1200px; margin: 0 auto; padding: 6px 16px; min-height: 48px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .brand {
+      font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text);
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; }
+    html.dark .g-m, html.dark .g-9, html.dark .g-g { color: #d4af37; }
+    .brand-sep { color: var(--border); font-weight: 400; }
+    .brand-sec { font-size: 13px; font-weight: 700; color: var(--accent); }
+    .topnav {
+      display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;
+      color: var(--text-secondary); overflow-x: auto; scrollbar-width: none; white-space: nowrap;
+    }
+    .topnav::-webkit-scrollbar { display: none; }
+    .topnav a { padding: 5px 8px; border-radius: 6px; transition: color 0.15s, background 0.15s; }
+    .topnav a:hover { color: var(--accent); background: var(--accent-bg); }
+    .topnav a.active-nav { color: var(--accent); background: var(--accent-bg); font-weight: 700; }
+    .topnav a.back-link {
+      color: #ffffff; background: #1a73e8; font-weight: 700; padding: 5px 12px; border-radius: 999px;
+    }
+    html.dark .topnav a.back-link {
+      color: #111111; background: #d4af37;
+    }
+    .ctrl-btn {
+      height: 28px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text); font-family: var(--font-mono);
+      font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+    }
+    .ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-dropdown-wrap { position: relative; }
+    .lang-popup {
+      position: absolute; top: calc(100% + 6px); right: 0; min-width: 132px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2); padding: 4px; display: none; z-index: 300;
+    }
+    .lang-popup.open { display: block; }
+    .lang-option {
+      width: 100%; text-align: left; background: transparent; border: 0; border-radius: 6px;
+      padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text-secondary);
+      display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+    }
+    .lang-option:hover { background: var(--surface-alt); color: var(--text); }
+    .lang-option.active { background: var(--accent-bg); color: var(--accent); font-weight: 700; }
+
+    /* Layout */
+    .layout {
+      position: relative; z-index: 1;
+      max-width: 1200px; margin: 0 auto; padding: 32px 16px 80px;
+      display: grid; grid-template-columns: minmax(0, 840px) 290px;
+      justify-content: space-between; gap: 36px; align-items: start;
+    }
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: minmax(0, 1fr); }
+      .sidebar { position: static !important; }
+    }
+    @media (max-width: 640px) {
+      .brand-sec, .brand-sep { display: none; }
+      .spec-strip { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    }
+
+    /* Hero & Track Filter */
+    .post-meta-top {
+      font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px;
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    }
+    .tag {
+      background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border);
+      padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    h1 {
+      font-family: var(--font-display); font-size: clamp(1.65rem, 3.8vw, 2.45rem); font-weight: 800;
+      line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 14px 0;
+    }
+    .lede { font-size: 1.02rem; color: var(--text-secondary); margin: 0 0 22px 0; line-height: 1.65; }
+    .spec-strip {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 24px;
+    }
+    .spec-cell {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px;
+    }
+    .spec-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; }
+    .spec-val { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: var(--accent); }
+    .spec-val.green { color: var(--g-green-dark); }
+    .spec-note { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; line-height: 1.35; }
+
+    /* Track Tabs */
+    .track-tabs {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px;
+      padding: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    }
+    .track-tab {
+      border: 1px solid transparent; background: transparent; color: var(--text-secondary);
+      font-family: var(--font-sans); font-size: 12.5px; font-weight: 700;
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s ease;
+    }
+    .track-tab:hover { color: var(--text); background: var(--surface-alt); }
+    .track-tab.active {
+      background: var(--accent); color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+    html.dark .track-tab.active { color: #111111; }
+
+    /* Cards & Sections */
+    .tutorial-section { margin-bottom: 44px; scroll-margin-top: 72px; }
+    .section-banner {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+      border-bottom: 2px solid var(--border); padding-bottom: 10px; margin-bottom: 20px;
+    }
+    .section-banner h2 {
+      font-family: var(--font-display); font-size: 1.42rem; font-weight: 800; color: var(--text); margin: 0;
+    }
+    .module-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px;
+      padding: 20px 22px; margin-bottom: 22px; scroll-margin-top: 76px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .module-card:hover { border-color: var(--accent-border); }
+    .module-header {
+      display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .module-badge {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 6px; background: var(--accent-bg); color: var(--accent);
+      border: 1px solid var(--accent-border);
+    }
+    .module-title {
+      font-family: var(--font-display); font-size: 1.18rem; font-weight: 800; color: var(--text);
+      margin: 6px 0 8px 0; line-height: 1.3;
+    }
+    p, li { color: var(--text-body); }
+    p { margin: 0 0 12px 0; }
+    ul, ol { margin: 0 0 16px 0; padding-left: 20px; }
+    li { margin-bottom: 8px; }
+    li strong { color: var(--text); }
+    code {
+      font-family: var(--font-mono); font-size: 0.84em; background: var(--surface-alt);
+      border: 1px solid var(--border); color: var(--accent); padding: 1px 6px; border-radius: 4px;
+      overflow-wrap: anywhere;
+    }
+
+    /* Terminal Code Block */
+    .cmd-block {
+      background: var(--code-bg); color: var(--code-text);
+      border: 1px solid #334155; border-radius: 10px; margin: 12px 0 16px; overflow: hidden;
+    }
+    .cmd-top {
+      background: rgba(255, 255, 255, 0.06); padding: 6px 12px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: var(--font-mono); font-size: 11px; color: #94a3b8;
+    }
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #f8fafc; font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+      padding: 2px 8px; border-radius: 5px; cursor: pointer; transition: all 0.15s;
+    }
+    .copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    html.dark .copy-btn:hover { color: #111; }
+    .cmd-block pre {
+      margin: 0; padding: 12px 14px; overflow-x: auto;
+      font-family: var(--font-mono); font-size: 12.5px; line-height: 1.6; color: var(--code-text);
+    }
+
+    /* Video & Resource Pills */
+    .video-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 14px 0;
+    }
+    .video-box {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px;
+    }
+    .video-box .v-label {
+      font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 8px;
+      display: flex; justify-content: space-between; align-items: center; gap: 6px;
+    }
+    .video-box .v-label a { color: var(--accent); font-family: var(--font-mono); font-size: 11px; text-decoration: underline; }
+    .video-aspect {
+      position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000;
+      border-radius: 8px; overflow: hidden; border: 1px solid var(--border);
+    }
+    .video-aspect iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+    .resource-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .res-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      transition: all 0.15s ease;
+    }
+    .res-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); transform: translateY(-1px); }
+
+    .tip-box {
+      background: var(--g-amber-bg); border: 1px solid rgba(227, 116, 0, 0.35);
+      border-left: 4px solid var(--g-amber); border-radius: 8px; padding: 12px 14px; margin: 12px 0;
+      font-size: 13.5px; color: var(--text-body);
+    }
+
+    /* Sidebar */
+    .sidebar { position: sticky; top: 70px; display: flex; flex-direction: column; gap: 16px; }
+    .side-panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+    .side-heading {
+      font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--accent); margin: 0 0 10px 0; padding-bottom: 6px; border-bottom: 1px solid var(--border);
+    }
+    .side-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; }
+    .side-links li { margin: 0; }
+    .side-links a { color: var(--text-secondary); display: block; padding: 4px 6px; border-radius: 6px; font-weight: 500; }
+    .side-links a:hover { color: var(--accent); background: var(--accent-bg); }
+    .kv-list { list-style: none; margin: 0; padding: 0; font-family: var(--font-mono); font-size: 11.5px; display: flex; flex-direction: column; gap: 6px; }
+    .kv-list li { margin: 0; display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 5px; }
+    .kv-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+    .kv-list span:first-child { color: var(--text-muted); }
+    .kv-list span:last-child { color: var(--text); font-weight: 600; text-align: right; }
+
+    footer {
+      position: relative; z-index: 1;
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 28px 16px; text-align: center; font-size: 12.5px; color: var(--text-secondary);
+    }
+    footer a { color: var(--accent); font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <canvas id="fluid-canvas"></canvas>
+  <div id="progress-bar"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="/" class="brand">
+        <span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span>
+        <span class="brand-sep">|</span>
+        <span class="brand-sec" data-i18n="headerBrand">Robotics &amp; Edge AI Tutorials</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
+        <nav class="topnav">
+          <a href="/tutorials/" class="active-nav" data-i18n="navTutorials">Tutorials</a>
+          <a href="/archive/" data-i18n="navArchive">Archive &amp; Patents</a>
+          <a href="/blog/" data-i18n="navVlaBlog">VLA Blog</a>
+          <a href="/blog/m9g-agent-corps/" data-i18n="navAgentBlog">Agent Blog</a>
+          <a href="/" class="back-link" data-i18n="navPortfolio">Portfolio</a>
+        </nav>
+        <button class="ctrl-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Light / Dark Theme">☀ Light</button>
+        <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
+          <button class="ctrl-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
+            <span id="current-lang-label">EN</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="lang-popup" id="lang-popup">
+            <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span><span>EN</span></button>
+            <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span><span>KO</span></button>
+            <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span><span>JA</span></button>
+            <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span><span>ZH</span></button>
+            <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span><span>ES</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main style="min-width:0;">
+      <div class="post-meta-top">
+        <span class="tag" data-i18n="heroBadge">ROS 1/2 • MoveIt 1/2 • Jetson Nano Bootcamp</span>
+        <span>Minsu Chang, PhD (M9G)</span>
+        <span>•</span>
+        <span>12 Hands-On Modules</span>
+      </div>
+
+      <h1 data-i18n="heroTitle">Deep Dive into Robotic Manipulation, Mobile Navigation &amp; Jetson Nano Camera Vision</h1>
+      <p class="lede" data-i18n="heroLede">
+        Complete engineering tutorials and lecture notes consolidated from <code>mincasurong.com</code>: native <strong>ROS 2 Foxy &amp; MoveIt 2</strong> motion planning on Windows 10, <strong>ROS 1 Melodic &amp; MoveIt 1 (PR2/Panda)</strong> + <strong>ROS Navigation Stack</strong> in WSL2 Ubuntu 18.04, and the 8-part <strong>NVIDIA Jetson Nano + CSI Camera Vision &amp; PyTorch-to-TensorRT Transfer Learning Bootcamp</strong> (Sogang Univ. × Hyundai Mobis SW Camp).
+      </p>
+
+      <div class="spec-strip">
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi1Label">Manipulation Stack</div>
+          <div class="spec-val">ROS 2 + MoveIt 2</div>
+          <div class="spec-note" data-i18n="kpi1Note">Native Windows 10 &amp; WSL2 ROS 1 Melodic</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi2Label">Edge AI Target</div>
+          <div class="spec-val green">Jetson Nano</div>
+          <div class="spec-note" data-i18n="kpi2Note">JetPack 4.5 • Docker • CSI Camera</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi3Label">Vision Models</div>
+          <div class="spec-val">SSD-MobileNet</div>
+          <div class="spec-note" data-i18n="kpi3Note">MS COCO (91 cls) + OpenImages ONNX</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi4Label">Course Materials</div>
+          <div class="spec-val green">4 PDFs + Colab</div>
+          <div class="spec-note" data-i18n="kpi4Note">12 Modules &amp; 9 Demo Videos</div>
+        </div>
+      </div>
+
+      <!-- Track Filter Tabs -->
+      <div class="track-tabs" role="tablist">
+        <button class="track-tab active" onclick="filterTrack('all', this)" data-i18n="tabAll">All Tutorials (12 Modules)</button>
+        <button class="track-tab" onclick="filterTrack('ros', this)" data-i18n="tabRos">Track A: ROS 1/2, MoveIt 1/2 &amp; Mobile Nav (4)</button>
+        <button class="track-tab" onclick="filterTrack('jetson', this)" data-i18n="tabJetson">Track B: Jetson Nano + Camera Vision Bootcamp (8)</button>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- TRACK A: BASIC ROBOTICS (ROS 2 / MOVEIT 2 / ROS 1 WSL2 / NAV)     -->
+      <!-- ================================================================= -->
+      <section id="track-ros" class="tutorial-section" data-track="ros">
+        <div class="section-banner">
+          <h2 data-i18n="secRosTitle">Track A. Robotic Manipulation &amp; Mobile Navigation (ROS 1/2 &amp; MoveIt 1/2)</h2>
+          <span class="module-badge">Windows 10 Native + WSL2 Ubuntu 18.04</span>
+        </div>
+
+        <!-- Module A1: ROS 2 Foxy in Windows 10 -->
+        <article id="ros2-windows10" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Part 1 • ROS 2 Foxy (Windows 10)</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">i9-9900K • 32GB RAM • RTX 2080 Ti</span>
+          </div>
+          <h3 class="module-title" data-i18n="modA1Title">1. Deep Dive into Robotic Manipulation: Installing ROS 2 Foxy in Windows 10</h3>
+          <p data-i18n="modA1Intro">
+            While Ph.D. research focused on wearable rehabilitation exoskeletons and AI therapists, modern robotic manipulation combines 6/7-DoF arms with camera vision and motion planning frameworks like <strong>MoveIt</strong>. Before building MoveIt 2, we set up a clean native <strong>ROS 2 Foxy Fitzroy</strong> environment on Windows 10.
+          </p>
+
+          <div class="tip-box">
+            <strong>Windows 10 Binary Installation Pitfalls &amp; Fixes:</strong>
+            <ul style="margin:6px 0 0 0;">
+              <li><strong>Visual Studio Developer Tools:</strong> When installing Visual Studio 2019 Community, ensure <em>Desktop development with C++</em> is checked—missing Windows 10 SDK headers will break <code>colcon build</code>.</li>
+              <li><strong>Python &amp; Qt5 Path Binding:</strong> Install dependencies via elevated Administrator PowerShell/Command Prompt and verify Qt5 environment variables before launching <code>rviz2</code> or <code>rqt</code>.</li>
+            </ul>
+          </div>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>Windows 10 x64 Native Developer Command Prompt — ROS 2 Foxy Verification</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre>call C:\dev\ros2_foxy\local_setup.bat
+:: Terminal 1 — C++ Publisher Node
+ros2 run demo_nodes_cpp talker
+
+:: Terminal 2 — C++ Subscriber Node
+call C:\dev\ros2_foxy\local_setup.bat
+ros2 run demo_nodes_cpp listener</pre>
+          </div>
+
+          <div class="video-grid">
+            <div class="video-box">
+              <div class="v-label"><span>Demo: First Try of ROS 2 Foxy &amp; Gazebo in Windows 10</span><a href="https://www.youtube.com/watch?v=bOGMaTQXcb0" target="_blank" rel="noopener">YouTube ↗</a></div>
+              <div class="video-aspect"><iframe src="https://www.youtube.com/embed/bOGMaTQXcb0?rel=0" title="ROS2 first try" loading="lazy" allowfullscreen></iframe></div>
+            </div>
+            <div class="video-box">
+              <div class="v-label"><span>Motivation: Dex-Net 2.0 (99% Precision Grasping)</span><a href="https://www.youtube.com/watch?v=i6K3GI2_EgU" target="_blank" rel="noopener">YouTube ↗</a></div>
+              <div class="video-aspect"><iframe src="https://www.youtube.com/embed/i6K3GI2_EgU?rel=0" title="DexNet 2.0" loading="lazy" allowfullscreen></iframe></div>
+            </div>
+          </div>
+
+          <div class="resource-row">
+            <a class="res-pill" href="http://ms-iot.github.io/ROSOnWindows/GettingStarted/SetupRos2.html" target="_blank" rel="noopener">📘 MS-IoT ROS 2 on Windows Guide ↗</a>
+            <a class="res-pill" href="https://docs.ros.org/en/foxy/Installation/Windows-Install-Binary.html" target="_blank" rel="noopener">📘 Official ROS 2 Foxy Windows Binary Docs ↗</a>
+            <a class="res-pill" href="https://www.youtube.com/watch?v=Jkos2DVSn8g" target="_blank" rel="noopener">🎬 Bin-Picking &amp; Packaging Reference ↗</a>
+          </div>
+        </article>
+
+        <!-- Module A2: MoveIt 2 in Windows 10 -->
+        <article id="moveit2-windows10" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Part 2 • MoveIt 2 on Windows 10</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">Franka Emika Panda • RViz2 MotionPlanning</span>
+          </div>
+          <h3 class="module-title" data-i18n="modA2Title">2. MoveIt 2 Source Build &amp; Panda Arm Motion Planning in Windows 10</h3>
+          <p data-i18n="modA2Intro">
+            After verifying ROS 2 Foxy, we build <strong>MoveIt 2</strong> from source on Windows 10 and run interactive 7-DoF collision-free trajectory planning with the <strong>Franka Emika Panda</strong> manipulator in RViz2. Dragging the 3D interactive marker at the end-effector computes inverse kinematics (IK) and executes smooth joint-space plans.
+          </p>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>Launch MoveIt 2 Franka Panda RViz2 Demo (Windows 10 Command Prompt)</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre>call C:\dev\ros2_foxy\local_setup.bat
+call C:\dev\moveit2_ws\install\setup.bat
+ros2 launch moveit_resources_panda_moveit_config demo.launch.py</pre>
+          </div>
+
+          <div class="video-grid">
+            <div class="video-box">
+              <div class="v-label"><span>Demo: Motion Planning by ROS 2 &amp; MoveIt 2 in Windows 10</span><a href="https://www.youtube.com/watch?v=IsrvJgT0ntI" target="_blank" rel="noopener">YouTube ↗</a></div>
+              <div class="video-aspect"><iframe src="https://www.youtube.com/embed/IsrvJgT0ntI?rel=0" title="Motion planning by ROS2 and MoveIt2 in Windows 10" loading="lazy" allowfullscreen></iframe></div>
+            </div>
+          </div>
+
+          <div class="resource-row">
+            <a class="res-pill" href="https://moveit.picknik.ai/foxy/index.html" target="_blank" rel="noopener">📘 MoveIt 2 Foxy Documentation ↗</a>
+            <a class="res-pill" href="https://moveit.ros.org/install-moveit2/source-windows/" target="_blank" rel="noopener">🛠️ MoveIt 2 Windows Source Build Guide ↗</a>
+          </div>
+        </article>
+
+        <!-- Module A3: ROS 1 Melodic + MoveIt 1 in WSL2 -->
+        <article id="ros1-moveit1-wsl2" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Part 3 • ROS 1 Melodic + MoveIt 1 (WSL2)</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">Ubuntu 18.04 LTS • WSL2 • VcXsrv X11 GUI</span>
+          </div>
+          <h3 class="module-title" data-i18n="modA3Title">3. [ROS 1 Melodic + MoveIt 1 + PR2/Panda] in Ubuntu 18.04 (WSL2 on Windows 10)</h3>
+          <p data-i18n="modA3Intro">
+            Because many legacy industrial manipulation packages and Gazebo plugins target Ubuntu 18.04 + ROS 1 Melodic, running <strong>WSL2 (Windows Subsystem for Linux 2)</strong> with an X-Server (VcXsrv / XLaunch) gives full Linux compatibility without dual-booting.
+          </p>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>WSL2 Ubuntu 18.04 — VS Code + MoveIt 1 Melodic Quickstart</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre># Install Visual Studio Code inside Ubuntu 18.04 WSL2
+sudo apt update &amp;&amp; sudo apt install code
+
+# Source ROS 1 Melodic &amp; MoveIt 1 Catkin Workspace
+source /opt/ros/melodic/setup.bash
+source ~/ws_moveit/devel/setup.bash
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0.0
+
+# Launch MoveIt 1 RViz Motion Planning Demo
+roslaunch panda_moveit_config demo.launch rviz_tutorial:=true</pre>
+          </div>
+
+          <div class="video-grid">
+            <div class="video-box">
+              <div class="v-label"><span>Demo: MoveIt 1 &amp; ROS 1 Melodic in WSL2 Windows 10</span><a href="https://www.youtube.com/watch?v=e4cL2JTSwBU" target="_blank" rel="noopener">YouTube ↗</a></div>
+              <div class="video-aspect"><iframe src="https://www.youtube.com/embed/e4cL2JTSwBU?rel=0" title="Motion planning through MoveIt and ROS in WSL-based Windows 10" loading="lazy" allowfullscreen></iframe></div>
+            </div>
+          </div>
+
+          <div class="resource-row">
+            <a class="res-pill" href="http://docs.ros.org/en/melodic/api/moveit_tutorials/html/index.html" target="_blank" rel="noopener">📘 MoveIt 1 Melodic Official Tutorials ↗</a>
+            <a class="res-pill" href="http://wiki.ros.org/melodic/Installation/Ubuntu" target="_blank" rel="noopener">📘 ROS 1 Melodic Ubuntu Installation ↗</a>
+          </div>
+        </article>
+
+        <!-- Module A4: Mobile Robot Navigation Stack -->
+        <article id="mobile-robot-nav" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Part 4 • Mobile Robot &amp; ROS Navigation Stack</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">SLAM • AMCL • Global/Local Costmap Planner</span>
+          </div>
+          <h3 class="module-title" data-i18n="modA4Title">4. Deep Dive into Mobile Robots: Probabilistic Robotics &amp; ROS Navigation Stack</h3>
+          <p data-i18n="modA4Intro">
+            Connecting <em>Probabilistic Robotics</em> fundamentals (Bayes filters, EKF/PF localization, occupancy grid mapping) to the <strong>ROS Navigation Stack</strong> (<code>move_base</code>, <code>amcl</code>, global A*/Dijkstra planner, and local DWA/TEB trajectory planner) inside Windows 10 + WSL2 Linux. This foundation directly led to our ICRA 2025 paper on <strong>OPPA (Online Planner's Parameter Adaptation)</strong>.
+          </p>
+
+          <div class="video-grid">
+            <div class="video-box">
+              <div class="v-label"><span>Demo: ROS Navigation Stack Basic Trial (2D Nav Goal &amp; Local Costmap)</span><a href="https://www.youtube.com/watch?v=PEqZ4HosMQY" target="_blank" rel="noopener">YouTube ↗</a></div>
+              <div class="video-aspect"><iframe src="https://www.youtube.com/embed/PEqZ4HosMQY?rel=0" title="ROS Navigation stack basic trial" loading="lazy" allowfullscreen></iframe></div>
+            </div>
+          </div>
+
+          <div class="resource-row">
+            <a class="res-pill" href="http://wiki.ros.org/navigation/Tutorials" target="_blank" rel="noopener">📘 ROS Navigation Stack Tutorials ↗</a>
+            <a class="res-pill" href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener">📄 Related Paper: OPPA (ICRA 2025) ↗</a>
+          </div>
+        </article>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TRACK B: JETSON NANO + CAMERA VISION BOOTCAMP (8 MODULES)         -->
+      <!-- ================================================================= -->
+      <section id="track-jetson" class="tutorial-section" data-track="jetson">
+        <div class="section-banner">
+          <h2 data-i18n="secJetsonTitle">Track B. NVIDIA Jetson Nano + Camera Vision Bootcamp (8 Modules)</h2>
+          <span class="module-badge">Sogang Univ. × Hyundai Mobis SW Camp (2021)</span>
+        </div>
+
+        <!-- Module B0: Introduction & Lecture PDFs -->
+        <article id="jetson-intro" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Module 0 • Course Overview &amp; Lecture Slides</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">Two Days to a Demo (Hello AI World)</span>
+          </div>
+          <h3 class="module-title">0. Introduction: Deep Learning &amp; Real-Time Camera Vision on NVIDIA Jetson Nano</h3>
+          <p>
+            Designed and lectured for the <strong>2021 Sogang University SW Summer Camp (funded by Hyundai Mobis)</strong>, this 8-part bootcamp guides students with basic Python/C++ knowledge through deploying real-time object detection and custom PyTorch-to-TensorRT transfer learning on the <strong>NVIDIA Jetson Nano</strong> single-board computer (SBC) with a Raspberry Pi CSI Camera Module V2.
+          </p>
+          <ul>
+            <li><strong>Primary Upstream Reference:</strong> NVIDIA's <a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener" style="color:var(--accent); font-weight:600;"><code>dusty-nv/jetson-inference</code> (Two Days to a Demo / Hello AI World)</a></li>
+            <li><strong>Download Lecture Slide Decks (Google Drive PDFs):</strong></li>
+          </ul>
+          <div class="resource-row">
+            <a class="res-pill" href="https://drive.google.com/file/d/1hRKIFkosVdGZIryZrfJZmboZXb2pbvWW/view?usp=sharing" target="_blank" rel="noopener">📄 Lecture Deck 1 (Intro &amp; Setup PDF) ↗</a>
+            <a class="res-pill" href="https://drive.google.com/file/d/1YgQVt8epuJTxlLZAzZZvvwaDla-v3qE-/view?usp=sharing" target="_blank" rel="noopener">📄 Lecture Deck 2 (Linux &amp; Docker PDF) ↗</a>
+            <a class="res-pill" href="https://drive.google.com/file/d/1Z_7mnC-ubYUkrJxy84TmE4-XdPY9YAaL/view?usp=sharing" target="_blank" rel="noopener">📄 Lecture Deck 3 (Object Detection PDF) ↗</a>
+            <a class="res-pill" href="https://drive.google.com/file/d/1ukS_5bt4VkaJ0Dd5XPxXV3uAqbNckNHZ/view?usp=sharing" target="_blank" rel="noopener">📄 Lecture Deck 4 (Transfer Learning PDF) ↗</a>
+            <a class="res-pill" href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">💻 dusty-nv/jetson-inference Repo ↗</a>
+          </div>
+        </article>
+
+        <!-- Module B1: 1. Jetson Nano Preparation -->
+        <article id="jetson-1-prep" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Module 1 • Hardware, JetPack 4.5, Headless VNC &amp; CSI Camera</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">Etcher • PuTTY • vino-server • GStreamer</span>
+          </div>
+          <h3 class="module-title">1. Jetson Nano Preparation (1. Jetson Nano 준비)</h3>
+          <p>
+            <strong>Step 1 — Flash JetPack 4.5 SD Card:</strong> Download the official JetPack 4.5 microSD image from NVIDIA and flash it onto a 32GB/64GB microSD card using <strong>Balena Etcher</strong> (ignore Windows "Format Disk" popups after flashing).
+          </p>
+          <p>
+            <strong>Step 2 — Direct Boot vs. Headless Mode (PuTTY + VNC):</strong> If you do not have a dedicated HDMI monitor, connect the Jetson Nano's Micro-USB port to your Windows PC, open <strong>Device Manager → Ports (COM &amp; LPT)</strong> to find the USB Serial COM port, and connect via <strong>PuTTY</strong> (Serial speed <code>115200</code>) to complete initial Ubuntu setup. Afterwards, connect via SSH to <code>192.168.55.1</code> (Port 22) over USB Ethernet and enable the VNC desktop server (<code>vino-server</code>):
+          </p>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>Enable VNC Server (vino) &amp; Virtual Framebuffer Resolution on Jetson Nano</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre>cd /usr/lib/systemd/user/graphical-session.target.wants
+sudo ln -s ../vino-server.service ./.
+gsettings set org.gnome.Vino prompt-enabled false
+gsettings set org.gnome.Vino require-encryption false
+gsettings set org.gnome.Vino authentication-methods "['vnc']"
+gsettings set org.gnome.Vino vnc-password $(echo -n 'thepassword'|base64)
+sudo reboot
+
+# After reboot, set virtual desktop resolution via SSH before opening VNC Viewer:
+export DISPLAY=:0
+xrandr --fb 1000x400</pre>
+          </div>
+
+          <p>
+            <strong>Step 3 — Command-Line Wi-Fi &amp; CSI Camera Hardware Verification:</strong> Connect to Wi-Fi via <code>nmcli</code> and verify the Raspberry Pi CSI Camera V2 using <code>nvarguscamerasrc</code> GStreamer pipelines:
+          </p>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>Wi-Fi Connection (nmcli) &amp; CSI Camera GStreamer Test</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre># Connect to Wi-Fi from terminal
+nmcli dev wifi list
+sudo nmcli --ask dev wifi connect &lt;SSID&gt;
+sudo apt-get update &amp;&amp; sudo apt-get install nano
+
+# Check CSI Camera device node (/dev/video0)
+ls -l /dev/video0
+
+# Test live CSI camera feed on desktop (Mode 0: 3280x2464, Mode 1: resized 60fps)
+gst-launch-1.0 nvarguscamerasrc sensor_mode=0 ! nvoverlaysink
+gst-launch-1.0 nvarguscamerasrc sensor_mode=1 ! 'video/x-raw(memory:NVMM),width=1280, height=720, framerate=60/1, format=NV12' ! nvvidconv flip-method=0 ! 'video/x-raw,width=400, height=300' ! nvvidconv ! nvegltransform ! nveglglessink -e</pre>
+          </div>
+
+          <div class="video-grid">
+            <div class="video-box">
+              <div class="v-label"><span>Reference: Installing VNC on Jetson Nano</span><a href="https://www.youtube.com/watch?v=Ch1NKfER0oM" target="_blank" rel="noopener">YouTube ↗</a></div>
+              <div class="video-aspect"><iframe src="https://www.youtube.com/embed/Ch1NKfER0oM?rel=0" title="Jetson Nano VNC Setup" loading="lazy" allowfullscreen></iframe></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Module B2: 2. Linux & Docker Container -->
+        <article id="jetson-2-docker" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Module 2 • Linux CLI &amp; jetson-inference Docker Container</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">docker/run.sh • video-viewer csi://0</span>
+          </div>
+          <h3 class="module-title">2. Linux Essentials &amp; Docker Container Setup (2. Linux 및 Docker Container)</h3>
+          <p>
+            Rather than compiling TensorRT, CUDA, and PyTorch from scratch on the SD card, we clone <code>jetson-inference</code> and launch its pre-configured container via <code>docker/run.sh</code>, which automatically mounts the CSI camera and host directories.
+          </p>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>Clone jetson-inference &amp; Verify Real-Time CSI Stream Inside Docker</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre>git clone --recursive https://github.com/dusty-nv/jetson-inference
+cd jetson-inference
+docker/run.sh
+
+# Inside the Docker container (# prompt), test live CSI camera display:
+cd build/aarch64/bin
+./video-viewer --input-width=400 --input-height=300 csi://0</pre>
+          </div>
+          <div class="tip-box">
+            <strong>Tip:</strong> If you installed JetPack 4.5, make sure you pull the matching container tag (or pass <code>docker/run.sh -c r32.5.0</code>) so Docker does not accidentally pull the 5GB JetPack 4.4 image! (See Module 5 below for cleanup instructions.)
+          </div>
+        </article>
+
+        <!-- Module B3: 3. Object Detection -->
+        <article id="jetson-3-detectnet" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Module 3 • Real-Time Object Detection (SSD-MobileNet-v2)</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">91-Class MS COCO • TensorRT FP16</span>
+          </div>
+          <h3 class="module-title">3. Pre-Trained Object Detection &amp; Python API Walkthrough (3. Object Detection)</h3>
+          <p>
+            We run real-time 91-class MS COCO object detection using <code>ssd-mobilenet-v2</code> accelerated by NVIDIA TensorRT. On first execution, TensorRT optimizes the network graph for the Jetson Nano Maxwell GPU (taking a few minutes) and caches the serialized engine for instant startup on subsequent runs.
+          </p>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>Static Image &amp; Real-Time CSI Camera Object Detection (Inside Docker)</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre>cd /jetson-inference/build/aarch64/bin
+
+# 1. Detect objects on static image and save annotated output
+./detectnet.py --network=ssd-mobilenet-v2 images/peds_0.jpg images/test/output.jpg
+
+# 2. Real-time object detection on live CSI camera stream
+./detectnet.py --network=ssd-mobilenet-v2 --input-width=400 --input-height=300 csi://0</pre>
+          </div>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>Minimal 15-Line Python Object Detection Loop (detectnet.py Core Pattern)</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre>import jetson.inference
+import jetson.utils
+
+net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5)
+camera = jetson.utils.videoSource("csi://0")      # or "/dev/video0" for USB webcam
+display = jetson.utils.videoOutput("display://0") # or "my_video.mp4"
+
+while display.IsStreaming():
+    img = camera.Capture()
+    detections = net.Detect(img)
+    display.Render(img)
+    display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))</pre>
+          </div>
+
+          <div class="video-grid">
+            <div class="video-box">
+              <div class="v-label"><span>CS231n Lecture 1: Computer Vision Overview</span><a href="https://www.youtube.com/watch?v=vT1JzLTH4G4" target="_blank" rel="noopener">YouTube ↗</a></div>
+              <div class="video-aspect"><iframe src="https://www.youtube.com/embed/vT1JzLTH4G4?rel=0" title="CS231n Lecture 1" loading="lazy" allowfullscreen></iframe></div>
+            </div>
+          </div>
+
+          <div class="resource-row">
+            <a class="res-pill" href="https://colab.research.google.com/drive/1G9ecWl7AXFsid4LSholy_I_wgrHkoxAm?usp=sharing" target="_blank" rel="noopener">📓 Open Practice Notebook in Google Colab ↗</a>
+            <a class="res-pill" href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-console-2.md" target="_blank" rel="noopener">📘 detectNet Console Docs ↗</a>
+          </div>
+        </article>
+
+        <!-- Module B4-1: 4-1. Transfer Learning Prep -->
+        <article id="jetson-4-1-tl-prep" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Module 4-1 • Swap Memory, USB Mount &amp; OpenImages Dataset</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">4GB Swap • exFAT USB • mobilenet-v1-ssd</span>
+          </div>
+          <h3 class="module-title">4-1. Transfer Learning Preparation (4-1. Transfer Learning 준비)</h3>
+          <p>
+            Training PyTorch SSD models directly on Jetson Nano's 4GB shared RAM requires mounting additional <strong>Swap Memory</strong> (disabling ZRAM) and storing training datasets on an external exFAT USB drive mounted into the Docker container.
+          </p>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>1. Expand Swap Memory &amp; Mount exFAT USB Drive into Docker</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre># Expand swap file (on host Ubuntu terminal)
+git clone https://github.com/JetsonHacksNano/installSwapfile
+cd installSwapfile &amp;&amp; ./installSwapfile.sh
+free -m
+
+# Enable exFAT USB support and launch Docker with USB volume mounted
+sudo apt-get install exfat-fuse exfat-utils
+cd ~/jetson-inference
+docker/run.sh --volume /media/mobis/mobis_usb:/media/mobis/mobis_usb</pre>
+          </div>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>2. Download Base SSD Checkpoint &amp; OpenImages Subset (Inside Docker)</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre>cd /jetson-inference/python/training/detection/ssd
+wget https://nvidia.box.com/shared/static/djf5w54rjvpqocsiztzaandq1m3avr7c.pth -O models/mobilenet-v1-ssd-mp-0_675.pth
+
+# Download 100 images of target class (e.g. "Apple") to mounted USB drive
+python3 open_images_downloader.py --max-images=100 --class-names "Apple" --data=/media/mobis/mobis_usb</pre>
+          </div>
+        </article>
+
+        <!-- Module B4-2: 4-2. Transfer Learning Training & ONNX Export -->
+        <article id="jetson-4-2-tl-train" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Module 4-2 • PyTorch SSD Fine-Tuning &amp; TensorRT ONNX Export</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">train_ssd.py • onnx_export.py • Live Inference</span>
+          </div>
+          <h3 class="module-title">4-2. Transfer Learning Training, ONNX Export &amp; Live Inference (4-2. 실습 학습)</h3>
+          <p>
+            Once the OpenImages subset is downloaded, we fine-tune the MobileNet-V1 SSD detector in PyTorch, export the best checkpoint to <strong>ONNX</strong>, and run real-time TensorRT inference on images, videos, and the live CSI camera.
+          </p>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>Train Custom SSD in PyTorch, Export to ONNX &amp; Run Live CSI Inference</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre>cd /jetson-inference/python/training/detection/ssd
+
+# 1. Train for 5 epochs (or resume from a saved checkpoint with --resume=models/...)
+python3 train_ssd.py --data=/media/mobis/mobis_usb --model-dir=models --batch-size=4 --epochs=5
+
+# 2. Convert PyTorch (.pth) checkpoint to ONNX (ssd-mobilenet.onnx)
+python3 onnx_export.py --model-dir=models
+
+# 3. Test custom ONNX model on live CSI Camera (TensorRT auto-builds engine on first run)
+detectnet.py --model=models/ssd-mobilenet.onnx --labels=models/labels.txt \
+  --input-blob=input_0 --output-cvg=scores --output-bbox=boxes \
+  --input-width=400 --input-height=300 csi://0</pre>
+          </div>
+        </article>
+
+        <!-- Module B5: 5. NVIDIA DLI Certification & Troubleshooting -->
+        <article id="jetson-5-dli" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Module 5 • NVIDIA DLI Certificates &amp; Docker Disk Recovery</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">DLI Free Courses • Reclaim 5GB SD Space</span>
+          </div>
+          <h3 class="module-title">5. NVIDIA DLI Certification &amp; Troubleshooting Notes (5. Certification 관련 주의사항)</h3>
+          <p>
+            NVIDIA's Deep Learning Institute (DLI) offers two official free self-paced certificate courses for Jetson Nano:
+          </p>
+          <ul>
+            <li><a href="https://courses.nvidia.com/courses/course-v1:DLI+S-RX-02+V2/about" target="_blank" rel="noopener" style="color:var(--accent); font-weight:600;">Getting Started with AI on Jetson Nano (DLI+S-RX-02+V2) ↗</a></li>
+            <li><a href="https://courses.nvidia.com/courses/course-v1:DLI+C-IV-02+V1/" target="_blank" rel="noopener" style="color:var(--accent); font-weight:600;">Building Video AI Applications at the Edge on Jetson Nano (DeepStream) ↗</a></li>
+          </ul>
+          <p>
+            <strong>Important Troubleshooting — Reclaiming 5GB from Mismatched Docker Images:</strong> Because the DLI course instructions hardcode a JetPack 4.4 Docker tag while your SD card runs JetPack 4.5, running the DLI command downloads a duplicate 5GB image that fails to start. Check and remove the unused Docker image to free SD card space:
+          </p>
+
+          <div class="cmd-block">
+            <div class="cmd-top">
+              <span>Inspect &amp; Remove Duplicate 5GB Docker Container Image</span>
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <pre># Check available SD card space and list downloaded Docker images
+df -h
+sudo docker images
+
+# Remove the mismatched IMAGE ID to immediately recover ~5GB
+sudo docker rmi -f &lt;IMAGE_ID&gt;
+df -h</pre>
+          </div>
+        </article>
+
+        <!-- Module B6: 6. NVIDIA TLT / TAO Links -->
+        <article id="jetson-6-tlt" class="module-card">
+          <div class="module-header">
+            <span class="module-badge">Module 6 • NVIDIA Transfer Learning Toolkit (TLT / TAO)</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">NGC Catalog • DetectNet_v2 • INT8 Calibration</span>
+          </div>
+          <h3 class="module-title">6. Production Transfer Learning with NVIDIA TLT / TAO (6. Transfer Learning 방법 &amp; 링크)</h3>
+          <p>
+            For production deployment at higher FPS, train on a desktop/cloud GPU using the <strong>NVIDIA Transfer Learning Toolkit (TLT / TAO Toolkit)</strong> and NGC pre-trained backbones, prune and quantize to FP16/INT8, and deploy the resulting TensorRT engine onto the Jetson Nano.
+          </p>
+          <div class="resource-row">
+            <a class="res-pill" href="https://developer.nvidia.com/transfer-learning-toolkit" target="_blank" rel="noopener">🚀 NVIDIA TLT / TAO Developer Portal ↗</a>
+            <a class="res-pill" href="https://ngc.nvidia.com/catalog/models/nvidia:tlt_pretrained_object_detection" target="_blank" rel="noopener">📦 NGC: TLT Pre-Trained Object Detection ↗</a>
+            <a class="res-pill" href="https://ngc.nvidia.com/catalog/models/nvidia:tlt_pretrained_detectnet_v2" target="_blank" rel="noopener">📦 NGC: TLT Pre-Trained DetectNet_v2 ↗</a>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="side-panel">
+        <h3 class="side-heading" data-i18n="sideToc">Tutorial Modules</h3>
+        <ul class="side-links">
+          <li><a href="#ros2-windows10">A1. ROS 2 Foxy in Windows 10</a></li>
+          <li><a href="#moveit2-windows10">A2. MoveIt 2 in Windows 10 (Panda)</a></li>
+          <li><a href="#ros1-moveit1-wsl2">A3. ROS 1 + MoveIt 1 in WSL2</a></li>
+          <li><a href="#mobile-robot-nav">A4. Mobile Robot &amp; ROS Nav Stack</a></li>
+          <li style="border-top:1px solid var(--border-subtle); margin-top:4px; padding-top:4px;"><a href="#jetson-intro">B0. Jetson Bootcamp Intro &amp; PDFs</a></li>
+          <li><a href="#jetson-1-prep">B1. JetPack 4.5, VNC &amp; CSI Camera</a></li>
+          <li><a href="#jetson-2-docker">B2. Linux &amp; Docker Container</a></li>
+          <li><a href="#jetson-3-detectnet">B3. SSD-MobileNet-v2 Detection</a></li>
+          <li><a href="#jetson-4-1-tl-prep">B4-1. Swap, USB &amp; OpenImages</a></li>
+          <li><a href="#jetson-4-2-tl-train">B4-2. SSD Training &amp; ONNX Export</a></li>
+          <li><a href="#jetson-5-dli">B5. NVIDIA DLI &amp; Docker Cleanup</a></li>
+          <li><a href="#jetson-6-tlt">B6. NVIDIA TLT / TAO &amp; NGC</a></li>
+        </ul>
+      </div>
+
+      <div class="side-panel">
+        <h3 class="side-heading">Hardware Environment</h3>
+        <ul class="kv-list">
+          <li><span>Workstation CPU</span><span>Intel i9-9900K</span></li>
+          <li><span>Workstation GPU</span><span>RTX 2080 Ti (32GB)</span></li>
+          <li><span>Host OS</span><span>Windows 10 + WSL2</span></li>
+          <li><span>ROS Releases</span><span>Foxy (ROS2) / Melodic</span></li>
+          <li><span>Edge SBC</span><span>Jetson Nano (JetPack 4.5)</span></li>
+          <li><span>Camera Sensor</span><span>RPi CSI Camera V2</span></li>
+        </ul>
+      </div>
+
+      <div class="side-panel">
+        <h3 class="side-heading">Explore More M9G</h3>
+        <ul class="side-links">
+          <li><a href="/archive/">→ Patents, 16 Papers, Research (~2022) &amp; Epilogue</a></li>
+          <li><a href="/blog/">→ 2026 VLA 3-Arm FR3 Benchmark (Isaac Sim 6.0)</a></li>
+          <li><a href="/blog/m9g-agent-corps/">→ Dissecting m9g-agent-corps &amp; Antigravity</a></li>
+          <li><a href="/">→ Main Portfolio Home</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    © 2026 M9G (Minsu Chang, PhD) • <a href="/">mincasurong.github.io</a> • <a href="/tutorials/">Tutorials</a> • <a href="/archive/">Archive &amp; Patents</a> • <a href="https://github.com/mincasurong">GitHub</a> • <a href="https://www.linkedin.com/in/mincasurong/">LinkedIn</a>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', function() {
+      var doc = document.documentElement;
+      var top = doc.scrollTop || document.body.scrollTop;
+      var height = doc.scrollHeight - doc.clientHeight;
+      document.getElementById('progress-bar').style.width = (height > 0 ? (top / height) * 100 : 0) + '%';
+    });
+
+    function syncThemeBtn() {
+      var isDark = document.documentElement.classList.contains('dark');
+      var btn = document.getElementById('theme-btn');
+      if (btn) btn.textContent = isDark ? '☾ Dark' : '☀ Light';
+    }
+    function toggleTheme() {
+      var isDark = document.documentElement.classList.contains('dark');
+      var next = isDark ? 'light' : 'dark';
+      document.documentElement.classList.toggle('dark', next === 'dark');
+      document.documentElement.classList.toggle('light', next === 'light');
+      try { localStorage.setItem('m9g_theme', next); } catch (e) {}
+      syncThemeBtn();
+    }
+    syncThemeBtn();
+
+    function filterTrack(track, btn) {
+      document.querySelectorAll('.track-tab').forEach(function(b) { b.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+      document.querySelectorAll('.tutorial-section').forEach(function(sec) {
+        if (track === 'all' || sec.getAttribute('data-track') === track) {
+          sec.style.display = 'block';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    }
+
+    function copyCmd(btn) {
+      var pre = btn.closest('.cmd-block').querySelector('pre');
+      if (!pre) return;
+      navigator.clipboard.writeText(pre.innerText).then(function() {
+        var orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(function() { btn.textContent = orig; }, 1400);
+      });
+    }
+
+    var TUT_I18N = {
+      en: {
+        headerBrand: "Robotics & Edge AI Tutorials",
+        navTutorials: "Tutorials", navArchive: "Archive & Patents", navVlaBlog: "VLA Blog", navAgentBlog: "Agent Blog", navPortfolio: "Portfolio",
+        heroBadge: "ROS 1/2 • MoveIt 1/2 • Jetson Nano Bootcamp",
+        heroTitle: "Deep Dive into Robotic Manipulation, Mobile Navigation & Jetson Nano Camera Vision",
+        heroLede: "Complete engineering tutorials and lecture notes consolidated from mincasurong.com: native ROS 2 Foxy & MoveIt 2 motion planning on Windows 10, ROS 1 Melodic & MoveIt 1 (PR2/Panda) + ROS Navigation Stack in WSL2 Ubuntu 18.04, and the 8-part NVIDIA Jetson Nano + CSI Camera Vision & PyTorch-to-TensorRT Transfer Learning Bootcamp.",
+        tabAll: "All Tutorials (12 Modules)",
+        tabRos: "Track A: ROS 1/2, MoveIt 1/2 & Mobile Nav (4)",
+        tabJetson: "Track B: Jetson Nano + Camera Vision Bootcamp (8)",
+        secRosTitle: "Track A. Robotic Manipulation & Mobile Navigation (ROS 1/2 & MoveIt 1/2)",
+        secJetsonTitle: "Track B. NVIDIA Jetson Nano + Camera Vision Bootcamp (8 Modules)",
+        sideToc: "Tutorial Modules"
+      },
+      ko: {
+        headerBrand: "로보틱스 & 엣지 AI 튜토리얼",
+        navTutorials: "튜토리얼", navArchive: "아카이브 & 특허", navVlaBlog: "VLA 블로그", navAgentBlog: "에이전트 블로그", navPortfolio: "포트폴리오",
+        heroBadge: "ROS 1/2 • MoveIt 1/2 • 젯슨 나노 부트캠프",
+        heroTitle: "로봇 매니퓰레이션(ROS/MoveIt), 모바일 내비게이션 & Jetson Nano 카메라 비전 실습 허브",
+        heroLede: "mincasurong.com의 전체 엔지니어링 튜토리얼 및 강의록 통합본: Windows 10 네이티브 ROS 2 Foxy & MoveIt 2 모션 플래닝, WSL2 Ubuntu 18.04 기반 ROS 1 Melodic & MoveIt 1 + 모바일 로봇 내비게이션 스택, 그리고 서강대 × 현대모비스 SW 캠프 NVIDIA Jetson Nano + CSI 카메라 비전 & 전이학습(Transfer Learning) 8단계 부트캠프.",
+        tabAll: "전체 튜토리얼 보기 (12개 모듈)",
+        tabRos: "트랙 A: ROS 1/2, MoveIt 1/2 & 모바일 로봇 (4)",
+        tabJetson: "트랙 B: Jetson Nano + 카메라 비전 부트캠프 (8)",
+        secRosTitle: "트랙 A. 로봇 팔 매니퓰레이션 & 모바일 로봇 내비게이션 (ROS 1/2 & MoveIt 1/2)",
+        secJetsonTitle: "트랙 B. NVIDIA Jetson Nano + 카메라 비전 8단계 부트캠프 (현대모비스 SW 캠프)",
+        sideToc: "튜토리얼 목차"
+      },
+      ja: {
+        headerBrand: "ロボティクス & エッジAI チュートリアル",
+        navTutorials: "チュートリアル", navArchive: "アーカイブ & 特許", navVlaBlog: "VLAブログ", navAgentBlog: "エージェントブログ", navPortfolio: "ポートフォリオ",
+        heroBadge: "ROS 1/2 • MoveIt 1/2 • Jetson Nano ブートキャンプ",
+        heroTitle: "ロボットマニピュレーション (ROS/MoveIt)、自律移動 & Jetson Nano カメラビジョン実践",
+        heroLede: "mincasurong.com の全技術チュートリアルと講義資料を統合：Windows 10上のネイティブ ROS 2 Foxy & MoveIt 2 モーションプランニング、WSL2 Ubuntu 18.04での ROS 1 Melodic & MoveIt 1 + ROS Navigation Stack、および NVIDIA Jetson Nano + CSIカメラビジョン＆転移学習（8モジュール）ブートキャンプ。",
+        tabAll: "全チュートリアル (12モジュール)",
+        tabRos: "トラック A: ROS 1/2・MoveIt 1/2・自律移動 (4)",
+        tabJetson: "トラック B: Jetson Nano + カメラビジョン (8)",
+        secRosTitle: "トラック A. ロボットマニピュレーション & 自律移動ナビゲーション (ROS 1/2 & MoveIt 1/2)",
+        secJetsonTitle: "トラック B. NVIDIA Jetson Nano + カメラビジョン 8段階ブートキャンプ",
+        sideToc: "モジュール目次"
+      },
+      zh: {
+        headerBrand: "机器人与边缘 AI 实战教程",
+        navTutorials: "实战教程", navArchive: "研究档案与专利", navVlaBlog: "VLA 博客", navAgentBlog: "智能体博客", navPortfolio: "返回主页",
+        heroBadge: "ROS 1/2 • MoveIt 1/2 • Jetson Nano 训练营",
+        heroTitle: "机械臂运动规划 (ROS/MoveIt)、移动导航与 Jetson Nano 视觉实战中心",
+        heroLede: "完整整合自 mincasurong.com 的工程教程与讲义：Windows 10 原生 ROS 2 Foxy 与 MoveIt 2 机械臂运动规划、WSL2 Ubuntu 18.04 下的 ROS 1 Melodic 与 MoveIt 1 + 移动机器人导航栈，以及 8 讲 NVIDIA Jetson Nano + CSI 相机视觉与 TensorRT 迁移学习训练营。",
+        tabAll: "全部教程 (12 个模块)",
+        tabRos: "专题 A: ROS 1/2、MoveIt 1/2 与移动导航 (4)",
+        tabJetson: "专题 B: Jetson Nano + 相机视觉训练营 (8)",
+        secRosTitle: "专题 A. 机械臂操控与移动机器人导航 (ROS 1/2 & MoveIt 1/2)",
+        secJetsonTitle: "专题 B. NVIDIA Jetson Nano + 相机视觉 8 讲实战训练营",
+        sideToc: "教程目录"
+      },
+      es: {
+        headerBrand: "Tutoriales de Robótica e IA en el Borde",
+        navTutorials: "Tutoriales", navArchive: "Archivo y Patentes", navVlaBlog: "Blog VLA", navAgentBlog: "Blog Agentes", navPortfolio: "Portafolio",
+        heroBadge: "ROS 1/2 • MoveIt 1/2 • Bootcamp Jetson Nano",
+        heroTitle: "Manipulación Robótica (ROS/MoveIt), Navegación Móvil y Visión en Jetson Nano",
+        heroLede: "Tutoriales prácticos y notas de clase consolidados de mincasurong.com: planificación de movimiento con ROS 2 Foxy y MoveIt 2 en Windows 10, ROS 1 Melodic y MoveIt 1 + ROS Navigation Stack en WSL2 Ubuntu 18.04, y el Bootcamp de 8 módulos en NVIDIA Jetson Nano con cámara CSI y Transfer Learning en TensorRT.",
+        tabAll: "Todos los Tutoriales (12 Módulos)",
+        tabRos: "Ruta A: ROS 1/2, MoveIt 1/2 y Nav Móvil (4)",
+        tabJetson: "Ruta B: Bootcamp Jetson Nano + Visión (8)",
+        secRosTitle: "Ruta A. Manipulación Robótica y Navegación Móvil (ROS 1/2 y MoveIt 1/2)",
+        secJetsonTitle: "Ruta B. Bootcamp NVIDIA Jetson Nano + Visión por Cámara (8 Módulos)",
+        sideToc: "Módulos del Tutorial"
+      }
+    };
+
+    function toggleLangMenu(e) {
+      e.stopPropagation();
+      document.getElementById('lang-popup').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      var wrap = document.getElementById('lang-dropdown-wrap');
+      if (wrap && !wrap.contains(e.target)) document.getElementById('lang-popup').classList.remove('open');
+    });
+    function setLang(lang) {
+      if (!TUT_I18N[lang]) lang = 'en';
+      try { localStorage.setItem('m9g_portfolio_lang', lang); } catch (e) {}
+      document.documentElement.lang = lang;
+      var lbl = document.getElementById('current-lang-label');
+      if (lbl) lbl.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(function(opt) {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      var popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.remove('open');
+      var dict = TUT_I18N[lang];
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+    (function initLang() {
+      var saved = 'en';
+      try { saved = localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch (e) {}
+      setLang(saved);
+    })();
+
+    // Subtle background particle network
+    (function initCanvas() {
+      var canvas = document.getElementById('fluid-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var width = window.innerWidth, height = window.innerHeight;
+      var count = width < 640 ? 24 : 48;
+      var particles = [];
+      function resize() {
+        var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        width = window.innerWidth; height = window.innerHeight;
+        canvas.width = width * dpr; canvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        particles = [];
+        for (var i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * width, y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
+            r: Math.random() * 1.6 + 0.8
+          });
+        }
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      function step() {
+        ctx.clearRect(0, 0, width, height);
+        var isDark = document.documentElement.classList.contains('dark');
+        var strokeBase = isDark ? 'rgba(212, 175, 55, ' : 'rgba(26, 115, 232, ';
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0) p.x = width; if (p.x > width) p.x = 0;
+          if (p.y < 0) p.y = height; if (p.y > height) p.y = 0;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = strokeBase + '0.32)'; ctx.fill();
+          for (var j = i + 1; j < particles.length; j++) {
+            var q = particles[j];
+            var dx = p.x - q.x, dy = p.y - q.y, dSq = dx * dx + dy * dy;
+            if (dSq < 16000) {
+              ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+              ctx.strokeStyle = strokeBase + ((1 - Math.sqrt(dSq) / 126) * 0.12) + ')';
+              ctx.lineWidth = 0.7; ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    })();
+  </script>
+</body>
+</html>
