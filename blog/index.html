@@ -3,28 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Multi-Robot VLA Task Planner Benchmark in Isaac Sim 6.0 — M9G Engineering Blog</title>
+  <title>M9G Engineering Blog — Robotics, VLA &amp; Agentic AI Systems</title>
   <link rel="canonical" href="https://mincasurong.github.io/blog/" />
   <meta name="robots" content="index, follow" />
-  <meta name="description" content="Benchmarking Gemini Robotics-ER 2, Gemini 4 Argon, and a hybrid Argon + Flash-Lite planner on a 3-arm Franka FR3 9-block tower task in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy." />
-  <meta property="og:title" content="Multi-Robot VLA Task Planner Benchmark in Isaac Sim 6.0 — M9G" />
-  <meta property="og:description" content="Software-pipelined multi-arm scheduling and hybrid model routing reduce per-trial API cost from $0.08437 to $0.01972 (-76.6%) across a 9-block assembly task." />
+  <meta name="description" content="Engineering blog by Minsu Chang, Ph.D. (M9G / mincasurong): Multi-Robot VLA Task Planner Benchmarks in NVIDIA Isaac Sim 6.0 & ROS 2, and architectural audits of multi-agent coding harnesses (m9g-agent-corps, Antigravity, OmO, Claude Code, Codex)." />
+  <meta property="og:title" content="M9G Engineering Blog — Robotics, VLA & Agentic AI" />
+  <meta property="og:description" content="Technical deep-dives into Physical AI, multi-arm VLA manipulation in Isaac Sim 6.0, and multi-agent coding harnesses." />
   <meta property="og:image" content="https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "Empirical Comparison of VLA Task Planners on a 3-Arm 9-Block Tower in Isaac Sim 6.0",
-    "datePublished": "2026-10-18",
-    "inLanguage": ["en", "ko", "ja", "zh", "es"],
-    "image": "https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png",
-    "author": { "@type": "Person", "name": "Minsu Chang", "url": "https://mincasurong.github.io/" }
-  }
-  </script>
   <style>
     :root {
       --bg: #ffffff;
@@ -49,11 +37,9 @@
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
     *, *::before, *::after { box-sizing: border-box; }
-    
     html, body {
       margin: 0; padding: 0; width: 100%; max-width: 100%;
-      overflow-x: clip;
-      background: var(--bg); color: var(--text-primary);
+      overflow-x: clip; background: var(--bg); color: var(--text);
       font-family: var(--font-sans); font-size: 16px; line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
@@ -84,49 +70,8 @@
       }
       .cursor-dot.hovering { opacity: 0; }
     }
-    .reveal-on-scroll {
-      opacity: 0; transform: translateY(26px);
-      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .reveal-on-scroll.is-visible {
-      opacity: 1; transform: translateY(0);
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
-    }
-    .lux-card {
-      position: relative;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 20px rgba(32, 33, 36, 0.04);
-      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease;
-    }
-    .lux-card:hover {
-      transform: translateY(-4px) scale(1.005);
-      border-color: rgba(26, 115, 232, 0.55);
-      box-shadow: 0 16px 36px rgba(26, 115, 232, 0.1), 0 4px 12px rgba(212, 175, 55, 0.08);
-    }
-
-    .layout, .topbar, footer { position: relative; z-index: 1; }
-    .formula-card {
-      background: linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(232, 240, 254, 0.45));
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--g-blue);
-      border-radius: 10px;
-      padding: 14px 16px;
-      margin: 14px 0 18px;
-      font-family: var(--font-mono);
-      font-size: 13px;
-      line-height: 1.65;
-      color: var(--text);
-      max-width: 100%;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
-    
-    img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
     a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; height: auto; display: block; }
     #progress-bar {
       position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 100;
       background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%);
@@ -137,17 +82,9 @@
       border-bottom: 1px solid var(--border);
     }
     .topbar-inner { max-width: 1080px; margin: 0 auto; padding: 4px 14px; min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .lang-dropdown-wrap { position: relative; }
-    .lang-box-btn { height: 28px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: var(--font-mono); font-size: 11px; font-weight: 700; line-height: 1; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
-    .lang-box-btn:hover { border-color: var(--g-blue); color: var(--g-blue); }
-    .lang-popup { position: absolute; top: calc(100% + 6px); right: 0; min-width: 132px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 10px 28px rgba(32, 33, 36, 0.14); padding: 4px; display: none; z-index: 300; }
-    .lang-popup.open { display: block; }
-    .lang-option { width: 100%; text-align: left; background: transparent; border: 0; border-radius: 6px; padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-    .lang-option:hover { background: var(--surface); color: var(--text); }
-    .lang-option.active { background: var(--g-blue-bg); color: var(--g-blue); font-weight: 700; }
     .brand {
       font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text);
-      display: flex; align-items: center; gap: 8px;
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
     }
     .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; }
     .brand-sep { color: var(--border); font-weight: 400; }
@@ -160,151 +97,71 @@
     .topnav a.back-link {
       color: #ffffff; background: var(--g-blue); font-weight: 600; padding: 5px 12px; border-radius: 999px; font-size: 12.5px;
     }
-    .lang-switcher {
-      display: inline-flex; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 2px;
+    .lang-dropdown-wrap { position: relative; }
+    .lang-box-btn { height: 28px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: var(--font-mono); font-size: 11px; font-weight: 700; line-height: 1; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+    .lang-box-btn:hover { border-color: var(--g-blue); color: var(--g-blue); }
+    .lang-popup { position: absolute; top: calc(100% + 6px); right: 0; min-width: 132px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 10px 28px rgba(32, 33, 36, 0.14); padding: 4px; display: none; z-index: 300; }
+    .lang-popup.open { display: block; }
+    .lang-option { width: 100%; text-align: left; background: transparent; border: 0; border-radius: 6px; padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+    .lang-option:hover { background: var(--surface); color: var(--text); }
+    .lang-option.active { background: var(--g-blue-bg); color: var(--g-blue); font-weight: 700; }
+
+    .hub-wrap { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 36px 16px 80px; }
+    .hub-eyebrow {
+      display: inline-block; background: var(--g-blue-bg); color: var(--g-blue);
+      padding: 3px 11px; border-radius: 999px; font-family: var(--font-mono);
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;
     }
-    .lang-btn {
-      background: transparent; border: 0; color: var(--text-secondary);
+    .hub-title {
+      font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800;
+      letter-spacing: -0.02em; color: var(--text); margin: 0 0 10px 0; line-height: 1.2;
+    }
+    .hub-sub { font-size: 1.02rem; color: var(--text-secondary); max-width: 780px; margin: 0 0 32px 0; }
+    .post-list { display: flex; flex-direction: column; gap: 24px; }
+    .post-card {
+      display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 24px; align-items: center;
+      background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px);
+      border: 1px solid var(--border); border-radius: 16px; padding: 20px;
+      box-shadow: 0 4px 20px rgba(32, 33, 36, 0.05);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, border-color 0.25s ease;
+    }
+    .post-card:hover {
+      transform: translateY(-4px) translateX(3px);
+      border-color: rgba(26, 115, 232, 0.55);
+      box-shadow: 0 16px 36px rgba(26, 115, 232, 0.1);
+    }
+    .post-thumb {
+      width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--border); background: var(--surface);
+    }
+    .post-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .post-card:hover .post-thumb img { transform: scale(1.03); }
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+    .post-num { font-family: var(--font-mono); font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: var(--g-blue-bg); color: var(--g-blue); }
+    .post-num.green { background: var(--g-green-bg); color: var(--g-green-dark); }
+    .post-card h2 {
+      font-family: var(--font-display); font-size: 1.32rem; font-weight: 800; color: var(--text);
+      margin: 0 0 8px 0; line-height: 1.3; transition: color 0.15s ease;
+    }
+    .post-card:hover h2 { color: var(--g-blue); }
+    .post-desc { font-size: 0.94rem; color: var(--text-secondary); margin: 0 0 14px 0; line-height: 1.6; }
+    .kpi-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .kpi-pill {
       font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-      padding: 3px 8px; border-radius: 999px; cursor: pointer;
+      padding: 3px 9px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); color: var(--text);
     }
-    .lang-btn:hover { color: var(--text); }
-    .lang-btn.active { background: var(--g-blue); color: #ffffff; }
-    .layout {
-      max-width: 1140px; margin: 0 auto; padding: 32px 16px 80px;
-      display: grid; grid-template-columns: minmax(0, 760px) 270px; justify-content: space-between; gap: 40px; align-items: start;
+    .kpi-pill.green { background: var(--g-green-bg); border-color: rgba(30, 142, 62, 0.3); color: var(--g-green-dark); }
+    .kpi-pill.blue { background: var(--g-blue-bg); border-color: rgba(26, 115, 232, 0.3); color: var(--g-blue); }
+    .read-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 15px; border-radius: 999px; background: var(--g-blue); color: #ffffff;
+      font-size: 12.5px; font-weight: 700; transition: background 0.15s ease, transform 0.15s ease;
     }
-    article { min-width: 0; width: 100%; max-width: 100%; }
-
-    .blog-post-switcher {
-      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px;
-      padding: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    }
-    .blog-post-tab {
-      flex: 1 1 240px; display: flex; flex-direction: column; gap: 2px;
-      padding: 9px 13px; border-radius: 8px; border: 1px solid transparent;
-      background: transparent; color: var(--text-secondary); text-decoration: none;
-      transition: all 0.15s ease;
-    }
-    .blog-post-tab:hover { background: var(--surface-alt); color: var(--text); border-color: var(--border); }
-    .blog-post-tab.active { background: var(--g-blue-bg); color: var(--g-blue); border-color: rgba(26, 115, 232, 0.35); }
-    .blog-post-tab-kicker { font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.85; }
-    .blog-post-tab-title { font-family: var(--font-display); font-size: 12.5px; font-weight: 700; line-height: 1.3; }
-
-    .post-meta-top {
-      font-size: 12.5px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px;
-      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
-    }
-    .post-meta-top span.tag {
-      background: var(--g-blue-bg); color: var(--g-blue); padding: 2px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 600;
-    }
-    h1 {
-      font-family: var(--font-display); font-size: clamp(1.55rem, 3.8vw, 2.3rem); font-weight: 800;
-      line-height: 1.22; letter-spacing: -0.02em; color: var(--text); margin: 0 0 14px 0; overflow-wrap: break-word;
-    }
-    .lede { font-size: 1.02rem; color: var(--text-secondary); margin: 0 0 22px 0; line-height: 1.64; }
-    .spec-strip {
-      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 28px;
-    }
-    .spec-cell {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; min-width: 0;
-    }
-    .spec-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px; }
-    .spec-val { font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--g-blue); font-variant-numeric: tabular-nums; }
-    .spec-val.green { color: var(--g-green-dark); }
-    .spec-val.amber { color: var(--g-amber); }
-    .spec-note { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; line-height: 1.35; }
-    .media-block { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 32px; max-width: 100%; }
-    .media-header {
-      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;
-      margin-bottom: 10px; font-size: 13px; font-weight: 600; color: var(--text);
-    }
-    .media-header a { color: var(--g-blue); text-decoration: underline; text-underline-offset: 3px; font-size: 12.5px; }
-    .video-container { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 12px; }
-    .video-container iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-    .timestamp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    .ts-btn {
-      background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px;
-      text-align: left; color: var(--text); cursor: pointer; min-width: 0; transition: border-color 0.15s ease, background-color 0.15s ease;
-    }
-    .ts-btn:hover, .ts-btn.active { border-color: var(--g-blue); background: var(--g-blue-bg); }
-    .ts-time { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--g-blue); display: block; margin-bottom: 2px; }
-    .ts-title { font-size: 13px; font-weight: 700; color: var(--text); display: block; line-height: 1.35; }
-    .ts-sub { font-size: 12px; color: var(--text-secondary); display: block; margin-top: 3px; line-height: 1.38; }
-    h2 {
-      font-family: var(--font-display); font-size: 1.38rem; font-weight: 700; color: var(--text);
-      margin: 40px 0 12px 0; padding-bottom: 8px; border-bottom: 2px solid var(--border-subtle); scroll-margin-top: 72px;
-    }
-    h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--g-blue); margin: 26px 0 10px 0; }
-    p { margin: 0 0 14px 0; color: #3c4043; overflow-wrap: break-word; }
-    ul, ol { margin: 0 0 18px 0; padding-left: 20px; color: #3c4043; }
-    li { margin-bottom: 10px; overflow-wrap: break-word; }
-    li strong { color: var(--text); }
-    .c-blue { color: var(--g-blue); font-weight: 600; }
-    .c-green { color: var(--g-green-dark); font-weight: 600; }
-    .c-amber { color: var(--g-amber); font-weight: 600; }
-    .c-red { color: var(--g-red); font-weight: 600; }
-    code {
-      font-family: var(--font-mono); font-size: 0.84em; background: var(--surface-alt);
-      border: 1px solid var(--border); color: #174ea6; padding: 1px 5px; border-radius: 4px;
-      overflow-wrap: anywhere; word-break: break-word;
-    }
-    .figure-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin: 20px 0 24px; max-width: 100%; }
-    .figure-box img { width: 100%; border-radius: 8px; border: 1px solid var(--border); background: #ffffff; }
-    .figure-caption { font-size: 12px; color: var(--text-secondary); margin-top: 10px; line-height: 1.45; }
-    .data-fig-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 20px 0 26px; width: 100%; }
-    .data-fig { background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 16px; min-width: 0; max-width: 100%; }
-    .data-fig-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px; }
-    .data-fig-title { font-size: 12.5px; font-weight: 700; color: var(--g-blue); text-transform: uppercase; letter-spacing: 0.04em; }
-    .data-fig-unit { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
-    .bar-metric-row { margin-bottom: 12px; }
-    .bar-metric-row:last-child { margin-bottom: 0; }
-    .bar-metric-top { display: flex; justify-content: space-between; gap: 8px; font-family: var(--font-mono); font-size: 12px; margin-bottom: 5px; flex-wrap: wrap; }
-    .bar-metric-name { color: var(--text); font-weight: 500; }
-    .bar-metric-val { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
-    .bar-metric-val strong { color: var(--text); }
-    .bar-track { width: 100%; height: 10px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 999px; overflow: hidden; display: flex; }
-    .bar-fill { height: 100%; }
-    .table-scroll { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: 10px; background: #ffffff; margin: 16px 0 24px; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
-    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border-subtle); text-align: left; vertical-align: top; color: var(--text); }
-    th { background: var(--surface); font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
-    td.num, th.num { text-align: right; }
-    @media (max-width: 640px) {
-      table { table-layout: fixed; width: 100%; }
-      th, td { padding: 6px 5px; font-size: 11px; overflow-wrap: anywhere; word-break: break-word; white-space: normal; }
-    }
-    tr:last-child td { border-bottom: 0; }
-    tr.highlight-row td { background: var(--g-green-bg); }
-    .math-block { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin: 14px 0 18px; text-align: center; font-size: 0.92rem; color: var(--text); }
-    mjx-container { max-width: 100% !important; overflow-x: auto !important; overflow-y: hidden !important; }
-    .sidebar { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 16px; min-width: 0; width: 100%; }
-    .side-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
-    .side-heading { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g-blue); margin: 0 0 10px 0; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
-    .side-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
-    .side-links li { margin: 0; }
-    .side-links a { color: var(--text-secondary); display: block; padding: 3px 0; font-weight: 500; }
-    .side-links a:hover { color: var(--g-blue); }
-    .kv-list { list-style: none; margin: 0; padding: 0; font-family: var(--font-mono); font-size: 11.5px; display: flex; flex-direction: column; gap: 6px; }
-    .kv-list li { margin: 0; display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 5px; }
-    .kv-list li:last-child { border-bottom: 0; padding-bottom: 0; }
-    .kv-list span:first-child { color: var(--text-muted); }
-    .kv-list span:last-child { color: var(--text); font-weight: 600; text-align: right; }
-    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 28px 16px; text-align: center; font-size: 12.5px; color: var(--text-secondary); }
+    .read-btn:hover { background: #174ea6; transform: translateX(2px); }
+    footer { position: relative; z-index: 1; background: var(--surface); border-top: 1px solid var(--border); padding: 28px 16px; text-align: center; font-size: 12.5px; color: var(--text-secondary); }
     footer a { color: var(--g-blue); font-weight: 500; }
-    footer a:hover { text-decoration: underline; }
-    @media (max-width: 980px) {
-      .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
-      .sidebar { position: static; }
-    }
-    @media (max-width: 640px) {
-      body { font-size: 15px; }
-      .layout { padding: 20px 14px 56px; }
-      .spec-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-      .timestamp-grid { grid-template-columns: 1fr; }
-      .media-block, .figure-box, .data-fig { padding: 12px; }
-      th, td { padding: 7px 9px; font-size: 12px; }
-      .bar-metric-top { font-size: 11px; }
+    @media (max-width: 820px) {
+      .post-card { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
     }
   </style>
 </head>
@@ -313,6 +170,7 @@
   <div id="cursor-ring" class="cursor-ring"></div>
   <div id="cursor-dot" class="cursor-dot"></div>
   <div id="progress-bar"></div>
+
   <header class="topbar">
     <div class="topbar-inner">
       <a href="/" class="brand"><span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span><span class="brand-sep">|</span><span class="brand-sec" data-i18n="blogHeaderBrand">Engineering Blog</span></a>
@@ -339,363 +197,132 @@
       </div>
     </div>
   </header>
-  <div class="layout">
-    <article>
-      <div class="post-meta-top">
-        <span class="tag" data-i18n="articleTag">Robotics &amp; Physical AI</span>
-        <span>2026-10-18</span>
-        <span>•</span>
-        <span>Isaac Sim 6.0 / ROS 2 Jazzy</span>
-        <span>•</span>
-        <span>3x Franka Emika FR3</span>
-      </div>
-      <h1 data-i18n="articleTitle">Empirical Comparison of VLA Task Planners on a 3-Arm 9-Block Tower</h1>
-      <p class="lede" data-i18n="articleLede">
-        We evaluate three multi-robot task-planning configurations on a 3-arm Franka Emika FR3 station in NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) bridged over FastDDS unicast to ROS 2 Jazzy (50 Hz damped least-squares inverse kinematics). Operating strictly on 3D /tf coordinate feedback without RGB camera frames, a software-pipelined schedule generated by Gemini 4 Argon paired with a Gemini 3.5 Flash-Lite step executor reduces per-trial API cost from $0.08437 to $0.01972 (-76.6%) and finishes in 10 turns instead of 13.
-      </p>
-      <div class="spec-strip">
-        <div class="spec-cell lux-card reveal-on-scroll"><div class="spec-label" data-i18n="kpi1Label">Stage 3 Trial Cost</div><div class="spec-val green">$0.01972</div><div class="spec-note" data-i18n="kpi1Note">-76.6% vs. Stage 2 ($0.08437)</div></div>
-        <div class="spec-cell lux-card reveal-on-scroll"><div class="spec-label" data-i18n="kpi2Label">Execution Horizon</div><div class="spec-val">10 Turns</div><div class="spec-note" data-i18n="kpi2Note">vs. 13 turns in ER-2 (-22.6% in tok)</div></div>
-        <div class="spec-cell lux-card reveal-on-scroll"><div class="spec-label" data-i18n="kpi3Label">Visual Input</div><div class="spec-val amber">0 Tokens</div><div class="spec-note" data-i18n="kpi3Note">Symbolic 3D /tf grounding only</div></div>
-        <div class="spec-cell lux-card reveal-on-scroll"><div class="spec-label" data-i18n="kpi4Label">Task Completion</div><div class="spec-val green">9 / 9 Blocks</div><div class="spec-note" data-i18n="kpi4Note">20 / 20 verifier checks passed</div></div>
-      </div>
-      <section id="video-walkthrough" class="media-block lux-card reveal-on-scroll">
-        <div class="media-header">
-          <span data-i18n="videoHeader">Side-by-Side Execution: Gemini Robotics-ER 2 (Left) vs. Gemini 4 Argon (Right)</span>
-          <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer">YouTube (PPZ4vgVZlyA)</a>
+
+  <main class="hub-wrap">
+    <span class="hub-eyebrow" data-i18n="hubEyebrow">M9G Technical Research &amp; Systems Blog</span>
+    <h1 class="hub-title" data-i18n="hubTitle">Engineering Articles &amp; Empirical Benchmarks</h1>
+    <p class="hub-sub" data-i18n="hubSub">
+      Deep-dive technical reports on multi-robot Vision-Language-Action (VLA) manipulation in NVIDIA Isaac Sim 6.0 &amp; ROS 2, and architectural audits of multi-agent AI coding harnesses. Select an article below:
+    </p>
+
+    <div class="post-list">
+      <!-- BLOG 1: /blog/VLA/ -->
+      <a href="/blog/VLA/" class="post-card">
+        <div class="post-thumb">
+          <img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Stage VLA Task Planner Architecture in Isaac Sim 6.0" loading="lazy" decoding="async" />
         </div>
-        <div class="video-container">
-          <iframe id="yt-player" src="https://www.youtube.com/embed/PPZ4vgVZlyA?rel=0" title="Gemini Robotics ER-2 vs. Gemini 4 Argon: Multi-Robot Task Planner Benchmark" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div>
+          <div class="post-meta">
+            <span class="post-num">Blog 01 • /blog/VLA</span>
+            <span>2026-10-18</span>
+            <span>•</span>
+            <span>Robotics &amp; Physical AI</span>
+          </div>
+          <h2 data-i18n="b1Title">Empirical Comparison of VLA Task Planners on a 3-Arm 9-Block Tower in Isaac Sim 6.0 &amp; ROS 2 Jazzy</h2>
+          <p class="post-desc" data-i18n="b1Desc">
+            Benchmarking Gemini Robotics-ER 2, Pure Gemini 4 Argon, and a hybrid Argon Brain + Gemini 3.5 Flash-Lite Executor across 3 Franka Emika FR3 manipulators. Software-pipelined pick/place interleaving and symbolic 3D /tf grounding reduce per-trial API cost by 76.6% ($0.01972) and finish in 10 turns instead of 13.
+          </p>
+          <div class="kpi-pills">
+            <span class="kpi-pill green">$0.01972 (-76.6% Cost)</span>
+            <span class="kpi-pill blue">10 Turns (vs. 13 in ER-2)</span>
+            <span class="kpi-pill">0 RGB Image Tokens</span>
+            <span class="kpi-pill">4.17s Step Latency (-68.7%)</span>
+          </div>
+          <span class="read-btn" data-i18n="b1Btn">Read Blog 01 (/blog/VLA) →</span>
         </div>
-        <div class="timestamp-grid">
-          <button class="ts-btn active" onclick="seekVideo(0, this)">
-            <span class="ts-time">0:00 — Turn 0 &amp; Wave 1</span>
-            <span class="ts-title" data-i18n="ts1Title">Spatial Blueprint &amp; Parallel Picks</span>
-            <span class="ts-sub" data-i18n="ts1Sub">Both planners read 3D /tf block poses and dispatch 3 concurrent picks (B1, B4, B7) on Turn 1.</span>
-          </button>
-          <button class="ts-btn" onclick="seekVideo(6, this)">
-            <span class="ts-time">0:06 — Turn 3 Divergence</span>
-            <span class="ts-title" data-i18n="ts2Title">Wave Barrier vs. Pipelined Interleaving</span>
-            <span class="ts-sub" data-i18n="ts2Sub">ER-2 drains placements serially while Argon overlaps pick(R1,B2) on Table 1 with place(R2) at center.</span>
-          </button>
-          <button class="ts-btn" onclick="seekVideo(23, this)">
-            <span class="ts-time">0:23 — Turn 13 (ER-2 Terminal)</span>
-            <span class="ts-title" data-i18n="ts3Title">ER-2 Completes Layer 9</span>
-            <span class="ts-sub" data-i18n="ts3Sub">Requires 13 turns (50,190 tokens, $0.07860) and terminates without homing the arms.</span>
-          </button>
-          <button class="ts-btn" onclick="seekVideo(31, this)">
-            <span class="ts-time">0:31 — Turn 10 (Argon Terminal)</span>
-            <span class="ts-title" data-i18n="ts4Title">Argon Completes Layer 9 + Homing</span>
-            <span class="ts-sub" data-i18n="ts4Sub">Overlaps go_home(R1, R2) during Layers 8–9, completing all 9 blocks in 10 turns (38,277 tokens).</span>
-          </button>
+      </a>
+
+      <!-- BLOG 2: /blog/m9g-agent/ -->
+      <a href="/blog/m9g-agent/" class="post-card">
+        <div class="post-thumb">
+          <img src="/screenshots/m9g-agent-corps-architecture.png" alt="m9g-agent-corps vs. Production Coding Harnesses Architecture" loading="lazy" decoding="async" />
         </div>
-      </section>
-      <h2 id="summary" data-i18n="sec1Title">1. Experimental Findings</h2>
-      <ol>
-        <li data-i18n="finding1"><span class="c-blue">Symbolic 3D /tf Grounding Without Camera Streams:</span> All three stages ran with overhead RGB rendering disabled (0 image tokens). Each turn received 50 Hz 3D /tf block and end-effector coordinates, a deterministic spatial blueprint, and a pre-execution reachability and ownership check. All three planners stacked 9/9 blocks with zero collisions and a 100% verifier pass rate, avoiding Isaac Sim Replicator render overhead and per-turn base64 image token costs.</li>
-        <li data-i18n="finding2"><span class="c-green">Hybrid Brain-Executor Routing (Stage 3):</span> Running Gemini 4 Argon once on Turn 0 (thinking_budget=256) to synthesize the 10-turn pipelined plan and delegating Turns 1–10 to Gemini 3.5 Flash-Lite (thinking_budget=0) reduced total API cost to $0.01972 (a 76.6% reduction vs. pure Argon at $0.08437 and 74.9% vs. ER-2 at $0.07860) while lowering mean step latency on Turns 1–2 from 13.31 s to 4.17 s.</li>
-        <li data-i18n="finding3"><span class="c-amber">Software-Pipelined Scheduling (10 vs. 13 Turns):</span> Gemini Robotics-ER 2 executed in wave-locked barriers: after picking 3 blocks on Turn 1, it placed Layers 1–3 serially (T2..T5), leaving FR3_1 and FR3_2 idle until Layer 3 completed. Gemini 4 Argon interleaved outer-table picks with central placements starting on Turn 3 (pick(FR3_1, B2) || place(FR3_2)), finishing in 10 turns and saving 10,929 input tokens (-22.6%).</li>
-      </ol>
-      <h2 id="architecture" data-i18n="sec2Title">2. Three-Stage Evaluation Pipeline</h2>
-      <p data-i18n="sec2Intro">Each trial executes three sequential stages inside the same simulation process, resetting all nine blocks to their source tables and homing FR3_1..3 (4.0 s settle window) between stages:</p>
-      <figure class="figure-box lux-card reveal-on-scroll">
-        <img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Stage VLA Task Planner Architecture in Isaac Sim 6.0 and ROS 2 Jazzy" />
-        <figcaption class="figure-caption" data-i18n="fig1Caption">Figure 1. Three-stage hardware-in-the-loop evaluation pipeline comparing Legacy ER-2 (Stage 1), Pure Gemini 4 Argon (Stage 2), and Hybrid Argon Brain + Flash-Lite Executor (Stage 3).</figcaption>
-      </figure>
-      <h2 id="metrics" data-i18n="sec3Title">3. Quantitative Benchmark Results</h2>
-      <div class="data-fig-grid">
-        <div class="data-fig lux-card reveal-on-scroll">
-          <div class="data-fig-head"><span class="data-fig-title" data-i18n="fig2aTitle">Figure 2A. API Cost per 9-Block Trial</span><span class="data-fig-unit">Unit: USD (lower is better)</span></div>
-          <div class="bar-metric-row">
-            <div class="bar-metric-top"><span class="bar-metric-name">Stage 1: Legacy ER-2 (14 calls)</span><span class="bar-metric-val"><strong>$0.07860</strong> ($0.0605 in + $0.0181 out/think)</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:93.1%; background:var(--g-amber);"></div></div>
+        <div>
+          <div class="post-meta">
+            <span class="post-num green">Blog 02 • /blog/m9g-agent</span>
+            <span>2026-10-20</span>
+            <span>•</span>
+            <span>Agentic Systems &amp; Coding Harnesses</span>
           </div>
-          <div class="bar-metric-row">
-            <div class="bar-metric-top"><span class="bar-metric-name">Stage 2: Pure Gemini 4 Argon (11 calls)</span><span class="bar-metric-val"><strong>$0.08437</strong> ($0.0757 in + $0.0087 out)</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:100%; background:var(--g-blue);"></div></div>
+          <h2 data-i18n="b2Title">Dissecting m9g-agent-corps: Why Production Coding Harnesses Outperform Custom Multi-Agent Wrappers — and What Antigravity (agy) Actually Is</h2>
+          <p class="post-desc" data-i18n="b2Desc">
+            A line-by-line code audit of our 31-module 3-tier coding corps (src/ag_harness/): diagnosing the 6 concrete reliability bottlenecks (lossy regex handoffs, blocking 300s CLI subprocesses, 12k middle-out slicing, and unwired verification gates) vs. OmO, Claude Code, and Codex, plus verifying the dual surface of Google Antigravity (agy).
+          </p>
+          <div class="kpi-pills">
+            <span class="kpi-pill blue">31 Python Modules Audited</span>
+            <span class="kpi-pill green">3-Tier Hierarchy (Argon/Pro/Flash)</span>
+            <span class="kpi-pill">6 Code-Verified Bottlenecks</span>
+            <span class="kpi-pill">Dual Surface of Antigravity (agy)</span>
           </div>
-          <div class="bar-metric-row">
-            <div class="bar-metric-top"><span class="bar-metric-name">Stage 3: 1x Argon Brain + 10x Flash-Lite</span><span class="bar-metric-val"><strong style="color:var(--g-green-dark);">$0.01972</strong> (-76.6% vs. Stage 2)</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:23.4%; background:var(--g-green);"></div></div>
-          </div>
+          <span class="read-btn" data-i18n="b2Btn">Read Blog 02 (/blog/m9g-agent) →</span>
         </div>
-        <div class="data-fig lux-card reveal-on-scroll">
-          <div class="data-fig-head"><span class="data-fig-title" data-i18n="fig2bTitle">Figure 2B. Token Volume &amp; Step Latency</span><span class="data-fig-unit">Total tokens &amp; Turns 1–2 mean latency</span></div>
-          <div class="bar-metric-row">
-            <div class="bar-metric-top"><span class="bar-metric-name">Stage 1: Legacy ER-2 (13 turns)</span><span class="bar-metric-val"><strong>50,190 tok</strong> (48,377 in / 1,086 think / 727 out) • 2.58 s</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:96.4%; background:#5f6368;"></div><div class="bar-fill" style="width:2.2%; background:var(--g-red);"></div><div class="bar-fill" style="width:1.4%; background:var(--g-amber);"></div></div>
-          </div>
-          <div class="bar-metric-row">
-            <div class="bar-metric-top"><span class="bar-metric-name">Stage 2: Pure Gemini 4 Argon (10 turns)</span><span class="bar-metric-val"><strong>38,713 tok</strong> (37,845 in / 868 out) • 13.31 s</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:75.4%; background:var(--g-blue);"></div><div class="bar-fill" style="width:1.7%; background:var(--g-amber);"></div></div>
-          </div>
-          <div class="bar-metric-row">
-            <div class="bar-metric-top"><span class="bar-metric-name">Stage 3: Hybrid Argon + Flash-Lite (10 turns)</span><span class="bar-metric-val"><strong style="color:var(--g-green-dark);">38,277 tok</strong> (37,448 in / 829 out) • <strong style="color:var(--g-green-dark);">4.17 s (-68.7%)</strong></span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:74.6%; background:var(--g-green);"></div><div class="bar-fill" style="width:1.6%; background:var(--g-blue);"></div></div>
-          </div>
-        </div>
-        <div class="data-fig lux-card reveal-on-scroll">
-          <div class="data-fig-head"><span class="data-fig-title" data-i18n="fig2cTitle">Figure 2C. Cumulative Input Token Trajectory (Turns 0–13)</span><span class="data-fig-unit">Quadratic history accumulation</span></div>
-          <svg viewBox="0 0 600 220" width="100%" height="auto" role="img" aria-label="Cumulative input tokens from Turn 0 to Turn 13">
-            <line x1="48" y1="20" x2="570" y2="20" stroke="#e8eaed" stroke-dasharray="3,3" />
-            <line x1="48" y1="65" x2="570" y2="65" stroke="#e8eaed" stroke-dasharray="3,3" />
-            <line x1="48" y1="110" x2="570" y2="110" stroke="#e8eaed" stroke-dasharray="3,3" />
-            <line x1="48" y1="155" x2="570" y2="155" stroke="#e8eaed" stroke-dasharray="3,3" />
-            <line x1="48" y1="190" x2="570" y2="190" stroke="#dadce0" />
-            <text x="42" y="24" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">50k</text>
-            <text x="42" y="69" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">37.5k</text>
-            <text x="42" y="114" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">25k</text>
-            <text x="42" y="159" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">12.5k</text>
-            <text x="42" y="193" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">0</text>
-            <rect x="448" y="20" width="122" height="170" fill="#e6f4ea" opacity="0.65" />
-            <line x1="448" y1="20" x2="448" y2="190" stroke="#1e8e3e" stroke-dasharray="4,3" />
-            <text x="509" y="36" fill="#137333" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="600" text-anchor="middle">T11–T13 Avoided</text>
-            <text x="509" y="49" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="9" text-anchor="middle">(-10,929 in tok)</text>
-            <polyline fill="none" stroke="#e37400" stroke-width="2.4" points="48,185 88,175 128,165 168,154 208,142 248,130 288,117 328,104 368,90 408,75 448,61 488,49 528,37 568,25" />
-            <polyline fill="none" stroke="#1e8e3e" stroke-width="2.6" points="48,180 88,171 128,160 168,149 208,137 248,125 288,112 328,99 368,85 408,74 448,63" />
-            <circle cx="568" cy="25" r="4" fill="#e37400" />
-            <circle cx="448" cy="63" r="4.5" fill="#1e8e3e" />
-            <text x="562" y="17" fill="#e37400" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" text-anchor="end">ER-2: 48,377 (T13)</text>
-            <text x="442" y="57" fill="#137333" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" text-anchor="end">Stage 3: 37,448 (T10)</text>
-            <text x="48" y="208" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">T0</text>
-            <text x="248" y="208" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">T5</text>
-            <text x="448" y="208" fill="#137333" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" text-anchor="middle">T10</text>
-            <text x="568" y="208" fill="#e37400" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" text-anchor="middle">T13</text>
-          </svg>
-        </div>
-      </div>
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr><th>Metric</th><th class="num">Stage 1: Legacy ER-2</th><th class="num">Stage 2: Pure Argon</th><th class="num">Stage 3: Hybrid (1A + 10F)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Turn-0 Brain Model</td><td class="num"><code>gemini-robotics-er-2-preview</code></td><td class="num"><code>gemini-4-argon</code></td><td class="num"><code>gemini-4-argon</code> (1 call)</td></tr>
-            <tr><td>Turns 1..N Step Model</td><td class="num"><code>gemini-robotics-er-2-preview</code></td><td class="num"><code>gemini-4-argon</code></td><td class="num"><code>gemini-3.5-flash-lite</code> (10 calls)</td></tr>
-            <tr><td>Step Thinking Budget</td><td class="num">512 tok/turn</td><td class="num">512 tok/turn</td><td class="num"><strong>0 tok/turn</strong></td></tr>
-            <tr><td>Execution Horizon</td><td class="num">13 turns (14 calls)</td><td class="num">10 turns (11 calls)</td><td class="num"><strong>10 turns (11 calls)</strong></td></tr>
-            <tr><td>Input Tokens</td><td class="num">48,377</td><td class="num">37,845 (-21.8%)</td><td class="num"><strong>37,448 (-22.6%)</strong></td></tr>
-            <tr><td>Thinking / Output Tokens</td><td class="num">1,086 / 727</td><td class="num">0 / 868</td><td class="num"><strong>0 / 829</strong></td></tr>
-            <tr><td>Total Tokens</td><td class="num">50,190</td><td class="num">38,713 (-22.9%)</td><td class="num"><strong>38,277 (-23.7%)</strong></td></tr>
-            <tr><td>Turn-0 Plan Latency</td><td class="num">1,987 ms</td><td class="num">8,870 ms</td><td class="num"><strong>4,670 ms (-47.4%)</strong></td></tr>
-            <tr><td>Turns 1–2 Mean Step Latency</td><td class="num">2.58 s</td><td class="num">13.31 s</td><td class="num"><strong>4.17 s (-68.7%)</strong></td></tr>
-            <tr><td>Completion &amp; Verifier Pass</td><td class="num">9/9 blk | 19/19 (100%)</td><td class="num">9/9 blk | 20/20 (100%)</td><td class="num"><strong>9/9 blk | 20/20 (100%)</strong></td></tr>
-            <tr><td>Workload Gini Coefficient</td><td class="num">0.0351 (6, 7, 6)</td><td class="num">0.0342 (7, 7, 6)</td><td class="num"><strong>0.0339 (7, 7, 6)</strong></td></tr>
-            <tr class="highlight-row"><td><strong>Total Trial Cost ($ USD)</strong></td><td class="num">$0.07860</td><td class="num">$0.08437</td><td class="num" style="color:var(--g-green-dark); font-weight:700;">$0.01972 (-76.6%)</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <h3 id="scaling-model" data-i18n="sec3SubTitle">3.1 Quadratic Input Token Growth &amp; Cost Decomposition</h3>
-      <p data-i18n="sec3P1">With camera streams disabled, input tokens consist of the static system prompt and tool schemas (B<sub>base</sub> &approx; 2,800 tokens including the Turn-0 strategy) plus &Delta;B<sub>turn</sub> &approx; 250–380 tokens of tool-call and controller-response history appended per turn. Because the full conversation history is re-sent on each turn, cumulative input tokens grow quadratically with turn count <em>T</em>:</p>
-      <div class="formula-card"><strong>InputTokens(T)</strong> &approx; T &middot; B<sub>base</sub> + [ T(T &minus; 1) / 2 ] &middot; &Delta;B<sub>turn</sub></div>
-      <p data-i18n="sec3P2">Reducing the schedule from 13 turns to 10 turns eliminates the three largest context turns at the tail of the episode (where each call exceeds 4,500 input tokens), saving 10,929 input tokens. Under per-token API pricing (gemini-4-argon at $2.00/1M input and $10.00/1M output; gemini-3.5-flash-lite at $0.30/1M input and $2.50/1M output), Stage 3 cost decomposes into:</p>
-      <div class="formula-card"><strong>C<sub>Stage 3</sub></strong> = <span class="c-blue">[ 2,800 &times; ($2.00 / 1M) + 220 &times; ($10.00 / 1M) ]<sub>Turn 0 Argon Brain ($0.00780)</sub></span> + <span class="c-green">[ 34,648 &times; ($0.30 / 1M) + 609 &times; ($2.50 / 1M) ]<sub>Turns 1–10 Flash-Lite ($0.01192)</sub></span> = <strong class="c-green">$0.01972</strong></div>
-      <h2 id="schedule-trace" data-i18n="sec4Title">4. Turn-by-Turn Schedule Trace</h2>
-      <p data-i18n="sec4Intro">Only one robotic arm may occupy the central tower zone ([0.0, 0.0]) at a time, whereas outer-table pick and go_home motions execute in independent zones. Overlapping one central place with one outer-table pick or go_home on every turn after Turn 2 is the shortest conflict-free schedule for a 3-arm shared-center station:</p>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th>Turn</th><th>Stage 1: Legacy ER-2 (13 Turns, Wave-Locked)</th><th>Stages 2 &amp; 3: Argon Schedule (10 Turns, Pipelined)</th></tr></thead>
-          <tbody>
-            <tr><td><strong>T1</strong></td><td><code>pick(R1,B1) || pick(R2,B4) || pick(R3,B7)</code></td><td><code>pick(R1,B1) || pick(R2,B4) || pick(R3,B7)</code></td></tr>
-            <tr><td><strong>T2</strong></td><td><code>place(R1)</code> (Layer 1)</td><td><code>place(R1)</code> (Layer 1)</td></tr>
-            <tr class="highlight-row"><td><strong>T3</strong></td><td><code>place_relative(R2,B1)</code> (redundant call)</td><td><strong><code>pick(R1,B2) || place(R2)</code> (Layer 2)</strong></td></tr>
-            <tr class="highlight-row"><td><strong>T4</strong></td><td><code>place(R2)</code> (Layer 2)</td><td><strong><code>pick(R2,B5) || place(R3)</code> (Layer 3)</strong></td></tr>
-            <tr class="highlight-row"><td><strong>T5</strong></td><td><code>place(R3)</code> (Layer 3 — R1, R2 idle)</td><td><strong><code>pick(R3,B8) || place(R1)</code> (Layer 4)</strong></td></tr>
-            <tr class="highlight-row"><td><strong>T6</strong></td><td><code>pick(R1,B2) || pick(R2,B5) || pick(R3,B8)</code></td><td><strong><code>pick(R1,B3) || place(R2)</code> (Layer 5)</strong></td></tr>
-            <tr class="highlight-row"><td><strong>T7</strong></td><td><code>place(R1)</code> (Layer 4)</td><td><strong><code>pick(R2,B6) || place(R3)</code> (Layer 6)</strong></td></tr>
-            <tr class="highlight-row"><td><strong>T8</strong></td><td><code>place(R2)</code> (Layer 5)</td><td><strong><code>pick(R3,B9) || place(R1)</code> (Layer 7)</strong></td></tr>
-            <tr class="highlight-row"><td><strong>T9</strong></td><td><code>place(R3)</code> (Layer 6 — R1, R2 idle)</td><td><strong><code>go_home(R1) || place(R2)</code> (Layer 8)</strong></td></tr>
-            <tr class="highlight-row"><td><strong>T10</strong></td><td><code>pick(R1,B3) || pick(R2,B6) || pick(R3,B9)</code></td><td><strong><code>go_home(R2) || place(R3)</code> (Layer 9 — Done)</strong></td></tr>
-            <tr><td><strong>T11</strong></td><td><code>place(R1)</code> (Layer 7)</td><td>—</td></tr>
-            <tr><td><strong>T12</strong></td><td><code>place(R2)</code> (Layer 8)</td><td>—</td></tr>
-            <tr><td><strong>T13</strong></td><td><code>place(R3)</code> (Layer 9 — Done, arms un-homed)</td><td>—</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </article>
-    <aside class="sidebar">
-      <div class="side-panel lux-card reveal-on-scroll">
-        <h3 class="side-heading" data-i18n="sideContents">Contents</h3>
-        <ul class="side-links">
-          <li><a href="#video-walkthrough" data-i18n="tocVideo">Side-by-Side Execution Video</a></li>
-          <li><a href="#summary" data-i18n="tocSec1">1. Experimental Findings</a></li>
-          <li><a href="#architecture" data-i18n="tocSec2">2. Three-Stage Pipeline</a></li>
-          <li><a href="#metrics" data-i18n="tocSec3">3. Quantitative Results</a></li>
-          <li><a href="#scaling-model" data-i18n="tocSec3Sub">3.1 Token Scaling &amp; Cost</a></li>
-          <li><a href="#schedule-trace" data-i18n="tocSec4">4. Turn-by-Turn Schedule</a></li>
-        </ul>
-      </div>
-      <div class="side-panel lux-card reveal-on-scroll">
-        <h3 class="side-heading" data-i18n="sideConfig">Station Configuration</h3>
-        <ul class="kv-list">
-          <li><span>Simulator</span><span>Isaac Sim 6.0</span></li>
-          <li><span>Physics</span><span>240 Hz PhysX TGS</span></li>
-          <li><span>Middleware</span><span>ROS 2 Jazzy (FastDDS)</span></li>
-          <li><span>Control</span><span>50 Hz DLS IK (3x FR3)</span></li>
-          <li><span>Perception</span><span>3D /tf (0 RGB frames)</span></li>
-          <li><span>Stage 3 Cost</span><span style="color:var(--g-green-dark);">$0.01972 (-76.6%)</span></li>
-        </ul>
-      </div>
-      <div class="side-panel lux-card reveal-on-scroll">
-        <h3 class="side-heading" data-i18n="sideLinks">Links</h3>
-        <ul class="side-links">
-          <li><a href="/blog/m9g-agent-corps/">→ Blog 2: Dissecting m9g-agent-corps &amp; Antigravity (agy)</a></li>
-          <li><a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer">Benchmark Video (YouTube)</a></li>
-          <li><a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener noreferrer">IsaacSim_GeminiRobotics Repo</a></li>
-          <li><a href="/" data-i18n="navPortfolio">M9G Main Portfolio</a></li>
-        </ul>
-      </div>
-    </aside>
-  </div>
-  <footer>© 2026 M9G • <a href="/">mincasurong.github.io</a> • <a href="https://github.com/mincasurong">GitHub</a> • <a href="https://www.linkedin.com/in/mincasurong/">LinkedIn</a></footer>
+      </a>
+    </div>
+  </main>
+
+  <footer>© 2026 M9G • <a href="/">mincasurong.github.io</a> • <a href="/blog/VLA/">Blog 01: VLA Benchmark</a> • <a href="/blog/m9g-agent/">Blog 02: Agent Harness Audit</a></footer>
+
   <script>
-    window.addEventListener('scroll', () => {
-      const doc = document.documentElement;
-      const top = doc.scrollTop || document.body.scrollTop;
-      const height = doc.scrollHeight - doc.clientHeight;
-      document.getElementById('progress-bar').style.width = (height > 0 ? (top / height) * 100 : 0) + '%';
-    });
-    function seekVideo(seconds, btn) {
-      const iframe = document.getElementById('yt-player');
-      iframe.src = 'https://www.youtube.com/embed/PPZ4vgVZlyA?start=' + seconds + '&autoplay=1&rel=0';
-      document.querySelectorAll('.ts-btn').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-    }
-    const BLOG_I18N = {
+    const HUB_I18N = {
       en: {
-        blogHeaderBrand: "Engineering Blog", navApps: "Apps", navDiaries: "Diaries", navPubs: "Publications", navPortfolio: "Portfolio",
-        articleTag: "Robotics & Physical AI",
-        articleTitle: "Empirical Comparison of VLA Task Planners on a 3-Arm 9-Block Tower",
-        articleLede: "We evaluate three multi-robot task-planning configurations on a 3-arm Franka Emika FR3 station in NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) bridged over FastDDS unicast to ROS 2 Jazzy (50 Hz damped least-squares inverse kinematics). Operating strictly on 3D /tf coordinate feedback without RGB camera frames, a software-pipelined schedule generated by Gemini 4 Argon paired with a Gemini 3.5 Flash-Lite step executor reduces per-trial API cost from $0.08437 to $0.01972 (-76.6%) and finishes in 10 turns instead of 13.",
-        kpi1Label: "Stage 3 Trial Cost", kpi1Note: "-76.6% vs. Stage 2 ($0.08437)",
-        kpi2Label: "Execution Horizon", kpi2Note: "vs. 13 turns in ER-2 (-22.6% in tok)",
-        kpi3Label: "Visual Input", kpi3Note: "Symbolic 3D /tf grounding only",
-        kpi4Label: "Task Completion", kpi4Note: "20 / 20 verifier checks passed",
-        videoHeader: "Side-by-Side Execution: Gemini Robotics-ER 2 (Left) vs. Gemini 4 Argon (Right)",
-        ts1Title: "Spatial Blueprint & Parallel Picks", ts1Sub: "Both planners read 3D /tf block poses and dispatch 3 concurrent picks (B1, B4, B7) on Turn 1.",
-        ts2Title: "Wave Barrier vs. Pipelined Interleaving", ts2Sub: "ER-2 drains placements serially while Argon overlaps pick(R1,B2) on Table 1 with place(R2) at center.",
-        ts3Title: "ER-2 Completes Layer 9", ts3Sub: "Requires 13 turns (50,190 tokens, $0.07860) and terminates without homing the arms.",
-        ts4Title: "Argon Completes Layer 9 + Homing", ts4Sub: "Overlaps go_home(R1, R2) during Layers 8–9, completing all 9 blocks in 10 turns (38,277 tokens).",
-        sec1Title: "1. Experimental Findings",
-        finding1: "Symbolic 3D /tf Grounding Without Camera Streams: All three stages ran with overhead RGB rendering disabled (0 image tokens). Each turn received 50 Hz 3D /tf block and end-effector coordinates, a deterministic spatial blueprint, and a pre-execution reachability and ownership check. All three planners stacked 9/9 blocks with zero collisions and a 100% verifier pass rate.",
-        finding2: "Hybrid Brain-Executor Routing (Stage 3): Running Gemini 4 Argon once on Turn 0 (thinking_budget=256) to synthesize the 10-turn pipelined plan and delegating Turns 1–10 to Gemini 3.5 Flash-Lite (thinking_budget=0) reduced total API cost to $0.01972 (-76.6% vs. Stage 2 and -74.9% vs. Stage 1) while lowering mean step latency on Turns 1–2 from 13.31 s to 4.17 s.",
-        finding3: "Software-Pipelined Scheduling (10 vs. 13 Turns): Gemini Robotics-ER 2 executed in wave-locked barriers (13 turns), leaving FR3_1 and FR3_2 idle until Layer 3 completed. Gemini 4 Argon interleaved outer-table picks with central placements starting on Turn 3, finishing in 10 turns and saving 10,929 input tokens (-22.6%).",
-        sec2Title: "2. Three-Stage Evaluation Pipeline",
-        sec2Intro: "Each trial executes three sequential stages inside the same simulation process, resetting all nine blocks to their source tables and homing FR3_1..3 (4.0 s settle window) between stages:",
-        fig1Caption: "Figure 1. Three-stage hardware-in-the-loop evaluation pipeline comparing Legacy ER-2 (Stage 1), Pure Gemini 4 Argon (Stage 2), and Hybrid Argon Brain + Flash-Lite Executor (Stage 3).",
-        sec3Title: "3. Quantitative Benchmark Results",
-        fig2aTitle: "Figure 2A. API Cost per 9-Block Trial", fig2bTitle: "Figure 2B. Token Volume & Step Latency", fig2cTitle: "Figure 2C. Cumulative Input Token Trajectory (Turns 0–13)",
-        sec3SubTitle: "3.1 Quadratic Input Token Growth & Cost Decomposition",
-        sec4Title: "4. Turn-by-Turn Schedule Trace",
-        sideContents: "Contents", sideConfig: "Station Configuration", sideLinks: "Links"
+        blogHeaderBrand: "Engineering Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Portfolio",
+        hubEyebrow: "M9G Technical Research & Systems Blog",
+        hubTitle: "Engineering Articles & Empirical Benchmarks",
+        hubSub: "Deep-dive technical reports on multi-robot Vision-Language-Action (VLA) manipulation in NVIDIA Isaac Sim 6.0 & ROS 2, and architectural audits of multi-agent AI coding harnesses. Select an article below:",
+        b1Title: "Empirical Comparison of VLA Task Planners on a 3-Arm 9-Block Tower in Isaac Sim 6.0 & ROS 2 Jazzy",
+        b1Desc: "Benchmarking Gemini Robotics-ER 2, Pure Gemini 4 Argon, and a hybrid Argon Brain + Gemini 3.5 Flash-Lite Executor across 3 Franka Emika FR3 manipulators. Software-pipelined pick/place interleaving and symbolic 3D /tf grounding reduce per-trial API cost by 76.6% ($0.01972) and finish in 10 turns instead of 13.",
+        b1Btn: "Read Blog 01 (/blog/VLA) →",
+        b2Title: "Dissecting m9g-agent-corps: Why Production Coding Harnesses Outperform Custom Multi-Agent Wrappers — and What Antigravity (agy) Actually Is",
+        b2Desc: "A line-by-line code audit of our 31-module 3-tier coding corps (src/ag_harness/): diagnosing the 6 concrete reliability bottlenecks vs. OmO, Claude Code, and Codex, plus verifying the dual surface of Google Antigravity (agy).",
+        b2Btn: "Read Blog 02 (/blog/m9g-agent) →"
       },
       ko: {
-        blogHeaderBrand: "엔지니어링 블로그", navApps: "라이브 앱", navDiaries: "빌드 일지", navPubs: "학술 논문", navPortfolio: "포트폴리오",
-        articleTag: "로보틱스 & 피지컬 AI 벤치마크",
-        articleTitle: "3대 FR3 로봇 팔 9블록 타워 조립에서의 VLA 태스크 플래너 실증 비교",
-        articleLede: "NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS)과 ROS 2 Jazzy (50 Hz DLS 역기구학 제어기)를 FastDDS 유니캐스트로 연결한 3대 Franka Emika FR3 스테이션에서 3가지 다중 로봇 태스크 플래닝 구조를 비교 평가했습니다. RGB 카메라 이미지 없이 순수 3D /tf 좌표 피드백만으로 동작하며, Gemini 4 Argon의 소프트웨어 파이프라인 스케줄링과 Gemini 3.5 Flash-Lite 실행기를 결합한 Stage 3 하이브리드 구조가 API 비용을 $0.08437에서 $0.01972로 76.6% 절감하고 13턴 대신 10턴 만에 조립을 완료했습니다.",
-        kpi1Label: "Stage 3 실행 비용", kpi1Note: "Stage 2($0.08437) 대비 -76.6%",
-        kpi2Label: "실행 턴 수", kpi2Note: "ER-2 13턴 대비 10턴 (-22.6% 토큰)",
-        kpi3Label: "비전 이미지 토큰", kpi3Note: "순수 3D /tf 심볼릭 그라운딩",
-        kpi4Label: "타워 조립 및 검증", kpi4Note: "20 / 20 안전 검증 100% 통과",
-        videoHeader: "양측 비교 실행 영상: Gemini Robotics-ER 2 (좌측) vs. Gemini 4 Argon (우측)",
-        ts1Title: "Turn-0 공간 블루프린트 및 Wave-1 병렬 파지", ts1Sub: "두 플래너 모두 3D /tf 블록 좌표를 읽고 1턴에 3대 로봇 팔의 동시 파지(B1, B4, B7)를 수행합니다.",
-        ts2Title: "턴 3 스케줄 분기: 배리어 대기 vs. 파이프라인 인터리빙", ts2Sub: "ER-2는 순차 적재 중 대기하는 반면, Argon은 테이블 1의 pick(R1,B2)과 중앙 타워 place(R2)를 같은 턴에 중첩 실행합니다.",
-        ts3Title: "ER-2 9층 적재 완료 (13턴)", ts3Sub: "총 13턴(50,190 토큰, $0.07860)이 소요되며 로봇 팔 홈 복귀(go_home) 없이 종료됩니다.",
-        ts4Title: "Argon 9층 적재 및 선제적 홈 복귀 완료 (10턴)", ts4Sub: "8~9층 적재와 동시에 go_home(R1, R2)을 중첩 수행하여 10턴(38,277 토큰) 만에 9블록 조립을 완수합니다.",
-        sec1Title: "1. 핵심 실험 결과 요약",
-        finding1: "카메라 스트림 없는 3D /tf 심볼릭 그라운딩 (0 이미지 토큰): 세 단계 모두 상단 RGB 렌더링 없이 50 Hz 3D /tf 좌표 피드백과 결정론적 블루프린트 및 사전 안전 검증기만으로 9/9 블록을 무충돌(검증 통과율 100%)로 조립했습니다.",
-        finding2: "하이브리드 Brain-Executor 라우팅 (Stage 3): Turn 0에서 Gemini 4 Argon(thinking_budget=256)을 1회 호출해 전체 10턴 파이프라인 전략을 수립하고, Turn 1~10 실행은 Gemini 3.5 Flash-Lite(thinking_budget=0)에 위임하여 총 비용을 $0.01972(-76.6%)로 낮추고 초기 스텝 지연시간을 13.31초에서 4.17초(-68.7%)로 단축했습니다.",
-        finding3: "소프트웨어 파이프라인 스케줄링 (10턴 vs. 13턴): Gemini Robotics-ER 2는 웨이브 배리어 방식(13턴)으로 동작해 FR3_1과 FR3_2가 유휴 상태로 대기한 반면, Gemini 4 Argon은 외곽 테이블 파지와 중앙 적재를 중첩 실행하여 10턴 만에 완료하고 입력 토큰 10,929개(-22.6%)를 절감했습니다.",
-        sec2Title: "2. 3단계 Hardware-in-the-Loop 평가 파이프라인",
-        sec2Intro: "각 실험은 동일한 시뮬레이션 프로세스 내에서 9개 블록을 초기 테이블로 리셋하고 FR3_1..3을 홈 위치로 복귀시킨 뒤 3단계를 순차 실행합니다:",
-        fig1Caption: "그림 1. Legacy ER-2 (Stage 1), 순수 Gemini 4 Argon (Stage 2), 하이브리드 Argon Brain + Flash-Lite Executor (Stage 3) 비교 아키텍처.",
-        sec3Title: "3. 정량적 벤치마크 비교 결과",
-        fig2aTitle: "그림 2A. 9블록 타워 조립 당 API 비용 비교 ($ USD)", fig2bTitle: "그림 2B. 단계별 토큰 소비량 및 스텝 지연시간", fig2cTitle: "그림 2C. 턴 진행에 따른 누적 입력 토큰 추이 (T0–T13)",
-        sec3SubTitle: "3.1 누적 입력 토큰의 2차 함수적 증가 및 비용 분해",
-        sec4Title: "4. 턴별(Turn-by-Turn) 스케줄 트레이스 비교",
-        sideContents: "목차", sideConfig: "시뮬레이션 환경 사양", sideLinks: "관련 링크"
+        blogHeaderBrand: "엔지니어링 블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "포트폴리오",
+        hubEyebrow: "M9G 기술 리서치 & 시스템 엔지니어링 블로그",
+        hubTitle: "엔지니어링 아티클 & 실증 벤치마크 목록",
+        hubSub: "NVIDIA Isaac Sim 6.0 및 ROS 2 기반 다중 로봇 VLA 매니퓰레이션 벤치마크와 멀티에이전트 코딩 하네스(m9g-agent-corps, Antigravity, OmO, Claude Code) 아키텍처 심층 분석 글 목록입니다.",
+        b1Title: "Isaac Sim 6.0 & ROS 2 Jazzy 기반 3대 FR3 로봇 팔 9블록 타워 조립에서의 VLA 태스크 플래너 실증 비교",
+        b1Desc: "Gemini Robotics-ER 2, 순수 Gemini 4 Argon, 하이브리드 Argon + Flash-Lite 실행기를 비교하여 소프트웨어 파이프라이닝(10턴)과 3D /tf 좌표 그라운딩으로 API 비용을 76.6%($0.01972) 절감한 실증 리포트입니다.",
+        b1Btn: "Blog 01 읽기 (/blog/VLA) →",
+        b2Title: "m9g-agent-corps 심층 해부: 왜 상용 코딩 하네스(OmO, Claude Code, Codex)가 자체 멀티에이전트 래퍼보다 강력한가 — 그리고 Antigravity(agy)의 진짜 정체",
+        b2Desc: "31개 파이썬 모듈(src/ag_harness/)의 코드 라인별 감사를 통해 확인한 6가지 신뢰성 병목 지점과 Google Antigravity(agy)의 이중 아키텍처(리눅스 워커 컨테이너 vs. 풀 하네스)를 검증합니다.",
+        b2Btn: "Blog 02 읽기 (/blog/m9g-agent) →"
       },
       ja: {
-        blogHeaderBrand: "エンジニアリングブログ", navApps: "アプリ", navDiaries: "開発日記", navPubs: "発表論文", navPortfolio: "ポートフォリオ",
-        articleTag: "ロボティクス & フィジカルAI",
-        articleTitle: "3アーム・9ブロックタワー組立におけるVLAタスクプランナーの実証比較",
-        articleLede: "NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) と ROS 2 Jazzy (50 Hz DLS逆運動学制御) をFastDDSで接続した3台Franka Emika FR3ステーションにおいて、3種類のマルチロボット計画構成を評価しました。RGB画像を使わず3D /tf座標フィードバックのみで動作し、Gemini 4 Argonのパイプライン計画とGemini 3.5 Flash-Lite実行器を組み合わせたStage 3がAPIコストを$0.08437から$0.01972へ76.6%削減し、10ターンで組立を完了しました。",
-        kpi1Label: "Stage 3 APIコスト", kpi1Note: "Stage 2 ($0.08437) 比 -76.6%",
-        kpi2Label: "実行ターン数", kpi2Note: "ER-2の13ターンに対し10ターン",
-        kpi3Label: "画像トークン数", kpi3Note: "3D /tf シンボリック座標のみ",
-        kpi4Label: "組立完了・安全検証", kpi4Note: "20 / 20 検証パス (100%)",
-        videoHeader: "並列比較動画: Gemini Robotics-ER 2 (左) vs. Gemini 4 Argon (右)",
-        ts1Title: "Turn-0 空間ブループリントと第1波並列ピック", ts1Sub: "両プランナーとも3D /tf座標を取得し、ターン1で3台同時にブロック(B1, B4, B7)を把持します。",
-        ts2Title: "ターン3の分岐: バリア待機 vs. パイプライン並列実行", ts2Sub: "ER-2は直列配置で待機が発生する一方、Argonはテーブル1でのpick(R1,B2)と中央タワーへのplace(R2)を同一ターンで並列実行します。",
-        ts3Title: "ER-2がレイヤー9を完了 (13ターン)", ts3Sub: "13ターン(50,190トークン、$0.07860)を要し、アームのホーム復帰なしで終了します。",
-        ts4Title: "Argonがレイヤー9完了 + ホーム復帰 (10ターン)", ts4Sub: "レイヤー8〜9配置中にgo_home(R1, R2)を並列実行し、10ターン(38,277トークン)で完了します。",
-        sec1Title: "1. 主要な実験結果",
-        finding1: "カメラ画像なしの3D /tfシンボリックグラウンディング (画像トークン0): 全3ステージともRGBレンダリングを無効化し、50 Hzの3D /tf座標と事前安全検証のみで9/9ブロックを衝突ゼロで組み立てました。",
-        finding2: "ハイブリッド Brain-Executor ルーティング (Stage 3): Turn 0でGemini 4 Argon (thinking_budget=256) を1回呼び出して10ターン計画を生成し、Turn 1〜10をGemini 3.5 Flash-Lite (thinking_budget=0) で実行することで、総コストを$0.01972 (-76.6%)、初期ステップ遅延を4.17秒 (-68.7%) に短縮しました。",
-        finding3: "ソフトウェアパイプラインスケジューリング (10 vs. 13ターン): ER-2が13ターンを要したのに対し、Gemini 4 Argonはターン3以降で外側テーブルのpickと中央のplaceを並列化し、10ターンで完了して10,929入力トークン (-22.6%) を削減しました。",
-        sec2Title: "2. 3ステージ評価パイプライン",
-        sec2Intro: "各試行では9個のブロックを初期テーブルにリセットし、FR3_1..3をホーム復帰させた上で3つのステージを順次実行します:",
-        fig1Caption: "図1. Legacy ER-2 (Stage 1)、Pure Gemini 4 Argon (Stage 2)、Hybrid Argon Brain + Flash-Lite Executor (Stage 3) の比較パイプライン。",
-        sec3Title: "3. 定量ベンチマーク結果",
-        fig2aTitle: "図2A. 9ブロック組立あたりのAPIコスト ($ USD)", fig2bTitle: "図2B. トークン消費量とステップ遅延時間", fig2cTitle: "図2C. 累積入力トークン推移 (Turns 0–13)",
-        sec3SubTitle: "3.1 累積入力トークンの二次関数的増加とコスト内訳",
-        sec4Title: "4. ターン別スケジュールトレース比較",
-        sideContents: "目次", sideConfig: "シミュレーション構成", sideLinks: "リンク"
+        blogHeaderBrand: "エンジニアリングブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "ポートフォリオ",
+        hubEyebrow: "M9G 技術リサーチ & システムブログ",
+        hubTitle: "エンジニアリング記事 & 実証ベンチマーク一覧",
+        hubSub: "NVIDIA Isaac Sim 6.0 & ROS 2 におけるマルチロボット VLA 操作ベンチマークと、マルチエージェント・コーディングハーネス（m9g-agent-corps / Antigravity / OmO / Claude Code）の深層監査レポート一覧です。",
+        b1Title: "Isaac Sim 6.0 & ROS 2 における 3アーム・9ブロックタワー組立 VLA タスクプランナーの実証比較",
+        b1Desc: "Gemini Robotics-ER 2、Gemini 4 Argon、ハイブリッド Argon + Flash-Lite を比較し、10ターンのパイプライン制御と 3D /tf グラウンディングにより API コストを 76.6% ($0.01972) 削減。",
+        b1Btn: "Blog 01 を読む (/blog/VLA) →",
+        b2Title: "m9g-agent-corps 徹底解剖：なぜ商用コーディングハーネスは自作マルチエージェントを上回るのか — そして Antigravity (agy) の正体",
+        b2Desc: "31個のPythonモジュール（src/ag_harness/）のコード監査により特定された6つのボトルネックと、Antigravity (agy) の2つの顔（Linuxワーカーコンテナ vs. フルハーネス）を検証します。",
+        b2Btn: "Blog 02 を読む (/blog/m9g-agent) →"
       },
       zh: {
-        blogHeaderBrand: "工程技术博客", navApps: "在线应用", navDiaries: "构建日志", navPubs: "发表论文", navPortfolio: "返回主页",
-        articleTag: "机器人学与具身物理 AI",
-        articleTitle: "三机械臂 9 积木塔装配中的 VLA 任务规划器实证对比",
-        articleLede: "我们在 NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) 与 ROS 2 Jazzy (50 Hz 阻尼最小二乘逆运动学控制器) 组成的 3 台 Franka Emika FR3 工站上对比评估了三种多机器人任务规划架构。系统完全基于 3D /tf 坐标反馈运行（0 图像 Token），由 Gemini 4 Argon 生成软件流水线调度并配合 Gemini 3.5 Flash-Lite 步进执行器的 Stage 3 混合方案将单次实验 API 成本从 $0.08437 降至 $0.01972 (-76.6%)，并将执行轮数从 13 轮缩短至 10 轮。",
-        kpi1Label: "Stage 3 单次成本", kpi1Note: "较 Stage 2 ($0.08437) 降低 76.6%",
-        kpi2Label: "执行轮数", kpi2Note: "10 轮 vs. ER-2 13 轮 (-22.6% 输入 Token)",
-        kpi3Label: "视觉图像 Token", kpi3Note: "纯 3D /tf 符号坐标接地",
-        kpi4Label: "装配完成率", kpi4Note: "20 / 20 安全校验 100% 通过",
-        videoHeader: "同屏对比视频：Gemini Robotics-ER 2 (左) vs. Gemini 4 Argon (右)",
-        ts1Title: "Turn-0 空间蓝图与第一波并行抓取", ts1Sub: "两个规划器均读取 3D /tf 积木位姿，并在第 1 轮同时派发 3 台机械臂抓取 (B1, B4, B7)。",
-        ts2Title: "第 3 轮调度分叉：屏障等待 vs. 流水线交错", ts2Sub: "ER-2 串行放置导致机械臂空闲等待，而 Argon 在第 3 轮将外侧桌面的 pick(R1,B2) 与中央塔台的 place(R2) 并行重叠。",
-        ts3Title: "ER-2 完成第 9 层装配 (13 轮)", ts3Sub: "共耗时 13 轮 (50,190 Token, $0.07860)，且结束时机械臂未执行归位 (go_home)。",
-        ts4Title: "Argon 完成第 9 层装配并主动归位 (10 轮)", ts4Sub: "在第 8–9 层放置期间并行重叠 go_home(R1, R2)，仅用 10 轮 (38,277 Token) 完成全部 9 块积木装配。",
-        sec1Title: "1. 核心实验结论",
-        finding1: "无相机视频流的 3D /tf 符号接地（0 图像 Token）：三个阶段均在禁用顶部 RGB 渲染下运行，仅凭 50 Hz 3D /tf 坐标反馈与前置安全校验器即实现了 9/9 积木零碰撞装配（校验通过率 100%）。",
-        finding2: "混合 Brain-Executor 路由架构 (Stage 3)：在 Turn 0 调用 1 次 Gemini 4 Argon (thinking_budget=256) 生成全局 10 轮流水线策略，并将 Turn 1–10 交由 Gemini 3.5 Flash-Lite (thinking_budget=0) 执行，将总成本降至 $0.01972 (-76.6%)，前两轮步进延迟从 13.31 秒降至 4.17 秒 (-68.7%)。",
-        finding3: "软件流水线调度 (10 轮 vs. 13 轮)：Gemini Robotics-ER 2 采用波次屏障批处理（13 轮），导致 FR3_1 与 FR3_2 闲置等待；Gemini 4 Argon 从第 3 轮起将外侧桌面抓取与中心放置交错并行，10 轮完成任务并节省 10,929 个输入 Token (-22.6%)。",
-        sec2Title: "2. 三阶段硬件在环评估流水线",
-        sec2Intro: "每次实验在同一仿真进程内依次运行三个阶段，阶段之间自动将 9 块积木重置回源桌面并将 FR3_1..3 归位：",
-        fig1Caption: "图 1. Legacy ER-2 (Stage 1)、纯 Gemini 4 Argon (Stage 2) 与混合 Argon Brain + Flash-Lite Executor (Stage 3) 评估架构对比。",
-        sec3Title: "3. 定量基准测试结果",
-        fig2aTitle: "图 2A. 9 积木塔单次实验 API 成本 ($ USD)", fig2bTitle: "图 2B. Token 消耗量与步进延迟对比", fig2cTitle: "图 2C. 累积输入 Token 增长轨迹 (Turns 0–13)",
-        sec3SubTitle: "3.1 累积输入 Token 的二次方增长模型与成本分解",
-        sec4Title: "4. 逐轮 (Turn-by-Turn) 调度轨迹对比",
-        sideContents: "目录", sideConfig: "仿真工站配置", sideLinks: "相关链接"
+        blogHeaderBrand: "工程技术博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "作品集",
+        hubEyebrow: "M9G 技术研究与系统工程博客",
+        hubTitle: "工程技术文章与实证基准测试目录",
+        hubSub: "涵盖 NVIDIA Isaac Sim 6.0 与 ROS 2 多机械臂 VLA 任务规划基准测试，以及多智能体编码框架（m9g-agent-corps、Antigravity、OmO、Claude Code）的代码级深度审计报告：",
+        b1Title: "Isaac Sim 6.0 与 ROS 2 三机械臂 9 积木塔装配中的 VLA 任务规划器实证对比",
+        b1Desc: "对比 Gemini Robotics-ER 2、纯 Gemini 4 Argon 与混合 Argon + Flash-Lite 架构，通过 10 轮软件流水线调度将单次试验 API 成本降低 76.6% ($0.01972)。",
+        b1Btn: "阅读 Blog 01 (/blog/VLA) →",
+        b2Title: "深度剖析 m9g-agent-corps：为什么生产级编码框架优于自研多智能体封装 — 以及 Antigravity (agy) 的真实架构",
+        b2Desc: "通过对 31 个 Python 模块（src/ag_harness/）的逐行代码审计，揭示 6 个核心可靠性瓶颈，并核验 Google Antigravity (agy) 的双重架构形态。",
+        b2Btn: "阅读 Blog 02 (/blog/m9g-agent) →"
       },
       es: {
-        blogHeaderBrand: "Blog de Ingeniería", navApps: "Apps", navDiaries: "Diarios", navPubs: "Publicaciones", navPortfolio: "Portafolio",
-        articleTag: "Robótica e IA Física",
-        articleTitle: "Comparación Empírica de Planificadores VLA en una Torre de 9 Bloques con 3 Brazos",
-        articleLede: "Evaluamos tres configuraciones de planificación multirrobot en una estación de 3 brazos Franka Emika FR3 en NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) conectada mediante FastDDS unicast a ROS 2 Jazzy (cinemática inversa DLS a 50 Hz). Operando estrictamente con coordenadas 3D /tf sin imágenes RGB, la planificación segmentada de Gemini 4 Argon combinada con el ejecutor Gemini 3.5 Flash-Lite reduce el costo API por prueba de $0.08437 a $0.01972 (-76.6%) y finaliza en 10 turnos en lugar de 13.",
-        kpi1Label: "Costo Etapa 3", kpi1Note: "-76.6% vs. Etapa 2 ($0.08437)",
-        kpi2Label: "Horizonte de Turnos", kpi2Note: "10 turnos vs. 13 en ER-2 (-22.6% tok)",
-        kpi3Label: "Entrada Visual", kpi3Note: "Coordenadas simbólicas 3D /tf (0 RGB)",
-        kpi4Label: "bloques Apilados", kpi4Note: "20 / 20 verificaciones superadas",
-        videoHeader: "Ejecución Lado a Lado: Gemini Robotics-ER 2 (Izquierda) vs. Gemini 4 Argon (Derecha)",
-        ts1Title: "Plano Espacial Turno 0 y Picks Paralelos", ts1Sub: "Ambos planificadores leen poses 3D /tf y ejecutan 3 picks simultáneos (B1, B4, B7) en el Turno 1.",
-        ts2Title: "Divergencia en Turno 3: Barrera vs. Intercalado", ts2Sub: "ER-2 coloca en serie mientras Argon solapa pick(R1,B2) en la Mesa 1 con place(R2) en la torre central.",
-        ts3Title: "ER-2 Completa la Capa 9 (13 Turnos)", ts3Sub: "Requiere 13 turnos (50,190 tokens, $0.07860) y termina sin enviar los brazos a casa (go_home).",
-        ts4Title: "Argon Completa la Capa 9 + Homing (10 Turnos)", ts4Sub: "Solapa go_home(R1, R2) durante las capas 8–9, completando los 9 bloques en 10 turnos (38,277 tokens).",
-        sec1Title: "1. Hallazgos Experimentales",
-        finding1: "Anclaje Simbólico 3D /tf sin Cámaras RGB (0 Tokens de Imagen): Las tres etapas operaron sin renderizado RGB, utilizando retroalimentación 3D /tf a 50 Hz y verificación cinemática previa para apilar 9/9 bloques sin colisiones (100% de aprobación).",
-        finding2: "Enrutamiento Híbrido Cerebro-Ejecutor (Etapa 3): Ejecutar Gemini 4 Argon una sola vez en el Turno 0 (thinking_budget=256) y delegar los Turnos 1–10 a Gemini 3.5 Flash-Lite (thinking_budget=0) redujo el costo total a $0.01972 (-76.6%) y la latencia por paso de 13.31 s a 4.17 s (-68.7%).",
-        finding3: "Planificación Segmentada (10 vs. 13 Turnos): Gemini Robotics-ER 2 operó con barreras por oleada (13 turnos), dejando inactivos a FR3_1 y FR3_2; Gemini 4 Argon intercaló picks externos con colocaciones centrales desde el Turno 3, terminando en 10 turnos y ahorrando 10,929 tokens de entrada (-22.6%).",
-        sec2Title: "2. Pipeline de Evaluación en Tres Etapas",
-        sec2Intro: "Cada prueba ejecuta tres etapas secuenciales dentro del mismo proceso de simulación, reiniciando los nueve bloques y enviando FR3_1..3 a su posición inicial entre etapas:",
-        fig1Caption: "Figura 1. Pipeline de evaluación comparando Legacy ER-2 (Etapa 1), Gemini 4 Argon Puro (Etapa 2) y el Híbrido Argon + Flash-Lite (Etapa 3).",
-        sec3Title: "3. Resultados Cuantitativos del Benchmark",
-        fig2aTitle: "Figura 2A. Costo API por Prueba de 9 Bloques ($ USD)", fig2bTitle: "Figura 2B. Volumen de Tokens y Latencia por Paso", fig2cTitle: "Figura 2C. Trayectoria Acumulada de Tokens de Entrada (T0–T13)",
-        sec3SubTitle: "3.1 Crecimiento Cuadrático de Tokens de Entrada y Desglose de Costos",
-        sec4Title: "4. Traza de Planificación Turno a Turno",
-        sideContents: "Contenido", sideConfig: "Configuración de Estación", sideLinks: "Enlaces"
+        blogHeaderBrand: "Blog de Ingeniería", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portafolio",
+        hubEyebrow: "Blog de Investigación Técnica y Sistemas M9G",
+        hubTitle: "Artículos de Ingeniería y Benchmarks Empíricos",
+        hubSub: "Informes técnicos sobre manipulación multi-robot VLA en NVIDIA Isaac Sim 6.0 y ROS 2, y auditorías de código de harnesses multi-agente (m9g-agent-corps, Antigravity, OmO, Claude Code):",
+        b1Title: "Comparación Empírica de Planificadores VLA en una Torre de 9 Bloques con 3 Brazos en Isaac Sim 6.0 y ROS 2",
+        b1Desc: "Evaluación de Gemini Robotics-ER 2, Gemini 4 Argon y enrutamiento híbrido Argon + Flash-Lite reduciendo el costo de API en un 76.6% ($0.01972) en 10 turnos.",
+        b1Btn: "Leer Blog 01 (/blog/VLA) →",
+        b2Title: "Diseccionando m9g-agent-corps: Por Qué los Harnesses en Producción Superan a los Wrappers Multi-Agente — y Qué Es Antigravity (agy)",
+        b2Desc: "Auditoría línea por línea de 31 módulos Python (src/ag_harness/) identificando 6 cuellos de botella de fiabilidad y verificando la doble superficie de Antigravity (agy).",
+        b2Btn: "Leer Blog 02 (/blog/m9g-agent) →"
       }
     };
     function toggleLangMenu(e) {
@@ -707,7 +334,7 @@
       if (wrap && !wrap.contains(e.target)) document.getElementById('lang-popup').classList.remove('open');
     });
     function setLang(lang) {
-      if (!BLOG_I18N[lang]) lang = 'en';
+      if (!HUB_I18N[lang]) lang = 'en';
       try { localStorage.setItem('m9g_portfolio_lang', lang); } catch {}
       document.documentElement.lang = lang;
       const lbl = document.getElementById('current-lang-label');
@@ -717,156 +344,91 @@
       });
       const popup = document.getElementById('lang-popup');
       if (popup) popup.classList.remove('open');
-      const dict = BLOG_I18N[lang];
+      const dict = HUB_I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
       });
     }
-    setLang((function(){ try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch { return 'en'; } })());
+    setLang((() => { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch { return 'en'; } })());
 
     (function initFluidAndCursor() {
       const canvas = document.getElementById('fluid-canvas');
       if (canvas) {
         const ctx = canvas.getContext('2d');
         const mouse = { x: -1000, y: -1000, radius: 170 };
-        const palette = [
-          'rgba(26, 115, 232, ',
-          'rgba(212, 175, 55, ',
-          'rgba(30, 142, 62, ',
-          'rgba(217, 48, 37, '
-        ];
-        let width = window.innerWidth;
-        let height = window.innerHeight;
+        const palette = ['rgba(26, 115, 232, ', 'rgba(212, 175, 55, ', 'rgba(30, 142, 62, ', 'rgba(217, 48, 37, '];
+        let width = window.innerWidth, height = window.innerHeight;
         let particles = [];
-        const count = window.innerWidth < 640 ? 32 : 62;
-        const connDist = 135;
-        const connDistSq = connDist * connDist;
-
+        const count = width < 640 ? 28 : 56;
         function resize() {
-          const dpr = Math.min(window.devicePixelRatio || 1, 2);
-          width = window.innerWidth;
-          height = window.innerHeight;
-          canvas.width = width * dpr;
-          canvas.height = height * dpr;
+          const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+          width = window.innerWidth; height = window.innerHeight;
+          canvas.width = width * dpr; canvas.height = height * dpr;
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
           particles = [];
           for (let i = 0; i < count; i++) {
             const r = Math.random() * 1.8 + 1.0;
             particles.push({
-              x: Math.random() * width,
-              y: Math.random() * height,
-              vx: (Math.random() - 0.5) * 0.28,
-              vy: (Math.random() - 0.5) * 0.28,
-              radius: r,
-              baseRadius: r,
-              alpha: Math.random() * 0.42 + 0.22,
+              x: Math.random() * width, y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28,
+              radius: r, baseRadius: r, alpha: Math.random() * 0.42 + 0.22,
               colorPrefix: palette[i % palette.length]
             });
           }
         }
         window.addEventListener('resize', resize);
         window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
-        window.addEventListener('touchmove', e => {
-          if (e.touches && e.touches[0]) {
-            mouse.x = e.touches[0].clientX;
-            mouse.y = e.touches[0].clientY;
-          }
-        }, { passive: true });
-        document.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
         resize();
-
-        function step() {
+        (function step() {
           ctx.clearRect(0, 0, width, height);
           for (let i = 0; i < particles.length; i++) {
             const p1 = particles[i];
+            p1.x += p1.vx; p1.y += p1.vy;
+            if (p1.x < 0) p1.x = width; if (p1.x > width) p1.x = 0;
+            if (p1.y < 0) p1.y = height; if (p1.y > height) p1.y = 0;
+            const mdx = mouse.x - p1.x, mdy = mouse.y - p1.y, mdSq = mdx * mdx + mdy * mdy;
+            if (mdSq < 28900) {
+              const md = Math.sqrt(mdSq), force = (170 - md) / 170, ang = Math.atan2(mdy, mdx);
+              p1.x -= Math.cos(ang) * force * 1.5; p1.y -= Math.sin(ang) * force * 1.5;
+            }
+            ctx.beginPath(); ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p1.colorPrefix + p1.alpha + ')'; ctx.fill();
             for (let j = i + 1; j < particles.length; j++) {
               const p2 = particles[j];
-              const dx = p1.x - p2.x;
-              const dy = p1.y - p2.y;
-              const dSq = dx * dx + dy * dy;
-              if (dSq < connDistSq) {
-                const d = Math.sqrt(dSq);
-                const a = (1 - d / connDist) * 0.14;
-                ctx.beginPath();
-                ctx.moveTo(p1.x, p1.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.strokeStyle = (i % 2 === 0 ? 'rgba(212, 175, 55, ' : 'rgba(26, 115, 232, ') + a + ')';
-                ctx.lineWidth = 0.75;
-                ctx.stroke();
+              const dx = p1.x - p2.x, dy = p1.y - p2.y, dSq = dx * dx + dy * dy;
+              if (dSq < 18225) {
+                ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = (i % 2 === 0 ? 'rgba(212, 175, 55, ' : 'rgba(26, 115, 232, ') + ((1 - Math.sqrt(dSq) / 135) * 0.14) + ')';
+                ctx.lineWidth = 0.75; ctx.stroke();
               }
             }
           }
-          for (let i = 0; i < particles.length; i++) {
-            const p = particles[i];
-            p.x += p.vx;
-            p.y += p.vy;
-            if (p.x < 0) p.x = width;
-            if (p.x > width) p.x = 0;
-            if (p.y < 0) p.y = height;
-            if (p.y > height) p.y = 0;
-            const mdx = mouse.x - p.x;
-            const mdy = mouse.y - p.y;
-            const mdSq = mdx * mdx + mdy * mdy;
-            const mRadSq = mouse.radius * mouse.radius;
-            if (mdSq < mRadSq) {
-              const md = Math.sqrt(mdSq);
-              const force = (mouse.radius - md) / mouse.radius;
-              const ang = Math.atan2(mdy, mdx);
-              p.x -= Math.cos(ang) * force * 1.6;
-              p.y -= Math.sin(ang) * force * 1.6;
-              p.radius = p.baseRadius + force * 1.5;
-            } else if (p.radius > p.baseRadius) {
-              p.radius -= 0.05;
-            }
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fillStyle = p.colorPrefix + p.alpha + ')';
-            ctx.fill();
-          }
           requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
+        })();
       }
-
       const ring = document.getElementById('cursor-ring');
       const dot = document.getElementById('cursor-dot');
       if (ring && dot && window.matchMedia('(pointer: fine)').matches) {
         let tx = -100, ty = -100, rx = -100, ry = -100, vx = 0, vy = 0;
         window.addEventListener('mousemove', e => {
-          tx = e.clientX;
-          ty = e.clientY;
+          tx = e.clientX; ty = e.clientY;
           dot.style.transform = 'translate3d(' + (tx - 3.5) + 'px, ' + (ty - 3.5) + 'px, 0)';
           const t = e.target;
           const hover = !!(t && (t.tagName === 'A' || t.tagName === 'BUTTON' || (t.closest && (t.closest('a') || t.closest('button')))));
           ring.classList.toggle('hovering', hover);
           dot.classList.toggle('hovering', hover);
         }, { passive: true });
-        function springLoop() {
-          const stiffness = 0.18;
-          const damping = 0.72;
-          vx = (vx + (tx - rx) * stiffness) * damping;
-          vy = (vy + (ty - ry) * stiffness) * damping;
-          rx += vx;
-          ry += vy;
-          const offset = ring.classList.contains('hovering') ? 26 : 17;
-          ring.style.transform = 'translate3d(' + (rx - offset) + 'px, ' + (ry - offset) + 'px, 0)';
+        (function springLoop() {
+          vx = (vx + (tx - rx) * 0.18) * 0.72;
+          vy = (vy + (ty - ry) * 0.18) * 0.72;
+          rx += vx; ry += vy;
+          const off = ring.classList.contains('hovering') ? 26 : 17;
+          ring.style.transform = 'translate3d(' + (rx - off) + 'px, ' + (ry - off) + 'px, 0)';
           requestAnimationFrame(springLoop);
-        }
-        requestAnimationFrame(springLoop);
+        })();
       }
-
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            io.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-      document.querySelectorAll('.reveal-on-scroll').forEach(el => io.observe(el));
     })();
-
   </script>
 </body>
 </html>

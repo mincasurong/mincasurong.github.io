@@ -150,30 +150,26 @@
       border-bottom: 1px solid var(--border);
     }
     .topbar-inner {
-      max-width: 1200px; margin: 0 auto; padding: 6px 16px; min-height: 48px;
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      max-width: 1080px; margin: 0 auto; padding: 4px 14px; min-height: 42px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
     .brand {
       font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text);
       display: flex; align-items: center; gap: 8px; flex-shrink: 0;
     }
     .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; }
-    html.dark .g-m, html.dark .g-9, html.dark .g-g { color: #d4af37; }
     .brand-sep { color: var(--border); font-weight: 400; }
-    .brand-sec { font-size: 13px; font-weight: 700; color: var(--accent); }
+    .brand-sec { font-size: 13px; font-weight: 600; color: var(--accent); }
     .topnav {
       display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;
-      color: var(--text-secondary); overflow-x: auto; scrollbar-width: none; white-space: nowrap;
+      color: var(--text-secondary); overflow-x: auto; scrollbar-width: none; white-space: nowrap; min-width: 0;
     }
     .topnav::-webkit-scrollbar { display: none; }
-    .topnav a { padding: 5px 8px; border-radius: 6px; transition: color 0.15s, background 0.15s; }
-    .topnav a:hover { color: var(--accent); background: var(--accent-bg); }
-    .topnav a.active-nav { color: var(--accent); background: var(--accent-bg); font-weight: 700; }
+    .topnav a { padding: 4px 7px; line-height: 1.1; border-radius: 6px; }
+    .topnav a:hover { color: var(--accent); }
+    .topnav a.active-nav { color: var(--accent); font-weight: 700; }
     .topnav a.back-link {
-      color: #ffffff; background: #1a73e8; font-weight: 700; padding: 5px 12px; border-radius: 999px;
-    }
-    html.dark .topnav a.back-link {
-      color: #111111; background: #d4af37;
+      color: #ffffff; background: #1a73e8; font-weight: 600; padding: 5px 12px; border-radius: 999px; font-size: 12.5px;
     }
     .ctrl-btn {
       height: 28px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border);
@@ -396,7 +392,6 @@
           <a href="/archive/" data-i18n="navArchive">Archive</a>
           <a href="/" class="back-link" data-i18n="navPortfolio">Portfolio</a>
         </nav>
-        <button class="ctrl-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Light / Dark Theme">☀ Light</button>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
           <button class="ctrl-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
             <span id="current-lang-label">EN</span>
@@ -1160,7 +1155,46 @@ df -h</pre>
         }
         requestAnimationFrame(step);
       }
-      requestAnimationFrame(step);
+            requestAnimationFrame(step);
+
+      var ring = document.getElementById('cursor-ring');
+      var dot = document.getElementById('cursor-dot');
+      if (ring && dot && window.matchMedia('(pointer: fine)').matches) {
+        var tx = -100, ty = -100, rx = -100, ry = -100, vx = 0, vy = 0;
+        window.addEventListener('mousemove', function(e) {
+          tx = e.clientX; ty = e.clientY;
+          dot.style.transform = 'translate3d(' + (tx - 3.5) + 'px, ' + (ty - 3.5) + 'px, 0)';
+          var t = e.target;
+          var hover = !!(t && (t.tagName === 'A' || t.tagName === 'BUTTON' || (t.closest && (t.closest('a') || t.closest('button')))));
+          ring.classList.toggle('hovering', hover);
+          dot.classList.toggle('hovering', hover);
+        }, { passive: true });
+        (function springLoop() {
+          vx = (vx + (tx - rx) * 0.18) * 0.72;
+          vy = (vy + (ty - ry) * 0.18) * 0.72;
+          rx += vx; ry += vy;
+          var off = ring.classList.contains('hovering') ? 26 : 17;
+          ring.style.transform = 'translate3d(' + (rx - off) + 'px, ' + (ry - off) + 'px, 0)';
+          requestAnimationFrame(springLoop);
+        })();
+      }
+      var cards = document.querySelectorAll('.module-card, .spec-cell, .side-panel');
+      cards.forEach(function(el, idx) {
+        if (el.classList.contains('module-card')) {
+          el.classList.add(idx % 2 === 0 ? 'reveal-left' : 'reveal-right');
+        } else {
+          el.classList.add('reveal-on-scroll');
+        }
+      });
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.05, rootMargin: '0px 0px -24px 0px' });
+      cards.forEach(function(el) { io.observe(el); });
     })();
   </script>
 </body>

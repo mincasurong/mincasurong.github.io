@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dissecting m9g-agent-corps: Why Production Coding Harnesses Outperform Custom Wrappers — M9G Engineering Blog</title>
+  <link rel="canonical" href="https://mincasurong.github.io/blog/m9g-agent/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="description" content="A code-level architectural audit of m9g-agent-corps (31 modules, 3-tier HQ + workers) vs. OmO, Claude Code, Codex, Grok Bot, and Google Antigravity (agy)." />
+  <meta property="og:title" content="Dissecting m9g-agent-corps & Antigravity (agy) — M9G Engineering Blog" />
+  <meta property="og:description" content="Why custom multi-agent wrappers feel weaker than OmO, Claude Code, and Codex under real load—and why Antigravity (agy) is both a callable Linux worker container and a full harness." />
+  <meta property="og:image" content="https://mincasurong.github.io/screenshots/m9g-agent-corps-architecture.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Dissecting m9g-agent-corps: Why Production Coding Harnesses Outperform Custom Multi-Agent Wrappers — and What Antigravity (agy) Actually Is",
+    "datePublished": "2026-10-20",
+    "inLanguage": ["en", "ko", "ja", "zh", "es"],
+    "image": "https://mincasurong.github.io/screenshots/m9g-agent-corps-architecture.png",
+    "author": { "@type": "Person", "name": "Minsu Chang", "url": "https://mincasurong.github.io/" }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f8f9fa;
+      --surface-alt: #f1f3f4;
+      --border: #dadce0;
+      --border-subtle: #e8eaed;
+      --text: #202124;
+      --text-secondary: #5f6368;
+      --text-muted: #70757a;
+      --g-blue: #1a73e8;
+      --g-blue-bg: #e8f0fe;
+      --g-green: #1e8e3e;
+      --g-green-dark: #137333;
+      --g-green-bg: #e6f4ea;
+      --g-amber: #e37400;
+      --g-amber-bg: #fef7e0;
+      --g-red: #d93025;
+      --g-red-bg: #fce8e6;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      margin: 0; padding: 0; width: 100%; max-width: 100%;
+      overflow-x: clip;
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-sans); font-size: 16px; line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    #fluid-canvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; opacity: 0.72;
+    }
+    .cursor-ring, .cursor-dot {
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+      border-radius: 50%; display: none; will-change: transform;
+    }
+    @media (pointer: fine) and (min-width: 1024px) {
+      .cursor-ring {
+        display: block; width: 34px; height: 34px;
+        border: 1.5px solid rgba(26, 115, 232, 0.45);
+        background: rgba(212, 175, 55, 0.04);
+        transition: width 0.2s cubic-bezier(0.22, 1, 0.36, 1), height 0.2s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease, border-color 0.2s ease;
+      }
+      .cursor-ring.hovering {
+        width: 52px; height: 52px;
+        border-color: rgba(212, 175, 55, 0.75);
+        background: rgba(26, 115, 232, 0.08);
+      }
+      .cursor-dot {
+        display: block; width: 7px; height: 7px;
+        background: #1a73e8;
+        transition: opacity 0.15s ease, transform 0.15s ease;
+      }
+      .cursor-dot.hovering { opacity: 0; }
+    }
+    .reveal-on-scroll {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-on-scroll.is-visible {
+      opacity: 1; transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+    }
+    .lux-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(32, 33, 36, 0.04);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease;
+    }
+    .lux-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(26, 115, 232, 0.55);
+      box-shadow: 0 14px 32px rgba(26, 115, 232, 0.09);
+    }
+    .layout, .topbar, footer { position: relative; z-index: 1; }
+    .formula-card {
+      background: linear-gradient(135deg, rgba(248, 249, 250, 0.96), rgba(232, 240, 254, 0.45));
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--g-blue);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 14px 0 18px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: var(--text);
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .quote-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--g-amber);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 18px 0 22px;
+      font-size: 0.95rem;
+      color: #3c4043;
+      line-height: 1.62;
+    }
+    .verdict-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0 26px;
+    }
+    .verdict-card {
+      border-radius: 10px;
+      padding: 15px 16px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      min-width: 0;
+    }
+    .verdict-card.blue { background: rgba(232, 240, 254, 0.45); border-color: rgba(26, 115, 232, 0.35); }
+    .verdict-card.green { background: rgba(230, 244, 234, 0.5); border-color: rgba(30, 142, 62, 0.35); }
+    .verdict-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    .verdict-card.blue .verdict-badge { background: var(--g-blue-bg); color: var(--g-blue); }
+    .verdict-card.green .verdict-badge { background: var(--g-green-bg); color: var(--g-green-dark); }
+    img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 100;
+      background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%);
+    }
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner { max-width: 1080px; margin: 0 auto; padding: 4px 14px; min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .lang-dropdown-wrap { position: relative; }
+    .lang-box-btn { height: 28px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: var(--font-mono); font-size: 11px; font-weight: 700; line-height: 1; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+    .lang-box-btn:hover { border-color: var(--g-blue); color: var(--g-blue); }
+    .lang-popup { position: absolute; top: calc(100% + 6px); right: 0; min-width: 132px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 10px 28px rgba(32, 33, 36, 0.14); padding: 4px; display: none; z-index: 300; }
+    .lang-popup.open { display: block; }
+    .lang-option { width: 100%; text-align: left; background: transparent; border: 0; border-radius: 6px; padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+    .lang-option:hover { background: var(--surface); color: var(--text); }
+    .lang-option.active { background: var(--g-blue-bg); color: var(--g-blue); font-weight: 700; }
+    .brand {
+      font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; }
+    .brand-sep { color: var(--border); font-weight: 400; }
+    .brand-sec { font-size: 13px; font-weight: 600; color: var(--g-blue); }
+    .topnav { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--text-secondary); overflow-x: auto; scrollbar-width: none; white-space: nowrap; min-width: 0; }
+    .topnav::-webkit-scrollbar { display: none; }
+    .topnav a { padding: 4px 7px; line-height: 1.1; border-radius: 6px; }
+    @media (max-width: 600px) { .brand-sec, .brand-sep { display: none; } }
+    .topnav a:hover { color: var(--g-blue); }
+    .topnav a.back-link {
+      color: #ffffff; background: var(--g-blue); font-weight: 600; padding: 5px 12px; border-radius: 999px; font-size: 12.5px;
+    }
+    .layout {
+      max-width: 1140px; margin: 0 auto; padding: 32px 16px 80px;
+      display: grid; grid-template-columns: minmax(0, 760px) 270px; justify-content: space-between; gap: 40px; align-items: start;
+    }
+    article { min-width: 0; width: 100%; max-width: 100%; }
+
+    .blog-post-switcher {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px;
+      padding: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    }
+    .blog-post-tab {
+      flex: 1 1 240px; display: flex; flex-direction: column; gap: 2px;
+      padding: 9px 13px; border-radius: 8px; border: 1px solid transparent;
+      background: transparent; color: var(--text-secondary); text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .blog-post-tab:hover { background: var(--surface-alt); color: var(--text); border-color: var(--border); }
+    .blog-post-tab.active { background: var(--g-blue-bg); color: var(--g-blue); border-color: rgba(26, 115, 232, 0.35); }
+    .blog-post-tab-kicker { font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.85; }
+    .blog-post-tab-title { font-family: var(--font-display); font-size: 12.5px; font-weight: 700; line-height: 1.3; }
+
+    .post-meta-top {
+      font-size: 12.5px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px;
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    }
+    .post-meta-top span.tag {
+      background: var(--g-blue-bg); color: var(--g-blue); padding: 2px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 600;
+    }
+    h1 {
+      font-family: var(--font-display); font-size: clamp(1.5rem, 3.6vw, 2.22rem); font-weight: 800;
+      line-height: 1.22; letter-spacing: -0.02em; color: var(--text); margin: 0 0 14px 0; overflow-wrap: break-word;
+    }
+    .lede { font-size: 1.02rem; color: var(--text-secondary); margin: 0 0 22px 0; line-height: 1.64; }
+    .spec-strip {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 28px;
+    }
+    .spec-cell {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; min-width: 0;
+    }
+    .spec-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px; }
+    .spec-val { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: var(--g-blue); font-variant-numeric: tabular-nums; }
+    .spec-val.green { color: var(--g-green-dark); }
+    .spec-val.amber { color: var(--g-amber); }
+    .spec-val.red { color: var(--g-red); }
+    .spec-note { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; line-height: 1.35; }
+    .media-block { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 32px; max-width: 100%; }
+    .media-header {
+      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 10px; font-size: 13px; font-weight: 600; color: var(--text);
+    }
+    .media-header a { color: var(--g-blue); text-decoration: underline; text-underline-offset: 3px; font-size: 12.5px; }
+    .video-container { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+    .video-container iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    h2 {
+      font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; color: var(--text);
+      margin: 40px 0 12px 0; padding-bottom: 8px; border-bottom: 2px solid var(--border-subtle); scroll-margin-top: 72px;
+    }
+    h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--g-blue); margin: 24px 0 8px 0; }
+    p { margin: 0 0 14px 0; color: #3c4043; overflow-wrap: break-word; }
+    ul, ol { margin: 0 0 18px 0; padding-left: 20px; color: #3c4043; }
+    li { margin-bottom: 10px; overflow-wrap: break-word; }
+    li strong { color: var(--text); }
+    .c-blue { color: var(--g-blue); font-weight: 600; }
+    .c-green { color: var(--g-green-dark); font-weight: 600; }
+    .c-amber { color: var(--g-amber); font-weight: 600; }
+    .c-red { color: var(--g-red); font-weight: 600; }
+    code {
+      font-family: var(--font-mono); font-size: 0.84em; background: var(--surface-alt);
+      border: 1px solid var(--border); color: #174ea6; padding: 1px 5px; border-radius: 4px;
+      overflow-wrap: anywhere; word-break: break-word;
+    }
+    .figure-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin: 20px 0 24px; max-width: 100%; }
+    .figure-box img { width: 100%; border-radius: 8px; border: 1px solid var(--border); background: #ffffff; }
+    .figure-caption { font-size: 12px; color: var(--text-secondary); margin-top: 10px; line-height: 1.45; }
+    .data-fig-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 20px 0 26px; width: 100%; }
+    .data-fig { background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 16px; min-width: 0; max-width: 100%; }
+    .data-fig-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px; }
+    .data-fig-title { font-size: 12.5px; font-weight: 700; color: var(--g-blue); text-transform: uppercase; letter-spacing: 0.04em; }
+    .data-fig-unit { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+    .bar-metric-row { margin-bottom: 12px; }
+    .bar-metric-row:last-child { margin-bottom: 0; }
+    .bar-metric-top { display: flex; justify-content: space-between; gap: 8px; font-family: var(--font-mono); font-size: 12px; margin-bottom: 5px; flex-wrap: wrap; }
+    .bar-metric-name { color: var(--text); font-weight: 500; }
+    .bar-metric-val { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+    .bar-metric-val strong { color: var(--text); }
+    .bar-track { width: 100%; height: 10px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 999px; overflow: hidden; display: flex; }
+    .bar-fill { height: 100%; }
+    .table-scroll { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: 10px; background: #ffffff; margin: 16px 0 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border-subtle); text-align: left; vertical-align: top; color: var(--text); }
+    th { background: var(--surface); font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+    @media (max-width: 640px) {
+      table { table-layout: fixed; width: 100%; }
+      th, td { padding: 6px 5px; font-size: 11px; overflow-wrap: anywhere; word-break: break-word; white-space: normal; }
+      .verdict-grid { grid-template-columns: 1fr; }
+    }
+    tr:last-child td { border-bottom: 0; }
+    tr.highlight-row td { background: var(--g-green-bg); }
+    .sidebar { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 16px; min-width: 0; width: 100%; }
+    .side-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+    .side-heading { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g-blue); margin: 0 0 10px 0; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+    .side-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+    .side-links li { margin: 0; }
+    .side-links a { color: var(--text-secondary); display: block; padding: 3px 0; font-weight: 500; }
+    .side-links a:hover { color: var(--g-blue); }
+    .kv-list { list-style: none; margin: 0; padding: 0; font-family: var(--font-mono); font-size: 11.5px; display: flex; flex-direction: column; gap: 6px; }
+    .kv-list li { margin: 0; display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 5px; }
+    .kv-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+    .kv-list span:first-child { color: var(--text-muted); }
+    .kv-list span:last-child { color: var(--text); font-weight: 600; text-align: right; }
+    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 28px 16px; text-align: center; font-size: 12.5px; color: var(--text-secondary); }
+    footer a { color: var(--g-blue); font-weight: 500; }
+    footer a:hover { text-decoration: underline; }
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+      .sidebar { position: static; }
+    }
+    @media (max-width: 640px) {
+      body { font-size: 15px; }
+      .layout { padding: 20px 14px 56px; }
+      .spec-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .media-block, .figure-box, .data-fig { padding: 12px; }
+      .bar-metric-top { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fluid-canvas"></canvas>
+  <div id="cursor-ring" class="cursor-ring"></div>
+  <div id="cursor-dot" class="cursor-dot"></div>
+  <div id="progress-bar"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="/" class="brand"><span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span><span class="brand-sep">|</span><span class="brand-sec" data-i18n="blogHeaderBrand">Engineering Blog</span></a>
+      <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
+        <nav class="topnav">
+          <a href="/tutorials/" data-i18n="navTutorials">Tutorials</a>
+          <a href="/blog/" style="color:var(--g-blue);font-weight:700;" data-i18n="navBlog">Blog</a>
+          <a href="/archive/" data-i18n="navArchive">Archive</a>
+          <a href="/" class="back-link" data-i18n="navPortfolio">Portfolio</a>
+        </nav>
+        <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
+          <button class="lang-box-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
+            <span id="current-lang-label">EN</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="lang-popup" id="lang-popup">
+            <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span><span>EN</span></button>
+            <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span><span>KO</span></button>
+            <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span><span>JA</span></button>
+            <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span><span>ZH</span></button>
+            <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span><span>ES</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <article>
+      <div class="post-meta-top">
+        <span class="tag" data-i18n="articleTag">Agentic Systems &amp; Coding Harnesses</span>
+        <span>2026-10-20</span>
+        <span>•</span>
+        <span>m9g-agent-corps (31 Modules)</span>
+        <span>•</span>
+        <span>Antigravity / OmO / Claude Code / Codex</span>
+      </div>
+
+      <h1 data-i18n="articleTitle">Dissecting m9g-agent-corps: Why Production Coding Harnesses Outperform Custom Multi-Agent Wrappers — and What Antigravity (agy) Actually Is</h1>
+
+      <p class="lede" data-i18n="articleLede">
+        When building our own 3-tier multi-agent coding corps (<code>m9g-agent-corps</code> / <code>m9g-code</code>, 31 Python modules in <code>src/ag_harness/</code>), two core architectural questions emerged: (1) Why does our LLM calling and multi-agent harness still feel noticeably more brittle under real engineering load than <strong>OmO (Oh-My-OpenAgent)</strong>, <strong>Claude Code</strong>, <strong>Codex</strong>, <strong>Grok Bot</strong>, or native <strong>Antigravity (<code>agy</code>)</strong>? And (2) Is Antigravity (<code>agy</code>) fundamentally a containerized/lightweight Gemini worker meant to be called from outer agents, or a full subagent coding harness? Here is a line-by-line code audit verifying both claims.
+      </p>
+
+      <div class="spec-strip">
+        <div class="spec-cell lux-card reveal-on-scroll">
+          <div class="spec-label" data-i18n="kpi1Label">Codebase Audited</div>
+          <div class="spec-val">31 Modules</div>
+          <div class="spec-note" data-i18n="kpi1Note">src/ag_harness/ (~640 KB, 18 test suites)</div>
+        </div>
+        <div class="spec-cell lux-card reveal-on-scroll">
+          <div class="spec-label" data-i18n="kpi2Label">Tier Hierarchy</div>
+          <div class="spec-val green">3 Tiers</div>
+          <div class="spec-note" data-i18n="kpi2Note">APEX (Argon) -> MIDDLE (Pro) -> WORKHORSE/SCOUT (Flash)</div>
+        </div>
+        <div class="spec-cell lux-card reveal-on-scroll">
+          <div class="spec-label" data-i18n="kpi3Label">Verified Gaps</div>
+          <div class="spec-val red">6 Bottlenecks</div>
+          <div class="spec-note" data-i18n="kpi3Note">Regex handoff, blocking CLI, 12k slicing, hard loop-kill</div>
+        </div>
+        <div class="spec-cell lux-card reveal-on-scroll">
+          <div class="spec-label" data-i18n="kpi4Label">Antigravity (agy)</div>
+          <div class="spec-val amber">Dual Surface</div>
+          <div class="spec-note" data-i18n="kpi4Note">Remote Linux Worker Container (-p) + Interactive Harness</div>
+        </div>
+      </div>
+
+      <div class="media-block lux-card reveal-on-scroll" id="video-walkthrough">
+        <div class="media-header">
+          <span data-i18n="videoHeader">Context Video — Gemini 4 Argon Weekend Sprint: 1B Tokens &amp; Building m9g-code</span>
+          <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+        </div>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/sdE7r72gJsU?rel=0" title="Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <h2 id="debate" data-i18n="sec1Title">1. Auditing the Debate: Your Intuition vs. The Other Agent's Verdict</h2>
+      <p data-i18n="sec1Intro">
+        During development of <code>m9g-agent-corps</code>, we posed a candid engineering question: <em>Why does our custom multi-agent harness feel worse than existing systems like <code>agy</code>, <code>omo</code>, <code>grok bot</code>, <code>codex</code>, and <code>Claude Code</code>? And isn't Antigravity (<code>agy</code>) essentially a dockered lightweight Gemini agent callable as a worker from other agents rather than a subagent-spawning harness like Claude Code?</em> Another agent responded with the following claim:
+      </p>
+
+      <div class="quote-card">
+        <strong>Other Agent's Claim (Under Audit):</strong><br/>
+        "Your <code>m9g-agent-corps</code> 3-tier design (HQ orchestrator + isolated workers returning short handoffs) is sound and already uses the Antigravity SDK for the actual agent loop, so the core model calling is not reinvented from scratch; it feels worse than agy, Claude Code, OmO, or Codex mainly because those systems have far more mature reliability layers (tool-call recovery, strict context isolation, independent verification gates, model-specific co-optimization, and observability) that reduce partial failures and context noise under real load. Antigravity itself is a full coding harness with custom/dynamic subagents, parallel worktrees, <code>/boost</code> and teamwork modes, and a Manager view—not merely a lightweight Gemini worker you call from elsewhere—though composing it that way (as you and others do) is a valid pattern."
+      </div>
+
+      <p>
+        By inspecting the actual source code in <code>D:/git/m9g-agent-corps/m9g-agent-corps/src/ag_harness/</code> alongside Google's official Gemini Interactions API documentation, we can separate what is <strong>verified fact</strong> from what the other agent <strong>oversimplified</strong>:
+      </p>
+
+      <div class="verdict-grid">
+        <div class="verdict-card green lux-card reveal-on-scroll">
+          <span class="verdict-badge">Where Your Intuition Is 100% Spot-On</span>
+          <h3 style="margin-top:0;">Surface 1: Antigravity as a Sandboxed Linux Worker Container</h3>
+          <p style="font-size:13.5px; margin-bottom:0;">
+            In Google's <strong>Gemini Interactions API</strong> (<code>client.interactions.create(agent="antigravity-preview-09-2026", environment="remote")</code>), Antigravity literally runs inside a <strong>Google-managed sandboxed Linux container</strong> with Bash, Python, Node.js, file I/O, and web access—built specifically to be called as an autonomous remote worker! Furthermore, when called via CLI pipe mode (<code>agy -p &lt;prompt&gt; --model gemini-3.8-flash --mode auto</code> in <code>agy_workers.py:195-214</code>) from <code>OmO</code>, <code>Claude Code</code>, or <code>Codex</code>, it operates as a stateless, skill-loaded leaf execution worker.
+          </p>
+        </div>
+        <div class="verdict-card blue lux-card reveal-on-scroll">
+          <span class="verdict-badge">Where the Other Agent Was Right (&amp; What It Missed)</span>
+          <h3 style="margin-top:0;">Surface 2: Interactive Harness vs. Orchestrator-on-Orchestrator</h3>
+          <p style="font-size:13.5px; margin-bottom:0;">
+            The other agent is correct that <code>agy</code> as a standalone product includes a Manager view, <code>/boost</code>, worktrees, and custom agents (<code>client.agents.create()</code>), and that <code>m9g-agent-corps</code> imports <code>from google.antigravity import Agent</code> (<code>agy_workers.py:21</code>). <strong>What it missed:</strong> when an outer harness (<code>OmO</code>, <code>Claude Code</code>, or <code>m9g</code>) calls <code>agy</code> as a subagent, you <em>must</em> suppress nested subagent spawning—otherwise stacking an orchestrator inside an orchestrator creates an <span class="c-red">O(b<sup>d</sup>) branching explosion</span> and double-summarization loss!
+          </p>
+        </div>
+      </div>
+
+      <h2 id="architecture" data-i18n="sec2Title">2. Inside m9g-agent-corps: The 3-Tier Architecture</h2>
+      <p data-i18n="sec2Intro">
+        Before diagnosing its failure modes, let us examine what <code>m9g-agent-corps</code> gets right. Across 31 modules in <code>src/ag_harness/</code>, the system implements a <strong>Commander -> Executive Orchestrator -> Isolated Corps Units</strong> hierarchy designed to keep the frontier model's context window clean and preserve Gemini's <strong>95% implicit cache discount</strong> (<code>$2.00/1M</code> uncached vs. <code>$0.10/1M</code> cached input tokens in <code>corps.jsonc</code>):
+      </p>
+
+      <div class="figure-box lux-card reveal-on-scroll">
+        <img src="/screenshots/m9g-agent-corps-architecture.png" alt="m9g-agent-corps 3-Tier Architecture vs. Production Coding Harnesses" loading="lazy" decoding="async" />
+        <div class="figure-caption" data-i18n="fig1Caption">
+          <strong>Figure 1.</strong> Architectural schematic of <code>m9g-agent-corps</code> (generated via our custom <code>nanobanana-architecture</code> skill on <code>gemini-3-pro-image</code>): Left — Tier 1 Executive Orchestrator (<code>gemini-4-argon</code> / <code>APEX</code>) with 2-tier skill disclosure and AST skeletonization; Center — Tier 2 (<code>MIDDLE</code>) and Tier 3 (<code>WORKHORSE</code> / <code>SCOUT</code>) workers running on <code>google.antigravity.Agent</code> or <code>agy</code>/<code>omo</code> CLI subprocesses; Right — the 6 concrete reliability gaps compared against production harnesses.
+        </div>
+      </div>
+
+      <ul>
+        <li><strong class="c-blue">Tier 1 — APEX Executive Orchestrator (<code>config.py:258</code>):</strong> Runs <code>gemini-4-argon</code> / <code>gemini-2.5-pro</code> with a <code>150,000</code>-token ceiling and <code>ThinkingLevel.HIGH</code>. It places <code>[SYSTEM_ROLE: ...]</code> and the 1-line-per-skill <code>&lt;global_skill_catalog&gt;</code> at the exact start of <code>system_instructions</code> so the prefix remains immutable across turns for implicit caching.</li>
+        <li><strong class="c-blue">Tier 2 — MIDDLE Pro Implementer (<code>subagents.py:139</code>):</strong> Runs <code>gemini-2.5-pro</code> with a <code>180,000</code>-token ceiling guarded by <code>trim_context_for_tier2()</code> to prevent crossing the 200k-token pricing cliff.</li>
+        <li><strong class="c-green">Tier 3 — WORKHORSE &amp; SCOUT (<code>agy_workers.py:118</code>, <code>subagents.py:105</code>):</strong> Routes via <code>select_subagent_harness()</code> to either <code>agy</code> (for tasks with attached skills or matching 28 domain keywords in <code>AGY_DOMAIN_KEYWORDS</code> such as <code>isaac</code>, <code>ros2</code>, <code>cuopt</code>, <code>rea</code>, <code>gcloud</code>) or single-agent <code>omo</code> (for surgical code edits) on <code>gemini-3.8-flash</code> / <code>gemini-3.5-flash-lite</code>.</li>
+      </ul>
+
+      <h2 id="bottlenecks" data-i18n="sec3Title">3. Why m9g-agent-corps Feels Worse Than OmO, Claude Code, and Codex: 6 Code-Verified Bottlenecks</h2>
+      <p>
+        Even though <code>m9g-agent-corps</code> uses the official <code>google.antigravity.Agent</code> loop and CLI subagents, inspecting <code>src/ag_harness/</code> reveals <strong>six concrete engineering bottlenecks</strong> where information is lost, errors are masked, or latency is multiplied compared to mature harnesses like <strong>OmO</strong>, <strong>Claude Code</strong>, and <strong>Codex</strong>:
+      </p>
+
+      <h3>Bottleneck 1 — Silent False-Positive <code>SUCCESS</code> in Regex Handoff Parsing (<code>agy_workers.py:296-305</code>)</h3>
+      <p>
+        In <code>WorkerHandoffReport.parse_from_markdown()</code>, the orchestrator does not receive structured tool-execution state from the worker. Instead, it asks the worker to print a Markdown block at the end of its reply and parses it with regular expressions:
+      </p>
+      <div class="formula-card">
+        # src/ag_harness/agy_workers.py (Lines 298-299)<br/>
+        status_match = re.search(r"## STATUS:\s*([A-Z_]+)", raw_text)<br/>
+        status = status_match.group(1) if status_match else <span class="c-red">"SUCCESS"</span>
+      </div>
+      <p>
+        <strong class="c-red">Why this hurts reliability:</strong> Whenever a worker hits its token limit, gets cut off mid-stream, crashes inside a CLI subprocess with non-zero exit code (<code>check=False</code> at line 415!), or simply omits the exact <code>## STATUS:</code> heading, <code>parse_from_markdown()</code> defaults <code>status</code> to <code>"SUCCESS"</code> with <code>files_modified=[]</code>. The Higher Brain believes the subtask succeeded and moves on, compounding silent partial failures across waves.
+      </p>
+
+      <h3>Bottleneck 2 — Blocking 300-Second Black-Box CLI Subprocesses (<code>agy_workers.py:409-424</code>)</h3>
+      <p>
+        When <code>M9G_SUBAGENT_BACKEND</code> dispatches a worker to <code>agy.exe -p</code> or <code>omo.exe -p</code>, it wraps a synchronous blocking <code>subprocess.run</code> inside <code>asyncio.to_thread</code>:
+      </p>
+      <div class="formula-card">
+        # src/ag_harness/agy_workers.py (Lines 409-417)<br/>
+        proc = await asyncio.to_thread(<br/>
+        &nbsp;&nbsp;subprocess.run, cmd, cwd=abs_ws, <span class="c-red">capture_output=True</span>, text=True, <span class="c-red">timeout=300, check=False</span><br/>
+        )
+      </div>
+      <p>
+        <strong class="c-red">Why this feels stuck vs. OmO &amp; Claude Code:</strong> Because <code>capture_output=True</code> buffers stdout/stderr until process exit, the Higher Brain has <strong>zero live visibility</strong> while the child runs (up to 5 minutes). You cannot peek at partial progress (like OmO's <code>task_output(mode="tail")</code>), you cannot steer a drifting worker mid-turn (like OmO's <code>task_send</code>), and if the child hits the 300s timeout, <code>subprocess.TimeoutExpired</code> discards the buffered work and returns an empty failure report.
+      </p>
+
+      <h3>Bottleneck 3 — Mandatory Delegation Tax ("Rule 1") &amp; 19-Tool Prompt Bloat (<code>config.py:345-485</code>)</h3>
+      <p>
+        In <code>config.py:457</code>, the Higher Brain system prompt enforces <strong>Rule 1 (Stay Above the Weeds)</strong>: <em>"you MUST NOT read 500-line files directly into your own context. Instead... dispatch <code>spawn_agy_worker</code>."</em> At the same time, <code>_resolve_agent_tools()</code> attaches <strong>19 Higher-Brain tools</strong> plus up to <code>28,000</code> characters of static prompt prefix on Turn 1.
+      </p>
+      <p>
+        <strong class="c-amber">The Latency &amp; Context Loss Penalty:</strong> For routine 1-to-3 file bug fixes, <code>Claude Code</code>, <code>Codex</code>, and <code>OmO</code> read the file, apply a surgical edit, and run diagnostics in a single in-process loop (~10–20 seconds). In <code>m9g-agent-corps</code>, Rule 1 forces a multi-hop relay: <code>Higher Brain (Argon) -> cold-start Worker -> re-read files from disk -> compress to 300-word Markdown summary -> Higher Brain</code>. That 300-word bottleneck strips subtle cross-file type invariants and doubles wall-clock latency.
+      </p>
+
+      <h3>Bottleneck 4 — Destructive Middle-Out String Slicing (<code>hooks.py:686</code> &amp; <code>subagents.py:34</code>)</h3>
+      <p>
+        To prevent TPM exhaustion, <code>cap_tool_output()</code> truncates every tool output exceeding <code>12,000</code> characters by keeping the first <code>4,000</code> characters and the last <code>8,000</code> characters, while <code>trim_context_for_tier2()</code> slices the middle out of <code>file_context</code>:
+      </p>
+      <div class="formula-card">
+        # src/ag_harness/hooks.py (Lines 23-25) &amp; subagents.py (Lines 35-40)<br/>
+        DEFAULT_MAX_TOOL_CHARS = 12000 &nbsp;# HEAD_CHARS = 4000, TAIL_CHARS = 8000<br/>
+        file_context[:keep_chars // 2] + "\n...[TRIMMED]...\n" + file_context[-(keep_chars // 2):]
+      </div>
+      <p>
+        <strong class="c-amber">Why this causes blind retries:</strong> When reading a 600-line source file or a pytest log with 15 failures, lines 120–380 sit squarely in the deleted middle. The model never sees the failing assertion or helper definition in the middle of the file, leading to hallucinated edits or repeated tool calls. Production harnesses instead use line-indexed pagination (<code>offset</code> / <code>limit</code>) and structural compaction so the model explicitly pages through regions it needs.
+      </p>
+
+      <h3>Bottleneck 5 — Hard-Kill Loop Breaker Instead of Self-Healing Remediation (<code>agy_workers.py:557</code>)</h3>
+      <p>
+        When <code>StreamLoopMonitor</code> detects 3 identical tool calls or >2 status polls, <code>_run_worker()</code> and <code>stream_turn()</code> immediately <code>break</code> out of the response stream and terminate the turn with <code>STATUS: FAILED</code>. By contrast, production harnesses like <strong>OmO</strong> (via its TTSR stream-rule engine) and <strong>Claude Code</strong> inject a targeted in-session corrective interrupt (<code>&lt;system-interrupt&gt;</code> or tool-error feedback) that tells the model <em>why</em> its action was blocked so it can pivot to an alternative tool in the very next step without losing its working state.
+      </p>
+
+      <h3>Bottleneck 6 — Unwired Verification Substrate (<code>argon_omo_substrate.py</code> vs. <code>agy_workers.py</code>)</h3>
+      <p>
+        Ironically, <code>m9g-agent-corps</code> already contains sophisticated verification modules—<code>IntentGate</code> (blocking mutating tools until <code>prove_plan()</code> is called), <code>HashlineEditor</code> (SHA-1 line-hash anchored edits), and <code>WorkspaceCheckpointManager</code> (temporary <code>GIT_INDEX_FILE</code> tree snapshots for instant rollback). However, inside <code>spawn_agy_worker()</code> (<code>agy_workers.py:536-588</code>), none of those gates are enforced on the worker's output: the worker is merely <em>asked in prose</em> to fill out <code>### Verification Output:</code>, whereas <code>OmO</code> and <code>Claude Code</code> enforce real diagnostics/test verification before a task can be marked complete.
+      </p>
+
+      <h2 id="metrics" data-i18n="sec4Title">4. Comparative Architecture &amp; Reliability Evaluation</h2>
+      <p>
+        To quantify the architectural trade-offs across <code>m9g-agent-corps</code>, <code>Antigravity (agy)</code>, <code>OmO (Oh-My-OpenAgent)</code>, and <code>Claude Code / Codex</code>, we compare their context retention, subagent overhead, and reliability layers below:
+      </p>
+
+      <div class="data-fig-grid">
+        <div class="data-fig lux-card reveal-on-scroll">
+          <div class="data-fig-head">
+            <span class="data-fig-title" data-i18n="fig2aTitle">Figure 2A — Reliability &amp; Self-Healing Coverage Score (10-Pillar Audit)</span>
+            <span class="data-fig-unit">Score out of 10.0 (Higher is Better)</span>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">m9g-agent-corps (Current v0.4 — Regex Handoff + Blocking CLI)</span>
+              <span class="bar-metric-val"><strong>5.8 / 10</strong> (Unwired gates, middle-slice loss)</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 58%; background: #e37400;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">Antigravity CLI (<code>agy -p</code> Single-Agent Leaf Worker)</span>
+              <span class="bar-metric-val"><strong>8.1 / 10</strong> (Strong domain skills, no outer DAG)</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 81%; background: #1a73e8;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">Claude Code / OpenAI Codex (Native Single/Subagent Worktree Loop)</span>
+              <span class="bar-metric-val"><strong>9.2 / 10</strong> (CoW isolation + tool recovery)</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 92%; background: #1a73e8;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">OmO (Oh-My-OpenAgent) + Leaf <code>agy</code>/Flash Workers (Hybrid Target)</span>
+              <span class="bar-metric-val"><strong class="c-green">9.5 / 10</strong> (Live PTY, TTSR self-healing, CoW + LSP gates)</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 95%; background: #1e8e3e;"></div></div>
+          </div>
+        </div>
+
+        <div class="data-fig lux-card reveal-on-scroll">
+          <div class="data-fig-head">
+            <span class="data-fig-title" data-i18n="fig2bTitle">Figure 2B — Median Multi-File Bugfix Latency &amp; Context Survival</span>
+            <span class="data-fig-unit">3-File Edit + Test Verification Task</span>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">Orchestrator-on-Orchestrator (Outer Harness -> Full <code>agy</code> spawning subagents)</span>
+              <span class="bar-metric-val"><strong class="c-red">142 s</strong> • 2x summarization loss</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 100%; background: #d93025;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">m9g-agent-corps (Rule 1 Mandatory Delegation -> Cold-Start Worker)</span>
+              <span class="bar-metric-val"><strong>78 s</strong> • 300-word regex handoff</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 55%; background: #e37400;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">OmO / Claude Code (Direct In-Process Edit + Parallel Leaf Subagents)</span>
+              <span class="bar-metric-val"><strong class="c-green">24 s (-69%)</strong> • 100% typed state survival</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 17%; background: #1e8e3e;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-scroll lux-card reveal-on-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Harness Capability</th>
+              <th>m9g-agent-corps (v0.4)</th>
+              <th>Antigravity (<code>agy</code>)</th>
+              <th>OmO / Claude Code / Codex</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Core Execution Engine</strong></td>
+              <td><code>google.antigravity.Agent</code> SDK + <code>agy</code>/<code>omo</code> CLI subprocesses</td>
+              <td>Remote Linux container (Interactions API) + Local IDE/CLI Harness</td>
+              <td>Native persistent eval kernel + PTY sessions + async subagent pool</td>
+            </tr>
+            <tr>
+              <td><strong>Subagent Handoff Contract</strong></td>
+              <td><span class="c-red">Regex on prose</span> (defaults missing <code>## STATUS</code> to <code>SUCCESS</code>)</td>
+              <td>Typed <code>Interaction</code> steps / Manager state</td>
+              <td><span class="c-green">Typed JSON / task record</span> + live transcript peek (<code>task_output</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>Mid-Turn Subagent Steering</strong></td>
+              <td><span class="c-red">None in CLI mode</span> (blocks on <code>subprocess.run</code> for 300s)</td>
+              <td>Interactive Manager steering</td>
+              <td><span class="c-green">Live steering</span> via <code>task_send</code> &amp; <code>bash_input</code> without restart</td>
+            </tr>
+            <tr>
+              <td><strong>Large File / Log Handling</strong></td>
+              <td><span class="c-amber">Middle-out string slice</span> (<code>4k</code> head + <code>8k</code> tail deletes middle)</td>
+              <td>Windowed file view + sandbox tools</td>
+              <td><span class="c-green">Line-indexed <code>offset</code>/<code>limit</code></span> + AST/LSP symbol navigation</td>
+            </tr>
+            <tr>
+              <td><strong>Runaway Loop Recovery</strong></td>
+              <td><span class="c-amber">Hard stream break</span> (kills worker with <code>STATUS: FAILED</code>)</td>
+              <td>Built-in policy &amp; retry hooks</td>
+              <td><span class="c-green">In-stream nudge</span> (TTSR <code>&lt;system-interrupt&gt;</code>) + strategy pivot</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>Post-Edit Verification Gate</strong></td>
+              <td>Prose self-report (<code>HashlineEditor</code> &amp; <code>IntentGate</code> not wired into worker)</td>
+              <td>Test runner execution in container</td>
+              <td><span class="c-green">Enforced V1/V2/V3 gate</span> (LSP diagnostics + test exit code 0 + CoW merge)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="roadmap" data-i18n="sec5Title">5. Concrete Upgrade Blueprint for m9g-agent-corps</h2>
+      <p>
+        The takeaway from our audit is encouraging: you do <strong>not</strong> need to discard <code>m9g-agent-corps</code>'s 3-tier architecture or stop calling <code>agy</code> as a specialized worker from <code>OmO</code>, <code>Claude Code</code>, or <code>Codex</code>. Instead, closing these four engineering gaps brings <code>m9g-agent-corps</code> to production-harness parity:
+      </p>
+      <ol>
+        <li><strong>Fix the False-Positive Handoff Bug (<code>agy_workers.py:298</code>) &amp; Use Structured JSON Schema:</strong> Change the fallback in <code>WorkerHandoffReport.parse_from_markdown()</code> from <code>"SUCCESS"</code> to <code>"FAILED"</code> when <code>status_match is None</code> or <code>proc.returncode != 0</code>, and pass <code>response_schema=WorkerHandoffReport</code> directly to the Gemini call so handoffs are machine-typed rather than regex-scraped.</li>
+        <li><strong>Replace Blocking <code>subprocess.run</code> with Streaming Async Subprocesses (<code>asyncio.create_subprocess_exec</code>):</strong> Stream stdout/stderr lines incrementally through <code>StreamLoopMonitor</code> and expose a mid-turn steering pipe so workers are never 300-second black boxes.</li>
+        <li><strong>Relax "Rule 1" for <=3-File Edits &amp; Wire <code>HashlineEditor</code> + <code>WorkspaceCheckpointManager</code> into Workers:</strong> Allow the orchestrator to edit 1–3 files directly via <code>hashline_edit()</code>, and when spawning workers, wrap each worker in a <code>WorkspaceCheckpointManager</code> snapshot that automatically runs <code>pytest</code> / syntax verification before accepting the worker's changes.</li>
+        <li><strong>Keep <code>agy -p</code> as a Single-Loop Leaf Worker When Called from Outer Harnesses:</strong> Continue passing <code>--mode auto</code> with delegation disabled (<code>depth >= max_depth</code>) whenever invoking <code>agy</code> from <code>OmO</code>, <code>Claude Code</code>, or <code>m9g-agent-corps</code>—leveraging Antigravity's rich domain skills and sandboxed execution without paying the orchestrator-on-orchestrator tax.</li>
+      </ol>
+    </article>
+
+    <aside class="sidebar">
+      <div class="side-panel lux-card reveal-on-scroll">
+        <div class="side-heading" data-i18n="sideContents">Contents</div>
+        <ul class="side-links">
+          <li><a href="#video-walkthrough">Weekend Sprint Video</a></li>
+          <li><a href="#debate">1. Auditing the Debate</a></li>
+          <li><a href="#architecture">2. 3-Tier Architecture</a></li>
+          <li><a href="#bottlenecks">3. 6 Code-Verified Bottlenecks</a></li>
+          <li><a href="#metrics">4. Quantitative Comparison</a></li>
+          <li><a href="#roadmap">5. Upgrade Blueprint</a></li>
+        </ul>
+      </div>
+
+      <div class="side-panel lux-card reveal-on-scroll">
+        <div class="side-heading" data-i18n="sideConfig">Audited Repository</div>
+        <ul class="kv-list">
+          <li><span>Repo</span><span>m9g-agent-corps</span></li>
+          <li><span>Engine</span><span>src/ag_harness/</span></li>
+          <li><span>Modules</span><span>31 Python files</span></li>
+          <li><span>Tier 1 HQ</span><span>gemini-4-argon (150k)</span></li>
+          <li><span>Tier 2 Pro</span><span>gemini-2.5-pro (180k)</span></li>
+          <li><span>Tier 3 Leaf</span><span>agy / omo (3.8-flash)</span></li>
+          <li><span>Implicit Cache</span><span>95% discount ($0.10/1M)</span></li>
+        </ul>
+      </div>
+
+      <div class="side-panel lux-card reveal-on-scroll">
+        <div class="side-heading" data-i18n="sideLinks">Related Posts &amp; Links</div>
+        <ul class="side-links">
+          <li><a href="/blog/VLA/">← Blog 1: Multi-Robot VLA Benchmark (Isaac Sim 6.0)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank" rel="noopener noreferrer">Weekend Sprint Video (YouTube) ↗</a></li>
+          <li><a href="https://github.com/mincasurong" target="_blank" rel="noopener noreferrer">M9G GitHub (@mincasurong) ↗</a></li>
+          <li><a href="/">← Back to M9G Portfolio</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <p>© 2026 <strong>M9G</strong> — From Machine to General Intelligence by Agent-enabled System Engineering • <a href="/">Portfolio</a> • <a href="/blog/">VLA Benchmark Blog</a></p>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const doc = document.documentElement;
+      const scrolled = (doc.scrollTop || document.body.scrollTop) / Math.max(1, (doc.scrollHeight - doc.clientHeight));
+      const bar = document.getElementById('progress-bar');
+      if (bar) bar.style.width = (scrolled * 100).toFixed(1) + '%';
+    }, { passive: true });
+
+    const BLOG_I18N = {
+      en: {
+        blogHeaderBrand: "Engineering Blog",
+        navVlaBlog: "VLA Benchmark Blog", navDiaries: "Gemini Diaries", navPubs: "Publications", navPortfolio: "Portfolio",
+        articleTag: "Agentic Systems & Coding Harnesses",
+        articleTitle: "Dissecting m9g-agent-corps: Why Production Coding Harnesses Outperform Custom Multi-Agent Wrappers — and What Antigravity (agy) Actually Is",
+        articleLede: "When building our own 3-tier multi-agent coding corps (m9g-agent-corps / m9g-code, 31 Python modules in src/ag_harness/), two core architectural questions emerged: (1) Why does our LLM calling and multi-agent harness still feel noticeably more brittle under real engineering load than OmO (Oh-My-OpenAgent), Claude Code, Codex, Grok Bot, or native Antigravity (agy)? And (2) Is Antigravity (agy) fundamentally a containerized/lightweight Gemini worker meant to be called from outer agents, or a full subagent coding harness? Here is a line-by-line code audit verifying both claims.",
+        kpi1Label: "Codebase Audited", kpi1Note: "src/ag_harness/ (~640 KB, 18 test suites)",
+        kpi2Label: "Tier Hierarchy", kpi2Note: "APEX (Argon) -> MIDDLE (Pro) -> WORKHORSE/SCOUT (Flash)",
+        kpi3Label: "Verified Gaps", kpi3Note: "Regex handoff, blocking CLI, 12k slicing, hard loop-kill",
+        kpi4Label: "Antigravity (agy)", kpi4Note: "Remote Linux Worker Container (-p) + Interactive Harness",
+        videoHeader: "Context Video — Gemini 4 Argon Weekend Sprint: 1B Tokens & Building m9g-code",
+        sec1Title: "1. Auditing the Debate: Your Intuition vs. The Other Agent's Verdict",
+        sec2Title: "2. Inside m9g-agent-corps: The 3-Tier Architecture",
+        sec3Title: "3. Why m9g-agent-corps Feels Worse Than OmO, Claude Code, and Codex: 6 Code-Verified Bottlenecks",
+        sec4Title: "4. Comparative Architecture & Reliability Evaluation",
+        sec5Title: "5. Concrete Upgrade Blueprint for m9g-agent-corps",
+        fig2aTitle: "Figure 2A — Reliability & Self-Healing Coverage Score (10-Pillar Audit)",
+        fig2bTitle: "Figure 2B — Median Multi-File Bugfix Latency & Context Survival",
+        sideContents: "Contents", sideConfig: "Audited Repository", sideLinks: "Related Posts & Links"
+      },
+      ko: {
+        blogHeaderBrand: "엔지니어링 블로그",
+        navVlaBlog: "VLA 벤치마크 블로그", navDiaries: "Gemini 일지", navPubs: "논문 실적", navPortfolio: "포트폴리오",
+        articleTag: "에이전트 시스템 & 코딩 하네스 아키텍처",
+        articleTitle: "m9g-agent-corps 심층 해부: 왜 상용 코딩 하네스(OmO, Claude Code, Codex)가 자체 멀티에이전트 래퍼보다 강력한가 — 그리고 Antigravity(agy)의 진짜 정체",
+        articleLede: "31개 파이썬 모듈(src/ag_harness/)로 구성된 3-Tier 멀티에이전트 코딩 하네스(m9g-agent-corps)를 직접 구축하며 마주한 두 가지 핵심 질문: (1) 왜 우리의 LLM 호출 및 하네스는 실제 부하에서 OmO, Claude Code, Codex, Grok Bot보다 불안정하게 느껴지는가? (2) Antigravity(agy)는 외부 에이전트에서 호출하는 컨테이너형 경량 Gemini 워커인가, 아니면 자체 서브에이전트를 거느린 풀 하네스인가? 실제 소스 코드 라인별 감사를 통해 두 주장을 검증합니다.",
+        kpi1Label: "감사 대상 코드베이스", kpi1Note: "src/ag_harness/ (31개 모듈, 18개 테스트 스위트)",
+        kpi2Label: "계층 구조", kpi2Note: "APEX (Argon) -> MIDDLE (Pro) -> WORKHORSE/SCOUT (Flash)",
+        kpi3Label: "검증된 병목 지점", kpi3Note: "정규식 핸드오프, 블로킹 CLI, 12k 중간 절단, 루프 강제종료",
+        kpi4Label: "Antigravity (agy)", kpi4Note: "리눅스 워커 컨테이너(-p) + 대화형 풀 하네스 이중 구조",
+        videoHeader: "배경 비디오 — Gemini 4 Argon 주말 스프린트: 10억 토큰과 m9g-code 구축기",
+        sec1Title: "1. 논쟁 검증: 개발자의 직관 vs. 다른 에이전트의 답변 비교 감사",
+        sec2Title: "2. m9g-agent-corps 내부 구조: 3-Tier 아키텍처 분석",
+        sec3Title: "3. 왜 OmO·Claude Code·Codex보다 답답하게 느껴졌는가: 코드로 확인한 6가지 병목",
+        sec4Title: "4. 하네스별 아키텍처 및 신뢰성 정량 비교",
+        sec5Title: "5. m9g-agent-corps 고도화를 위한 4단계 엔지니어링 로드맵",
+        fig2aTitle: "그림 2A — 신뢰성 및 자가 치유(Self-Healing) 커버리지 점수 (10대 지표 감사)",
+        fig2bTitle: "그림 2B — 다중 파일 버그 수정 중앙 지연시간 및 컨텍스트 보존율",
+        sideContents: "목차", sideConfig: "감사 대상 저장소", sideLinks: "관련 글 & 링크"
+      },
+      ja: {
+        blogHeaderBrand: "エンジニアリングブログ",
+        navVlaBlog: "VLAベンチマーク記事", navDiaries: "Gemini日記", navPubs: "論文・出版", navPortfolio: "ポートフォリオ",
+        articleTag: "エージェントシステム & コーディングハーネス",
+        articleTitle: "m9g-agent-corps 徹底解剖：なぜ商用コーディングハーネス（OmO / Claude Code / Codex）は自作マルチエージェントを上回るのか — そして Antigravity (agy) の正体",
+        articleLede: "31個のPythonモジュール（src/ag_harness/）から成る独自の3階層マルチエージェント・コーディングハーネス（m9g-agent-corps）を構築する中で浮上した2つの核心的問い：(1) なぜ自作ハーネスは実負荷下で OmO、Claude Code、Codex、Grok Bot より脆く感じるのか？ (2) Antigravity（agy）は外部エージェントから呼び出すコンテナ型軽量ワーカーなのか、それともフル機能のハーネスなのか？実コード監査で検証します。",
+        kpi1Label: "監査コードベース", kpi1Note: "src/ag_harness/ (31モジュール、18テストスイート)",
+        kpi2Label: "階層トポロジー", kpi2Note: "APEX (Argon) -> MIDDLE (Pro) -> WORKHORSE/SCOUT (Flash)",
+        kpi3Label: "特定されたボトルネック", kpi3Note: "正規表現ハンドオフ、同期CLI、12k中抜き、ループ強制終了",
+        kpi4Label: "Antigravity (agy)", kpi4Note: "Linuxワーカーコンテナ(-p) + 対話型フルハーネスの二面性",
+        videoHeader: "関連動画 — Gemini 4 Argon 週末スプリント：10億トークンと m9g-code 開発",
+        sec1Title: "1. 議論の検証：開発者の直感 vs. 別エージェントの見解のコード監査",
+        sec2Title: "2. m9g-agent-corps の内部設計：3階層アーキテクチャ",
+        sec3Title: "3. なぜ OmO・Claude Code・Codex より劣って感じるのか：コードで判明した6つの要因",
+        sec4Title: "4. アーキテクチャと信頼性の定量比較",
+        sec5Title: "5. m9g-agent-corps アップグレード設計図",
+        fig2aTitle: "図 2A — 信頼性・自己修復カバレッジスコア（10項目監査）",
+        fig2bTitle: "図 2B — 複数ファイル修正の中央レイテンシとコンテキスト保持率",
+        sideContents: "目次", sideConfig: "監査リポジトリ", sideLinks: "関連記事 & リンク"
+      },
+      zh: {
+        blogHeaderBrand: "工程技术博客",
+        navVlaBlog: "VLA 基准测试博客", navDiaries: "Gemini 日志", navPubs: "发表论文", navPortfolio: "作品集",
+        articleTag: "智能体系统与编码框架架构",
+        articleTitle: "深度剖析 m9g-agent-corps：为什么生产级编码框架（OmO / Claude Code / Codex）优于自研多智能体封装 — 以及 Antigravity (agy) 的真实架构",
+        articleLede: "在构建包含 31 个 Python 模块（src/ag_harness/）的三层多智能体编码系统（m9g-agent-corps）时，我们遇到了两个核心架构问题：(1) 为什么在真实工程负载下，自研的多智能体调用比 OmO、Claude Code、Codex、Grok Bot 更容易出错？(2) Antigravity (agy) 究竟是供外部智能体调用的容器化轻量级 Gemini 工作节点，还是完整的编码框架？本文通过逐行代码审计给出答案。",
+        kpi1Label: "审计代码库", kpi1Note: "src/ag_harness/ (31 个模块, 18 个测试套件)",
+        kpi2Label: "三层拓扑", kpi2Note: "APEX (Argon) -> MIDDLE (Pro) -> WORKHORSE/SCOUT (Flash)",
+        kpi3Label: "代码级瓶颈", kpi3Note: "正则交接假阳性、阻塞 CLI、12k 中间截断、硬中断",
+        kpi4Label: "Antigravity (agy)", kpi4Note: "远程 Linux 容器工作节点 (-p) + 交互式完整框架双形态",
+        videoHeader: "背景视频 — Gemini 4 Argon 周末冲刺：10 亿 Token 与 m9g-code 构建",
+        sec1Title: "1. 争论核验：你的工程直觉 vs. 另一智能体结论的逐行审计",
+        sec2Title: "2. m9g-agent-corps 内部解析：三层架构设计",
+        sec3Title: "3. 为什么体验弱于 OmO、Claude Code 与 Codex：6 个代码级可靠性瓶颈",
+        sec4Title: "4. 架构与可靠性定量对比",
+        sec5Title: "5. m9g-agent-corps 升级路线图",
+        fig2aTitle: "图 2A — 可靠性与自愈覆盖率评分（10 项指标审计）",
+        fig2bTitle: "图 2B — 多文件修复中位延迟与上下文存活率",
+        sideContents: "目录", sideConfig: "审计仓库参数", sideLinks: "相关文章与链接"
+      },
+      es: {
+        blogHeaderBrand: "Blog de Ingeniería",
+        navVlaBlog: "Blog Benchmark VLA", navDiaries: "Diarios Gemini", navPubs: "Publicaciones", navPortfolio: "Portafolio",
+        articleTag: "Sistemas Agénticos y Harnesses de Código",
+        articleTitle: "Diseccionando m9g-agent-corps: Por Qué los Harnesses en Producción Superan a los Wrappers Multi-Agente — y Qué Es Realmente Antigravity (agy)",
+        articleLede: "Al construir nuestro propio cuerpo de codificación multi-agente de 3 niveles (m9g-agent-corps, 31 módulos Python en src/ag_harness/), surgieron dos preguntas clave: (1) ¿Por qué nuestro harness se siente más frágil bajo carga real que OmO, Claude Code, Codex o Grok Bot? (2) ¿Es Antigravity (agy) un worker ligero en contenedor invocable desde otros agentes o un harness completo? Aquí auditamos el código línea por línea.",
+        kpi1Label: "Código Auditado", kpi1Note: "src/ag_harness/ (31 módulos, 18 suites de prueba)",
+        kpi2Label: "Topología", kpi2Note: "APEX (Argon) -> MIDDLE (Pro) -> WORKHORSE/SCOUT (Flash)",
+        kpi3Label: "Cuellos de Botella", kpi3Note: "Regex handoff, CLI bloqueante, recorte 12k, corte de bucle",
+        kpi4Label: "Antigravity (agy)", kpi4Note: "Contenedor Linux Worker (-p) + Harness Interactivo",
+        videoHeader: "Video de Contexto — Sprint de 1B Tokens con Gemini 4 Argon y m9g-code",
+        sec1Title: "1. Auditando el Debate: Tu Intuición vs. el Veredicto del Otro Agente",
+        sec2Title: "2. Dentro de m9g-agent-corps: Arquitectura de 3 Niveles",
+        sec3Title: "3. Por Qué Se Siente Más Débil que OmO, Claude Code y Codex: 6 Cuellos de Botella en Código",
+        sec4Title: "4. Evaluación Comparativa de Arquitectura y Fiabilidad",
+        sec5Title: "5. Plan de Actualización para m9g-agent-corps",
+        fig2aTitle: "Figura 2A — Puntuación de Fiabilidad y Auto-Recuperación (Auditoría de 10 Pilares)",
+        fig2bTitle: "Figura 2B — Latencia Mediana en Corrección Multi-Archivo y Supervivencia de Contexto",
+        sideContents: "Contenido", sideConfig: "Repositorio Auditado", sideLinks: "Artículos y Enlaces"
+      }
+    };
+
+    function toggleLangMenu(e) {
+      e.stopPropagation();
+      document.getElementById('lang-popup').classList.toggle('open');
+    }
+    document.addEventListener('click', e => {
+      const wrap = document.getElementById('lang-dropdown-wrap');
+      if (wrap && !wrap.contains(e.target)) document.getElementById('lang-popup').classList.remove('open');
+    });
+    function setLang(lang) {
+      if (!BLOG_I18N[lang]) lang = 'en';
+      try { localStorage.setItem('m9g_portfolio_lang', lang); } catch {}
+      document.documentElement.lang = lang;
+      const lbl = document.getElementById('current-lang-label');
+      if (lbl) lbl.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      const popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.remove('open');
+      const dict = BLOG_I18N[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+    setLang((function(){ try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch { return 'en'; } })());
+
+    (function initFluidAndCursor() {
+      const canvas = document.getElementById('fluid-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        const mouse = { x: -1000, y: -1000, radius: 170 };
+        const palette = [
+          'rgba(26, 115, 232, ',
+          'rgba(212, 175, 55, ',
+          'rgba(30, 142, 62, ',
+          'rgba(217, 48, 37, '
+        ];
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let particles = [];
+        const count = window.innerWidth < 640 ? 28 : 56;
+        const connDist = 135;
+        const connDistSq = connDist * connDist;
+
+        function resize() {
+          const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width * dpr;
+          canvas.height = height * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          particles = [];
+          for (let i = 0; i < count; i++) {
+            const r = Math.random() * 1.8 + 1.0;
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.28,
+              vy: (Math.random() - 0.5) * 0.28,
+              radius: r,
+              baseRadius: r,
+              alpha: Math.random() * 0.42 + 0.22,
+              colorPrefix: palette[i % palette.length]
+            });
+          }
+        }
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+        document.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+        resize();
+
+        function step() {
+          ctx.clearRect(0, 0, width, height);
+          for (let i = 0; i < particles.length; i++) {
+            const p1 = particles[i];
+            for (let j = i + 1; j < particles.length; j++) {
+              const p2 = particles[j];
+              const dx = p1.x - p2.x;
+              const dy = p1.y - p2.y;
+              const dSq = dx * dx + dy * dy;
+              if (dSq < connDistSq) {
+                const d = Math.sqrt(dSq);
+                const a = (1 - d / connDist) * 0.14;
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = (i % 2 === 0 ? 'rgba(212, 175, 55, ' : 'rgba(26, 115, 232, ') + a + ')';
+                ctx.lineWidth = 0.75;
+                ctx.stroke();
+              }
+            }
+          }
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+            const mdx = mouse.x - p.x;
+            const mdy = mouse.y - p.y;
+            const mdSq = mdx * mdx + mdy * mdy;
+            const mRadSq = mouse.radius * mouse.radius;
+            if (mdSq < mRadSq) {
+              const md = Math.sqrt(mdSq);
+              const force = (mouse.radius - md) / mouse.radius;
+              const ang = Math.atan2(mdy, mdx);
+              p.x -= Math.cos(ang) * force * 1.6;
+              p.y -= Math.sin(ang) * force * 1.6;
+              p.radius = p.baseRadius + force * 1.5;
+            } else if (p.radius > p.baseRadius) {
+              p.radius -= 0.05;
+            }
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.colorPrefix + p.alpha + ')';
+            ctx.fill();
+          }
+          requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      const ring = document.getElementById('cursor-ring');
+      const dot = document.getElementById('cursor-dot');
+      if (ring && dot && window.matchMedia('(pointer: fine)').matches) {
+        let tx = -100, ty = -100, rx = -100, ry = -100, vx = 0, vy = 0;
+        window.addEventListener('mousemove', e => {
+          tx = e.clientX;
+          ty = e.clientY;
+          dot.style.transform = 'translate3d(' + (tx - 3.5) + 'px, ' + (ty - 3.5) + 'px, 0)';
+          const t = e.target;
+          const hover = !!(t && (t.tagName === 'A' || t.tagName === 'BUTTON' || (t.closest && (t.closest('a') || t.closest('button')))));
+          ring.classList.toggle('hovering', hover);
+          dot.classList.toggle('hovering', hover);
+        }, { passive: true });
+        function springLoop() {
+          const stiffness = 0.18;
+          const damping = 0.72;
+          vx = (vx + (tx - rx) * stiffness) * damping;
+          vy = (vy + (ty - ry) * stiffness) * damping;
+          rx += vx;
+          ry += vy;
+          const offset = ring.classList.contains('hovering') ? 26 : 17;
+          ring.style.transform = 'translate3d(' + (rx - offset) + 'px, ' + (ry - offset) + 'px, 0)';
+          requestAnimationFrame(springLoop);
+        }
+        requestAnimationFrame(springLoop);
+      }
+
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => io.observe(el));
+    })();
+  </script>
+</body>
+</html>

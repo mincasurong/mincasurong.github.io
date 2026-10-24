@@ -115,8 +115,8 @@
       border-bottom: 1px solid var(--border);
     }
     .topbar-inner {
-      max-width: 1200px; margin: 0 auto; padding: 6px 16px; min-height: 48px;
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      max-width: 1080px; margin: 0 auto; padding: 4px 14px; min-height: 42px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
     .brand {
       font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text);
@@ -124,17 +124,17 @@
     }
     .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; }
     .brand-sep { color: var(--border); font-weight: 400; }
-    .brand-sec { font-size: 13px; font-weight: 700; color: var(--accent-blue); }
+    .brand-sec { font-size: 13px; font-weight: 600; color: var(--accent-blue); }
     .topnav {
       display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;
-      color: var(--text-dim); overflow-x: auto; scrollbar-width: none; white-space: nowrap;
+      color: var(--text-dim); overflow-x: auto; scrollbar-width: none; white-space: nowrap; min-width: 0;
     }
     .topnav::-webkit-scrollbar { display: none; }
-    .topnav a { color: var(--text-dim); padding: 5px 8px; border-radius: 6px; transition: color 0.15s, background 0.15s; }
-    .topnav a:hover { color: var(--accent-blue); background: var(--accent-blue-bg); }
-    .topnav a.active-nav { color: var(--accent-blue); background: var(--accent-blue-bg); font-weight: 700; }
+    .topnav a { color: var(--text-dim); padding: 4px 7px; line-height: 1.1; border-radius: 6px; }
+    .topnav a:hover { color: var(--accent-blue); }
+    .topnav a.active-nav { color: var(--accent-blue); font-weight: 700; }
     .topnav a.back-link {
-      color: #ffffff; background: #1a73e8; font-weight: 700; padding: 5px 12px; border-radius: 999px;
+      color: #ffffff; background: #1a73e8; font-weight: 600; padding: 5px 12px; border-radius: 999px; font-size: 12.5px;
     }
     .ctrl-btn {
       height: 28px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border);
@@ -354,7 +354,6 @@
           <a href="/archive/" class="active-nav" data-i18n="navArchive">Archive</a>
           <a href="/" class="back-link" data-i18n="navPortfolio">Portfolio</a>
         </nav>
-        <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle Light / Dark Theme">☀ Light</button>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
           <button class="ctrl-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
             <span id="current-lang-label">EN</span>
