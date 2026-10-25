@@ -109,6 +109,34 @@
     img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
 
     /* Google-Blog Unified Topbar */
+    .hero-pill-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 9999px;
+      font-size: 12px; font-weight: 600; line-height: 1.2;
+      transition: all 0.15s ease; text-decoration: none;
+    }
+    .hero-pill-btn:hover { transform: translateY(-1px); }
+    .hero-pill-github {
+      background: rgba(255, 255, 255, 0.07); color: #e8eaed !important;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .hero-pill-github:hover {
+      background: rgba(255, 255, 255, 0.16); color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .hero-pill-linkedin {
+      background: rgba(26, 115, 232, 0.18); color: #8ab4f8 !important;
+      border: 1px solid rgba(138, 180, 248, 0.38);
+    }
+    .hero-pill-linkedin:hover {
+      background: #1a73e8; color: #ffffff !important; border-color: #1a73e8;
+    }
+    html.light .hero-pill-github {
+      background: #f1f3f4 !important; color: #202124 !important; border-color: #dadce0 !important;
+    }
+    html.light .hero-pill-linkedin {
+      background: #e8f0fe !important; color: #1a73e8 !important; border-color: rgba(26, 115, 232, 0.32) !important;
+    }
     .topbar {
       position: sticky; top: 0; z-index: 100;
       background: var(--bg-elev); backdrop-filter: blur(10px);
@@ -362,12 +390,12 @@
         <span class="brand-sec" data-i18n="nav_archive">Research &amp; Archive</span>
       </a>
       <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
-        <nav class="topnav">
-          <a href="/vcard/">vCard</a>
-          <a href="/tutorials/" data-i18n="navTutorials">Tutorials</a>
-          <a href="/blog/" data-i18n="navBlog">Blog</a>
-          <a href="/archive/" class="active-nav" data-i18n="navArchive">Archive</a>
-          <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a>
+        <nav class="topnav" style="gap:6px;">
+          <a href="/vcard/" class="hero-pill-btn hero-pill-github"><span>vCard</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/archive/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="nav_archive">Archive</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/blog/" class="hero-pill-btn hero-pill-github"><span data-i18n="nav_blog">Blog</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/tutorials/" class="hero-pill-btn hero-pill-github"><span data-i18n="nav_tutorials">Tutorials</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="nav_portfolio">Main Portal</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
         </nav>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
           <button class="ctrl-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">

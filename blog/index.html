@@ -1,503 +1,655 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>M9G Blog Feed — Physical AI &amp; Agentic Systems</title>
+  <title>M9G | Technical Research Blog</title>
   <link rel="canonical" href="https://mincasurong.github.io/blog/" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Minsu (Max) Chang, Ph.D." />
-  <meta name="description" content="Short, scannable engineering feed by Minsu (Max) Chang, Ph.D.: Physical AI, multi-robot manipulation in Isaac Sim & ROS 2, and coding agents." />
+  <meta name="description" content="M9G Technical Research Blog by Minsu (Max) Chang, Ph.D.: Multi-arm VLA task planning in Isaac Sim 6.0 & ROS 2, Project STAMP deterministic safety gating, and coding agent harnesses." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mincasurong.github.io/blog/" />
-  <meta property="og:title" content="M9G Blog Feed — Physical AI & Agentic Systems" />
-  <meta property="og:description" content="Bite-sized engineering posts on multi-robot VLA planning, deterministic safety gates (STAMP), and coding agent harnesses." />
+  <meta property="og:title" content="M9G | Technical Research Blog" />
+  <meta property="og:description" content="Concise visual engineering posts on Physical AI, multi-robot VLA planning, Project STAMP, and coding agent harnesses." />
   <meta property="og:image" content="https://mincasurong.github.io/screenshots/stamp-architecture-nanobanana.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f6f8fa;
-      --card: #ffffff;
-      --card-hover: #fcfcfd;
-      --surface: #f1f5f9;
-      --border: #e2e8f0;
-      --text: #0f172a;
-      --text-sub: #475569;
-      --text-muted: #64748b;
-      --accent: #1d9bf0;
-      --accent-dark: #1a8cd8;
-      --accent-soft: rgba(29, 155, 240, 0.12);
-      --upvote: #ff4500;
-      --upvote-soft: rgba(255, 69, 0, 0.1);
-      --green: #16a34a;
-      --green-soft: #dcfce7;
+      --bg: #111111;
+      --surface: rgba(20, 20, 20, 0.9);
+      --surface-hover: #181818;
+      --border: #1f2937;
+      --text: #FCFCFB;
+      --text-sub: #9ca3af;
+      --gold: #d4af37;
+      --gold-dim: rgba(212, 175, 55, 0.12);
+      --gold-border: rgba(212, 175, 55, 0.25);
+      --emerald: #34d399;
+      --emerald-dim: rgba(16, 185, 129, 0.12);
+      --emerald-border: rgba(16, 185, 129, 0.3);
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
       --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
-    html.dark {
-      --bg: #0b0e14;
-      --card: #151921;
-      --card-hover: #1a1f29;
-      --surface: #1e2430;
-      --border: #2a3241;
-      --text: #f1f5f9;
-      --text-sub: #cbd5e1;
-      --text-muted: #94a3b8;
-      --accent: #38bdf8;
-      --accent-dark: #0284c7;
-      --accent-soft: rgba(56, 189, 248, 0.14);
-      --upvote: #ff5722;
-      --upvote-soft: rgba(255, 87, 34, 0.15);
-      --green: #4ade80;
-      --green-soft: rgba(74, 222, 128, 0.14);
+    html.light {
+      --bg: #ffffff;
+      --surface: rgba(248, 249, 250, 0.94);
+      --surface-hover: #f1f3f4;
+      --border: #dadce0;
+      --text: #202124;
+      --text-sub: #5f6368;
+      --gold: #1a73e8;
+      --gold-dim: #e8f0fe;
+      --gold-border: rgba(26, 115, 232, 0.28);
+      --emerald: #137333;
+      --emerald-dim: #e6f4ea;
+      --emerald-border: rgba(19, 115, 51, 0.3);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       width: 100%; max-width: 100%; overflow-x: clip;
       background: var(--bg); color: var(--text);
-      font-family: var(--font-sans); font-size: 15px; line-height: 1.55;
+      font-family: var(--font-sans); font-size: 15px; line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; height: auto; display: block; }
     button { font: inherit; background: none; border: none; color: inherit; cursor: pointer; }
 
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 2px; width: 0%; z-index: 100;
+      background: #ffffff;
+    }
+    html.light #progress-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%);
+    }
+    #fluid-canvas {
+      position: fixed; inset: 0; width: 100vw; height: 100vh;
+      pointer-events: none; z-index: 0; opacity: 0.78;
+    }
+    html.light #fluid-canvas { opacity: 0.55; }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0; width: 32px; height: 32px;
+      border-radius: 9999px; border: 1.5px solid rgba(212, 175, 55, 0.55);
+      pointer-events: none; z-index: 9999; transform: translate3d(-100px, -100px, 0);
+    }
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+      border-radius: 9999px; background: var(--gold);
+      pointer-events: none; z-index: 9999; transform: translate3d(-100px, -100px, 0);
+    }
+    @media (max-width: 768px), (pointer: coarse) {
+      .cursor-ring, .cursor-dot { display: none !important; }
+    }
+
     .topbar {
       position: sticky; top: 0; z-index: 50;
-      background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
+      background: rgba(17, 17, 17, 0.92); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    html.dark .topbar { background: rgba(21, 25, 33, 0.92); }
+    html.light .topbar {
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid #dadce0;
+    }
     .topbar-inner {
-      max-width: 720px; margin: 0 auto; padding: 6px 14px; min-height: 46px;
+      max-width: 1080px; margin: 0 auto; padding: 4px 14px; min-height: 42px;
       display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
     .brand {
-      font-family: var(--font-display); font-size: 16px; font-weight: 800;
-      display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+      font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text);
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
     }
     .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; }
-    .brand-sep { color: var(--border); font-weight: 400; }
-    .brand-sec { font-size: 13px; font-weight: 700; color: var(--accent); }
+    .brand-sep { color: #475569; font-weight: 400; }
+    html.light .brand-sep { color: #dadce0; }
+    .brand-sec { font-size: 13px; font-weight: 600; color: #60a5fa; }
+    html.light .brand-sec { color: #1a73e8; }
+    @media (max-width: 600px) { .brand-sec, .brand-sep { display: none; } }
+
     .topnav {
-      display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;
-      color: var(--text-muted); overflow-x: auto; scrollbar-width: none; white-space: nowrap;
+      display: flex; align-items: center; gap: 6px;
+      overflow-x: auto; scrollbar-width: none; white-space: nowrap; min-width: 0;
     }
     .topnav::-webkit-scrollbar { display: none; }
-    .topnav a { padding: 5px 8px; border-radius: 999px; transition: color 0.15s ease; }
-    .topnav a:hover { color: var(--accent); }
-    .topnav a.back-link {
-      color: #ffffff; background: #1d9bf0; font-weight: 700; padding: 5px 12px; font-size: 12px;
+    .hero-pill-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 9999px;
+      font-size: 12px; font-weight: 600; line-height: 1.2;
+      transition: all 0.15s ease;
     }
-    .ctrl-btn {
-      height: 28px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border);
-      background: var(--surface); color: var(--text); font-family: var(--font-mono);
-      font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;
+    .hero-pill-btn:hover { transform: translateY(-1px); }
+    .hero-pill-github {
+      background: rgba(255, 255, 255, 0.07); color: #e8eaed;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .hero-pill-github:hover {
+      background: rgba(255, 255, 255, 0.16); color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .hero-pill-linkedin {
+      background: rgba(26, 115, 232, 0.18); color: #8ab4f8;
+      border: 1px solid rgba(138, 180, 248, 0.38);
+    }
+    .hero-pill-linkedin:hover {
+      background: #1a73e8; color: #ffffff; border-color: #1a73e8;
+    }
+    html.light .hero-pill-github {
+      background: #f1f3f4; color: #202124; border-color: #dadce0;
+    }
+    html.light .hero-pill-github:hover {
+      background: #e8f0fe; color: #174ea6; border-color: #1a73e8;
+    }
+    html.light .hero-pill-linkedin {
+      background: #e8f0fe; color: #1a73e8; border-color: rgba(26, 115, 232, 0.32);
+    }
+    html.light .hero-pill-linkedin:hover {
+      background: #1a73e8; color: #ffffff;
+    }
+
+    .topbar-btn {
+      height: 28px; padding: 0 9px; border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.06); color: #e2e8f0;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0;
+    }
+    html.light .topbar-btn {
+      background: #f8f9fa; border-color: #dadce0; color: #202124;
     }
     .lang-dropdown-wrap { position: relative; }
     .lang-popup {
-      position: absolute; top: calc(100% + 6px); right: 0; min-width: 130px;
-      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15); padding: 4px; display: none; z-index: 300;
+      position: absolute; top: calc(100% + 6px); right: 0; width: 128px;
+      background: rgba(28, 28, 28, 0.96); backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-radius: 8px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45); overflow: hidden; display: none; z-index: 300;
     }
+    html.light .lang-popup { background: #f8f9fa; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12); }
     .lang-popup.open { display: block; }
     .lang-option {
-      width: 100%; text-align: left; border-radius: 6px; padding: 6px 10px;
-      font-size: 12px; font-weight: 600; color: var(--text-sub);
+      width: 100%; text-align: left; padding: 8px 14px; font-size: 11px;
+      letter-spacing: 0.05em; color: var(--text-sub);
       display: flex; align-items: center; justify-content: space-between;
     }
-    .lang-option:hover { background: var(--surface); color: var(--text); }
-    .lang-option.active { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+    .lang-option:hover { background: rgba(255, 255, 255, 0.06); color: var(--gold); }
+    html.light .lang-option:hover { background: #e8f0fe; color: #1a73e8; }
+    .lang-option.active { color: var(--gold); font-weight: 700; background: rgba(20, 20, 20, 0.9); }
+    html.light .lang-option.active { background: #e8f0fe; color: #1a73e8; }
 
-    .feed-wrap {
-      max-width: 680px; margin: 0 auto; padding: 16px 12px 64px;
-    }
-
-    .profile-banner {
-      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-      padding: 16px 18px; margin-bottom: 14px;
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .profile-top {
-      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-    }
-    .profile-id { display: flex; align-items: center; gap: 10px; }
-    .avatar-circle {
-      width: 42px; height: 42px; border-radius: 999px;
-      background: linear-gradient(135deg, #1d9bf0 0%, #34a853 100%);
-      color: #ffffff; font-family: var(--font-display); font-weight: 800; font-size: 14px;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .profile-name {
-      font-family: var(--font-display); font-size: 16px; font-weight: 800;
-      display: flex; align-items: center; gap: 5px;
-    }
-    .verified-badge {
-      color: #1d9bf0; width: 16px; height: 16px; display: inline-flex;
-    }
-    .profile-handle { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
-    .profile-bio { font-size: 13.8px; color: var(--text-sub); }
-
-    .feed-tabs {
-      display: flex; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none;
-    }
-    .feed-tabs::-webkit-scrollbar { display: none; }
-    .feed-tab {
-      padding: 6px 13px; border-radius: 999px; font-size: 12.5px; font-weight: 700;
-      background: var(--surface); color: var(--text-muted); border: 1px solid transparent;
-      white-space: nowrap; transition: all 0.15s ease;
-    }
-    .feed-tab:hover { color: var(--text); }
-    .feed-tab.active {
-      background: var(--accent-soft); color: var(--accent); border-color: var(--accent);
+    .main-wrap {
+      max-width: 1120px; margin: 0 auto; padding: 56px 16px 84px;
+      position: relative; z-index: 1;
     }
 
-    .post-list { display: flex; flex-direction: column; gap: 14px; }
-
-    .post-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-      padding: 16px; transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
-      display: flex; flex-direction: column; gap: 11px;
+    .sec-head {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
     }
-    .post-card:hover {
-      border-color: var(--accent); background: var(--card-hover); transform: translateY(-2px);
+    .sec-head svg { color: var(--gold); width: 22px; height: 22px; flex-shrink: 0; }
+    .sec-eyebrow {
+      font-size: 13px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.2em; color: var(--gold);
     }
-    .post-card.hidden { display: none; }
-
-    .post-header {
-      display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
-      font-size: 12.5px; color: var(--text-muted);
-    }
-    .post-author-row { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
-    .sub-pill {
-      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-      padding: 2px 8px; border-radius: 999px;
-      background: var(--upvote-soft); color: var(--upvote);
-    }
-    .sub-pill.blue { background: var(--accent-soft); color: var(--accent); }
-    .post-handle { font-weight: 700; color: var(--text); }
-    .post-dot { opacity: 0.5; }
-    .pin-tag {
-      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
-      padding: 2px 7px; border-radius: 6px; background: var(--green-soft); color: var(--green);
+    .sec-sub {
+      font-size: 15.5px; color: var(--text-sub); margin-bottom: 28px; max-width: 760px;
     }
 
-    .post-title {
-      font-family: var(--font-display); font-size: 1.15rem; font-weight: 800;
-      color: var(--text); line-height: 1.32; letter-spacing: -0.01em;
+    .sub-bar {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 24px; border-left: 2px solid var(--gold); padding-left: 12px;
     }
-    .post-card:hover .post-title { color: var(--accent); }
+    .sub-bar-left {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.18em; color: var(--text);
+    }
+    .sub-bar-left svg { color: var(--gold); width: 16px; height: 16px; }
+    .filter-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter-pill {
+      padding: 5px 13px; border-radius: 999px; font-family: var(--font-mono);
+      font-size: 11.5px; font-weight: 600;
+      background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); color: var(--text-sub);
+      transition: all 0.18s ease;
+    }
+    html.light .filter-pill { background: #f1f3f4; }
+    .filter-pill:hover { border-color: var(--gold); color: var(--text); }
+    .filter-pill.active {
+      background: var(--emerald-dim); border-color: var(--emerald-border); color: var(--emerald);
+    }
 
-    .post-tldr {
-      font-size: 14.2px; color: var(--text-sub); line-height: 1.55;
+    .showcase-list { display: flex; flex-direction: column; gap: 20px; }
+    .showcase-card {
+      padding: 18px 20px; border-radius: 16px;
+      border: 1px solid var(--border); background: var(--surface);
+      backdrop-filter: blur(12px);
+      display: flex; flex-direction: column; gap: 18px;
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.28s ease;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    }
+    html.light .showcase-card { box-shadow: 0 8px 28px rgba(60, 64, 67, 0.08); }
+    .showcase-card:hover {
+      transform: translateY(-5px) translateX(3px) scale(1.008);
+      border-color: var(--gold); background: var(--surface-hover);
+    }
+    .showcase-card.hidden { display: none; }
+
+    @media (min-width: 768px) {
+      .showcase-card {
+        flex-direction: row; align-items: center; justify-content: space-between; gap: 22px;
+      }
     }
 
-    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
-    .stat-chip {
-      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-      padding: 3px 9px; border-radius: 999px;
-      background: var(--surface); color: var(--text-sub); border: 1px solid var(--border);
+    .card-thumb {
+      position: relative; width: 100%; aspect-ratio: 16 / 9;
+      border-radius: 12px; overflow: hidden; border: 1px solid var(--border);
+      background: #000; flex-shrink: 0; display: block;
+    }
+    @media (min-width: 768px) { .card-thumb { width: 256px; } }
+    .card-thumb img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top;
+      transition: transform 0.45s ease;
+    }
+    .showcase-card:hover .card-thumb img { transform: scale(1.05); }
+    .card-type-badge {
+      position: absolute; top: 8px; left: 8px;
+      padding: 2px 8px; border-radius: 4px;
+      background: rgba(0, 0, 0, 0.82); border: 1px solid rgba(255, 255, 255, 0.14);
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em; color: #34d399;
     }
 
-    .post-media {
-      width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden;
-      border: 1px solid var(--border); background: #000;
+    .card-body { flex: 1; min-width: 0; }
+    .card-meta {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 8px;
     }
-    .post-media img {
-      width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;
+    .card-domain { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
+    .card-badge {
+      font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--gold);
+      padding: 2px 8px; border-radius: 4px;
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
     }
-    .post-card:hover .post-media img { transform: scale(1.02); }
+    .card-title {
+      font-family: var(--font-serif); font-size: 1.22rem; font-weight: 700;
+      color: var(--text); margin-bottom: 6px; line-height: 1.32;
+      transition: color 0.2s ease;
+    }
+    .showcase-card:hover .card-title { color: var(--gold); }
+    .card-desc {
+      font-size: 13.5px; color: var(--text-sub); line-height: 1.55;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
 
-    .post-actions {
-      display: flex; align-items: center; justify-content: space-between;
-      padding-top: 8px; border-top: 1px solid var(--border);
-      font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    .card-cta-wrap { width: 100%; flex-shrink: 0; }
+    @media (min-width: 768px) { .card-cta-wrap { width: auto; } }
+    .card-cta {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 13px 22px; border-radius: 12px;
+      background: #ffffff; color: #000000;
+      font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
-    .action-pill {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 5px 11px; border-radius: 999px; background: var(--surface); color: var(--text-sub);
+    .showcase-card:hover .card-cta {
+      background: var(--gold); color: #000000; transform: scale(1.03);
     }
-    .read-cta {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 6px 14px; border-radius: 999px;
-      background: var(--accent); color: #ffffff; font-weight: 700;
-    }
+    html.light .card-cta { background: #1a73e8; color: #ffffff; }
+    html.light .showcase-card:hover .card-cta { background: #174ea6; color: #ffffff; }
 
     footer {
-      text-align: center; padding: 24px 14px; font-size: 12px; color: var(--text-muted);
-      border-top: 1px solid var(--border);
+      padding: 44px 24px; border-top: 1px solid var(--border);
+      background: var(--bg); position: relative; z-index: 1;
     }
-    footer a { color: var(--accent); font-weight: 600; }
-
-    @media (max-width: 600px) {
-      .brand-sec, .brand-sep { display: none; }
-      .post-title { font-size: 1.05rem; }
+    .footer-inner {
+      max-width: 1120px; margin: 0 auto;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    @media (min-width: 768px) { .footer-inner { flex-direction: row; } }
+    .footer-copy {
+      font-size: 10.5px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.06em;
     }
   </style>
 </head>
 <body>
+  <div id="progress-bar"></div>
+  <div id="cursor-ring" class="cursor-ring"></div>
+  <div id="cursor-dot" class="cursor-dot"></div>
+  <canvas id="fluid-canvas"></canvas>
+
   <header class="topbar">
     <div class="topbar-inner">
       <a href="/" class="brand">
         <span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span>
         <span class="brand-sep">|</span>
-        <span class="brand-sec" data-i18n="blogHeaderBrand">Feed</span>
+        <span class="brand-sec" data-i18n="blogHeaderBrand">Blog</span>
       </a>
       <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
         <nav class="topnav">
-          <a href="/vcard/">vCard</a>
-          <a href="/tutorials/" data-i18n="navTutorials">Tutorials</a>
-          <a href="/blog/" style="color:var(--accent);font-weight:700;" data-i18n="navBlog">Blog</a>
-          <a href="/archive/" data-i18n="navArchive">Archive</a>
-          <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a>
+          <a href="/vcard/" class="hero-pill-btn hero-pill-github"><span>vCard</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/archive/" class="hero-pill-btn hero-pill-github"><span data-i18n="navArchive">Archive</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/blog/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navBlog">Blog</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/tutorials/" class="hero-pill-btn hero-pill-github"><span data-i18n="navTutorials">Tutorials</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navPortfolio">Main Portal</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
         </nav>
-        <button class="ctrl-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">☾</button>
+        <button class="topbar-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Light / Dark Theme">☾</button>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
-          <button class="ctrl-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
+          <button class="topbar-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
             <span id="current-lang-label">EN</span>
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
           <div class="lang-popup" id="lang-popup">
-            <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span><span>EN</span></button>
-            <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span><span>KO</span></button>
-            <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span><span>JA</span></button>
-            <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span><span>ZH</span></button>
-            <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span><span>ES</span></button>
+            <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span></button>
+            <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span></button>
+            <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span></button>
+            <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span></button>
+            <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span></button>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <main class="feed-wrap">
-    <section class="profile-banner">
-      <div class="profile-top">
-        <div class="profile-id">
-          <div class="avatar-circle">MC</div>
-          <div>
-            <div class="profile-name">
-              <span data-i18n="feedAuthor">Minsu (Max) Chang</span>
-              <span class="verified-badge" title="Ph.D. Robotics Research Engineer">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"/></svg>
-              </span>
-            </div>
-            <div class="profile-handle">@mincasurong • r/PhysicalAI &amp; r/CodingAgents</div>
-          </div>
-        </div>
-      </div>
-      <p class="profile-bio" data-i18n="hubSub">
-        Short, visual deep-dives on multi-robot VLA planning in Isaac Sim &amp; ROS 2, deterministic robot safety gates, and coding agent harnesses.
-      </p>
-      <div class="feed-tabs" role="tablist">
-        <button class="feed-tab active" onclick="filterFeed('all', this)" data-i18n="tabAll">All Posts (3)</button>
-        <button class="feed-tab" onclick="filterFeed('robotics', this)" data-i18n="tabRobotics">r/PhysicalAI &amp; Robotics (2)</button>
-        <button class="feed-tab" onclick="filterFeed('agents', this)" data-i18n="tabAgents">r/CodingAgents (1)</button>
-      </div>
-    </section>
+  <main class="main-wrap">
+    <div class="sec-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></svg>
+      <h1 class="sec-eyebrow" data-i18n="hubTitle">M9G Technical Research &amp; Engineering Blog</h1>
+    </div>
+    <p class="sec-sub" data-i18n="hubSub">
+      Concise engineering disclosures on multi-robot VLA manipulation in NVIDIA Isaac Sim 6.0 &amp; ROS 2, deterministic robot safety gates, and multi-agent coding harnesses.
+    </p>
 
-    <div class="post-list">
-      <a href="/blog/stamp/" class="post-card" data-topic="robotics">
-        <div class="post-header">
-          <div class="post-author-row">
-            <span class="sub-pill">r/PhysicalAI</span>
-            <span class="post-handle">@mincasurong</span>
-            <span class="post-dot">•</span>
-            <span>Oct 25</span>
-          </div>
-          <span class="pin-tag">NEW • #03</span>
-        </div>
-        <h2 class="post-title" data-i18n="b3Title">
-          Project STAMP: Why You Should Never Let an LLM Send Unverified Commands to a Robot Arm
-        </h2>
-        <p class="post-tldr" data-i18n="b3Desc">
-          We put a 4-layer deterministic safety gate (IK reachability, 3D collision boxes, joint torque limits, and zone locks) between Gemini 4 Argon and 3 Franka FR3 arms. Result: 100% of physical faults caught before execution and 100% task recovery across 1,000 episodes.
-        </p>
-        <div class="chip-row">
-          <span class="stat-chip">🛡️ 610/610 Faults Blocked</span>
-          <span class="stat-chip">📈 39% → 100% Success</span>
-          <span class="stat-chip">🎬 Veo Video + Graphs</span>
-        </div>
-        <div class="post-media">
+    <div class="sub-bar">
+      <div class="sub-bar-left">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        <span data-i18n="feedHeader">Published Research Posts (3)</span>
+      </div>
+      <div class="filter-pills">
+        <button class="filter-pill active" onclick="filterFeed('all', this)" data-i18n="tabAll">All (3)</button>
+        <button class="filter-pill" onclick="filterFeed('robotics', this)" data-i18n="tabRobotics">Physical AI &amp; Robotics (2)</button>
+        <button class="filter-pill" onclick="filterFeed('agents', this)" data-i18n="tabAgents">Coding Agents (1)</button>
+      </div>
+    </div>
+
+    <div class="showcase-list">
+      <div class="showcase-card" data-topic="robotics">
+        <a href="/blog/stamp/" class="card-thumb">
           <img src="/screenshots/stamp-architecture-nanobanana.png" alt="Project STAMP Architecture" loading="lazy" />
-        </div>
-        <div class="post-actions">
-          <span class="action-pill">▲ 1,000-Episode Benchmark</span>
-          <span class="read-cta" data-i18n="b3Btn">Open Thread →</span>
-        </div>
-      </a>
-
-      <a href="/blog/m9g-agent/" class="post-card" data-topic="agents">
-        <div class="post-header">
-          <div class="post-author-row">
-            <span class="sub-pill blue">r/CodingAgents</span>
-            <span class="post-handle">@mincasurong</span>
-            <span class="post-dot">•</span>
-            <span>Oct 20</span>
+          <span class="card-type-badge">Blog 03 • STAMP</span>
+        </a>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-domain">mincasurong.github.io/blog/stamp</span>
+            <span>•</span>
+            <span class="card-badge">100% Fault Interception • 1,000 Episodes</span>
           </div>
-          <span class="pin-tag">#02</span>
+          <h2 class="card-title"><a href="/blog/stamp/" data-i18n="b3Title">Project STAMP: Deterministic Verification Gates &amp; Closed-Loop Context Repair for Multi-Arm VLA Planning</a></h2>
+          <p class="card-desc" data-i18n="b3Desc">4-stage Plan → Gate → Execute → Write-Back pipeline blocking 610/610 physical IK, collision, torque, and zone-lock faults and raising task completion from 39% to 100%.</p>
         </div>
-        <h2 class="post-title" data-i18n="b2Title">
-          We Built a 28-Module Multi-Agent Coding Harness from Scratch—Here Is Why It Failed Against OmO, OpenCode &amp; Claude Code
-        </h2>
-        <p class="post-tldr" data-i18n="b2Desc">
-          All 169 unit tests passed, yet our custom harness felt slower and more brittle than OmO, OpenCode, Claude Code, and Antigravity. We break down the 6 root causes—and why we pivoted our best tools (AST skeletonizer, shadow Git checkpoints, SHA-256 hashline edits) into an MCP server.
-        </p>
-        <div class="chip-row">
-          <span class="stat-chip">🔍 6 Failure Causes</span>
-          <span class="stat-chip">⚡ 75–90% AST Compression</span>
-          <span class="stat-chip">🛠️ Pivoted to m9g-mcp</span>
+        <div class="card-cta-wrap">
+          <a href="/blog/stamp/" class="card-cta">
+            <span data-i18n="b3Btn">Read STAMP Blog</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </a>
         </div>
-        <div class="post-media">
+      </div>
+
+      <div class="showcase-card" data-topic="agents">
+        <a href="/blog/m9g-agent/" class="card-thumb">
           <img src="/screenshots/m9g-agent-corps-architecture.png" alt="m9g-agent-corps vs Production Harnesses" loading="lazy" />
-        </div>
-        <div class="post-actions">
-          <span class="action-pill">▲ 5-Harness Comparison</span>
-          <span class="read-cta" data-i18n="b2Btn">Open Thread →</span>
-        </div>
-      </a>
-
-      <a href="/blog/VLA/" class="post-card" data-topic="robotics">
-        <div class="post-header">
-          <div class="post-author-row">
-            <span class="sub-pill">r/PhysicalAI</span>
-            <span class="post-handle">@mincasurong</span>
-            <span class="post-dot">•</span>
-            <span>Oct 18</span>
+          <span class="card-type-badge">Blog 02 • Agents</span>
+        </a>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-domain">mincasurong.github.io/blog/m9g-agent</span>
+            <span>•</span>
+            <span class="card-badge">28 Modules • m9g vs. OmO / OpenCode / Claude / agy</span>
           </div>
-          <span class="pin-tag">#01</span>
+          <h2 class="card-title"><a href="/blog/m9g-agent/" data-i18n="b2Title">Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode &amp; Claude Code</a></h2>
+          <p class="card-desc" data-i18n="b2Desc">Why our 28-module, 169-test standalone harness lagged pre-existing harnesses across 6 root failure modes—and how we extracted its best substrates into the m9g-mcp server.</p>
         </div>
-        <h2 class="post-title" data-i18n="b1Title">
-          Do Multi-Robot VLA Planners Actually Need Overhead RGB Cameras? (Gemini Robotics-ER 2 vs. Gemini 4 Argon)
-        </h2>
-        <p class="post-tldr" data-i18n="b1Desc">
-          By replacing RGB camera streams with 50 Hz 3D /tf coordinates and pairing 1x Gemini 4 Argon (planner) with 10x Flash-Lite (executor), 3 Franka FR3 arms stacked a 9-block tower in 10 turns instead of 13—cutting API cost by 76.6% ($0.01972) with zero image tokens.
-        </p>
-        <div class="chip-row">
-          <span class="stat-chip">💰 -76.6% API Cost</span>
-          <span class="stat-chip">⏱️ 10 Turns vs. 13</span>
-          <span class="stat-chip">📷 0 RGB Tokens</span>
+        <div class="card-cta-wrap">
+          <a href="/blog/m9g-agent/" class="card-cta">
+            <span data-i18n="b2Btn">Read Agent Blog</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </a>
         </div>
-        <div class="post-media">
-          <img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Arm VLA Benchmark" loading="lazy" />
+      </div>
+
+      <div class="showcase-card" data-topic="robotics">
+        <a href="/blog/VLA/" class="card-thumb">
+          <img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Arm VLA Task Planner Benchmark" loading="lazy" />
+          <span class="card-type-badge">Blog 01 • VLA</span>
+        </a>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-domain">mincasurong.github.io/blog/VLA</span>
+            <span>•</span>
+            <span class="card-badge">3-Arm FR3 Tower • -76.6% API Cost ($0.01972)</span>
+          </div>
+          <h2 class="card-title"><a href="/blog/VLA/" data-i18n="b1Title">Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: Gemini Robotics-ER 2 vs. Gemini 4 Argon</a></h2>
+          <p class="card-desc" data-i18n="b1Desc">3-stage hardware-in-the-loop benchmark in Isaac Sim 6.0 &amp; ROS 2 Jazzy achieving a 10-turn pipelined schedule with 0 RGB image tokens and -68.7% step latency.</p>
         </div>
-        <div class="post-actions">
-          <span class="action-pill">▲ Isaac Sim 6.0 + ROS 2</span>
-          <span class="read-cta" data-i18n="b1Btn">Open Thread →</span>
+        <div class="card-cta-wrap">
+          <a href="/blog/VLA/" class="card-cta">
+            <span data-i18n="b1Btn">Read VLA Blog</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </a>
         </div>
-      </a>
+      </div>
     </div>
   </main>
 
   <footer>
-    © 2026 <strong>Minsu (Max) Chang, Ph.D.</strong> • <a href="/">Main Portal</a> • <a href="/vcard/">Digital vCard</a> • <a href="/tutorials/">Tutorials</a> • <a href="/archive/">Archive</a>
+    <div class="footer-inner">
+      <p class="footer-copy">© 2026 M9G • Build in Public</p>
+      <div style="display:inline-flex; align-items:center; gap:10px;">
+        <a href="https://www.linkedin.com/in/mincasurong/" target="_blank" rel="noopener" class="hero-pill-btn hero-pill-linkedin"><span>LinkedIn</span><span>↗</span></a>
+        <a href="https://github.com/mincasurong" target="_blank" rel="noopener" class="hero-pill-btn hero-pill-github"><span>GitHub</span><span>↗</span></a>
+      </div>
+    </div>
   </footer>
 
   <script>
+    window.addEventListener('scroll', function() {
+      var doc = document.documentElement;
+      var top = doc.scrollTop || document.body.scrollTop;
+      var height = doc.scrollHeight - doc.clientHeight;
+      var bar = document.getElementById('progress-bar');
+      if (bar) bar.style.width = (height > 0 ? (top / height) * 100 : 0) + '%';
+    }, { passive: true });
+
+    (function initInteractiveCursor() {
+      var ring = document.getElementById('cursor-ring');
+      var dot = document.getElementById('cursor-dot');
+      if (!ring || !dot || window.matchMedia('(pointer: coarse)').matches) return;
+      var mx = -100, my = -100, rx = -100, ry = -100;
+      window.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = 'translate3d(' + (mx - 3) + 'px,' + (my - 3) + 'px,0)';
+      }, { passive: true });
+      function tickCursor() {
+        rx += (mx - rx) * 0.18;
+        ry += (my - ry) * 0.18;
+        ring.style.transform = 'translate3d(' + (rx - 16) + 'px,' + (ry - 16) + 'px,0)';
+        requestAnimationFrame(tickCursor);
+      }
+      requestAnimationFrame(tickCursor);
+    })();
+
+    (function initFluidCanvas() {
+      var canvas = document.getElementById('fluid-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var width = canvas.width = window.innerWidth;
+      var height = canvas.height = window.innerHeight;
+      window.addEventListener('resize', function() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+      var mouse = { x: -1000, y: -1000 };
+      window.addEventListener('mousemove', function(e) {
+        mouse.x = e.clientX; mouse.y = e.clientY;
+      }, { passive: true });
+      var count = Math.min(64, Math.max(28, Math.floor((width * height) / 22000)));
+      var particles = [];
+      for (var i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * width, y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.55, vy: (Math.random() - 0.5) * 0.55,
+          r: Math.random() * 1.9 + 0.9, gold: i % 3 === 0
+        });
+      }
+      function renderParticles() {
+        ctx.clearRect(0, 0, width, height);
+        var isLight = document.documentElement.classList.contains('light');
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+          var dxm = p.x - mouse.x, dym = p.y - mouse.y;
+          var distMouse = Math.sqrt(dxm * dxm + dym * dym);
+          if (distMouse < 140 && distMouse > 0) {
+            p.x += (dxm / distMouse) * 1.25; p.y += (dym / distMouse) * 1.25;
+          }
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.gold
+            ? (isLight ? 'rgba(26, 115, 232, 0.55)' : 'rgba(212, 175, 55, 0.65)')
+            : (isLight ? 'rgba(95, 99, 104, 0.35)' : 'rgba(96, 165, 250, 0.45)');
+          ctx.fill();
+          for (var j = i + 1; j < particles.length; j++) {
+            var q = particles[j];
+            var dx = p.x - q.x, dy = p.y - q.y;
+            var d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 130) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+              var alpha = (1 - d / 130) * (isLight ? 0.16 : 0.2);
+              ctx.strokeStyle = (p.gold || q.gold)
+                ? (isLight ? 'rgba(26, 115, 232, ' + alpha + ')' : 'rgba(212, 175, 55, ' + alpha + ')')
+                : (isLight ? 'rgba(95, 99, 104, ' + alpha + ')' : 'rgba(148, 163, 184, ' + alpha + ')');
+              ctx.lineWidth = 0.75;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(renderParticles);
+      }
+      requestAnimationFrame(renderParticles);
+    })();
+
     function filterFeed(topic, btnEl) {
-      document.querySelectorAll('.feed-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
       if (btnEl) btnEl.classList.add('active');
-      document.querySelectorAll('.post-card').forEach(card => {
-        const t = card.getAttribute('data-topic');
+      document.querySelectorAll('.showcase-card').forEach(card => {
+        var t = card.getAttribute('data-topic');
         card.classList.toggle('hidden', topic !== 'all' && t !== topic);
       });
     }
 
     function applyTheme(t) {
-      const root = document.documentElement;
-      const btn = document.getElementById('theme-btn');
-      if (t === 'dark') {
-        root.classList.add('dark');
+      var root = document.documentElement;
+      var btn = document.getElementById('theme-btn');
+      if (t === 'light') {
+        root.classList.add('light'); root.classList.remove('dark');
         if (btn) btn.textContent = '☀';
       } else {
-        root.classList.remove('dark');
+        root.classList.add('dark'); root.classList.remove('light');
         if (btn) btn.textContent = '☾';
       }
     }
     function toggleTheme() {
-      const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
-      try { localStorage.setItem('m9g_blog_theme', next); } catch (e) {}
+      var next = document.documentElement.classList.contains('light') ? 'dark' : 'light';
+      try { localStorage.setItem('m9g-theme', next); } catch (e) {}
       applyTheme(next);
     }
-    applyTheme((function() { try { return localStorage.getItem('m9g_blog_theme') || 'light'; } catch (e) { return 'light'; } })());
+    applyTheme((function() { try { return localStorage.getItem('m9g-theme') || 'dark'; } catch (e) { return 'dark'; } })());
 
-    const HUB_I18N = {
+    var HUB_I18N = {
       en: {
-        blogHeaderBrand: "Feed", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
-        feedAuthor: "Minsu (Max) Chang",
-        hubSub: "Short, visual deep-dives on multi-robot VLA planning in Isaac Sim & ROS 2, deterministic robot safety gates, and coding agent harnesses.",
-        tabAll: "All Posts (3)", tabRobotics: "r/PhysicalAI & Robotics (2)", tabAgents: "r/CodingAgents (1)",
-        b3Title: "Project STAMP: Why You Should Never Let an LLM Send Unverified Commands to a Robot Arm",
-        b3Desc: "We put a 4-layer deterministic safety gate (IK reachability, 3D collision boxes, joint torque limits, and zone locks) between Gemini 4 Argon and 3 Franka FR3 arms. Result: 100% of physical faults caught before execution and 100% task recovery across 1,000 episodes.",
-        b3Btn: "Open Thread →",
-        b2Title: "We Built a 28-Module Multi-Agent Coding Harness from Scratch—Here Is Why It Failed Against OmO, OpenCode & Claude Code",
-        b2Desc: "All 169 unit tests passed, yet our custom harness felt slower and more brittle than OmO, OpenCode, Claude Code, and Antigravity. We break down the 6 root causes—and why we pivoted our best tools (AST skeletonizer, shadow Git checkpoints, SHA-256 hashline edits) into an MCP server.",
-        b2Btn: "Open Thread →",
-        b1Title: "Do Multi-Robot VLA Planners Actually Need Overhead RGB Cameras? (Gemini Robotics-ER 2 vs. Gemini 4 Argon)",
-        b1Desc: "By replacing RGB camera streams with 50 Hz 3D /tf coordinates and pairing 1x Gemini 4 Argon (planner) with 10x Flash-Lite (executor), 3 Franka FR3 arms stacked a 9-block tower in 10 turns instead of 13—cutting API cost by 76.6% ($0.01972) with zero image tokens.",
-        b1Btn: "Open Thread →"
+        blogHeaderBrand: "Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
+        hubTitle: "M9G Technical Research & Engineering Blog",
+        hubSub: "Concise engineering disclosures on multi-robot VLA manipulation in NVIDIA Isaac Sim 6.0 & ROS 2, deterministic robot safety gates, and multi-agent coding harnesses.",
+        feedHeader: "Published Research Posts (3)",
+        tabAll: "All (3)", tabRobotics: "Physical AI & Robotics (2)", tabAgents: "Coding Agents (1)",
+        b3Title: "Project STAMP: Deterministic Verification Gates & Closed-Loop Context Repair for Multi-Arm VLA Planning",
+        b3Desc: "4-stage Plan → Gate → Execute → Write-Back pipeline blocking 610/610 physical IK, collision, torque, and zone-lock faults and raising task completion from 39% to 100%.",
+        b3Btn: "Read STAMP Blog",
+        b2Title: "Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode & Claude Code",
+        b2Desc: "Why our 28-module, 169-test standalone harness lagged pre-existing harnesses across 6 root failure modes—and how we extracted its best substrates into the m9g-mcp server.",
+        b2Btn: "Read Agent Blog",
+        b1Title: "Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: Gemini Robotics-ER 2 vs. Gemini 4 Argon",
+        b1Desc: "3-stage hardware-in-the-loop benchmark in Isaac Sim 6.0 & ROS 2 Jazzy achieving a 10-turn pipelined schedule with 0 RGB image tokens and -68.7% step latency.",
+        b1Btn: "Read VLA Blog"
       },
       ko: {
-        blogHeaderBrand: "피드", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
-        feedAuthor: "장민수 (Minsu Max Chang)",
-        hubSub: "Isaac Sim & ROS 2 다중 로봇 VLA 제어, 로봇 안전 게이트(STAMP), 코딩 에이전트 하네스 실험을 한눈에 읽는 스레드형 피드입니다.",
-        tabAll: "전체 글 (3)", tabRobotics: "r/PhysicalAI & 로보틱스 (2)", tabAgents: "r/CodingAgents (1)",
-        b3Title: "Project STAMP: 왜 LLM이 로봇 팔에 직접 명령을 내리게 두면 안 될까?",
-        b3Desc: "Gemini 4 Argon과 3대 Franka FR3 로봇 팔 사이에 4단계 물리 안전 게이트(역기구학, 3D 충돌 박스, 토크 한계, 구역 잠금)를 배치했습니다. 1,000번의 실험 동안 위험 명령을 100% 사전 차단하고 작업 성공률을 39%에서 100%로 끌어올렸습니다.",
-        b3Btn: "스레드 읽기 →",
-        b2Title: "28개 모듈짜리 멀티에이전트 코딩 하네스를 직접 만들어보고 깨달은 실패 원인과 교훈 (vs. OmO, OpenCode, Claude Code)",
-        b2Desc: "단위 테스트 169개를 모두 통과했지만 실전에서는 OmO, OpenCode, Claude Code보다 느리고 불안정했습니다. 직접 부딪히며 찾은 6가지 실패 원인과, 핵심 기술(AST 압축, 섀도우 Git, 해시라인 편집)을 MCP 서버로 전환한 이유를 정리했습니다.",
-        b2Btn: "스레드 읽기 →",
-        b1Title: "다중 로봇 VLA 플래너에 정말 무거운 RGB 카메라 영상이 필요할까? (Gemini Robotics-ER 2 vs. Gemini 4 Argon)",
-        b1Desc: "카메라 이미지 대신 50 Hz 3D /tf 좌표만 전달하고 Turn-0 Argon 두뇌와 Flash-Lite 실행기를 결합해 3대 로봇 팔의 9블록 타워 조립을 13턴에서 10턴으로 단축하고 API 비용을 76.6%($0.01972) 절감했습니다.",
-        b1Btn: "스레드 읽기 →"
+        blogHeaderBrand: "블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
+        hubTitle: "M9G 기술 리서치 & 엔지니어링 블로그",
+        hubSub: "NVIDIA Isaac Sim 6.0 및 ROS 2 다중 로봇 VLA 제어, 결정론적 안전 검증 게이트(STAMP), 멀티에이전트 코딩 하네스 연구 리포트.",
+        feedHeader: "발표된 기술 리포트 (3편)",
+        tabAll: "전체 (3)", tabRobotics: "피지컬 AI & 로보틱스 (2)", tabAgents: "코딩 에이전트 (1)",
+        b3Title: "Project STAMP: 다중 로봇 팔 VLA 플래닝을 위한 결정론적 검증 게이트 및 폐루프 복구",
+        b3Desc: "Plan → Gate → Execute → Write-Back 4단계 안전 파이프라인으로 1,000회 실험 중 610건의 물리 결함을 100% 사전 차단하고 작업 성공률을 39%에서 100%로 향상.",
+        b3Btn: "STAMP 블로그 읽기",
+        b2Title: "멀티에이전트 코딩 하네스 자체 구축 시도와 실패 분석: m9g-agent-corps vs. OmO, OpenCode, Claude Code",
+        b2Desc: "28개 모듈·169개 테스트의 독자 하네스가 실전에서 기존 하네스에 뒤처진 6가지 구조적 원인과 핵심 기질을 m9g-mcp 서버로 전환한 과정.",
+        b2Btn: "에이전트 블로그 읽기",
+        b1Title: "3D 심볼릭 그라운딩 및 소프트웨어 파이프라인 VLA 태스크 플래닝: ER-2 vs. Gemini 4 Argon",
+        b1Desc: "Isaac Sim 6.0 & ROS 2 Jazzy 3대 로봇 팔 벤치마크: 카메라 이미지 토큰 없이 10턴 파이프라인 스케줄을 도출해 API 비용을 76.6%($0.01972) 절감.",
+        b1Btn: "VLA 블로그 읽기"
       },
       ja: {
-        blogHeaderBrand: "フィード", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
-        feedAuthor: "Minsu (Max) Chang",
-        hubSub: "Isaac Sim & ROS 2 マルチ 로봇 VLA 計画、安全ゲート (STAMP)、コーディングエージェントに関する簡潔なスレッド型フィード。",
-        tabAll: "すべて (3)", tabRobotics: "r/PhysicalAI & ロボティクス (2)", tabAgents: "r/CodingAgents (1)",
-        b3Title: "Project STAMP：なぜLLMからロボットアームへ未検証コマンドを直接送ってはいけないのか",
-        b3Desc: "Gemini 4 Argon と3台の Franka FR3 の間に4層の決定論的ゲート（逆運動学、3D干渉、トルク制限、ゾーン排他ロック）を配置。1,000エピソードで物理障害を100%遮断し、成功率を39%から100%へ引き上げました。",
-        b3Btn: "スレッドを開く →",
-        b2Title: "28モジュールのマルチエージェント・ハーネスを自作して分かった失敗の理由（対 OmO / OpenCode / Claude Code）",
-        b2Desc: "169個の単体テストを通過しても、実戦では OmO や Claude Code に勝てませんでした。6つの構造的原因と、AST圧縮・Shadow Git・Hashline編集を MCP サーバーへ転換した経緯を解説します。",
-        b2Btn: "スレッドを開く →",
-        b1Title: "マルチロボットVLA計画にRGBカメラ画像は本当に必要か？（Gemini Robotics-ER 2 vs. Gemini 4 Argon）",
-        b1Desc: "RGB画像の代わりに 50 Hz 3D /tf 座標を用い、Turn-0 Argon と Flash-Lite を組み合わせることで、9ブロック組立を13ターンから10ターンに短縮し、APIコストを76.6% ($0.01972) 削減しました。",
-        b1Btn: "スレッドを開く →"
+        blogHeaderBrand: "ブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
+        hubTitle: "M9G 技術リサーチ & エンジニアリングブログ",
+        hubSub: "NVIDIA Isaac Sim 6.0 & ROS 2 マルチロボットVLA制御、決定論的安全ゲート (STAMP)、マルチエージェント・ハーネスに関する技術記事。",
+        feedHeader: "公開リサーチ記事 (3)",
+        tabAll: "すべて (3)", tabRobotics: "フィジカルAI & ロボティクス (2)", tabAgents: "コーディングエージェント (1)",
+        b3Title: "Project STAMP：マルチアームVLA計画のための決定論的検証ゲートと閉ループ文脈修復",
+        b3Desc: "4段階パイプラインにより1,000エピソードで610件の物理障害を100%遮断し、タスク完遂率を39%から100%へ向上。",
+        b3Btn: "STAMP 記事を読む",
+        b2Title: "マルチエージェント・ハーネスの独自構築と失敗の記録：m9g-agent-corps vs. OmO / OpenCode / Claude Code",
+        b2Desc: "28モジュール・169テストの自作ハーネスが既存ハーネスに及ばなかった6つの原因と、m9g-mcp サーバーへのピボット。",
+        b2Btn: "エージェント記事を読む",
+        b1Title: "3Dシンボリック接地とソフトウェアパイプラインVLA計画：ER-2 vs. Gemini 4 Argon",
+        b1Desc: "RGB画像トークンなしで10ターン並列スケジュールを導出し、APIコストを76.6% ($0.01972) 削減した3台FR3ベンチマーク。",
+        b1Btn: "VLA 記事を読む"
       },
       zh: {
-        blogHeaderBrand: "动态流", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
-        feedAuthor: "Minsu (Max) Chang",
-        hubSub: "以极简推文/帖子形式分享 Isaac Sim & ROS 2 多臂 VLA 规划、机器人安全门控 (STAMP) 与编码智能体框架实战。",
-        tabAll: "全部帖子 (3)", tabRobotics: "r/PhysicalAI 与机器人 (2)", tabAgents: "r/CodingAgents (1)",
-        b3Title: "Project STAMP：为什么绝不能让大模型直接向机械臂发送未验证的动作指令？",
-        b3Desc: "我们在 Gemini 4 Argon 与 3 台 Franka FR3 之间加入了 4 层确定性安全门控（逆运动学、3D 碰撞盒、力矩极限与区域锁），在 1,000 轮实验中 100% 拦截硬件故障，将任务成功率从 39% 提升至 100%。",
-        b3Btn: "查看帖子 →",
-        b2Title: "从零手搓 28 个模块的多智能体编码框架后，我们为什么败给了 OmO、OpenCode 与 Claude Code？",
-        b2Desc: "虽然通过了 169 项单元测试，但自研框架在日常使用中仍不如成熟框架流畅。本文复盘了 6 个核心踩坑原因，以及我们如何将 AST 骨架压缩、影子 Git 与哈希行编辑转型为 MCP 服务器。",
-        b2Btn: "查看帖子 →",
-        b1Title: "多机械臂 VLA 规划真的需要持续传输 RGB 相机图像吗？（Gemini Robotics-ER 2 vs. Gemini 4 Argon）",
-        b1Desc: "用 50 Hz 3D /tf 坐标替代 RGB 图像，结合 Turn-0 Argon 规划与 Flash-Lite 执行，3 台机械臂仅用 10 轮（原 13 轮）完成 9 积木塔装配，API 成本降低 76.6% ($0.01972)。",
-        b1Btn: "查看帖子 →"
+        blogHeaderBrand: "博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
+        hubTitle: "M9G 技术研究与系统工程博客",
+        hubSub: "聚焦 NVIDIA Isaac Sim 6.0 与 ROS 2 多臂 VLA 操控、Project STAMP 确定性安全门控与多智能体编码框架。",
+        feedHeader: "已发布技术报告 (3)",
+        tabAll: "全部 (3)", tabRobotics: "物理 AI 与机器人 (2)", tabAgents: "编码智能体 (1)",
+        b3Title: "Project STAMP：面向多机械臂 VLA 规划的确定性验证门控与闭环上下文修复",
+        b3Desc: "通过 Plan → Gate → Execute → Write-Back 四阶段安全门控，在 1,000 轮实验中 100% 拦截 610 次物理故障，将任务完成率从 39% 提升至 100%。",
+        b3Btn: "阅读 STAMP 博客",
+        b2Title: "从零构建多智能体编码框架及其失败复盘：m9g-agent-corps 对比 OmO、OpenCode 与 Claude Code",
+        b2Desc: "深度复盘 28 模块、169 测试自研框架败给成熟框架的 6 个根源，以及向 m9g-mcp 工具服务器的架构转型。",
+        b2Btn: "阅读智能体博客",
+        b1Title: "3D 符号空间接地与软件流水线 VLA 任务规划：Gemini Robotics-ER 2 对比 Gemini 4 Argon",
+        b1Desc: "Isaac Sim 6.0 与 ROS 2 三机械臂基准测试：零 RGB 图像 Token 实现 10 轮流水线调度，单次实验 API 成本降低 76.6% ($0.01972)。",
+        b1Btn: "阅读 VLA 博客"
       },
       es: {
-        blogHeaderBrand: "Feed", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
-        feedAuthor: "Minsu (Max) Chang",
-        hubSub: "Hilos cortos y visuales sobre planificación VLA multirrobot en Isaac Sim y ROS 2, compuertas de seguridad (STAMP) y agentes de código.",
-        tabAll: "Todos (3)", tabRobotics: "r/PhysicalAI y Robótica (2)", tabAgents: "r/CodingAgents (1)",
-        b3Title: "Project STAMP: Por qué nunca debes dejar que un LLM envíe comandos sin verificar a un brazo robótico",
-        b3Desc: "Colocamos una compuerta determinista de 4 capas (IK, colisiones 3D, par y bloqueos de zona) entre Gemini 4 Argon y 3 brazos Franka FR3: 100% de fallos bloqueados y 100% de éxito en 1,000 episodios.",
-        b3Btn: "Abrir Hilo →",
-        b2Title: "Construimos un Harness Multi-Agente de 28 Módulos desde Cero: Por Qué Fracasó frente a OmO, OpenCode y Claude Code",
-        b2Desc: "Superó 169 pruebas unitarias, pero en la práctica fue más lento y frágil que OmO, OpenCode y Claude Code. Analizamos las 6 causas y cómo convertimos sus mejores herramientas en un servidor MCP.",
-        b2Btn: "Abrir Hilo →",
-        b1Title: "¿Realmente Necesitan Cámaras RGB los Planificadores VLA Multirrobot? (Gemini Robotics-ER 2 vs. Gemini 4 Argon)",
-        b1Desc: "Reemplazando imágenes RGB por coordenadas 3D /tf a 50 Hz con Argon + Flash-Lite, 3 brazos FR3 apilaron 9 bloques en 10 turnos en vez de 13, reduciendo el costo API en un 76.6% ($0.01972).",
-        b1Btn: "Abrir Hilo →"
+        blogHeaderBrand: "Blog", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
+        hubTitle: "Blog de Investigación e Ingeniería M9G",
+        hubSub: "Artículos técnicos sobre manipulación VLA multirrobot en NVIDIA Isaac Sim 6.0 y ROS 2, compuertas de seguridad deterministas (STAMP) y agentes de código.",
+        feedHeader: "Artículos Publicados (3)",
+        tabAll: "Todos (3)", tabRobotics: "IA Física y Robótica (2)", tabAgents: "Agentes de Código (1)",
+        b3Title: "Project STAMP: Compuertas de Verificación Deterministas y Reparación en Lazo Cerrado para Planificación VLA Multi-Brazo",
+        b3Desc: "Pipeline de 4 etapas (Plan → Gate → Execute → Write-Back) que intercepta 610/610 fallos físicos y eleva el éxito del 39% al 100% en 1,000 episodios.",
+        b3Btn: "Leer Blog STAMP",
+        b2Title: "Construyendo un Harness Multi-Agente desde Cero y Por Qué Fracasó: m9g-agent-corps frente a OmO, OpenCode y Claude Code",
+        b2Desc: "Por qué nuestro harness de 28 módulos y 169 pruebas fue superado por harnesses en producción y cómo extrajimos sus herramientas al servidor m9g-mcp.",
+        b2Btn: "Leer Blog Agentes",
+        b1Title: "Anclaje Simbólico 3D y Planificación VLA Segmentada: Gemini Robotics-ER 2 vs. Gemini 4 Argon",
+        b1Desc: "Benchmark de 3 brazos FR3 en Isaac Sim 6.0 y ROS 2 logrando un cronograma de 10 turnos con 0 tokens RGB y -76.6% de costo API ($0.01972).",
+        b1Btn: "Leer Blog VLA"
       }
     };
 
@@ -505,28 +657,28 @@
       e.stopPropagation();
       document.getElementById('lang-popup').classList.toggle('open');
     }
-    document.addEventListener('click', e => {
-      const wrap = document.getElementById('lang-dropdown-wrap');
+    document.addEventListener('click', function(e) {
+      var wrap = document.getElementById('lang-dropdown-wrap');
       if (wrap && !wrap.contains(e.target)) document.getElementById('lang-popup').classList.remove('open');
     });
     function setLang(lang) {
       if (!HUB_I18N[lang]) lang = 'en';
       try { localStorage.setItem('m9g_portfolio_lang', lang); } catch (e) {}
       document.documentElement.lang = lang;
-      const lbl = document.getElementById('current-lang-label');
+      var lbl = document.getElementById('current-lang-label');
       if (lbl) lbl.textContent = lang.toUpperCase();
-      document.querySelectorAll('.lang-option').forEach(opt => {
+      document.querySelectorAll('.lang-option').forEach(function(opt) {
         opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
       });
-      const popup = document.getElementById('lang-popup');
+      var popup = document.getElementById('lang-popup');
       if (popup) popup.classList.remove('open');
-      const dict = HUB_I18N[lang];
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
+      var dict = HUB_I18N[lang];
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
       });
     }
-    setLang((() => { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch (e) { return 'en'; } })());
+    setLang((function() { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch (e) { return 'en'; } })());
   </script>
 </body>
 </html>
