@@ -261,6 +261,20 @@
       border-color: var(--accent-blue); background: var(--bg);
       transform: translateX(4px) translateY(-2px);
     }
+    .pub-item.frontier {
+      border-left: 3.5px solid var(--gold);
+      background: linear-gradient(90deg, var(--gold-dim) 0%, rgba(255, 255, 255, 0.02) 42%);
+    }
+    html.light .pub-item.frontier {
+      border-left: 3.5px solid #1a73e8;
+      background: linear-gradient(90deg, #e8f0fe 0%, #ffffff 42%) !important;
+    }
+    .frontier-badge {
+      display: inline-block; font-family: var(--font-mono); font-size: 10px; font-weight: 800;
+      padding: 2px 8px; border-radius: 4px; background: var(--gold); color: #0b0d12;
+      margin-right: 7px; letter-spacing: 0.04em; text-transform: uppercase; vertical-align: middle;
+    }
+    html.light .frontier-badge { background: #1a73e8 !important; color: #ffffff !important; }
     .pub-num { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--accent-blue); min-width: 34px; }
     .pub-body { flex: 1; min-width: 0; }
     .pub-title { font-weight: 700; color: var(--text); font-size: 0.95rem; margin-bottom: 4px; }
@@ -389,7 +403,7 @@
     </div>
     <div class="filter-bar" role="tablist">
       <button class="filter-btn active" onclick="filterSection('all')" id="tab-all" data-i18n="tab_all">All Archive Sections (5)</button>
-      <button class="filter-btn" onclick="filterSection('patents')" id="tab-patents" data-i18n="tab_patents">14 Patents &amp; 20 Publications</button>
+      <button class="filter-btn" onclick="filterSection('patents')" id="tab-patents" data-i18n="tab_patents">20 Publications &amp; 14 Patents</button>
       <button class="filter-btn" onclick="filterSection('rehab')" id="tab-rehab" data-i18n="tab_rehab">Research (~2022): KFDA Exoskeletons (14 Videos)</button>
       <button class="filter-btn" onclick="filterSection('hackathon')" id="tab-hackathon" data-i18n="tab_hackathon">Google Cloud OnBoard (ADK / MCP / A2A)</button>
       <button class="filter-btn" onclick="filterSection('beyond')" id="tab-beyond" data-i18n="tab_beyond">TA Control Lectures (7 Videos) &amp; AIESEC</button>
@@ -404,6 +418,205 @@
       <!-- SECTION 1: 11 PATENTS & 16 PUBLICATIONS -->
       <!-- ===================================================================== -->
       <div class="archive-section" data-cat="patents">
+        <article class="section-card" id="publications">
+          <span class="section-badge">PEER-REVIEWED RESEARCH · 20 PUBLICATIONS (IEEE ICRA, IEEE TNSRE, JKROS, BIOROB, ICORR, SCIE, ICCAS)</span>
+          <h2>20 Research Publications — Frontier IEEE Journals &amp; Flagship Conferences First (2016 – 2026)</h2>
+          <p>Highlighting flagship first-author and peer-reviewed publications in <strong>IEEE ICRA 2025</strong>, <strong>IEEE Transactions on Neural Systems and Rehabilitation Engineering (TNSRE 2020 &amp; 2019)</strong>, <strong>JKROS 2026</strong>, <strong>IEEE BioRob 2020</strong>, <strong>IEEE ICORR 2017</strong>, and <strong>Applied Sciences (SCIE)</strong>, followed by conference proceedings, preprints, and thesis.</p>
+
+          <div class="pub-list">
+            <div class="pub-item frontier">
+              <div class="pub-num">ICRA 25</div>
+              <div class="pub-body">
+                <div class="pub-title"><span class="frontier-badge">★ Flagship IEEE Conf · 1st Author</span>OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Junwon Jang, Daewoong Han, Wonje Choi, Seungyeon Kim, Hyunkyu Park, Hyundo Choi</div>
+                <div class="pub-venue"><strong>2025 IEEE International Conference on Robotics and Automation (ICRA)</strong>, pp. 3861–3867, May 19–23, 2025, Atlanta, USA · DOI: 10.1109/ICRA55743.2025.11128768</div>
+              </div>
+              <a class="pub-link" href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener">IEEE Xplore ↗</a>
+            </div>
+
+            <div class="pub-item frontier">
+              <div class="pub-num">TNSRE 20</div>
+              <div class="pub-body">
+                <div class="pub-title"><span class="frontier-badge">★ Frontier IEEE Journal · 1st Author</span>AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Tae-woo Kim, Jaewon Beom, Sunjae Won, Doyoung Jeon</div>
+                <div class="pub-venue"><strong>IEEE Transactions on Neural Systems &amp; Rehabilitation Engineering (TNSRE)</strong>, Vol. 28, No. 12, Nov 2020 · DOI: 10.1109/TNSRE.2020.3038175</div>
+              </div>
+              <a class="pub-link" href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener">IEEE Xplore ↗</a>
+            </div>
+
+            <div class="pub-item frontier">
+              <div class="pub-num">TNSRE 19</div>
+              <div class="pub-body">
+                <div class="pub-title"><span class="frontier-badge">★ Frontier IEEE Journal · 1st Author</span>Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Kyungsoon Kim, Doyoung Jeon</div>
+                <div class="pub-venue"><strong>IEEE Transactions on Neural Systems &amp; Rehabilitation Engineering (TNSRE)</strong>, Vol. 27, No. 9, Aug 2019 · DOI: 10.1109/TNSRE.2019.2933874</div>
+              </div>
+              <a class="pub-link" href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener">IEEE Xplore ↗</a>
+            </div>
+
+            <div class="pub-item frontier">
+              <div class="pub-num">JKROS 26</div>
+              <div class="pub-body">
+                <div class="pub-title"><span class="frontier-badge">★ Robotics Journal · 2026</span>Learning-Based Sampling Strategies Leveraging Bidirectional Motion Planning Characteristics</div>
+                <div class="pub-authors">Suhyun Jeon, M. Kim, Jun-Won Jang, <strong>Minsu Chang</strong>, J. Park</div>
+                <div class="pub-venue"><strong>The Journal of Korea Robotics Society (JKROS)</strong>, Vol. 21, No. 2, pp. 164–171, 2026</div>
+              </div>
+              <a class="pub-link" href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Google Scholar ↗</a>
+            </div>
+
+            <div class="pub-item frontier">
+              <div class="pub-num">BioRob 20</div>
+              <div class="pub-body">
+                <div class="pub-title"><span class="frontier-badge">★ Flagship IEEE Conf · 1st Author</span>Development of the AI therapist estimating the Borg scale of stroke patients in robot-assisted gait training</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue"><strong>The 8th IEEE RAS/EMBS International Conference on Biomedical Robotics &amp; Biomechatronics (BioRob)</strong>, New York, 2020</div>
+              </div>
+              <a class="pub-link" href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Google Scholar ↗</a>
+            </div>
+
+            <div class="pub-item frontier">
+              <div class="pub-num">ICORR 17</div>
+              <div class="pub-body">
+                <div class="pub-title"><span class="frontier-badge">★ Flagship IEEE Conf · 1st Author</span>A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Yeongmin Kim, Yoseph Lee, Doyoung Jeon</div>
+                <div class="pub-venue"><strong>2017 IEEE International Conference on Rehabilitation Robotics (ICORR) in RehabWeek</strong>, pp. 369–374, London, 2017 · DOI: 10.1109/ICORR.2017.8009275</div>
+              </div>
+              <a class="pub-link" href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener">IEEE Xplore ↗</a>
+            </div>
+
+            <div class="pub-item frontier">
+              <div class="pub-num">SCIE 19</div>
+              <div class="pub-body">
+                <div class="pub-title"><span class="frontier-badge">★ SCIE Journal</span>Precise flowrate control of fluid gear pumps in automated painting systems using a repetitive controller</div>
+                <div class="pub-authors">Kiyang Park, <strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue"><strong>Applied Sciences</strong>, Vol. 9, No. 16, 3413, Aug 2019 · DOI: 10.3390/app9163413</div>
+              </div>
+              <a class="pub-link" href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener">MDPI ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">arXiv 25</div>
+              <div class="pub-body">
+                <div class="pub-title">The Realization of Virtual Environments in the Lower Limb Exoskeletal Robot</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">arXiv preprint arXiv:2503.16459, 2025</div>
+              </div>
+              <a class="pub-link" href="https://arxiv.org/abs/2503.16459" target="_blank" rel="noopener">arXiv ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">ICCAS 19</div>
+              <div class="pub-body">
+                <div class="pub-title">Intelligent Impedance Control Using Reinforcement Learning for the effective Robot-Assisted Rehabilitation</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">The 19th International Conference on Control, Automation and Systems (ICCAS 2019), Jeju, 2019</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">ICCAS 19</div>
+              <div class="pub-body">
+                <div class="pub-title">AI Therapist realizing the Expert's Verbal Cue for the Effective Robotic Gait Rehabilitation</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">The 19th International Conference on Control, Automation and Systems (ICCAS 2019), Jeju, 2019</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">INRS 19</div>
+              <div class="pub-body">
+                <div class="pub-title">Development of the AI Therapist realizing the Expert’s Verbal Cue for the Effective Robotic Gait Rehabilitation</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">International Neurorehabilitation Symposium (INRS) in RehabWeek, Toronto, 2019</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">ICNR 18</div>
+              <div class="pub-body">
+                <div class="pub-title">The AI Supervisor for the effective treadmill training system of rehabilitation and exercise</div>
+                <div class="pub-authors">Jaeyoung Kim, <strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">4th International Conference on NeuroRehabilitation (ICNR 2018), Pisa, 2018</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">ICCAS 18</div>
+              <div class="pub-body">
+                <div class="pub-title">An Expert System for the Effective Treadmill Training System of Rehabilitation and Exercise by using ANFIS</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">18th International Conference on Control, Automation and Systems (ICCAS), Pyeongchang, 2018</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">Thesis 18</div>
+              <div class="pub-body">
+                <div class="pub-title">능동보행훈련을 위한 하지외골격로봇의 필요에 따른 보조 제어 방법: An assist-as-needed control method of a lower limb exoskeletal robot for active gait training</div>
+                <div class="pub-authors"><strong>장민수 (Minsu Chang)</strong></div>
+                <div class="pub-venue">서강대학교 대학원 (Sogang University Graduate School), 2018</div>
+              </div>
+              <a class="pub-link" href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Google Scholar ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">ICCAS 17</div>
+              <div class="pub-body">
+                <div class="pub-title">The Effective Rehabilitation Method Realizing Various Environments in Robot-assisted Gait Training 🏆 (Best Presentation Award)</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">17th International Conference on Control, Automation and Systems (ICCAS), Jeju, 2017 · Best Presentation Award for Interactive Poster Sessions</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">ICCAS 17</div>
+              <div class="pub-body">
+                <div class="pub-title">A method of specific muscle group training of lower limb using an exoskeletal robot</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">17th International Conference on Control, Automation and Systems (ICCAS), Jeju, 2017</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">ICCAS 17</div>
+              <div class="pub-body">
+                <div class="pub-title">Realization of Virtual Impedance in the Lower Limb Assistive Robot SUBAR</div>
+                <div class="pub-authors">Yeongmin Kim, <strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">17th International Conference on Control, Automation and Systems (ICCAS), Jeju, 2017</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">INRS 17</div>
+              <div class="pub-body">
+                <div class="pub-title">Realization of the Effects of Various Environments in Robot-assisted Gait Training</div>
+                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
+                <div class="pub-venue">International Neurorehabilitation Symposium (INRS) in RehabWeek, London, 2017</div>
+              </div>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">KSPE 16</div>
+              <div class="pub-body">
+                <div class="pub-title">하지외골격로봇 착용자의 자세 안정성 분석을 위한 HAT Model 의 실험적 검증 (Experimental Verification of the HAT Model for Postural Stability Analysis of a Lower-Limb Exoskeleton Wearer)</div>
+                <div class="pub-authors"><strong>장민수 (Minsu Chang)</strong>, 전도영 (Doyoung Jeon)</div>
+                <div class="pub-venue">한국정밀공학회 학술발표대회 논문집 (KSPE), pp. 83–84, 2016</div>
+              </div>
+              <a class="pub-link" href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Google Scholar ↗</a>
+            </div>
+
+            <div class="pub-item">
+              <div class="pub-num">KROS 16</div>
+              <div class="pub-body">
+                <div class="pub-title">보행재활로봇의 개발 경험과 이슈 (Development Experience and Issues of Gait Rehabilitation Robots)</div>
+                <div class="pub-authors"><strong>장민수 (Minsu Chang)</strong>, 전도영 (Doyoung Jeon)</div>
+                <div class="pub-venue">로봇과 인간 (Robotics and Human), Vol. 13, No. 2, pp. 14–20, 2016</div>
+              </div>
+              <a class="pub-link" href="https://www.dbpia.co.kr/Journal/articleDetail?nodeId=NODE06688056" target="_blank" rel="noopener">DBpia ↗</a>
+            </div>
+          </div>
+        </article>
+
         <article class="section-card" id="patents">
           <span class="section-badge emerald">INTELLECTUAL PROPERTY · 10 US PATENTS/APPLICATIONS + 4 KR REGISTERED PATENTS</span>
           <h2>14 Patents — Autonomous Mobile Robotics, Lab Automation &amp; Exoskeleton Control</h2>
@@ -551,208 +764,8 @@
             </div>
           </div>
         </article>
-
-        <article class="section-card" id="publications">
-          <span class="section-badge">PEER-REVIEWED RESEARCH · 20 PUBLICATIONS (JKROS, IEEE ICRA, IEEE TNSRE, BIOROB, ICCAS, ICORR, ARXIV)</span>
-          <h2>20 Research Publications (2016 – 2026)</h2>
-          <p>Complete publication record synchronized with Google Scholar: from learning-based bidirectional motion planning (JKROS 2026) and online planner parameter adaptation (IEEE ICRA 2025) to clinical AI therapists and lower-limb exoskeleton control (IEEE TNSRE 2019, 2020).</p>
-
-          <div class="pub-list">
-            <div class="pub-item">
-              <div class="pub-num">J01</div>
-              <div class="pub-body">
-                <div class="pub-title">Learning-Based Sampling Strategies Leveraging Bidirectional Motion Planning Characteristics</div>
-                <div class="pub-authors">Suhyun Jeon, M. Kim, Jun-Won Jang, <strong>Minsu Chang</strong>, J. Park</div>
-                <div class="pub-venue">The Journal of Korea Robotics Society (JKROS), Vol. 21, No. 2, pp. 164–171, 2026</div>
-              </div>
-              <a class="pub-link" href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Google Scholar ↗</a>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C02</div>
-              <div class="pub-body">
-                <div class="pub-title">OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Junwon Jang, Daewoong Han, Wonje Choi, Seungyeon Kim, Hyunkyu Park, Hyundo Choi</div>
-                <div class="pub-venue">2025 IEEE International Conference on Robotics and Automation (ICRA), pp. 3861–3867, May 19–23, 2025, Atlanta, USA · DOI: 10.1109/ICRA55743.2025.11128768</div>
-              </div>
-              <a class="pub-link" href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener">IEEE Xplore ↗</a>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">P03</div>
-              <div class="pub-body">
-                <div class="pub-title">The Realization of Virtual Environments in the Lower Limb Exoskeletal Robot</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">arXiv preprint arXiv:2503.16459, 2025</div>
-              </div>
-              <a class="pub-link" href="https://arxiv.org/abs/2503.16459" target="_blank" rel="noopener">arXiv ↗</a>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">J04</div>
-              <div class="pub-body">
-                <div class="pub-title">AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Tae-woo Kim, Jaewon Beom, Sunjae Won, Doyoung Jeon</div>
-                <div class="pub-venue">IEEE Transactions on Neural Systems &amp; Rehabilitation Engineering (TNSRE), Vol. 28, No. 12, Nov 2020 · DOI: 10.1109/TNSRE.2020.3038175</div>
-              </div>
-              <a class="pub-link" href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener">IEEE Xplore ↗</a>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C05</div>
-              <div class="pub-body">
-                <div class="pub-title">Development of the AI therapist estimating the Borg scale of stroke patients in robot-assisted gait training</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">The 8th IEEE RAS/EMBS International Conference on Biomedical Robotics &amp; Biomechatronics (BioRob), New York, 2020</div>
-              </div>
-              <a class="pub-link" href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Google Scholar ↗</a>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">J06</div>
-              <div class="pub-body">
-                <div class="pub-title">Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Kyungsoon Kim, Doyoung Jeon</div>
-                <div class="pub-venue">IEEE Transactions on Neural Systems &amp; Rehabilitation Engineering (TNSRE), Vol. 27, No. 9, Aug 2019 · DOI: 10.1109/TNSRE.2019.2933874</div>
-              </div>
-              <a class="pub-link" href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener">IEEE Xplore ↗</a>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">J07</div>
-              <div class="pub-body">
-                <div class="pub-title">Precise flowrate control of fluid gear pumps in automated painting systems using a repetitive controller</div>
-                <div class="pub-authors">Kiyang Park, <strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">Applied Sciences, Vol. 9, No. 16, 3413, Aug 2019 · DOI: 10.3390/app9163413</div>
-              </div>
-              <a class="pub-link" href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener">MDPI ↗</a>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C08</div>
-              <div class="pub-body">
-                <div class="pub-title">Intelligent Impedance Control Using Reinforcement Learning for the effective Robot-Assisted Rehabilitation</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">The 19th International Conference on Control, Automation and Systems (ICCAS 2019), Jeju, 2019</div>
-              </div>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C09</div>
-              <div class="pub-body">
-                <div class="pub-title">AI Therapist realizing the Expert's Verbal Cue for the Effective Robotic Gait Rehabilitation</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">The 19th International Conference on Control, Automation and Systems (ICCAS 2019), Jeju, 2019</div>
-              </div>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C10</div>
-              <div class="pub-body">
-                <div class="pub-title">Development of the AI Therapist realizing the Expert’s Verbal Cue for the Effective Robotic Gait Rehabilitation</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">International Neurorehabilitation Symposium (INRS) in RehabWeek, Toronto, 2019</div>
-              </div>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C11</div>
-              <div class="pub-body">
-                <div class="pub-title">The AI Supervisor for the effective treadmill training system of rehabilitation and exercise</div>
-                <div class="pub-authors">Jaeyoung Kim, <strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">4th International Conference on NeuroRehabilitation (ICNR 2018), Pisa, 2018</div>
-              </div>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C12</div>
-              <div class="pub-body">
-                <div class="pub-title">An Expert System for the Effective Treadmill Training System of Rehabilitation and Exercise by using ANFIS</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">18th International Conference on Control, Automation and Systems (ICCAS), Pyeongchang, 2018</div>
-              </div>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">T13</div>
-              <div class="pub-body">
-                <div class="pub-title">능동보행훈련을 위한 하지외골격로봇의 필요에 따른 보조 제어 방법: An assist-as-needed control method of a lower limb exoskeletal robot for active gait training</div>
-                <div class="pub-authors"><strong>장민수 (Minsu Chang)</strong></div>
-                <div class="pub-venue">서강대학교 대학원 (Sogang University Graduate School), 2018</div>
-              </div>
-              <a class="pub-link" href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Google Scholar ↗</a>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C14</div>
-              <div class="pub-body">
-                <div class="pub-title">A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Yeongmin Kim, Yoseph Lee, Doyoung Jeon</div>
-                <div class="pub-venue">2017 International Conference on Rehabilitation Robotics (ICORR) in RehabWeek, pp. 369–374, London, 2017 · DOI: 10.1109/ICORR.2017.8009275</div>
-              </div>
-              <a class="pub-link" href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener">IEEE Xplore ↗</a>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C15</div>
-              <div class="pub-body">
-                <div class="pub-title">The Effective Rehabilitation Method Realizing Various Environments in Robot-assisted Gait Training 🏆 (Best Presentation Award)</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">17th International Conference on Control, Automation and Systems (ICCAS), Jeju, 2017 · Best Presentation Award for Interactive Poster Sessions</div>
-              </div>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C16</div>
-              <div class="pub-body">
-                <div class="pub-title">A method of specific muscle group training of lower limb using an exoskeletal robot</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">17th International Conference on Control, Automation and Systems (ICCAS), Jeju, 2017</div>
-              </div>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C17</div>
-              <div class="pub-body">
-                <div class="pub-title">Realization of Virtual Impedance in the Lower Limb Assistive Robot SUBAR</div>
-                <div class="pub-authors">Yeongmin Kim, <strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">17th International Conference on Control, Automation and Systems (ICCAS), Jeju, 2017</div>
-              </div>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C18</div>
-              <div class="pub-body">
-                <div class="pub-title">Realization of the Effects of Various Environments in Robot-assisted Gait Training</div>
-                <div class="pub-authors"><strong>Minsu Chang</strong>, Doyoung Jeon</div>
-                <div class="pub-venue">International Neurorehabilitation Symposium (INRS) in RehabWeek, London, 2017</div>
-              </div>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">C19</div>
-              <div class="pub-body">
-                <div class="pub-title">하지외골격로봇 착용자의 자세 안정성 분석을 위한 HAT Model 의 실험적 검증 (Experimental Verification of the HAT Model for Postural Stability Analysis of a Lower-Limb Exoskeleton Wearer)</div>
-                <div class="pub-authors"><strong>장민수 (Minsu Chang)</strong>, 전도영 (Doyoung Jeon)</div>
-                <div class="pub-venue">한국정밀공학회 학술발표대회 논문집 (KSPE), pp. 83–84, 2016</div>
-              </div>
-              <a class="pub-link" href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Google Scholar ↗</a>
-            </div>
-
-            <div class="pub-item">
-              <div class="pub-num">J20</div>
-              <div class="pub-body">
-                <div class="pub-title">보행재활로봇의 개발 경험과 이슈 (Development Experience and Issues of Gait Rehabilitation Robots)</div>
-                <div class="pub-authors"><strong>장민수 (Minsu Chang)</strong>, 전도영 (Doyoung Jeon)</div>
-                <div class="pub-venue">로봇과 인간 (Robotics and Human), Vol. 13, No. 2, pp. 14–20, 2016</div>
-              </div>
-              <a class="pub-link" href="https://www.dbpia.co.kr/Journal/articleDetail?nodeId=NODE06688056" target="_blank" rel="noopener">DBpia ↗</a>
-            </div>
-          </div>
-        </article>
       </div>
 
-      <!-- ===================================================================== -->
       <!-- SECTION 2: RESEARCH (~2022) — KFDA EXOSKELETONS, AI THERAPIST & 14 VIDEOS -->
       <!-- ===================================================================== -->
       <div class="archive-section" data-cat="rehab">
@@ -1108,7 +1121,7 @@
         hero_title_2: "& Agentic AI Milestones",
         hero_sub: "The unified repository of every patent, research article, clinical rehabilitation robot video (SUBAR & AI Therapist), Gemini 3 Seoul Hackathon epilogue, Google Cloud OnBoard technical recap, Sogang University LQR/MATLAB control lecture, and global exchange milestone from mincasurong.com.",
         tab_all: "All Archive Sections (5)",
-        tab_patents: "14 Patents & 20 Publications",
+        tab_patents: "20 Publications & 14 Patents",
         tab_rehab: "Research (~2022): KFDA Exoskeletons (14 Videos)",
         tab_hackathon: "Google Cloud OnBoard (ADK / MCP / A2A)",
         tab_beyond: "TA Control Lectures (7 Videos) & AIESEC"
@@ -1121,7 +1134,7 @@
         hero_title_2: "& 에이전틱 AI 마일스톤 총람",
         hero_sub: "mincasurong.com의 모든 한·미 특허 14건, 학술논문 20편, 식약처(KFDA) 인증 보행재활로봇 SUBAR 및 AI 치료사 영상 14편, 제미나이 3 서울 해커톤 1위 우승 후기(국/영문), Google Cloud OnBoard 기술 리캡, 서강대 자동제어/고등제어(LQR·MATLAB) 실습 강의 7편, UrKuma 앱 및 헝가리 AIESEC 교환교사 기록을 통합했습니다.",
         tab_all: "전체 아카이브 보기 (5)",
-        tab_patents: "특허 14건 & 논문 20편",
+        tab_patents: "논문 20편 & 특허 14건",
         tab_rehab: "연구(~2022): KFDA 재활로봇 & AI 치료사 (14개 영상)",
         tab_hackathon: "Google Cloud OnBoard 기술 리캡",
         tab_beyond: "서강대 제어 조교 강의(7편) & AIESEC"
@@ -1134,7 +1147,7 @@
         hero_title_2: "& エージェンティックAIの軌跡",
         hero_sub: "mincasurong.comの米国・韓国特許14件、学術論文20編、KFDA認証リハビリロボットSUBAR＆AIセラピスト動画14本、Gemini 3 ソウルハッカソン優勝エピローグ、Google Cloud OnBoard技術レポート、西江大学LQR/MATLAB制御講義7本を統合。",
         tab_all: "全セクション表示 (5)",
-        tab_patents: "特許14件 & 論文20編",
+        tab_patents: "論文20編 & 特許14件",
         tab_rehab: "研究(~2022): 医療外骨格ロボット (動画14本)",
         tab_hackathon: "Google Cloud OnBoard 技術レポート",
         tab_beyond: "TA制御講義(7本) & AIESEC"
@@ -1147,7 +1160,7 @@
         hero_title_2: "e Hitos de IA Agéntica",
         hero_sub: "Repositorio unificado con las 11 patentes (EE.UU./Corea), 20 artículos científicos, 14 videos clínicos de exoesqueletos SUBAR y AI Therapist, epílogo del Gemini 3 Seoul Hackathon, Google Cloud OnBoard y 7 clases de control LQR/MATLAB.",
         tab_all: "Todas las Secciones (5)",
-        tab_patents: "14 Patentes y 20 Publicaciones",
+        tab_patents: "20 Publicaciones y 14 Patentes",
         tab_rehab: "Investigación (~2022): Exoesqueletos KFDA (14 Videos)",
         tab_hackathon: "Google Cloud OnBoard (ADK / MCP / A2A)",
         tab_beyond: "Clases de Control (7 Videos) y AIESEC"
