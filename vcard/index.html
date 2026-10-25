@@ -156,6 +156,91 @@
     .lang-option:hover { background: var(--accent-soft); color: var(--accent); }
     .lang-option.active { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
 
+    .sidebar-portrait-wrap {
+      width: 100%; max-width: 240px; margin: 0 auto 14px;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border-card); background: #000;
+      box-shadow: var(--shadow-card); position: relative; cursor: pointer;
+    }
+    .sidebar-portrait-wrap img {
+      width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 20%;
+      transition: transform 0.35s ease;
+    }
+    .sidebar-portrait-wrap:hover img { transform: scale(1.03); }
+    .portrait-caption-bar {
+      padding: 6px 10px; background: var(--bg-card-elev);
+      border-top: 1px solid var(--border-card);
+      font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .judy-gallery-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px; margin: 14px 0 24px;
+    }
+    .judy-exo-grid {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px; margin: 14px 0 24px;
+    }
+    .judy-card {
+      background: var(--bg-card-elev); border: 1px solid var(--border-card);
+      border-radius: 14px; overflow: hidden; cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.25s ease;
+    }
+    .judy-card:hover {
+      transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--shadow-float);
+    }
+    .judy-card-img {
+      width: 100%; aspect-ratio: 16 / 10; background: #ffffff; overflow: hidden;
+      border-bottom: 1px solid var(--border-card);
+    }
+    .judy-card-img.contain-bg { background: #ffffff; padding: 6px; }
+    .judy-card-img img {
+      width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease;
+    }
+    .judy-card-img.contain-bg img { object-fit: contain; }
+    .judy-card:hover .judy-card-img img { transform: scale(1.04); }
+    .judy-card-caption { padding: 10px 12px; }
+    .judy-card-title {
+      font-family: var(--font-display); font-size: 13px; font-weight: 800;
+      color: var(--text-primary); line-height: 1.3; margin-bottom: 2px;
+    }
+    .judy-card-venue {
+      font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted);
+    }
+    .journey-banner {
+      margin: 16px 0 8px; border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border-card); background: #ffffff; padding: 10px;
+      cursor: pointer; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .journey-banner:hover { border-color: var(--accent); box-shadow: var(--shadow-float); }
+    .journey-banner img { width: 100%; height: auto; border-radius: 8px; }
+    .journey-caption {
+      font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+      margin-top: 8px; text-align: center;
+    }
+    .lightbox-modal {
+      position: fixed; inset: 0; z-index: 500; background: rgba(0, 0, 0, 0.86);
+      backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center;
+      padding: 20px; cursor: zoom-out;
+    }
+    .lightbox-modal.open { display: flex; }
+    .lightbox-inner {
+      max-width: 1020px; max-height: 90vh; background: var(--bg-card);
+      border: 1px solid var(--border-card); border-radius: 16px; padding: 14px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65); cursor: default;
+    }
+    .lightbox-inner img {
+      max-width: 100%; max-height: 76vh; object-fit: contain; border-radius: 10px; background: #ffffff;
+    }
+    .lightbox-caption {
+      font-family: var(--font-sans); font-size: 13.5px; font-weight: 600; color: var(--text-primary);
+      text-align: center;
+    }
+    @media (max-width: 760px) {
+      .judy-gallery-grid { grid-template-columns: 1fr; }
+      .judy-exo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
     .vcard-shell {
       max-width: 1220px; margin: 28px auto 64px; padding: 0 16px;
       display: flex; flex-direction: column; gap: 24px;
@@ -844,6 +929,12 @@
     </div>
   </main>
 
+  <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox(event)">
+    <div class="lightbox-inner">
+      <img id="lightbox-img" src="" alt="Expanded View" />
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
   <footer style="padding:40px 24px; border-top:1px solid var(--border-card); background:var(--bg-page); position:relative; z-index:1;">
     <div style="max-width:1080px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px;">
       <p style="font-size:10.5px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em;">© 2026 M9G • Build in Public</p>
@@ -855,6 +946,20 @@
   </footer>
 
   <script>
+    function openLightbox(src, caption) {
+      var m = document.getElementById('lightbox-modal');
+      var img = document.getElementById('lightbox-img');
+      var cap = document.getElementById('lightbox-caption');
+      if (m && img && cap) {
+        img.src = src;
+        cap.textContent = caption || '';
+        m.classList.add('open');
+      }
+    }
+    function closeLightbox(e) {
+      var m = document.getElementById('lightbox-modal');
+      if (m) m.classList.remove('open');
+    }
     function toggleSidebar() {
       const sb = document.querySelector('[data-sidebar]');
       if (sb) sb.classList.toggle('active');
