@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -329,7 +329,7 @@
       </a>
       <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
         <nav class="topnav">
-          <a href="/vcard/" class="hero-pill-btn hero-pill-github"><span>vCard</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/vcard/" class="hero-pill-btn hero-pill-github"><span>CV</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
           <a href="/archive/" class="hero-pill-btn hero-pill-github"><span data-i18n="navArchive">Archive</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
           <a href="/blog/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navBlog">Blog</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
           <a href="/tutorials/" class="hero-pill-btn hero-pill-github"><span data-i18n="navTutorials">Tutorials</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
@@ -565,10 +565,10 @@
     }
     function toggleTheme() {
       var next = document.documentElement.classList.contains('light') ? 'dark' : 'light';
-      try { localStorage.setItem('m9g-theme', next); } catch (e) {}
+      try { localStorage.setItem('m9g_theme', next); } catch (e) {}
       applyTheme(next);
     }
-    applyTheme((function() { try { return localStorage.getItem('m9g-theme') || 'dark'; } catch (e) { return 'dark'; } })());
+    applyTheme((function() { try { return localStorage.getItem('m9g_theme') === 'dark' ? 'dark' : 'light'; } catch (e) { return 'light'; } })());
 
     var HUB_I18N = {
       en: {
