@@ -3,356 +3,262 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>M9G Technical Research Blog — Embodied Physical AI, Project STAMP &amp; Agentic Systems</title>
+  <title>M9G Blog Feed — Physical AI &amp; Agentic Systems</title>
   <link rel="canonical" href="https://mincasurong.github.io/blog/" />
   <meta name="robots" content="index, follow" />
-  <meta name="author" content="Minsu Chang, Ph.D. (M9G / mincasurong)" />
-  <meta name="description" content="M9G Technical Research Blog by Minsu Chang, Ph.D.: First-party systems research on symbolic 3D VLA manipulation in NVIDIA Isaac Sim 6.0 & ROS 2 Jazzy (M9G-TR-2026-01), multi-agent coding harness engineering (M9G-TR-2026-02), and Project STAMP deterministic pre-dispatch safety gating (M9G-TR-2026-03)." />
+  <meta name="author" content="Minsu (Max) Chang, Ph.D." />
+  <meta name="description" content="Short, scannable engineering feed by Minsu (Max) Chang, Ph.D.: Physical AI, multi-robot manipulation in Isaac Sim & ROS 2, and coding agents." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mincasurong.github.io/blog/" />
-  <meta property="og:title" content="M9G Technical Research Blog — Physical AI, STAMP & Agentic Systems" />
-  <meta property="og:description" content="Empirical systems research by Minsu Chang, Ph.D. (M9G): Multi-arm VLA task planning, Project STAMP deterministic safety gating, and post-mortem audits of custom vs. production coding harnesses." />
+  <meta property="og:title" content="M9G Blog Feed — Physical AI & Agentic Systems" />
+  <meta property="og:description" content="Bite-sized engineering posts on multi-robot VLA planning, deterministic safety gates (STAMP), and coding agent harnesses." />
   <meta property="og:image" content="https://mincasurong.github.io/screenshots/stamp-architecture-nanobanana.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #ffffff;
-      --surface: #f8f9fa;
-      --surface-alt: #f1f3f4;
-      --surface-tint: #f4f7fb;
-      --border: #dadce0;
-      --border-subtle: #e8eaed;
-      --text: #202124;
-      --text-body: #3c4043;
-      --text-secondary: #5f6368;
-      --text-muted: #70757a;
-      --dm-blue: #1a73e8;
-      --dm-blue-dark: #174ea6;
-      --dm-blue-bg: #e8f0fe;
-      --dm-navy: #0b1f44;
-      --dm-green: #137333;
-      --dm-green-bg: #e6f4ea;
-      --dm-amber: #b06000;
-      --dm-amber-bg: #fef7e0;
+      --bg: #f6f8fa;
+      --card: #ffffff;
+      --card-hover: #fcfcfd;
+      --surface: #f1f5f9;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-sub: #475569;
+      --text-muted: #64748b;
+      --accent: #1d9bf0;
+      --accent-dark: #1a8cd8;
+      --accent-soft: rgba(29, 155, 240, 0.12);
+      --upvote: #ff4500;
+      --upvote-soft: rgba(255, 69, 0, 0.1);
+      --green: #16a34a;
+      --green-soft: #dcfce7;
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
-    *, *::before, *::after { box-sizing: border-box; }
+    html.dark {
+      --bg: #0b0e14;
+      --card: #151921;
+      --card-hover: #1a1f29;
+      --surface: #1e2430;
+      --border: #2a3241;
+      --text: #f1f5f9;
+      --text-sub: #cbd5e1;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dark: #0284c7;
+      --accent-soft: rgba(56, 189, 248, 0.14);
+      --upvote: #ff5722;
+      --upvote-soft: rgba(255, 87, 34, 0.15);
+      --green: #4ade80;
+      --green-soft: rgba(74, 222, 128, 0.14);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      margin: 0; padding: 0; width: 100%; max-width: 100%;
-      overflow-x: clip; background: var(--bg); color: var(--text);
-      font-family: var(--font-sans); font-size: 16px; line-height: 1.68;
-      -webkit-font-smoothing: antialiased; scroll-behavior: smooth;
+      width: 100%; max-width: 100%; overflow-x: clip;
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-sans); font-size: 15px; line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; height: auto; display: block; }
-    #progress-bar {
-      position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 100;
-      background: linear-gradient(90deg, #1a73e8 0%, #174ea6 50%, #137333 100%);
-    }
+    button { font: inherit; background: none; border: none; color: inherit; cursor: pointer; }
+
     .topbar {
       position: sticky; top: 0; z-index: 50;
-      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
     }
+    html.dark .topbar { background: rgba(21, 25, 33, 0.92); }
     .topbar-inner {
-      max-width: 1120px; margin: 0 auto; padding: 4px 16px; min-height: 44px;
+      max-width: 720px; margin: 0 auto; padding: 6px 14px; min-height: 46px;
       display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
     .brand {
-      font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text);
-      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+      font-family: var(--font-display); font-size: 16px; font-weight: 800;
+      display: flex; align-items: center; gap: 6px; flex-shrink: 0;
     }
     .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; }
     .brand-sep { color: var(--border); font-weight: 400; }
-    .brand-sec { font-size: 13px; font-weight: 600; color: var(--dm-blue); }
+    .brand-sec { font-size: 13px; font-weight: 700; color: var(--accent); }
     .topnav {
       display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;
-      color: var(--text-secondary); overflow-x: auto; scrollbar-width: none; white-space: nowrap; min-width: 0;
+      color: var(--text-muted); overflow-x: auto; scrollbar-width: none; white-space: nowrap;
     }
     .topnav::-webkit-scrollbar { display: none; }
-    .topnav a { padding: 4px 8px; line-height: 1.1; border-radius: 6px; transition: color 0.15s ease; }
-    .topnav a:hover { color: var(--dm-blue); }
+    .topnav a { padding: 5px 8px; border-radius: 999px; transition: color 0.15s ease; }
+    .topnav a:hover { color: var(--accent); }
     .topnav a.back-link {
-      color: #ffffff; background: var(--dm-blue); font-weight: 600;
-      padding: 5px 12px; border-radius: 999px; font-size: 12.5px;
+      color: #ffffff; background: #1d9bf0; font-weight: 700; padding: 5px 12px; font-size: 12px;
     }
-    .topnav a.back-link:hover { background: var(--dm-blue-dark); color: #ffffff; }
-    @media (max-width: 600px) { .brand-sec, .brand-sep { display: none; } }
-
-    .lang-dropdown-wrap { position: relative; }
-    .lang-box-btn {
+    .ctrl-btn {
       height: 28px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border);
       background: var(--surface); color: var(--text); font-family: var(--font-mono);
-      font-size: 11px; font-weight: 700; line-height: 1; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+      font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;
     }
-    .lang-box-btn:hover { border-color: var(--dm-blue); color: var(--dm-blue); }
+    .lang-dropdown-wrap { position: relative; }
     .lang-popup {
-      position: absolute; top: calc(100% + 6px); right: 0; min-width: 136px;
-      background: #ffffff; border: 1px solid var(--border); border-radius: 10px;
-      box-shadow: 0 10px 28px rgba(32, 33, 36, 0.14); padding: 4px; display: none; z-index: 300;
+      position: absolute; top: calc(100% + 6px); right: 0; min-width: 130px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15); padding: 4px; display: none; z-index: 300;
     }
     .lang-popup.open { display: block; }
     .lang-option {
-      width: 100%; text-align: left; background: transparent; border: 0; border-radius: 6px;
-      padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text-secondary);
-      display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+      width: 100%; text-align: left; border-radius: 6px; padding: 6px 10px;
+      font-size: 12px; font-weight: 600; color: var(--text-sub);
+      display: flex; align-items: center; justify-content: space-between;
     }
     .lang-option:hover { background: var(--surface); color: var(--text); }
-    .lang-option.active { background: var(--dm-blue-bg); color: var(--dm-blue); font-weight: 700; }
+    .lang-option.active { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
 
-    .dm-hero {
-      border-bottom: 1px solid var(--border-subtle);
-      background: linear-gradient(180deg, var(--surface-tint) 0%, #ffffff 100%);
-      padding: 44px 16px 34px;
+    .feed-wrap {
+      max-width: 680px; margin: 0 auto; padding: 16px 12px 64px;
     }
-    .dm-container { max-width: 1080px; margin: 0 auto; }
-    .dm-kicker-row {
-      display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 14px;
+
+    .profile-banner {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 16px 18px; margin-bottom: 14px;
+      display: flex; flex-direction: column; gap: 12px;
     }
-    .dm-kicker {
+    .profile-top {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .profile-id { display: flex; align-items: center; gap: 10px; }
+    .avatar-circle {
+      width: 42px; height: 42px; border-radius: 999px;
+      background: linear-gradient(135deg, #1d9bf0 0%, #34a853 100%);
+      color: #ffffff; font-family: var(--font-display); font-weight: 800; font-size: 14px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .profile-name {
+      font-family: var(--font-display); font-size: 16px; font-weight: 800;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .verified-badge {
+      color: #1d9bf0; width: 16px; height: 16px; display: inline-flex;
+    }
+    .profile-handle { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+    .profile-bio { font-size: 13.8px; color: var(--text-sub); }
+
+    .feed-tabs {
+      display: flex; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none;
+    }
+    .feed-tabs::-webkit-scrollbar { display: none; }
+    .feed-tab {
+      padding: 6px 13px; border-radius: 999px; font-size: 12.5px; font-weight: 700;
+      background: var(--surface); color: var(--text-muted); border: 1px solid transparent;
+      white-space: nowrap; transition: all 0.15s ease;
+    }
+    .feed-tab:hover { color: var(--text); }
+    .feed-tab.active {
+      background: var(--accent-soft); color: var(--accent); border-color: var(--accent);
+    }
+
+    .post-list { display: flex; flex-direction: column; gap: 14px; }
+
+    .post-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 16px; transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+      display: flex; flex-direction: column; gap: 11px;
+    }
+    .post-card:hover {
+      border-color: var(--accent); background: var(--card-hover); transform: translateY(-2px);
+    }
+    .post-card.hidden { display: none; }
+
+    .post-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+      font-size: 12.5px; color: var(--text-muted);
+    }
+    .post-author-row { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+    .sub-pill {
       font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--dm-blue-dark); background: var(--dm-blue-bg);
-      padding: 4px 10px; border-radius: 4px;
+      padding: 2px 8px; border-radius: 999px;
+      background: var(--upvote-soft); color: var(--upvote);
     }
-    .dm-series-id { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-secondary); }
-    .dm-hero-title {
-      font-family: var(--font-display); font-size: clamp(1.85rem, 4vw, 2.75rem);
-      font-weight: 800; letter-spacing: -0.025em; color: var(--text);
-      margin: 0 0 14px 0; line-height: 1.16; max-width: 900px;
-    }
-    .dm-hero-lede {
-      font-size: 1.05rem; color: var(--text-body); max-width: 860px;
-      margin: 0 0 24px 0; line-height: 1.68;
-    }
-
-    .toc-directory-box {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--dm-blue);
-      border-radius: 10px;
-      padding: 18px 20px;
-      margin-bottom: 22px;
-      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
-    }
-    .toc-directory-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-    .toc-directory-title {
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--dm-blue-dark);
-    }
-    .toc-directory-sub {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .toc-directory-list {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .toc-dir-card {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 8px;
-      transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
-    }
-    .toc-dir-card:hover {
-      border-color: var(--dm-blue);
-      background: var(--dm-blue-bg);
-      transform: translateY(-2px);
-    }
-    .toc-dir-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 700;
-    }
-    .toc-dir-badge {
-      padding: 2px 7px;
-      border-radius: 4px;
-      background: var(--dm-blue-bg);
-      color: var(--dm-blue-dark);
-    }
-    .toc-dir-badge.green { background: var(--dm-green-bg); color: var(--dm-green); }
-    .toc-dir-badge.amber { background: var(--dm-amber-bg); color: var(--dm-amber); }
-    .toc-dir-name {
-      font-family: var(--font-display);
-      font-size: 13.5px;
-      font-weight: 800;
-      color: var(--text);
-      line-height: 1.32;
-    }
-    .toc-dir-meta {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--dm-blue-dark);
-      font-weight: 600;
-    }
-
-    .dm-meta-bar {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
-      padding-top: 18px; border-top: 1px solid var(--border); font-size: 12.5px;
-    }
-    .dm-meta-item { min-width: 0; }
-    .dm-meta-label {
+    .sub-pill.blue { background: var(--accent-soft); color: var(--accent); }
+    .post-handle { font-weight: 700; color: var(--text); }
+    .post-dot { opacity: 0.5; }
+    .pin-tag {
       font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 3px;
+      padding: 2px 7px; border-radius: 6px; background: var(--green-soft); color: var(--green);
     }
-    .dm-meta-val { color: var(--text); font-weight: 600; line-height: 1.4; }
 
-    .hub-main { max-width: 1080px; margin: 0 auto; padding: 36px 16px 76px; }
-    .section-header-row {
-      display: flex; align-items: baseline; justify-content: space-between;
-      flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
-      padding-bottom: 10px; border-bottom: 2px solid var(--text);
-    }
-    .section-header-title {
+    .post-title {
       font-family: var(--font-display); font-size: 1.15rem; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.04em; color: var(--text); margin: 0;
+      color: var(--text); line-height: 1.32; letter-spacing: -0.01em;
     }
-    .section-header-sub { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-secondary); }
+    .post-card:hover .post-title { color: var(--accent); }
 
-    .article-feed { display: flex; flex-direction: column; gap: 32px; }
-    .research-entry {
-      display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 32px;
-      align-items: start; padding: 28px;
-      background: #ffffff; border: 1px solid var(--border); border-radius: 12px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    .post-tldr {
+      font-size: 14.2px; color: var(--text-sub); line-height: 1.55;
     }
-    .research-entry:hover {
-      border-color: var(--dm-blue);
-      box-shadow: 0 12px 32px rgba(26, 115, 232, 0.08);
-    }
-    .entry-figure-wrap { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-    .entry-thumb {
-      width: 100%; aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden;
-      border: 1px solid var(--border); background: var(--surface);
-    }
-    .entry-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .entry-fig-caption { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); line-height: 1.4; }
-    .entry-body { min-width: 0; }
-    .entry-meta-top {
-      display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
-      font-family: var(--font-mono); font-size: 11.5px; color: var(--text-secondary); margin-bottom: 10px;
-    }
-    .entry-doc-id {
-      background: var(--dm-blue-bg); color: var(--dm-blue-dark);
-      font-weight: 700; padding: 2px 8px; border-radius: 4px;
-    }
-    .entry-doc-id.green { background: var(--dm-green-bg); color: var(--dm-green); }
-    .entry-doc-id.amber { background: var(--dm-amber-bg); color: var(--dm-amber); }
-    .entry-title {
-      font-family: var(--font-display); font-size: 1.42rem; font-weight: 800;
-      color: var(--text); margin: 0 0 10px 0; line-height: 1.28; letter-spacing: -0.015em;
-    }
-    .research-entry:hover .entry-title { color: var(--dm-blue); }
-    .entry-abstract { font-size: 0.95rem; color: var(--text-body); margin: 0 0 16px 0; line-height: 1.65; }
-    .entry-findings-box {
-      background: var(--surface); border-left: 3px solid var(--dm-blue);
-      padding: 12px 14px; border-radius: 0 8px 8px 0; margin-bottom: 16px;
-      font-size: 0.88rem; color: var(--text-body); line-height: 1.55;
-    }
-    .entry-findings-box.green { border-left-color: var(--dm-green); }
-    .entry-findings-box.amber { border-left-color: var(--dm-amber); }
-    .entry-telemetry-grid {
-      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 18px;
-    }
-    .telemetry-cell {
-      background: var(--surface); border: 1px solid var(--border-subtle);
-      border-radius: 6px; padding: 8px 10px; min-width: 0;
-    }
-    .telemetry-label {
-      font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
-      color: var(--text-muted); margin-bottom: 2px;
-    }
-    .telemetry-val { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--text); }
-    .telemetry-val.green { color: var(--dm-green); }
-    .telemetry-val.blue { color: var(--dm-blue-dark); }
-    .telemetry-val.amber { color: var(--dm-amber); }
-    .entry-footer {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-      gap: 12px; padding-top: 12px; border-top: 1px solid var(--border-subtle);
-    }
-    .entry-author { font-size: 12.5px; color: var(--text-secondary); font-weight: 500; }
-    .entry-cta {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-family: var(--font-sans); font-size: 13px; font-weight: 700;
-      color: var(--dm-blue); padding: 6px 14px; border-radius: 999px;
-      background: var(--dm-blue-bg); transition: background 0.15s ease, color 0.15s ease;
-    }
-    .research-entry:hover .entry-cta { background: var(--dm-blue); color: #ffffff; }
 
-    .provenance-panel {
-      margin-top: 44px; padding: 22px 24px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-left: 4px solid var(--dm-navy); border-radius: 8px;
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .stat-chip {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      padding: 3px 9px; border-radius: 999px;
+      background: var(--surface); color: var(--text-sub); border: 1px solid var(--border);
     }
-    .provenance-title {
-      font-family: var(--font-mono); font-size: 11.5px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.06em; color: var(--dm-navy); margin: 0 0 8px 0;
+
+    .post-media {
+      width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border); background: #000;
     }
-    .provenance-text { font-size: 13px; color: var(--text-secondary); margin: 0; line-height: 1.62; }
+    .post-media img {
+      width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;
+    }
+    .post-card:hover .post-media img { transform: scale(1.02); }
+
+    .post-actions {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 8px; border-top: 1px solid var(--border);
+      font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    }
+    .action-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 11px; border-radius: 999px; background: var(--surface); color: var(--text-sub);
+    }
+    .read-cta {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 14px; border-radius: 999px;
+      background: var(--accent); color: #ffffff; font-weight: 700;
+    }
 
     footer {
-      background: var(--surface); border-top: 1px solid var(--border);
-      padding: 28px 16px; text-align: center; font-size: 12.5px; color: var(--text-secondary);
+      text-align: center; padding: 24px 14px; font-size: 12px; color: var(--text-muted);
+      border-top: 1px solid var(--border);
     }
-    footer a { color: var(--dm-blue); font-weight: 500; }
+    footer a { color: var(--accent); font-weight: 600; }
 
-    @media (max-width: 900px) {
-      .research-entry { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
-      .toc-directory-list, .dm-meta-bar { grid-template-columns: 1fr; gap: 12px; }
-      .entry-telemetry-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 600px) {
+      .brand-sec, .brand-sep { display: none; }
+      .post-title { font-size: 1.05rem; }
     }
   </style>
 </head>
 <body>
-  <div id="progress-bar"></div>
-
   <header class="topbar">
     <div class="topbar-inner">
       <a href="/" class="brand">
         <span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span>
         <span class="brand-sep">|</span>
-        <span class="brand-sec" data-i18n="blogHeaderBrand">Technical Research Blog</span>
+        <span class="brand-sec" data-i18n="blogHeaderBrand">Feed</span>
       </a>
       <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
         <nav class="topnav">
           <a href="/vcard/">vCard</a>
           <a href="/tutorials/" data-i18n="navTutorials">Tutorials</a>
-          <a href="/blog/" style="color:var(--dm-blue);font-weight:700;" data-i18n="navBlog">Blog</a>
+          <a href="/blog/" style="color:var(--accent);font-weight:700;" data-i18n="navBlog">Blog</a>
           <a href="/archive/" data-i18n="navArchive">Archive</a>
           <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a>
         </nav>
+        <button class="ctrl-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">☾</button>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
-          <button class="lang-box-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
+          <button class="ctrl-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
             <span id="current-lang-label">EN</span>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
           <div class="lang-popup" id="lang-popup">
             <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span><span>EN</span></button>
@@ -366,402 +272,232 @@
     </div>
   </header>
 
-  <section class="dm-hero">
-    <div class="dm-container">
-      <div class="dm-kicker-row">
-        <span class="dm-kicker" data-i18n="hubEyebrow">M9G Research &amp; Systems Engineering</span>
-        <span class="dm-series-id">ISSN-Free Web-Native Technical Disclosures • mincasurong.github.io/blog</span>
+  <main class="feed-wrap">
+    <section class="profile-banner">
+      <div class="profile-top">
+        <div class="profile-id">
+          <div class="avatar-circle">MC</div>
+          <div>
+            <div class="profile-name">
+              <span data-i18n="feedAuthor">Minsu (Max) Chang</span>
+              <span class="verified-badge" title="Ph.D. Robotics Research Engineer">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"/></svg>
+              </span>
+            </div>
+            <div class="profile-handle">@mincasurong • r/PhysicalAI &amp; r/CodingAgents</div>
+          </div>
+        </div>
       </div>
-      <h1 class="dm-hero-title" data-i18n="hubTitle">Technical Research Blog: Embodied Physical AI, Deterministic Safety Gating (STAMP) &amp; Agentic Systems</h1>
-      <p class="dm-hero-lede" data-i18n="hubSub">
-        First-party engineering research by Minsu Chang, Ph.D. (M9G) examining closed-loop multi-robot manipulation in NVIDIA Isaac Sim 6.0 &amp; ROS 2 Jazzy, deterministic pre-dispatch kinematic safety shields (Project STAMP), and the architectural post-mortem of building custom multi-agent coding harnesses versus OmO, OpenCode, Claude Code, and Antigravity.
+      <p class="profile-bio" data-i18n="hubSub">
+        Short, visual deep-dives on multi-robot VLA planning in Isaac Sim &amp; ROS 2, deterministic robot safety gates, and coding agent harnesses.
       </p>
-
-      <div class="toc-directory-box" aria-label="List of Contents">
-        <div class="toc-directory-header">
-          <span class="toc-directory-title" data-i18n="tocDirTitle">List of Contents — M9G Technical Research Series (3 Articles)</span>
-          <span class="toc-directory-sub">Click any entry to open the full research article</span>
-        </div>
-        <div class="toc-directory-list">
-          <a href="/blog/VLA/" class="toc-dir-card">
-            <div class="toc-dir-top">
-              <span class="toc-dir-badge">Blog 01 • M9G-TR-2026-01</span>
-              <span>2026-10-18</span>
-            </div>
-            <div class="toc-dir-name" data-i18n="toc1Title">Symbolic 3D Grounding &amp; Software-Pipelined VLA Task Planning (3-Arm FR3)</div>
-            <div class="toc-dir-meta">/blog/VLA/ • -76.6% API Cost ($0.01972) →</div>
-          </a>
-
-          <a href="/blog/m9g-agent/" class="toc-dir-card">
-            <div class="toc-dir-top">
-              <span class="toc-dir-badge green">Blog 02 • M9G-TR-2026-02</span>
-              <span>2026-10-20</span>
-            </div>
-            <div class="toc-dir-name" data-i18n="toc2Title">Building a Coding Harness from Scratch &amp; Why It Failed (m9g-agent-corps vs. OmO / OpenCode / Claude / agy)</div>
-            <div class="toc-dir-meta">/blog/m9g-agent/ • 28 Modules &amp; m9g-mcp →</div>
-          </a>
-
-          <a href="/blog/stamp/" class="toc-dir-card">
-            <div class="toc-dir-top">
-              <span class="toc-dir-badge amber">Blog 03 • M9G-TR-2026-03</span>
-              <span>2026-10-25</span>
-            </div>
-            <div class="toc-dir-name" data-i18n="toc3Title">Project STAMP: Deterministic Pre-Dispatch Gating &amp; Closed-Loop Fault Write-Back</div>
-            <div class="toc-dir-meta">/blog/stamp/ • 100% Fault Interception (1,000 Ep) →</div>
-          </a>
-        </div>
+      <div class="feed-tabs" role="tablist">
+        <button class="feed-tab active" onclick="filterFeed('all', this)" data-i18n="tabAll">All Posts (3)</button>
+        <button class="feed-tab" onclick="filterFeed('robotics', this)" data-i18n="tabRobotics">r/PhysicalAI &amp; Robotics (2)</button>
+        <button class="feed-tab" onclick="filterFeed('agents', this)" data-i18n="tabAgents">r/CodingAgents (1)</button>
       </div>
+    </section>
 
-      <div class="dm-meta-bar">
-        <div class="dm-meta-item">
-          <div class="dm-meta-label" data-i18n="meta1Label">Principal Researcher &amp; Author</div>
-          <div class="dm-meta-val" data-i18n="meta1Val">Minsu Chang, Ph.D. (장민수 · M9G · @mincasurong)</div>
+    <div class="post-list">
+      <a href="/blog/stamp/" class="post-card" data-topic="robotics">
+        <div class="post-header">
+          <div class="post-author-row">
+            <span class="sub-pill">r/PhysicalAI</span>
+            <span class="post-handle">@mincasurong</span>
+            <span class="post-dot">•</span>
+            <span>Oct 25</span>
+          </div>
+          <span class="pin-tag">NEW • #03</span>
         </div>
-        <div class="dm-meta-item">
-          <div class="dm-meta-label" data-i18n="meta2Label">Verification Standard</div>
-          <div class="dm-meta-val" data-i18n="meta2Val">Raw JSONL Runtime Telemetry + Synchronized Simulation &amp; Veo Proofs</div>
+        <h2 class="post-title" data-i18n="b3Title">
+          Project STAMP: Why You Should Never Let an LLM Send Unverified Commands to a Robot Arm
+        </h2>
+        <p class="post-tldr" data-i18n="b3Desc">
+          We put a 4-layer deterministic safety gate (IK reachability, 3D collision boxes, joint torque limits, and zone locks) between Gemini 4 Argon and 3 Franka FR3 arms. Result: 100% of physical faults caught before execution and 100% task recovery across 1,000 episodes.
+        </p>
+        <div class="chip-row">
+          <span class="stat-chip">🛡️ 610/610 Faults Blocked</span>
+          <span class="stat-chip">📈 39% → 100% Success</span>
+          <span class="stat-chip">🎬 Veo Video + Graphs</span>
         </div>
-        <div class="dm-meta-item">
-          <div class="dm-meta-label" data-i18n="meta3Label">Publication Policy</div>
-          <div class="dm-meta-val" data-i18n="meta3Val">Protected Web-Native Prior Art (No Unauthorized arXiv/IEEE Conversion)</div>
+        <div class="post-media">
+          <img src="/screenshots/stamp-architecture-nanobanana.png" alt="Project STAMP Architecture" loading="lazy" />
         </div>
-      </div>
-    </div>
-  </section>
-
-  <main class="hub-main">
-    <div class="section-header-row">
-      <h2 class="section-header-title" data-i18n="feedHeader">Published Research Articles (Blog 01 – Blog 03)</h2>
-      <span class="section-header-sub">Showing All 3 Verified Technical Disclosures</span>
-    </div>
-
-    <div class="article-feed">
-      <a href="/blog/VLA/" id="post-vla" class="research-entry">
-        <div class="entry-figure-wrap">
-          <div class="entry-thumb">
-            <img src="/screenshots/vla-architecture-nanobanana.png" alt="M9G 3-Stage VLA Task Planner Architecture in Isaac Sim 6.0" loading="lazy" decoding="async" />
-          </div>
-          <div class="entry-fig-caption">
-            Blog 01 (M9G-TR-2026-01) • 3-Arm Franka FR3 Station in Isaac Sim 6.0 (240 Hz PhysX TGS) &amp; ROS 2 Jazzy
-          </div>
-        </div>
-        <div class="entry-body">
-          <div class="entry-meta-top">
-            <span class="entry-doc-id">Blog 01 • M9G-TR-2026-01 • /blog/VLA</span>
-            <span>October 18, 2026</span>
-            <span>•</span>
-            <span data-i18n="b1Category">Embodied Physical AI &amp; Multi-Robot Control</span>
-          </div>
-          <h3 class="entry-title" data-i18n="b1Title">
-            Symbolic 3D Grounding and Software-Pipelined VLA Task Planning for Multi-Arm Manipulation
-          </h3>
-          <p class="entry-abstract" data-i18n="b1Desc">
-            We investigate whether multi-manipulator task planning requires continuous overhead RGB camera streams when real-time 3D coordinate frames (/tf) and deterministic kinematic guardrails are available. Across a 9-block shared-workspace tower assembly task on three Franka Emika FR3 arms, pairing a single Turn-0 Gemini 4 Argon strategic planner with a zero-thinking-budget Gemini 3.5 Flash-Lite step executor discovers an optimal 10-turn software-pipelined schedule—reducing API cost by 76.6% ($0.01972 vs. $0.08437) and early-turn latency by 68.7%.
-          </p>
-          <div class="entry-findings-box" data-i18n="b1Finding">
-            <strong>Core Systems Result:</strong> Interleaving outer-table picks with central-tower placements eliminates the wave-locked barriers observed in Gemini Robotics-ER 2 (10 turns vs. 13 turns), avoiding 10,929 quadratic history tokens at the tail of the episode while achieving 20/20 safety verifier compliance.
-          </div>
-          <div class="entry-telemetry-grid">
-            <div class="telemetry-cell">
-              <div class="telemetry-label">Stage 3 Cost</div>
-              <div class="telemetry-val green">$0.01972 (-76.6%)</div>
-            </div>
-            <div class="telemetry-cell">
-              <div class="telemetry-label">Schedule Horizon</div>
-              <div class="telemetry-val blue">10 Turns (20 Calls)</div>
-            </div>
-            <div class="telemetry-cell">
-              <div class="telemetry-label">Visual Modality</div>
-              <div class="telemetry-val">0 RGB Tokens (/tf)</div>
-            </div>
-            <div class="telemetry-cell">
-              <div class="telemetry-label">Step Latency</div>
-              <div class="telemetry-val green">4.17s (-68.7%)</div>
-            </div>
-          </div>
-          <div class="entry-footer">
-            <span class="entry-author">Minsu Chang, Ph.D. (M9G) • Trace: <code>CUSTOM_trial01_20261018_174106.jsonl</code></span>
-            <span class="entry-cta" data-i18n="b1Btn">Read Blog 01 (/blog/VLA) →</span>
-          </div>
+        <div class="post-actions">
+          <span class="action-pill">▲ 1,000-Episode Benchmark</span>
+          <span class="read-cta" data-i18n="b3Btn">Open Thread →</span>
         </div>
       </a>
 
-      <a href="/blog/m9g-agent/" id="post-agent" class="research-entry">
-        <div class="entry-figure-wrap">
-          <div class="entry-thumb">
-            <img src="/screenshots/m9g-agent-corps-architecture.png" alt="M9G 3-Tier Agent Harness vs Pre-Existing Coding Harnesses" loading="lazy" decoding="async" />
+      <a href="/blog/m9g-agent/" class="post-card" data-topic="agents">
+        <div class="post-header">
+          <div class="post-author-row">
+            <span class="sub-pill blue">r/CodingAgents</span>
+            <span class="post-handle">@mincasurong</span>
+            <span class="post-dot">•</span>
+            <span>Oct 20</span>
           </div>
-          <div class="entry-fig-caption">
-            Blog 02 (M9G-TR-2026-02) • Post-Mortem of m9g-agent-corps (28 Modules, 169 Tests) vs. OmO, OpenCode, Claude &amp; agy
-          </div>
+          <span class="pin-tag">#02</span>
         </div>
-        <div class="entry-body">
-          <div class="entry-meta-top">
-            <span class="entry-doc-id green">Blog 02 • M9G-TR-2026-02 • /blog/m9g-agent</span>
-            <span>October 20, 2026</span>
-            <span>•</span>
-            <span data-i18n="b2Category">Agentic Systems &amp; Harness Engineering</span>
-          </div>
-          <h3 class="entry-title" data-i18n="b2Title">
-            Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity
-          </h3>
-          <p class="entry-abstract" data-i18n="b2Desc">
-            We engineered a 28-module, 169-test multi-agent coding harness from scratch (m9g-agent-corps), investigating immutable prefix caching (95% discount), SHA-256 hashline drift-tolerant editing, AST structural skeletonization (75–90% compression), shadow GIT_INDEX_FILE checkpointing, and a 5-tier self-healing hook pipeline. Here is why our standalone harness still failed against OmO, OpenCode, Claude Code, and Antigravity—and how we pivoted its substrates into the m9g-mcp power-tool server.
-          </p>
-          <div class="entry-findings-box green" data-i18n="b2Finding">
-            <strong>Core Systems Result:</strong> Isolated subsystems cannot compensate for a loosely coupled inner loop: unwired verification gates, false-positive prose-regex handoffs, 300s blocking CLI pipes, mandatory delegation hops, and 12k middle-out string slicing caused our standalone orchestrator to lag pre-existing harnesses until we extracted its 7 deterministic tools over MCP.
-          </div>
-          <div class="entry-telemetry-grid">
-            <div class="telemetry-cell">
-              <div class="telemetry-label">Engineered Scope</div>
-              <div class="telemetry-val blue">28 Modules / 169 Tests</div>
-            </div>
-            <div class="telemetry-cell">
-              <div class="telemetry-label">AST Compression</div>
-              <div class="telemetry-val green">75%–90% Token Saved</div>
-            </div>
-            <div class="telemetry-cell">
-              <div class="telemetry-label">Root Failure Modes</div>
-              <div class="telemetry-val">6 Loop Disconnects</div>
-            </div>
-            <div class="telemetry-cell">
-              <div class="telemetry-label">MCP Pivot</div>
-              <div class="telemetry-val blue">7 stdio Power Tools</div>
-            </div>
-          </div>
-          <div class="entry-footer">
-            <span class="entry-author">Minsu Chang, Ph.D. (M9G) • Target: <code>src/ag_harness/ v0.3</code></span>
-            <span class="entry-cta" data-i18n="b2Btn">Read Blog 02 (/blog/m9g-agent) →</span>
-          </div>
+        <h2 class="post-title" data-i18n="b2Title">
+          We Built a 28-Module Multi-Agent Coding Harness from Scratch—Here Is Why It Failed Against OmO, OpenCode &amp; Claude Code
+        </h2>
+        <p class="post-tldr" data-i18n="b2Desc">
+          All 169 unit tests passed, yet our custom harness felt slower and more brittle than OmO, OpenCode, Claude Code, and Antigravity. We break down the 6 root causes—and why we pivoted our best tools (AST skeletonizer, shadow Git checkpoints, SHA-256 hashline edits) into an MCP server.
+        </p>
+        <div class="chip-row">
+          <span class="stat-chip">🔍 6 Failure Causes</span>
+          <span class="stat-chip">⚡ 75–90% AST Compression</span>
+          <span class="stat-chip">🛠️ Pivoted to m9g-mcp</span>
+        </div>
+        <div class="post-media">
+          <img src="/screenshots/m9g-agent-corps-architecture.png" alt="m9g-agent-corps vs Production Harnesses" loading="lazy" />
+        </div>
+        <div class="post-actions">
+          <span class="action-pill">▲ 5-Harness Comparison</span>
+          <span class="read-cta" data-i18n="b2Btn">Open Thread →</span>
         </div>
       </a>
 
-      <a href="/blog/stamp/" id="post-stamp" class="research-entry">
-        <div class="entry-figure-wrap">
-          <div class="entry-thumb">
-            <img src="/screenshots/stamp-architecture-nanobanana.png" alt="Project STAMP 4-Stage Plan-Gate-Execute-WriteBack Architecture" loading="lazy" decoding="async" />
+      <a href="/blog/VLA/" class="post-card" data-topic="robotics">
+        <div class="post-header">
+          <div class="post-author-row">
+            <span class="sub-pill">r/PhysicalAI</span>
+            <span class="post-handle">@mincasurong</span>
+            <span class="post-dot">•</span>
+            <span>Oct 18</span>
           </div>
-          <div class="entry-fig-caption">
-            Blog 03 (M9G-TR-2026-03) • Project STAMP (Spatial, Task &amp; Motion Planning) • 1,000-Episode Fault-Injection Campaign
-          </div>
+          <span class="pin-tag">#01</span>
         </div>
-        <div class="entry-body">
-          <div class="entry-meta-top">
-            <span class="entry-doc-id amber">Blog 03 • M9G-TR-2026-03 • /blog/stamp</span>
-            <span>October 25, 2026</span>
-            <span>•</span>
-            <span data-i18n="b3Category">Spatial, Task &amp; Motion Planning (STAMP)</span>
-          </div>
-          <h3 class="entry-title" data-i18n="b3Title">
-            Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning
-          </h3>
-          <p class="entry-abstract" data-i18n="b3Desc">
-            Allowing a Vision-Language-Action (VLA) planner to dispatch unverified trajectories directly to robot controllers risks kinematic singularities, table collisions, and multi-arm zone contention. Project STAMP introduces a 4-stage closed-loop architecture (Plan → Gate → Execute → Write-Back) that intercepts 100% of physical faults across 7-DoF inverse kinematics, 3D AABB collision volumes, joint/torque limits, and temporal zone locks, converting rejected DAG nodes into structured geometric repair hints.
-          </p>
-          <div class="entry-findings-box amber" data-i18n="b3Finding">
-            <strong>Core Systems Result:</strong> Across 1,000 multi-arm episodes with 60% synthetic fault injection (STAMP-Bench-V1), STAMP intercepts 610/610 hardware faults (0 unverified dispatches) and raises task completion from 39.0% (single-shot VLA) to 100.0% via 2-turn closed-loop write_limit_back recovery.
-          </div>
-          <div class="entry-telemetry-grid">
-            <div class="telemetry-cell">
-              <div class="telemetry-label">Fault Interception</div>
-              <div class="telemetry-val green">100.0% (610/610)</div>
-            </div>
-            <div class="telemetry-cell">
-              <div class="telemetry-label">Episode Success</div>
-              <div class="telemetry-val blue">100.0% (+61.0%)</div>
-            </div>
-            <div class="telemetry-cell">
-              <div class="telemetry-label">Unsafe Dispatches</div>
-              <div class="telemetry-val green">0 / 1,000 Episodes</div>
-            </div>
-            <div class="telemetry-cell">
-              <div class="telemetry-label">Closed-Loop Repair</div>
-              <div class="telemetry-val amber">2-Turn Convergence</div>
-            </div>
-          </div>
-          <div class="entry-footer">
-            <span class="entry-author">Minsu Chang, Ph.D. (M9G) • Benchmark: <code>STAMP-Bench-V1 (1,000 Episodes)</code></span>
-            <span class="entry-cta" data-i18n="b3Btn">Read Blog 03 (/blog/stamp) →</span>
-          </div>
+        <h2 class="post-title" data-i18n="b1Title">
+          Do Multi-Robot VLA Planners Actually Need Overhead RGB Cameras? (Gemini Robotics-ER 2 vs. Gemini 4 Argon)
+        </h2>
+        <p class="post-tldr" data-i18n="b1Desc">
+          By replacing RGB camera streams with 50 Hz 3D /tf coordinates and pairing 1x Gemini 4 Argon (planner) with 10x Flash-Lite (executor), 3 Franka FR3 arms stacked a 9-block tower in 10 turns instead of 13—cutting API cost by 76.6% ($0.01972) with zero image tokens.
+        </p>
+        <div class="chip-row">
+          <span class="stat-chip">💰 -76.6% API Cost</span>
+          <span class="stat-chip">⏱️ 10 Turns vs. 13</span>
+          <span class="stat-chip">📷 0 RGB Tokens</span>
+        </div>
+        <div class="post-media">
+          <img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Arm VLA Benchmark" loading="lazy" />
+        </div>
+        <div class="post-actions">
+          <span class="action-pill">▲ Isaac Sim 6.0 + ROS 2</span>
+          <span class="read-cta" data-i18n="b1Btn">Open Thread →</span>
         </div>
       </a>
     </div>
-
-    <aside class="provenance-panel">
-      <h3 class="provenance-title" data-i18n="provTitle">Research Provenance, Prior Art &amp; Anti-Plagiarism Notice</h3>
-      <p class="provenance-text" data-i18n="provText">
-        All technical articles, empirical telemetry tables, multi-arm schedules, and architectural diagrams published on <strong>mincasurong.github.io/blog</strong> are original first-party research disclosures by <strong>Minsu Chang, Ph.D. (장민수 / M9G)</strong>, backed by timestamped hardware-in-the-loop simulation recordings and signed git commit histories. These posts are intentionally structured as web-native Google DeepMind-style research articles rather than LaTeX preprints. Any unauthorized reproduction, paraphrasing, or repackaging of these benchmarks, figures, or system analyses into third-party conference submissions (e.g., IEEE ICRA, IROS, RA-L) or preprint repositories (e.g., arXiv) constitutes academic plagiarism against established public prior art.
-      </p>
-    </aside>
   </main>
 
   <footer>
-    © 2026 M9G (Minsu Chang, Ph.D.) • <a href="/">mincasurong.github.io</a> • <a href="/vcard/">Digital vCard</a> • <a href="/blog/VLA/">Blog 01: VLA</a> • <a href="/blog/m9g-agent/">Blog 02: Agent Harness</a> • <a href="/blog/stamp/">Blog 03: Project STAMP</a>
+    © 2026 <strong>Minsu (Max) Chang, Ph.D.</strong> • <a href="/">Main Portal</a> • <a href="/vcard/">Digital vCard</a> • <a href="/tutorials/">Tutorials</a> • <a href="/archive/">Archive</a>
   </footer>
 
   <script>
-    window.addEventListener('scroll', () => {
-      const doc = document.documentElement;
-      const top = doc.scrollTop || document.body.scrollTop;
-      const height = doc.scrollHeight - doc.clientHeight;
-      document.getElementById('progress-bar').style.width = (height > 0 ? (top / height) * 100 : 0) + '%';
-    }, { passive: true });
+    function filterFeed(topic, btnEl) {
+      document.querySelectorAll('.feed-tab').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      document.querySelectorAll('.post-card').forEach(card => {
+        const t = card.getAttribute('data-topic');
+        card.classList.toggle('hidden', topic !== 'all' && t !== topic);
+      });
+    }
+
+    function applyTheme(t) {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-btn');
+      if (t === 'dark') {
+        root.classList.add('dark');
+        if (btn) btn.textContent = '☀';
+      } else {
+        root.classList.remove('dark');
+        if (btn) btn.textContent = '☾';
+      }
+    }
+    function toggleTheme() {
+      const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+      try { localStorage.setItem('m9g_blog_theme', next); } catch (e) {}
+      applyTheme(next);
+    }
+    applyTheme((function() { try { return localStorage.getItem('m9g_blog_theme') || 'light'; } catch (e) { return 'light'; } })());
 
     const HUB_I18N = {
       en: {
-        blogHeaderBrand: "Technical Research Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
-        hubEyebrow: "M9G Research & Systems Engineering",
-        hubTitle: "Technical Research Blog: Embodied Physical AI, Deterministic Safety Gating (STAMP) & Agentic Systems",
-        hubSub: "First-party engineering research by Minsu Chang, Ph.D. (M9G) examining closed-loop multi-robot manipulation in NVIDIA Isaac Sim 6.0 & ROS 2 Jazzy, deterministic pre-dispatch kinematic safety shields (Project STAMP), and the architectural post-mortem of building custom multi-agent coding harnesses versus OmO, OpenCode, Claude Code, and Antigravity.",
-        tocDirTitle: "List of Contents — M9G Technical Research Series (3 Articles)",
-        toc1Title: "Symbolic 3D Grounding & Software-Pipelined VLA Task Planning (3-Arm FR3)",
-        toc2Title: "Building a Coding Harness from Scratch & Why It Failed (m9g-agent-corps vs. OmO / OpenCode / Claude / agy)",
-        toc3Title: "Project STAMP: Deterministic Pre-Dispatch Gating & Closed-Loop Fault Write-Back",
-        meta1Label: "Principal Researcher & Author", meta1Val: "Minsu Chang, Ph.D. (장민수 · M9G · @mincasurong)",
-        meta2Label: "Verification Standard", meta2Val: "Raw JSONL Runtime Telemetry + Synchronized Simulation & Veo Proofs",
-        meta3Label: "Publication Policy", meta3Val: "Protected Web-Native Prior Art (No Unauthorized arXiv/IEEE Conversion)",
-        feedHeader: "Published Research Articles (Blog 01 – Blog 03)",
-        b1Category: "Embodied Physical AI & Multi-Robot Control",
-        b1Title: "Symbolic 3D Grounding and Software-Pipelined VLA Task Planning for Multi-Arm Manipulation",
-        b1Desc: "We investigate whether multi-manipulator task planning requires continuous overhead RGB camera streams when real-time 3D coordinate frames (/tf) and deterministic kinematic guardrails are available. Across a 9-block shared-workspace tower assembly task on three Franka Emika FR3 arms, pairing a single Turn-0 Gemini 4 Argon strategic planner with a zero-thinking-budget Gemini 3.5 Flash-Lite step executor discovers an optimal 10-turn software-pipelined schedule—reducing API cost by 76.6% ($0.01972 vs. $0.08437) and early-turn latency by 68.7%.",
-        b1Finding: "Core Systems Result: Interleaving outer-table picks with central-tower placements eliminates the wave-locked barriers observed in Gemini Robotics-ER 2 (10 turns vs. 13 turns), avoiding 10,929 quadratic history tokens at the tail of the episode while achieving 20/20 safety verifier compliance.",
-        b1Btn: "Read Blog 01 (/blog/VLA) →",
-        b2Category: "Agentic Systems & Harness Engineering",
-        b2Title: "Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity",
-        b2Desc: "We engineered a 28-module, 169-test multi-agent coding harness from scratch (m9g-agent-corps), investigating immutable prefix caching (95% discount), SHA-256 hashline drift-tolerant editing, AST structural skeletonization (75–90% compression), shadow GIT_INDEX_FILE checkpointing, and a 5-tier self-healing hook pipeline. Here is why our standalone harness still failed against OmO, OpenCode, Claude Code, and Antigravity—and how we pivoted its substrates into the m9g-mcp power-tool server.",
-        b2Finding: "Core Systems Result: Isolated subsystems cannot compensate for a loosely coupled inner loop: unwired verification gates, false-positive prose-regex handoffs, 300s blocking CLI pipes, mandatory delegation hops, and 12k middle-out string slicing caused our standalone orchestrator to lag pre-existing harnesses until we extracted its 7 deterministic tools over MCP.",
-        b2Btn: "Read Blog 02 (/blog/m9g-agent) →",
-        b3Category: "Spatial, Task & Motion Planning (STAMP)",
-        b3Title: "Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning",
-        b3Desc: "Allowing a Vision-Language-Action (VLA) planner to dispatch unverified trajectories directly to robot controllers risks kinematic singularities, table collisions, and multi-arm zone contention. Project STAMP introduces a 4-stage closed-loop architecture (Plan → Gate → Execute → Write-Back) that intercepts 100% of physical faults across 7-DoF inverse kinematics, 3D AABB collision volumes, joint/torque limits, and temporal zone locks, converting rejected DAG nodes into structured geometric repair hints.",
-        b3Finding: "Core Systems Result: Across 1,000 multi-arm episodes with 60% synthetic fault injection (STAMP-Bench-V1), STAMP intercepts 610/610 hardware faults (0 unverified dispatches) and raises task completion from 39.0% (single-shot VLA) to 100.0% via 2-turn closed-loop write_limit_back recovery.",
-        b3Btn: "Read Blog 03 (/blog/stamp) →",
-        provTitle: "Research Provenance, Prior Art & Anti-Plagiarism Notice",
-        provText: "All technical articles, empirical telemetry tables, multi-arm schedules, and architectural diagrams published on mincasurong.github.io/blog are original first-party research disclosures by Minsu Chang, Ph.D. (장민수 / M9G), backed by timestamped hardware-in-the-loop simulation recordings and signed git commit histories. Any unauthorized reproduction, paraphrasing, or repackaging of these benchmarks, figures, or system analyses into third-party conference submissions (e.g., IEEE ICRA, IROS, RA-L) or preprint repositories (e.g., arXiv) constitutes academic plagiarism against established public prior art."
+        blogHeaderBrand: "Feed", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
+        feedAuthor: "Minsu (Max) Chang",
+        hubSub: "Short, visual deep-dives on multi-robot VLA planning in Isaac Sim & ROS 2, deterministic robot safety gates, and coding agent harnesses.",
+        tabAll: "All Posts (3)", tabRobotics: "r/PhysicalAI & Robotics (2)", tabAgents: "r/CodingAgents (1)",
+        b3Title: "Project STAMP: Why You Should Never Let an LLM Send Unverified Commands to a Robot Arm",
+        b3Desc: "We put a 4-layer deterministic safety gate (IK reachability, 3D collision boxes, joint torque limits, and zone locks) between Gemini 4 Argon and 3 Franka FR3 arms. Result: 100% of physical faults caught before execution and 100% task recovery across 1,000 episodes.",
+        b3Btn: "Open Thread →",
+        b2Title: "We Built a 28-Module Multi-Agent Coding Harness from Scratch—Here Is Why It Failed Against OmO, OpenCode & Claude Code",
+        b2Desc: "All 169 unit tests passed, yet our custom harness felt slower and more brittle than OmO, OpenCode, Claude Code, and Antigravity. We break down the 6 root causes—and why we pivoted our best tools (AST skeletonizer, shadow Git checkpoints, SHA-256 hashline edits) into an MCP server.",
+        b2Btn: "Open Thread →",
+        b1Title: "Do Multi-Robot VLA Planners Actually Need Overhead RGB Cameras? (Gemini Robotics-ER 2 vs. Gemini 4 Argon)",
+        b1Desc: "By replacing RGB camera streams with 50 Hz 3D /tf coordinates and pairing 1x Gemini 4 Argon (planner) with 10x Flash-Lite (executor), 3 Franka FR3 arms stacked a 9-block tower in 10 turns instead of 13—cutting API cost by 76.6% ($0.01972) with zero image tokens.",
+        b1Btn: "Open Thread →"
       },
       ko: {
-        blogHeaderBrand: "기술 리서치 블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
-        hubEyebrow: "M9G 리서치 & 시스템 엔지니어링",
-        hubTitle: "기술 리서치 블로그: 피지컬 AI, 결정론적 안전 게이팅(STAMP) 및 에이전트 하네스",
-        hubSub: "장민수 박사(Minsu Chang, Ph.D. / M9G)의 자체 시스템 연구 아티클 허브입니다. NVIDIA Isaac Sim 6.0 및 ROS 2 Jazzy 기반 다중 로봇 팔 제어(Blog 01), 자체 구축한 멀티에이전트 코딩 하네스(m9g-agent-corps)의 실패 원인과 기존 하네스 비교 감사(Blog 02), 그리고 사전 디스패치 결정론적 안전 검증 프레임워크 Project STAMP(Blog 03)를 다룹니다.",
-        tocDirTitle: "목차 (List of Contents) — M9G 기술 리서치 시리즈 (전 3편)",
-        toc1Title: "3D 심볼릭 그라운딩 및 소프트웨어 파이프라인 VLA 태스크 플래닝 (3대 FR3)",
-        toc2Title: "멀티에이전트 코딩 하네스 자체 구축 시도와 실패 분석 (m9g-agent-corps vs. OmO / OpenCode / Claude / agy)",
-        toc3Title: "Project STAMP: 결정론적 사전 디스패치 검증 게이트 및 폐루프 결함 피드백(Write-Back)",
-        meta1Label: "책임 연구자 및 저자", meta1Val: "장민수 공학박사 (Minsu Chang, Ph.D. · M9G · @mincasurong)",
-        meta2Label: "검증 기준", meta2Val: "원본 JSONL 런타임 텔레메트리 + 시뮬레이션 및 Veo 영상 검증",
-        meta3Label: "출판 및 저작권 정책", meta3Val: "웹 네이티브 선행기술 공시 (무단 학회지·arXiv 논문 전용 금지)",
-        feedHeader: "발표된 기술 리서치 아티클 목록 (Blog 01 – Blog 03)",
-        b1Category: "피지컬 AI & 다중 로봇 매니퓰레이션 제어",
-        b1Title: "다중 로봇 팔 매니퓰레이션을 위한 3D 심볼릭 그라운딩 및 소프트웨어 파이프라인 VLA 태스크 플래닝",
-        b1Desc: "실시간 3D 좌표계(/tf) 피드백과 결정론적 기구학 안전 검증기가 주어졌을 때, 다중 로봇 태스크 플래닝에서 고비용 RGB 카메라 스트림이 필수적인지 검증합니다. 3대 Franka Emika FR3 로봇 팔의 9블록 공유 작업공간 타워 조립 과제에서, Turn-0 Gemini 4 Argon 전략 플래너와 추론 예산을 제거한 Gemini 3.5 Flash-Lite 실행기를 결합해 10턴 소프트웨어 파이프라인 스케줄을 도출하고 API 비용을 76.6%($0.01972 vs. $0.08437) 절감했습니다.",
-        b1Finding: "핵심 시스템 결과: 외곽 테이블 파지(pick)와 중앙 타워 적재(place)를 중첩 실행하여 Gemini Robotics-ER 2의 웨이브 배리어 병목(13턴 → 10턴)을 제거하고, 에피소드 후반부 누적 히스토리 토큰 10,929개를 절약하면서 안전 검증기 통과율 100%(20/20)를 달성했습니다.",
-        b1Btn: "Blog 01 전문 읽기 (/blog/VLA) →",
-        b2Category: "에이전트 시스템 & 하네스 엔지니어링",
-        b2Title: "새로운 멀티에이전트 코딩 하네스 자체 구축 시도와 실패 분석: m9g-agent-corps 제작기 및 OmO, OpenCode, Claude Code, Antigravity와의 비교",
-        b2Desc: "불변 프리픽스 캐싱(95% 할인), SHA-256 해시라인 편집기, AST 코드 스켈레톤 압축기(75~90% 절감), 섀도우 GIT_INDEX_FILE 체크포인트, 5단계 자가 치유 훅 파이프라인 등 28개 모듈·169개 테스트의 코딩 하네스(m9g-agent-corps)를 직접 구축하며 탐구한 핵심 기술과 왜 기존 하네스(OmO, OpenCode, Claude Code, Antigravity)를 넘지 못했는지, 그리고 이를 m9g-mcp 파워툴 서버로 피벗한 과정을 공개합니다.",
-        b2Finding: "핵심 시스템 결과: 개별 서브시스템의 완성도만으로는 내부 루프(inner loop) 결합도를 대체할 수 없었으며, 기질 미연결, 산문 정규식 핸드오프의 위양성, 300초 블로킹 CLI, 강제 위임 규칙, 12k 중간 절단 문제를 극복하기 위해 7개 핵심 기질을 MCP 서버로 추출했습니다.",
-        b2Btn: "Blog 02 전문 읽기 (/blog/m9g-agent) →",
-        b3Category: "공간·태스크·모션 플래닝 (Project STAMP)",
-        b3Title: "Project STAMP: 다중 로봇 팔 VLA 태스크 및 모션 플래닝을 위한 결정론적 검증 게이트와 폐루프 컨텍스트 복구",
-        b3Desc: "VLA 플래너가 검증되지 않은 궤적을 로봇 제어기에 직접 전달하면 역기구학 특이점, 작업대 충돌, 다중 로봇 팔 구역 충돌 위험이 발생합니다. Project STAMP는 4단계 폐루프 파이프라인(Plan → Gate → Execute → Write-Back)을 통해 7자유도 DLS 역기구학, 3D AABB 충돌 영역, 관절 각도/토크 한계, 시간 윈도우 구역 잠금을 사전 검증하고 거부된 노드를 기하학적 수정 힌트로 변환해 재계획을 유도합니다.",
-        b3Finding: "핵심 시스템 결과: 60% 합성 결함이 주입된 1,000개 다중 로봇 에피소드(STAMP-Bench-V1)에서 하드웨어 결함을 100%(610/610) 사전 차단하고, 2턴 폐루프 write_limit_back 복구를 통해 작업 완수율을 39.0%(단발성 VLA)에서 100.0%로 끌어올렸습니다.",
-        b3Btn: "Blog 03 전문 읽기 (/blog/stamp) →",
-        provTitle: "연구 출처, 선행기술(Prior Art) 공시 및 무단 논문 전용 금지 고지",
-        provText: "mincasurong.github.io/blog에 게재된 모든 기술 아티클, 실험 텔레메트리 표, 다중 로봇 스케줄 및 아키텍처 다이어그램은 장민수 박사(Minsu Chang, Ph.D. / M9G)의 독창적인 1차 연구 결과물이며, 타임스탬프가 기록된 시뮬레이션 영상과 Git 커밋 이력으로 입증된 공지 선행기술(Prior Art)입니다. 본 블로그의 데이터·수식·표·분석 내용을 저자 허락 없이 학술대회 논문(IEEE ICRA, IROS, RA-L 등)이나 프리프린트 서버(arXiv) 원고로 무단 도용·재가공·투고하는 행위를 엄격히 금지합니다."
+        blogHeaderBrand: "피드", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
+        feedAuthor: "장민수 (Minsu Max Chang)",
+        hubSub: "Isaac Sim & ROS 2 다중 로봇 VLA 제어, 로봇 안전 게이트(STAMP), 코딩 에이전트 하네스 실험을 한눈에 읽는 스레드형 피드입니다.",
+        tabAll: "전체 글 (3)", tabRobotics: "r/PhysicalAI & 로보틱스 (2)", tabAgents: "r/CodingAgents (1)",
+        b3Title: "Project STAMP: 왜 LLM이 로봇 팔에 직접 명령을 내리게 두면 안 될까?",
+        b3Desc: "Gemini 4 Argon과 3대 Franka FR3 로봇 팔 사이에 4단계 물리 안전 게이트(역기구학, 3D 충돌 박스, 토크 한계, 구역 잠금)를 배치했습니다. 1,000번의 실험 동안 위험 명령을 100% 사전 차단하고 작업 성공률을 39%에서 100%로 끌어올렸습니다.",
+        b3Btn: "스레드 읽기 →",
+        b2Title: "28개 모듈짜리 멀티에이전트 코딩 하네스를 직접 만들어보고 깨달은 실패 원인과 교훈 (vs. OmO, OpenCode, Claude Code)",
+        b2Desc: "단위 테스트 169개를 모두 통과했지만 실전에서는 OmO, OpenCode, Claude Code보다 느리고 불안정했습니다. 직접 부딪히며 찾은 6가지 실패 원인과, 핵심 기술(AST 압축, 섀도우 Git, 해시라인 편집)을 MCP 서버로 전환한 이유를 정리했습니다.",
+        b2Btn: "스레드 읽기 →",
+        b1Title: "다중 로봇 VLA 플래너에 정말 무거운 RGB 카메라 영상이 필요할까? (Gemini Robotics-ER 2 vs. Gemini 4 Argon)",
+        b1Desc: "카메라 이미지 대신 50 Hz 3D /tf 좌표만 전달하고 Turn-0 Argon 두뇌와 Flash-Lite 실행기를 결합해 3대 로봇 팔의 9블록 타워 조립을 13턴에서 10턴으로 단축하고 API 비용을 76.6%($0.01972) 절감했습니다.",
+        b1Btn: "스레드 읽기 →"
       },
       ja: {
-        blogHeaderBrand: "技術リサーチブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
-        hubEyebrow: "M9G リサーチ & システムエンジニアリング",
-        hubTitle: "技術リサーチブログ：身体性フィジカルAI、決定論的ゲート制御 (STAMP) & エージェントシステム",
-        hubSub: "Minsu Chang, Ph.D. (M9G) による一次システム研究ブログ。NVIDIA Isaac Sim 6.0 & ROS 2 Jazzy におけるマルチアーム制御 (Blog 01)、独自マルチエージェント・コーディングハーネス (m9g-agent-corps) の構築調査と失敗分析 (Blog 02)、および Project STAMP による決定論的プリディスパッチ安全検証 (Blog 03) を収録しています。",
-        tocDirTitle: "目次 (List of Contents) — M9G 技術リサーチシリーズ (全3編)",
-        toc1Title: "3DシンボリックグラウンディングとソフトウェアパイプラインVLAタスク計画 (3台FR3)",
-        toc2Title: "コーディングハーネスの独自構築と失敗の記録 (m9g-agent-corps vs. OmO / OpenCode / Claude / agy)",
-        toc3Title: "Project STAMP：決定論的プリディスパッチ検証ゲートと閉ループ・フォールト修復",
-        meta1Label: "主任研究者・著者", meta1Val: "Minsu Chang, Ph.D. (장민수 · M9G · @mincasurong)",
-        meta2Label: "検証基準", meta2Val: "生 JSONL ランタイムテレメトリ + シミュレーション & Veo 映像",
-        meta3Label: "公開・知的財産ポリシー", meta3Val: "Webネイティブ先行技術開示（無断でのarXiv・学会論文転用禁止）",
-        feedHeader: "公開技術リサーチ記事一覧 (Blog 01 – Blog 03)",
-        b1Category: "身体性フィジカルAI & マルチロボット制御",
-        b1Title: "マルチアーム操作における3DシンボリックグラウンディングとソフトウェアパイプラインVLAタスク計画",
-        b1Desc: "リアルタイム3D座標系 (/tf) と決定論的な運動学ガードレールが利用可能な環境において、3台のFranka Emika FR3による9ブロックタワー組立タスクを評価。Turn-0 Gemini 4 Argon 戦略プランナーと Gemini 3.5 Flash-Lite 実行器のハイブリッド構成が10ターンの最適パイプラインスケジュールを導出し、APIコストを76.6% ($0.01972) 削減しました。",
-        b1Finding: "主要システム結果: 外側テーブルでのpickと中央タワーでのplaceを並列化することで Gemini Robotics-ER 2 の13ターン・バリア待機を10ターンに短縮し、安全検証パス率100% (20/20) を達成。",
-        b1Btn: "Blog 01 を読む (/blog/VLA) →",
-        b2Category: "エージェントシステム & ハーネス工学",
-        b2Title: "マルチエージェント・コーディングハーネスの独自構築と失敗の記録：m9g-agent-corps の内部調査と OmO・OpenCode・Claude Code・Antigravity との比較",
-        b2Desc: "不変プレフィックスキャッシュ（95%割引）、SHA-256ハッシュライン編集器、AST構造スケルトナイザ（75〜90%圧縮）、シャドウGitインデックス・チェックポイント、5段階自己修復フックなど28モジュール・169テストの独自ハーネスを構築した調査記録と、なぜ既存ハーネス（OmO、OpenCode、Claude Code、Antigravity）に勝てなかったのか、そして m9g-mcp サーバーへの転換を詳述します。",
-        b2Finding: "主要システム結果: 個別サブシステムの完成度だけではインナーループの結合度を代替できず、未接続の検証ゲートや正規表現ハンドオフ、300秒同期CLIの限界から、7つの決定論的ツールをMCPサーバーとして抽出しました。",
-        b2Btn: "Blog 02 を読む (/blog/m9g-agent) →",
-        b3Category: "空間・タスク・モーション計画 (Project STAMP)",
-        b3Title: "Project STAMP：マルチアームVLAタスク＆モーション計画のための決定論的検証ゲートと閉ループ文脈修復",
-        b3Desc: "VLAプランナーが未検証の軌道を直接ロボット制御器へ送信すると、逆運動学の特異点や作業台との衝突、複数アーム間のゾーン競合を引き起こします。Project STAMP は4段階の閉ループパイプライン（Plan → Gate → Execute → Write-Back）により、7自由度DLS逆運動学、3D AABB干渉、関節・トルク制限、時間ウィンドウ排他ロックを事前検証し、棄却ノードを幾何学的修復ヒントへ変換します。",
-        b3Finding: "主要システム結果: 60%の合成障害を注入した1,000エピソード (STAMP-Bench-V1) において、ハードウェア障害を100% (610/610) 事前遮断し、2ターンの閉ループ write_limit_back 修復によりタスク完遂率を39.0%から100.0%へ向上させました。",
-        b3Btn: "Blog 03 を読む (/blog/stamp) →",
-        provTitle: "研究の真正性・先行技術（Prior Art）および無断論文転用禁止に関する告知",
-        provText: "mincasurong.github.io/blog に掲載されているすべての技術記事、実験テレメトリ、マルチアームスケジュール、アーキテクチャ図は Minsu Chang, Ph.D. (M9G) による独自の一次研究成果であり、公知の先行技術です。本ブログの内容やデータを無断で国際会議論文（IEEE ICRA, IROS 等）や arXiv プレプリントへ転載・翻案・投稿することを固く禁じます。"
+        blogHeaderBrand: "フィード", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
+        feedAuthor: "Minsu (Max) Chang",
+        hubSub: "Isaac Sim & ROS 2 マルチ 로봇 VLA 計画、安全ゲート (STAMP)、コーディングエージェントに関する簡潔なスレッド型フィード。",
+        tabAll: "すべて (3)", tabRobotics: "r/PhysicalAI & ロボティクス (2)", tabAgents: "r/CodingAgents (1)",
+        b3Title: "Project STAMP：なぜLLMからロボットアームへ未検証コマンドを直接送ってはいけないのか",
+        b3Desc: "Gemini 4 Argon と3台の Franka FR3 の間に4層の決定論的ゲート（逆運動学、3D干渉、トルク制限、ゾーン排他ロック）を配置。1,000エピソードで物理障害を100%遮断し、成功率を39%から100%へ引き上げました。",
+        b3Btn: "スレッドを開く →",
+        b2Title: "28モジュールのマルチエージェント・ハーネスを自作して分かった失敗の理由（対 OmO / OpenCode / Claude Code）",
+        b2Desc: "169個の単体テストを通過しても、実戦では OmO や Claude Code に勝てませんでした。6つの構造的原因と、AST圧縮・Shadow Git・Hashline編集を MCP サーバーへ転換した経緯を解説します。",
+        b2Btn: "スレッドを開く →",
+        b1Title: "マルチロボットVLA計画にRGBカメラ画像は本当に必要か？（Gemini Robotics-ER 2 vs. Gemini 4 Argon）",
+        b1Desc: "RGB画像の代わりに 50 Hz 3D /tf 座標を用い、Turn-0 Argon と Flash-Lite を組み合わせることで、9ブロック組立を13ターンから10ターンに短縮し、APIコストを76.6% ($0.01972) 削減しました。",
+        b1Btn: "スレッドを開く →"
       },
       zh: {
-        blogHeaderBrand: "技术研究博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
-        hubEyebrow: "M9G 研究与系统工程",
-        hubTitle: "技术研究博客：具身物理 AI、确定性安全门控 (STAMP) 与多智能体系统",
-        hubSub: "由张民洙博士 (Minsu Chang, Ph.D. / M9G) 撰写的第一方系统工程研究博客，涵盖 NVIDIA Isaac Sim 6.0 与 ROS 2 Jazzy 多机械臂协同控制 (Blog 01)、从零构建多智能体编码框架 (m9g-agent-corps) 的探索与失败复盘 (Blog 02)，以及 Project STAMP 确定性预派发安全门控 (Blog 03)。",
-        tocDirTitle: "文章目录 (List of Contents) — M9G 技术研究系列 (共 3 篇)",
-        toc1Title: "面向多机械臂操作的 3D 符号空间接地与软件流水线 VLA 任务规划",
-        toc2Title: "从零构建多智能体编码框架及其失败复盘 (m9g-agent-corps vs. OmO / OpenCode / Claude / agy)",
-        toc3Title: "Project STAMP：确定性预派发门控与闭环故障回写修复",
-        meta1Label: "首席研究员与作者", meta1Val: "Minsu Chang, Ph.D. (장민수 · M9G · @mincasurong)",
-        meta2Label: "验证标准", meta2Val: "原始 JSONL 运行时遥测 + 同步仿真与 Veo 视频证明",
-        meta3Label: "发布与版权政策", meta3Val: "受保护的 Web 原生在先技术披露（严禁未经授权转化为 arXiv/IEEE 论文）",
-        feedHeader: "已发布技术研究文章 (Blog 01 – Blog 03)",
-        b1Category: "具身物理 AI 与多机器人协同控制",
-        b1Title: "面向多机械臂操作的 3D 符号空间接地与软件流水线 VLA 任务规划",
-        b1Desc: "在 3 台 Franka Emika FR3 机械臂的 9 积木塔共享工作空间装配任务中，Turn-0 Gemini 4 Argon 策略规划器与零推理预算 Gemini 3.5 Flash-Lite 执行器的混合路由实现了 10 轮最优软件流水线调度，将单次实验 API 成本降低 76.6% ($0.01972)，前两轮步进延迟降低 68.7%。",
-        b1Finding: "核心系统结论：将外侧桌面抓取与中心塔台放置交错并行，消除了 Gemini Robotics-ER 2 的波次屏障等待（从 13 轮缩短至 10 轮），节省了 10,929 个二次方累积历史 Token。",
-        b1Btn: "阅读 Blog 01 (/blog/VLA) →",
-        b2Category: "智能体系统与编码框架工程",
-        b2Title: "从零构建多智能体编码框架及其失败复盘：深入 m9g-agent-corps 并对比 OmO、OpenCode、Claude Code 与 Antigravity",
-        b2Desc: "我们从零构建了包含 28 个 Python 模块、169 项单元测试的多智能体编码框架 m9g-agent-corps，深入探索了不可变前缀缓存（95% 折扣）、SHA-256 哈希行漂移容忍编辑、AST 骨架压缩（节省 75%–90% Token）、影子 GIT_INDEX_FILE 检查点与五层自愈钩子。本文剖析了为什么独立编排器在实战中仍败给 OmO、OpenCode、Claude Code 与 Antigravity，以及如何将其核心底座转型为开源 m9g-mcp 服务器。",
-        b2Finding: "核心系统结论：孤立子系统的单元测试通过无法弥补内环（inner loop）耦合度的不足；由于底层验证未挂载、散文正则交接假阳性、300 秒阻塞 CLI 与 12k 中间截断，我们将 7 个确定性工具提取为标准 MCP 服务。",
-        b2Btn: "阅读 Blog 02 (/blog/m9g-agent) →",
-        b3Category: "空间、任务与运动规划 (Project STAMP)",
-        b3Title: "Project STAMP：面向多机械臂 VLA 任务与运动规划的确定性验证门控与闭环上下文修复",
-        b3Desc: "允许视觉-语言-动作 (VLA) 规划器将未验证的轨迹直接下发给机器人控制器会导致逆运动学奇异、桌面碰撞与多臂区域争用。Project STAMP 提出四阶段闭环架构（Plan → Gate → Execute → Write-Back），在派发前对 7 自由度 DLS 逆运动学、3D AABB 碰撞体、关节/力矩极限与时间窗互斥锁进行 100% 确定性校验，并将被拦截节点转化为几何修复约束回写至规划上下文。",
-        b3Finding: "核心系统结论：在注入 60% 合成故障的 1,000 轮多臂实验 (STAMP-Bench-V1) 中，STAMP 实现了 100.0% (610/610) 的硬件故障预拦截（0 次未验证下发），并通过 2 轮 write_limit_back 闭环重规划将任务完成率从单次 VLA 的 39.0% 提升至 100.0%。",
-        b3Btn: "阅读 Blog 03 (/blog/stamp) →",
-        provTitle: "研究溯源、在先技术 (Prior Art) 声明与反剽窃告知",
-        provText: "mincasurong.github.io/blog 发布的所有技术文章、实证遥测数据表、多机械臂调度序列与架构图均为 Minsu Chang, Ph.D. (M9G) 的原创第一方研究成果。严禁任何第三方未经授权将本博客中的实验数据、图表或架构分析改写、打包并投递至学术会议（如 IEEE ICRA、IROS、RA-L）或预印本服务器（如 arXiv）。"
+        blogHeaderBrand: "动态流", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
+        feedAuthor: "Minsu (Max) Chang",
+        hubSub: "以极简推文/帖子形式分享 Isaac Sim & ROS 2 多臂 VLA 规划、机器人安全门控 (STAMP) 与编码智能体框架实战。",
+        tabAll: "全部帖子 (3)", tabRobotics: "r/PhysicalAI 与机器人 (2)", tabAgents: "r/CodingAgents (1)",
+        b3Title: "Project STAMP：为什么绝不能让大模型直接向机械臂发送未验证的动作指令？",
+        b3Desc: "我们在 Gemini 4 Argon 与 3 台 Franka FR3 之间加入了 4 层确定性安全门控（逆运动学、3D 碰撞盒、力矩极限与区域锁），在 1,000 轮实验中 100% 拦截硬件故障，将任务成功率从 39% 提升至 100%。",
+        b3Btn: "查看帖子 →",
+        b2Title: "从零手搓 28 个模块的多智能体编码框架后，我们为什么败给了 OmO、OpenCode 与 Claude Code？",
+        b2Desc: "虽然通过了 169 项单元测试，但自研框架在日常使用中仍不如成熟框架流畅。本文复盘了 6 个核心踩坑原因，以及我们如何将 AST 骨架压缩、影子 Git 与哈希行编辑转型为 MCP 服务器。",
+        b2Btn: "查看帖子 →",
+        b1Title: "多机械臂 VLA 规划真的需要持续传输 RGB 相机图像吗？（Gemini Robotics-ER 2 vs. Gemini 4 Argon）",
+        b1Desc: "用 50 Hz 3D /tf 坐标替代 RGB 图像，结合 Turn-0 Argon 规划与 Flash-Lite 执行，3 台机械臂仅用 10 轮（原 13 轮）完成 9 积木塔装配，API 成本降低 76.6% ($0.01972)。",
+        b1Btn: "查看帖子 →"
       },
       es: {
-        blogHeaderBrand: "Blog de Investigación Técnica", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
-        hubEyebrow: "Investigación e Ingeniería de Sistemas M9G",
-        hubTitle: "Blog de Investigación Técnica: IA Física Corporizada, Compuertas Deterministas (STAMP) y Sistemas Agénticos",
-        hubSub: "Investigación de sistemas de primera mano por Minsu Chang, Ph.D. (M9G) sobre manipulación multirrobot en NVIDIA Isaac Sim 6.0 y ROS 2 Jazzy (Blog 01), el análisis post-mortem de construir un harness multi-agente propio frente a OmO, OpenCode, Claude Code y Antigravity (Blog 02), y validación cinemática determinista previa al despacho con Project STAMP (Blog 03).",
-        tocDirTitle: "Índice de Contenidos (List of Contents) — Serie de Investigación M9G (3 Artículos)",
-        toc1Title: "Anclaje Simbólico 3D y Planificación de Tareas VLA Segmentada (3 Brazos FR3)",
-        toc2Title: "Construyendo un Harness Multi-Agente desde Cero y Por Qué Fracasó (m9g-agent-corps vs. OmO / OpenCode / Claude / agy)",
-        toc3Title: "Project STAMP: Compuertas Deterministas Previas al Despacho y Reparación en Lazo Cerrado",
-        meta1Label: "Investigador Principal y Autor", meta1Val: "Minsu Chang, Ph.D. (장민수 · M9G · @mincasurong)",
-        meta2Label: "Estándar de Verificación", meta2Val: "Telemetría JSONL en Bruto + Pruebas de Video Sincronizadas",
-        meta3Label: "Política de Publicación", meta3Val: "Arte Previo Web-Nativo Protegido (Prohibida su Conversión No Autorizada a arXiv/IEEE)",
-        feedHeader: "Artículos de Investigación Técnica Publicados (Blog 01 – Blog 03)",
-        b1Category: "IA Física Corporizada y Control Multirrobot",
-        b1Title: "Anclaje Simbólico 3D y Planificación de Tareas VLA Segmentada para Manipulación Multi-Brazo",
-        b1Desc: "En una tarea de ensamblaje de torre de 9 bloques con tres brazos Franka Emika FR3, combinar un planificador estratégico Gemini 4 Argon en el Turno 0 con un ejecutor Gemini 3.5 Flash-Lite descubre un cronograma segmentado óptimo de 10 turnos, reduciendo el costo API en un 76.6% ($0.01972) y la latencia inicial en un 68.7%.",
-        b1Finding: "Resultado Clave de Sistemas: Intercalar recolecciones externas con colocaciones centrales elimina las barreras por oleada observadas en Gemini Robotics-ER 2 (10 turnos vs. 13 turnos), ahorrando 10,929 tokens de historial cuadrático.",
-        b1Btn: "Leer Blog 01 (/blog/VLA) →",
-        b2Category: "Sistemas Agénticos e Ingeniería de Harnesses",
-        b2Title: "Construyendo un Harness de Codificación Multi-Agente desde Cero y Por Qué Fracasó: m9g-agent-corps frente a OmO, OpenCode, Claude Code y Antigravity",
-        b2Desc: "Construimos desde cero un harness multi-agente de 28 módulos y 169 pruebas (m9g-agent-corps), investigando caché implícito del 95%, edición por hash de línea SHA-256, esqueletización AST (75–90% de compresión), checkpoints Git en índice sombra y un pipeline de 5 niveles. Documentamos por qué fracasó frente a OmO, OpenCode, Claude Code y Antigravity, y cómo extrajimos sus sustratos al servidor m9g-mcp.",
-        b2Finding: "Resultado Clave de Sistemas: Los subsistemas aislados no compensan un bucle interno débilmente acoplado; extrajimos nuestras 7 herramientas deterministas como un servidor MCP stdio para potenciar harnesses preexistentes.",
-        b2Btn: "Leer Blog 02 (/blog/m9g-agent) →",
-        b3Category: "Planificación Espacial, de Tareas y Movimiento (STAMP)",
-        b3Title: "Project STAMP: Compuertas de Verificación Deterministas y Reparación de Contexto en Lazo Cerrado para Planificación VLA Multi-Brazo",
-        b3Desc: "Permitir que un planificador VLA envíe trayectorias no verificadas directamente a los controladores robóticos provoca singularidades cinemáticas, colisiones y contención de zonas. Project STAMP introduce un pipeline de 4 etapas (Plan → Gate → Execute → Write-Back) que intercepta el 100% de los fallos físicos en cinemática inversa de 7-DoF, cajas AABB 3D, límites de par y bloqueos temporales.",
-        b3Finding: "Resultado Clave de Sistemas: En 1,000 episodios multi-brazo con un 60% de inyección de fallos sintéticos (STAMP-Bench-V1), STAMP intercepta 610/610 fallos (0 despachos inseguros) y eleva la finalización de tareas del 39.0% al 100.0% mediante recuperación write_limit_back en 2 turnos.",
-        b3Btn: "Leer Blog 03 (/blog/stamp) →",
-        provTitle: "Procedencia de la Investigación, Arte Previo y Aviso Anti-Plagio",
-        provText: "Todos los artículos técnicos, tablas de telemetría empírica, cronogramas multi-brazo y diagramas publicados en mincasurong.github.io/blog son divulgaciones originales de Minsu Chang, Ph.D. (M9G). Queda estrictamente prohibida la reproducción, paráfrasis o empaquetado no autorizado de estos benchmarks o análisis para envíos a conferencias académicas (IEEE ICRA, IROS, RA-L) o servidores de preprints (arXiv)."
+        blogHeaderBrand: "Feed", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
+        feedAuthor: "Minsu (Max) Chang",
+        hubSub: "Hilos cortos y visuales sobre planificación VLA multirrobot en Isaac Sim y ROS 2, compuertas de seguridad (STAMP) y agentes de código.",
+        tabAll: "Todos (3)", tabRobotics: "r/PhysicalAI y Robótica (2)", tabAgents: "r/CodingAgents (1)",
+        b3Title: "Project STAMP: Por qué nunca debes dejar que un LLM envíe comandos sin verificar a un brazo robótico",
+        b3Desc: "Colocamos una compuerta determinista de 4 capas (IK, colisiones 3D, par y bloqueos de zona) entre Gemini 4 Argon y 3 brazos Franka FR3: 100% de fallos bloqueados y 100% de éxito en 1,000 episodios.",
+        b3Btn: "Abrir Hilo →",
+        b2Title: "Construimos un Harness Multi-Agente de 28 Módulos desde Cero: Por Qué Fracasó frente a OmO, OpenCode y Claude Code",
+        b2Desc: "Superó 169 pruebas unitarias, pero en la práctica fue más lento y frágil que OmO, OpenCode y Claude Code. Analizamos las 6 causas y cómo convertimos sus mejores herramientas en un servidor MCP.",
+        b2Btn: "Abrir Hilo →",
+        b1Title: "¿Realmente Necesitan Cámaras RGB los Planificadores VLA Multirrobot? (Gemini Robotics-ER 2 vs. Gemini 4 Argon)",
+        b1Desc: "Reemplazando imágenes RGB por coordenadas 3D /tf a 50 Hz con Argon + Flash-Lite, 3 brazos FR3 apilaron 9 bloques en 10 turnos en vez de 13, reduciendo el costo API en un 76.6% ($0.01972).",
+        b1Btn: "Abrir Hilo →"
       }
     };
 
@@ -775,7 +511,7 @@
     });
     function setLang(lang) {
       if (!HUB_I18N[lang]) lang = 'en';
-      try { localStorage.setItem('m9g_portfolio_lang', lang); } catch {}
+      try { localStorage.setItem('m9g_portfolio_lang', lang); } catch (e) {}
       document.documentElement.lang = lang;
       const lbl = document.getElementById('current-lang-label');
       if (lbl) lbl.textContent = lang.toUpperCase();
@@ -790,7 +526,7 @@
         if (dict[key]) el.textContent = dict[key];
       });
     }
-    setLang((() => { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch { return 'en'; } })());
+    setLang((() => { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch (e) { return 'en'; } })());
   </script>
 </body>
 </html>
