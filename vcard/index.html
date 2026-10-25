@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minsu Chang, Ph.D. (M9G) — Digital vCard &amp; Executive Portfolio</title>
+  <link rel="canonical" href="https://mincasurong.github.io/vcard/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Minsu Chang, Ph.D. (장민수 / M9G / mincasurong)" />
+  <meta name="description" content="Interactive digital vCard and executive engineering portfolio of Minsu Chang, Ph.D. (장민수 / M9G): Roboticist & Physical AI Systems Architect. 1st-Place Google Gemini 3 Seoul Hackathon, Project STAMP, 3-Arm FR3 VLA Benchmarks, 16 Publications, and 11 US/KR Patents." />
+  <meta property="og:type" content="profile" />
+  <meta property="og:url" content="https://mincasurong.github.io/vcard/" />
+  <meta property="og:title" content="Minsu Chang, Ph.D. (M9G) — Digital vCard & Robotics / AI Portfolio" />
+  <meta property="og:description" content="Roboticist & Physical AI Systems Architect — VLA Manipulation, Project STAMP Safety Gating, KFDA Medical Exoskeletons (SUBAR), 16 Papers & 11 Patents." />
+  <meta property="og:image" content="https://mincasurong.github.io/screenshots/stamp-architecture-nanobanana.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Minsu Chang",
+      "honorificSuffix": "Ph.D.",
+      "alternateName": ["장민수", "M9G", "mincasurong"],
+      "jobTitle": "Roboticist & Physical AI Systems Architect",
+      "url": "https://mincasurong.github.io/vcard/",
+      "sameAs": [
+        "https://mincasurong.github.io/",
+        "https://www.linkedin.com/in/mincasurong/",
+        "https://github.com/mincasurong"
+      ]
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --bg-page: #0a0a0c;
+      --bg-card: #16161a;
+      --bg-card-elev: #1e1e24;
+      --bg-icon: #202027;
+      --border-card: #2b2b33;
+      --border-subtle: #23232a;
+      --text-primary: #fafafa;
+      --text-secondary: #d4d4d8;
+      --text-muted: #9ca3af;
+      --accent: #ffdb70;
+      --accent-strong: #f59e0b;
+      --accent-soft: rgba(255, 219, 112, 0.14);
+      --accent-border: rgba(255, 219, 112, 0.38);
+      --pill-bg: #22222a;
+      --pill-text: #e4e4e7;
+      --emerald: #34d399;
+      --emerald-bg: rgba(16, 185, 129, 0.14);
+      --blue: #60a5fa;
+      --blue-bg: rgba(96, 165, 250, 0.14);
+      --shadow-card: -4px 8px 24px rgba(0, 0, 0, 0.45);
+      --shadow-float: 0 16px 36px rgba(0, 0, 0, 0.5);
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    }
+
+    html.light {
+      --bg-page: #f3f5f8;
+      --bg-card: #ffffff;
+      --bg-card-elev: #f8fafc;
+      --bg-icon: #eff6ff;
+      --border-card: #e2e8f0;
+      --border-subtle: #edf2f7;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent: #1d4ed8;
+      --accent-strong: #1e40af;
+      --accent-soft: #dbeafe;
+      --accent-border: rgba(29, 78, 216, 0.32);
+      --pill-bg: #f1f5f9;
+      --pill-text: #1e293b;
+      --emerald: #059669;
+      --emerald-bg: #d1fae5;
+      --blue: #1d4ed8;
+      --blue-bg: #dbeafe;
+      --shadow-card: 0 10px 30px rgba(15, 23, 42, 0.06);
+      --shadow-float: 0 16px 40px rgba(15, 23, 42, 0.12);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: clip;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    ul, ol { list-style: none; }
+    button {
+      font: inherit;
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      text-align: left;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: rgba(22, 22, 26, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-card);
+    }
+    html.light .topbar {
+      background: rgba(255, 255, 255, 0.92);
+    }
+    .topbar-inner {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 6px 16px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .brand {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .g-m { color: #4285f4; }
+    .g-9 { color: #ea4335; }
+    .g-g { color: #34a853; }
+    .brand-sep { color: var(--border-card); font-weight: 400; }
+    .brand-sec { font-size: 12.5px; font-weight: 600; color: var(--accent); font-family: var(--font-mono); }
+    .topnav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      overflow-x: auto;
+      scrollbar-width: none;
+      white-space: nowrap;
+      min-width: 0;
+    }
+    .topnav::-webkit-scrollbar { display: none; }
+    .topnav a {
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: color 0.15s ease, background-color 0.15s ease;
+    }
+    .topnav a:hover { color: var(--accent); }
+    .topnav a.active-link { color: var(--accent); font-weight: 700; }
+    .topnav a.portal-pill {
+      background: var(--accent);
+      color: #0a0a0c;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    html.light .topnav a.portal-pill {
+      color: #ffffff;
+    }
+    .ctrl-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .ctrl-btn {
+      height: 28px;
+      padding: 0 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border-card);
+      background: var(--bg-card-elev);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-dropdown-wrap { position: relative; }
+    .lang-popup {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      min-width: 136px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      box-shadow: var(--shadow-float);
+      padding: 4px;
+      display: none;
+      z-index: 300;
+    }
+    .lang-popup.open { display: block; }
+    .lang-option {
+      width: 100%;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .lang-option:hover { background: var(--bg-card-elev); color: var(--text-primary); }
+    .lang-option.active { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+
+    .vcard-shell {
+      max-width: 1220px;
+      margin: 28px auto 64px;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .sidebar,
+    .main-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 22px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .sidebar {
+      padding: 24px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .sidebar-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+
+    .avatar-box {
+      width: 84px;
+      height: 84px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--bg-card-elev) 0%, var(--bg-icon) 100%);
+      border: 1.5px solid var(--accent-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      box-shadow: inset 0 0 18px var(--accent-soft);
+    }
+    .avatar-monogram {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .avatar-sub {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 4px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .status-dot {
+      position: absolute;
+      bottom: -3px;
+      right: -3px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #10b981;
+      border: 2.5px solid var(--bg-card);
+    }
+
+    .info-content { min-width: 0; flex: 1; }
+    .info-content .name {
+      font-family: var(--font-display);
+      font-size: 1.32rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    .info-content .role-badge {
+      display: inline-block;
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 11px;
+      border-radius: 8px;
+      line-height: 1.3;
+    }
+
+    .info_more-btn {
+      position: absolute;
+      top: -24px;
+      right: -20px;
+      padding: 8px 13px;
+      border-radius: 0 22px 0 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--bg-card-elev);
+      border-left: 1px solid var(--border-card);
+      border-bottom: 1px solid var(--border-card);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s ease;
+    }
+    .info_more-btn:hover { background: var(--accent-soft); }
+
+    .sidebar-info_more {
+      display: none;
+      padding-top: 4px;
+    }
+    .sidebar.active .sidebar-info_more {
+      display: block;
+    }
+
+    .separator {
+      width: 100%;
+      height: 1px;
+      background: var(--border-card);
+      margin: 18px 0;
+    }
+
+    .contacts-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      min-width: 0;
+    }
+    .icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--bg-icon);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-info { min-width: 0; flex: 1; }
+    .contact-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .contact-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.38;
+      overflow-wrap: break-word;
+    }
+
+    .vcard-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .vcard-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid var(--border-card);
+      background: var(--bg-card-elev);
+      color: var(--text-primary);
+      transition: all 0.18s ease;
+      text-align: center;
+    }
+    .vcard-btn.primary {
+      background: var(--accent);
+      color: #0a0a0c;
+      border-color: var(--accent);
+    }
+    html.light .vcard-btn.primary {
+      color: #ffffff;
+    }
+    .vcard-btn:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .social-list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .social-link {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border-card);
+      background: var(--bg-card-elev);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.18s ease;
+    }
+    .social-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .main-card {
+      position: relative;
+      padding: 28px 24px 36px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .navbar {
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 6px;
+      margin-bottom: 26px;
+    }
+    .navbar-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .navbar-link {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 10px;
+      transition: all 0.18s ease;
+    }
+    .navbar-link:hover { color: var(--text-primary); }
+    .navbar-link.active {
+      color: #0a0a0c;
+      background: var(--accent);
+    }
+    html.light .navbar-link.active {
+      color: #ffffff;
+    }
+
+    article[data-page] { display: none; }
+    article[data-page].active {
+      display: block;
+      animation: fadePage 0.35s ease;
+    }
+    @keyframes fadePage {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .article-title {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      position: relative;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .article-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 42px;
+      height: 4px;
+      border-radius: 4px;
+      background: var(--accent);
+    }
+
+    .about-text p {
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      font-size: 15px;
+      line-height: 1.72;
+    }
+
+    .kpi-bento {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0 28px;
+    }
+    .kpi-card {
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 14px;
+      min-width: 0;
+    }
+    .kpi-num {
+      font-family: var(--font-display);
+      font-size: 1.38rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.15;
+    }
+    .kpi-label {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-top: 4px;
+    }
+    .kpi-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .section-subtitle {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 28px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .devportfolio-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .skill-chip {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--pill-bg);
+      border: 1px solid var(--border-card);
+      color: var(--pill-text);
+      transition: all 0.18s ease;
+    }
+    .skill-chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .service-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .service-item {
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .service-item:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .service-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--bg-icon);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .service-content-box h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 5px;
+    }
+    .service-content-box p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .spotlight-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .spotlight-card {
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .spotlight-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .spotlight-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .spotlight-card h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+    .spotlight-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .modal-container {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-container.active { display: flex; }
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(4px);
+    }
+    .modal-box {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 26px;
+      box-shadow: var(--shadow-float);
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+    }
+    .modal-close-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+    .timeline { margin-bottom: 32px; }
+    .timeline .title-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .timeline-list {
+      margin-left: 42px;
+      border-left: 2px solid var(--border-card);
+      padding-left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .timeline-item { position: relative; }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -31px;
+      top: 5px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+    .timeline-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .timeline-item-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .timeline-org {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      padding: 2px 9px;
+      border-radius: 999px;
+    }
+    .timeline-bullets {
+      list-style: disc;
+      padding-left: 18px;
+      color: var(--text-secondary);
+      font-size: 13.8px;
+    }
+    .timeline-bullets li {
+      list-style: disc;
+      margin-bottom: 6px;
+      line-height: 1.58;
+    }
+
+    .skills-card {
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px 24px;
+    }
+    .skills-item .title-wrapper {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .skills-item data {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+    }
+    .skill-progress-bg {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .skill-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 999px;
+    }
+
+    .filter-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    .filter-btn {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding: 7px 14px;
+      border-radius: 10px;
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      transition: all 0.15s ease;
+    }
+    .filter-btn:hover { color: var(--text-primary); }
+    .filter-btn.active {
+      background: var(--accent);
+      color: #0a0a0c;
+      border-color: var(--accent);
+    }
+    html.light .filter-btn.active { color: #ffffff; }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .project-card {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.22s ease;
+    }
+    .project-card.active { display: flex; }
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-float);
+    }
+    .project-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-card);
+      position: relative;
+    }
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+    .project-card:hover .project-thumb img { transform: scale(1.04); }
+    .project-index {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: rgba(10, 10, 12, 0.84);
+      color: #ffdb70;
+      border: 1px solid rgba(255, 219, 112, 0.35);
+    }
+    .project-body {
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .project-cat {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .project-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      line-height: 1.55;
+      flex: 1;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      color: var(--text-secondary);
+    }
+
+    .pub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .pub-row {
+      background: var(--bg-card-elev);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      transition: border-color 0.18s ease, transform 0.18s ease;
+    }
+    .pub-row:hover {
+      border-color: var(--accent);
+      transform: translateX(3px);
+    }
+    .pub-code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 3px 8px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .pub-info { flex: 1; min-width: 0; }
+    .pub-title {
+      font-weight: 700;
+      color: var(--text-primary);
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+    .pub-meta {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+    .pub-ext {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-card);
+      background: var(--bg-card);
+      color: var(--accent);
+      white-space: nowrap;
+      align-self: center;
+    }
+    .pub-ext:hover { background: var(--accent); color: #0a0a0c; }
+    html.light .pub-ext:hover { color: #ffffff; }
+
+    footer {
+      border-top: 1px solid var(--border-card);
+      padding: 24px 16px;
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+    footer a { color: var(--accent); font-weight: 600; }
+
+    @media (min-width: 1080px) {
+      .vcard-shell {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 26px;
+      }
+      .sidebar {
+        width: 310px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 68px;
+        padding: 32px 22px 24px;
+      }
+      .sidebar-info {
+        flex-direction: column;
+        text-align: center;
+      }
+      .avatar-box {
+        width: 116px;
+        height: 116px;
+        border-radius: 28px;
+      }
+      .avatar-monogram { font-size: 2.1rem; }
+      .info_more-btn { display: none; }
+      .sidebar-info_more { display: block !important; }
+      .main-card {
+        padding: 34px 36px 42px;
+      }
+      .navbar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-radius: 0 22px 0 18px;
+        border-top: none;
+        border-right: none;
+        padding: 8px 18px;
+        margin-bottom: 0;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .kpi-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .service-list, .spotlight-grid, .project-grid, .skills-card {
+        grid-template-columns: 1fr;
+      }
+      .timeline-list { margin-left: 14px; padding-left: 18px; }
+      .pub-row { flex-direction: column; }
+      .pub-ext { align-self: flex-start; }
+      .brand-sec, .brand-sep { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="/" class="brand">
+        <span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span>
+        <span class="brand-sep">|</span>
+        <span class="brand-sec" data-i18n="headerBrand">Digital vCard &amp; CV</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1; justify-content:flex-end;">
+        <nav class="topnav">
+          <a href="/vcard/" class="active-link" data-i18n="navVcard">vCard</a>
+          <a href="/tutorials/" data-i18n="navTutorials">Tutorials</a>
+          <a href="/blog/" data-i18n="navBlog">Blog</a>
+          <a href="/archive/" data-i18n="navArchive">Archive</a>
+          <a href="/" class="portal-pill" data-i18n="navPortfolio">Main Portal</a>
+        </nav>
+        <div class="ctrl-group">
+          <button class="ctrl-btn" id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">☀ Light</button>
+          <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
+            <button class="ctrl-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
+              <span id="current-lang-label">EN</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="lang-popup" id="lang-popup">
+              <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span><span>EN</span></button>
+              <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span><span>KO</span></button>
+              <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span><span>JA</span></button>
+              <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span><span>ZH</span></button>
+              <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span><span>ES</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="vcard-shell">
+    <aside class="sidebar" data-sidebar>
+      <div class="sidebar-info">
+        <div class="avatar-box" aria-label="M9G Monogram Avatar">
+          <div class="avatar-monogram"><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></div>
+          <div class="avatar-sub">Ph.D. • AI/Robot</div>
+          <span class="status-dot" title="Active & Building in Public"></span>
+        </div>
+
+        <div class="info-content">
+          <h1 class="name" data-i18n="profileName">Minsu Chang, Ph.D.</h1>
+          <p class="role-badge" data-i18n="profileRole">Roboticist &amp; Physical AI Architect</p>
+        </div>
+
+        <button class="info_more-btn" data-sidebar-btn onclick="toggleSidebar()">
+          <span data-i18n="showContactsBtn">Show Credentials</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-info_more">
+        <div class="separator"></div>
+
+        <ul class="contacts-list">
+          <li class="contact-item">
+            <div class="icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            <div class="contact-info">
+              <p class="contact-title" data-i18n="sideDegLabel">Academic Degrees</p>
+              <p class="contact-value" data-i18n="sideDegVal">Ph.D., M.S., B.S. in Mechanical Eng. (Sogang Univ.)</p>
+            </div>
+          </li>
+
+          <li class="contact-item">
+            <div class="icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            </div>
+            <div class="contact-info">
+              <p class="contact-title" data-i18n="sideAwardLabel">Key Distinction</p>
+              <p class="contact-value" data-i18n="sideAwardVal">1st Place Winner • Google Gemini 3 Seoul Hackathon 2026</p>
+            </div>
+          </li>
+
+          <li class="contact-item">
+            <div class="icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="contact-info">
+              <p class="contact-title" data-i18n="sideIpLabel">Publications &amp; IP</p>
+              <p class="contact-value" data-i18n="sideIpVal">16 Peer-Reviewed Papers &amp; 11 Patents (7 US, 4 KR)</p>
+            </div>
+          </li>
+
+          <li class="contact-item">
+            <div class="icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="contact-info">
+              <p class="contact-title" data-i18n="sideLocLabel">Location</p>
+              <p class="contact-value" data-i18n="sideLocVal">Seoul, Republic of Korea</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="vcard-actions">
+          <button class="vcard-btn primary" onclick="downloadVcf()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span data-i18n="btnSaveVcf">Save .vcf</span>
+          </button>
+          <a class="vcard-btn" href="/blog/">
+            <span data-i18n="btnReadBlog">Research Blog ↗</span>
+          </a>
+        </div>
+
+        <ul class="social-list">
+          <li>
+            <a href="https://www.linkedin.com/in/mincasurong/" target="_blank" rel="noopener" class="social-link" title="LinkedIn (@mincasurong)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/mincasurong" target="_blank" rel="noopener" class="social-link" title="GitHub (@mincasurong)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener" class="social-link" title="IEEE Xplore (ICRA 2025 OPPA)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="https://patents.google.com/?inventor=Minsu+CHANG" target="_blank" rel="noopener" class="social-link" title="Google Patents (Minsu Chang)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <div class="main-card">
+      <nav class="navbar" aria-label="vCard Section Tabs">
+        <ul class="navbar-list">
+          <li><button class="navbar-link active" data-nav-target="about" onclick="switchTab('about', this)" data-i18n="tabAbout">About</button></li>
+          <li><button class="navbar-link" data-nav-target="resume" onclick="switchTab('resume', this)" data-i18n="tabResume">Resume</button></li>
+          <li><button class="navbar-link" data-nav-target="portfolio" onclick="switchTab('portfolio', this)" data-i18n="tabPortfolio">Portfolio</button></li>
+          <li><button class="navbar-link" data-nav-target="publications" onclick="switchTab('publications', this)" data-i18n="tabPubs">Publications &amp; IP</button></li>
+        </ul>
+      </nav>
+
+      <article class="about active" data-page="about">
+        <header>
+          <h2 class="article-title" data-i18n="aboutHeading">About M9G (Minsu Chang, Ph.D.)</h2>
+        </header>
+
+        <section class="about-text">
+          <p data-i18n="aboutP1">
+            I am a Roboticist and Physical AI Systems Architect (B.S., M.S., and Ph.D. in Mechanical Engineering from Sogang University) operating under the engineering identity <strong>M9G — From Machine to General Intelligence by Agent-enabled System Engineering</strong> (<code>m incasuron g</code> × <code>m insu chan g</code>). My work bridges deterministic nonlinear/adaptive robot control with frontier multimodal Vision-Language-Action (VLA) planning and multi-agent software harnesses.
+          </p>
+          <p data-i18n="aboutP2">
+            From commercializing KFDA-certified lower-limb rehabilitation exoskeletons (<strong>SUBAR</strong>, deployed across 6 Korean hospitals) and authoring <strong>ICRA 2025 (OPPA)</strong> &amp; <strong>IEEE TNSRE (AI Therapist)</strong> papers, to winning <strong>1st Place at the Google Gemini 3 Seoul Hackathon 2026</strong> (<em>GeminiSpace</em>) and architecting <strong>Project STAMP</strong> &amp; <strong>m9g-agent-corps</strong>, I build closed-loop physical and agentic systems verified under real hardware-in-the-loop constraints.
+          </p>
+        </section>
+
+        <div class="kpi-bento">
+          <div class="kpi-card">
+            <div class="kpi-num">1st Place</div>
+            <div class="kpi-label" data-i18n="kpi1Title">Google Gemini 3</div>
+            <div class="kpi-sub" data-i18n="kpi1Sub">Seoul Hackathon 2026 Winner</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num">16 Papers</div>
+            <div class="kpi-label" data-i18n="kpi2Title">Peer-Reviewed</div>
+            <div class="kpi-sub" data-i18n="kpi2Sub">ICRA 2025, IEEE TNSRE, ICORR</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num">11 Patents</div>
+            <div class="kpi-label" data-i18n="kpi3Title">7 US + 4 KR</div>
+            <div class="kpi-sub" data-i18n="kpi3Sub">AMR Nav, Lab Auto &amp; Exoskeletons</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-num">6 Hospitals</div>
+            <div class="kpi-label" data-i18n="kpi4Title">KFDA Certified</div>
+            <div class="kpi-sub" data-i18n="kpi4Sub">SUBAR Medical Exoskeleton</div>
+          </div>
+        </div>
+
+        <h3 class="section-subtitle" data-i18n="skillsMatrixHeading">Core Technical Stack</h3>
+        <div class="devportfolio-skills">
+          <span class="skill-chip">NVIDIA Isaac Sim 6.0 (PhysX TGS)</span>
+          <span class="skill-chip">ROS 2 Jazzy &amp; MoveIt 2</span>
+          <span class="skill-chip">Vision-Language-Action (VLA)</span>
+          <span class="skill-chip">Project STAMP (Deterministic TAMP Gate)</span>
+          <span class="skill-chip">Franka Emika FR3 (7-DoF DLS IK)</span>
+          <span class="skill-chip">Gemini 4 Argon &amp; 3.8 Flash</span>
+          <span class="skill-chip">Model Context Protocol (m9g-mcp)</span>
+          <span class="skill-chip">Nonlinear / Adaptive / LQR Control</span>
+          <span class="skill-chip">KFDA Medical Exoskeletons (SUBAR)</span>
+          <span class="skill-chip">Python • C/C++ • TypeScript • CUDA</span>
+          <span class="skill-chip">FastDDS Unicast &amp; WSL2 Bridging</span>
+          <span class="skill-chip">Jetson Nano TensorRT &amp; Edge AI</span>
+        </div>
+
+        <h3 class="section-subtitle" data-i18n="whatIDoHeading">What I Architect</h3>
+        <ul class="service-list">
+          <li class="service-item">
+            <div class="service-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+            </div>
+            <div class="service-content-box">
+              <h4 data-i18n="srv1Title">Multi-Manipulator VLA &amp; Symbolic 3D Control</h4>
+              <p data-i18n="srv1Desc">Software-pipelined 3-arm Franka FR3 manipulation in NVIDIA Isaac Sim 6.0 &amp; ROS 2 Jazzy using 50 Hz 3D /tf grounding and hybrid Brain-Executor routing (-76.6% API cost).</p>
+            </div>
+          </li>
+
+          <li class="service-item">
+            <div class="service-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div class="service-content-box">
+              <h4 data-i18n="srv2Title">Project STAMP: Deterministic Safety Gating</h4>
+              <p data-i18n="srv2Desc">4-stage Plan → Gate → Execute → Write-Back shield intercepting 100% of IK, AABB collision, joint/torque, and temporal zone-lock faults across 1,000 multi-arm episodes.</p>
+            </div>
+          </li>
+
+          <li class="service-item">
+            <div class="service-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div class="service-content-box">
+              <h4 data-i18n="srv3Title">Agentic Harnesses &amp; MCP Power Tools</h4>
+              <p data-i18n="srv3Desc">Engineered m9g-agent-corps (28 Python modules) and extracted 7 deterministic substrates (AST skeletonizer, shadow Git index checkpoints, SHA-256 hashline edits) into m9g-mcp.</p>
+            </div>
+          </li>
+
+          <li class="service-item">
+            <div class="service-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div class="service-content-box">
+              <h4 data-i18n="srv4Title">Clinical Exoskeletons &amp; Adaptive Navigation</h4>
+              <p data-i18n="srv4Desc">KFDA-certified lower-limb gait exoskeleton SUBAR &amp; IEEE TNSRE AI Therapist deployed in 6 hospitals, plus ICRA 2025 OPPA online parameter adaptation for autonomous mobile robots.</p>
+            </div>
+          </li>
+        </ul>
+
+        <h3 class="section-subtitle" data-i18n="spotlightHeading">Milestone Spotlights (Click to Inspect)</h3>
+        <div class="spotlight-grid">
+          <div class="spotlight-card" onclick="openSpotlightModal('GeminiSpace — 1st Place at Google Gemini 3 Seoul Hackathon 2026', '2026-02 • 1st Place among 111 Finalists (1,500+ Applicants)', 'Developed GeminiSpace (geminispace.mincasurong.com), an indoor spatial AI navigation system that transforms standard room photos into an interactive 2D/3D semantic map with natural-language spatial querying.')">
+            <span class="spotlight-badge">Hackathon 1st Place</span>
+            <h4>GeminiSpace Spatial AI</h4>
+            <p>1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026 among 111 finalist teams and 1,500+ applicants.</p>
+          </div>
+          <div class="spotlight-card" onclick="openSpotlightModal('Project STAMP (M9G-TR-2026-03) — 1,000-Episode Safety Benchmark', '2026-10 • 100.0% Fault Interception & 100.0% Recovery', 'Decouples multimodal VLA reasoning from ROS 2 / MoveIt 2 execution via a 4-layer deterministic gate (7-DoF DLS IK, 3D AABB collision, joint/torque limits, and temporal zone locks) and closed-loop write_limit_back repair.')">
+            <span class="spotlight-badge">M9G-TR-2026-03</span>
+            <h4>Project STAMP Deterministic Gate</h4>
+            <p>Intercepted 610/610 injected physical faults (0 unsafe dispatches) and raised episode completion from 39% to 100%.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="resume" data-page="resume">
+        <header>
+          <h2 class="article-title" data-i18n="resumeHeading">Resume &amp; Career Timeline</h2>
+        </header>
+
+        <section class="timeline">
+          <div class="title-wrapper">
+            <div class="icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <h3 class="section-subtitle" style="margin:0;" data-i18n="expHeading">Research &amp; Engineering Experience</h3>
+          </div>
+
+          <ol class="timeline-list">
+            <li class="timeline-item">
+              <div class="timeline-header">
+                <h4 class="timeline-item-title">Principal Physical AI &amp; Agentic Systems Architect</h4>
+                <span class="timeline-date">2025 — Present</span>
+              </div>
+              <div class="timeline-org">M9G Research &amp; Systems Engineering (mincasurong.github.io)</div>
+              <ul class="timeline-bullets">
+                <li><strong>1st-Place Winner, Google Gemini 3 Seoul Hackathon 2026:</strong> Built <em>GeminiSpace</em>, an interactive indoor semantic mapping and VLA spatial navigation platform selected 1st out of 111 finalists (1,500+ applicants).</li>
+                <li><strong>Project STAMP (<code>M9G-TR-2026-03</code>):</strong> Architected a 4-stage <code>Plan → Gate → Execute → Write-Back</code> framework for 3-arm Franka FR3 workcells, achieving 100% fault interception (610/610) and 100% task recovery across 1,000 episodes.</li>
+                <li><strong>3-Arm VLA Task Planner Benchmark (<code>M9G-TR-2026-01</code>):</strong> Demonstrated software-pipelined 10-turn scheduling and hybrid Argon + Flash-Lite routing in Isaac Sim 6.0 &amp; ROS 2 Jazzy, cutting per-trial API cost by 76.6% ($0.01972) with 0 RGB tokens.</li>
+                <li><strong><code>m9g-agent-corps</code> &amp; <code>m9g-mcp</code> (<code>M9G-TR-2026-02</code>):</strong> Engineered a 28-module, 169-test coding harness and extracted 7 deterministic MCP power tools (AST skeletonizer, shadow Git index checkpoints, SHA-256 hashline editor).</li>
+              </ul>
+            </li>
+
+            <li class="timeline-item">
+              <div class="timeline-header">
+                <h4 class="timeline-item-title">Senior Robotics &amp; Autonomous Lab Automation Researcher</h4>
+                <span class="timeline-date">2022 — 2025</span>
+              </div>
+              <div class="timeline-org">Samsung Electronics (Autonomous Mobile Robotics &amp; Material Synthesis Platforms)</div>
+              <ul class="timeline-bullets">
+                <li><strong>ICRA 2025 First Author (<em>OPPA</em>):</strong> Published <em>Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</em> at IEEE ICRA 2025 (Atlanta, USA), dynamically adapting local planner parameters and safety margins in cluttered environments.</li>
+                <li><strong>7 US Patents in Autonomous Mobile &amp; Lab Robotics:</strong> Inventor on granted patent <code>US12411092B2</code> (Optical monitoring device) and published applications <code>US20260072439A1</code> (Mobile machine for adjusting safety margin), <code>US20260028212A1</code> (Transfer system), <code>US20250232845A1</code> (Material synthesis platform), <code>US20250180449A1</code>, <code>US20250180450A1</code>, and <code>US20250122061A1</code>.</li>
+              </ul>
+            </li>
+
+            <li class="timeline-item">
+              <div class="timeline-header">
+                <h4 class="timeline-item-title">Lead Rehabilitation Robotics Researcher &amp; Control Teaching Assistant</h4>
+                <span class="timeline-date">2016 — 2022</span>
+              </div>
+              <div class="timeline-org">Sogang University — Robotics &amp; Control Lab (Seoul, Korea)</div>
+              <ul class="timeline-bullets">
+                <li><strong>KFDA Medical Device Certification &amp; 6-Hospital Deployment:</strong> Co-developed hardware and adaptive impedance control algorithms for the lower-limb exoskeleton <strong>SUBAR</strong>, achieving KFDA medical certification and clinical deployment across 6 Korean hospitals.</li>
+                <li><strong>Clinical AI Therapist (IEEE TNSRE 2020 &amp; 2019):</strong> Collected 3 years of stroke-patient clinical gait data to train an ANFIS/RL-based <em>AI Therapist</em> realizing expert physical therapist verbal cues and Borg-scale exertion estimation.</li>
+                <li><strong>4 Registered Korean Patents &amp; 9 Semesters of Control TA:</strong> Inventor on <code>KR 10-2262191</code>, <code>10-2218260</code>, <code>10-2132113</code>, and <code>10-1940901</code>; lectured LQR/MATLAB control labs for 9 consecutive semesters and led the 2021 Hyundai Mobis Jetson Nano Camera Vision Bootcamp.</li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <section class="timeline">
+          <div class="title-wrapper">
+            <div class="icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            <h3 class="section-subtitle" style="margin:0;" data-i18n="eduHeading">Education</h3>
+          </div>
+
+          <ol class="timeline-list">
+            <li class="timeline-item">
+              <div class="timeline-header">
+                <h4 class="timeline-item-title">Ph.D. in Mechanical Engineering (Robotics, HRI &amp; Control)</h4>
+                <span class="timeline-date">2018 — 2022</span>
+              </div>
+              <div class="timeline-org">Sogang University, Seoul, Republic of Korea</div>
+              <ul class="timeline-bullets">
+                <li>Dissertation &amp; core research on clinical AI therapists, adaptive impedance control, and postural stability (HAT model) for KFDA-certified lower-limb rehabilitation exoskeletons.</li>
+              </ul>
+            </li>
+
+            <li class="timeline-item">
+              <div class="timeline-header">
+                <h4 class="timeline-item-title">M.S. in Mechanical Engineering</h4>
+                <span class="timeline-date">2016 — 2018</span>
+              </div>
+              <div class="timeline-org">Sogang University, Seoul, Republic of Korea</div>
+              <ul class="timeline-bullets">
+                <li>Recipient of the <strong>Best Presentation Award</strong> (ICCAS 2017, Jeju) for virtual-environment gait rehabilitation control.</li>
+              </ul>
+            </li>
+
+            <li class="timeline-item">
+              <div class="timeline-header">
+                <h4 class="timeline-item-title">B.S. in Mechanical Engineering</h4>
+                <span class="timeline-date">2010 — 2016</span>
+              </div>
+              <div class="timeline-org">Sogang University, Seoul, Republic of Korea</div>
+              <ul class="timeline-bullets">
+                <li>Global Exchange Teacher via <strong>AIESEC in Hungary</strong> (Winter &amp; Summer 2014, Ferenc Földes Secondary School, Miskolc).</li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <h3 class="section-subtitle" data-i18n="proficiencyHeading">Domain Proficiency</h3>
+        <div class="skills-card">
+          <div class="skills-item">
+            <div class="title-wrapper"><span>Embodied Physical AI, VLA &amp; TAMP (STAMP / Isaac Sim 6.0)</span><data value="96">96%</data></div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width:96%;"></div></div>
+          </div>
+          <div class="skills-item">
+            <div class="title-wrapper"><span>ROS 1/2, MoveIt 1/2, FastDDS &amp; 7-DoF Inverse Kinematics</span><data value="95">95%</data></div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width:95%;"></div></div>
+          </div>
+          <div class="skills-item">
+            <div class="title-wrapper"><span>Nonlinear, Adaptive Impedance &amp; LQR Control Systems</span><data value="95">95%</data></div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width:95%;"></div></div>
+          </div>
+          <div class="skills-item">
+            <div class="title-wrapper"><span>Multi-Agent Harnesses, MCP Servers &amp; Full-Stack AI Systems</span><data value="92">92%</data></div>
+            <div class="skill-progress-bg"><div class="skill-progress-fill" style="width:92%;"></div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="portfolio" data-page="portfolio">
+        <header>
+          <h2 class="article-title" data-i18n="portfolioHeading">Featured Systems &amp; Live Portfolio</h2>
+        </header>
+
+        <div class="filter-list" role="tablist">
+          <button class="filter-btn active" onclick="filterProjects('all', this)">All (8)</button>
+          <button class="filter-btn" onclick="filterProjects('physical-ai', this)">Physical AI &amp; Robotics (3)</button>
+          <button class="filter-btn" onclick="filterProjects('agentic', this)">Agentic &amp; MCP (1)</button>
+          <button class="filter-btn" onclick="filterProjects('apps', this)">Live Web &amp; Android Apps (3)</button>
+          <button class="filter-btn" onclick="filterProjects('rehab', this)">Medical Exoskeletons (1)</button>
+        </div>
+
+        <div class="project-grid">
+          <a href="/blog/stamp/" class="project-card active" data-category="physical-ai">
+            <div class="project-thumb">
+              <span class="project-index">01 • M9G-TR-2026-03</span>
+              <img src="/screenshots/stamp-architecture-nanobanana.png" alt="Project STAMP Architecture" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-cat">Physical AI &amp; Deterministic TAMP</div>
+              <h3 class="project-title">Project STAMP: Plan → Gate → Execute → Write-Back</h3>
+              <p class="project-desc">4-layer deterministic safety gate &amp; closed-loop fault write-back achieving 100% fault interception (610/610) and 100% episode completion across 1,000 multi-arm trials.</p>
+              <div class="project-tags">
+                <span class="project-tag">Isaac Sim 6.0</span>
+                <span class="project-tag">ROS 2 / MoveIt 2</span>
+                <span class="project-tag">7-DoF DLS IK</span>
+                <span class="project-tag">Gemini 4 Argon</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="/blog/VLA/" class="project-card active" data-category="physical-ai">
+            <div class="project-thumb">
+              <span class="project-index">02 • M9G-TR-2026-01</span>
+              <img src="/screenshots/vla-architecture-nanobanana.png" alt="3-Stage VLA Task Planner Benchmark" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-cat">Physical AI &amp; Multi-Arm Manipulation</div>
+              <h3 class="project-title">3-Arm FR3 VLA Task Planner Benchmark</h3>
+              <p class="project-desc">Symbolic 3D /tf grounding (0 RGB tokens) and software-pipelined 10-turn scheduling with Argon + Flash-Lite cutting per-trial API cost by 76.6% ($0.01972).</p>
+              <div class="project-tags">
+                <span class="project-tag">3x Franka FR3</span>
+                <span class="project-tag">FastDDS</span>
+                <span class="project-tag">0 RGB Tokens</span>
+                <span class="project-tag">-76.6% Cost</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="/blog/m9g-agent/" class="project-card active" data-category="agentic">
+            <div class="project-thumb">
+              <span class="project-index">03 • M9G-TR-2026-02</span>
+              <img src="/screenshots/m9g-agent-corps-architecture.png" alt="m9g-agent-corps Architecture" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-cat">Agentic Harnesses &amp; MCP Server</div>
+              <h3 class="project-title">m9g-agent-corps &amp; m9g-mcp Power Tools</h3>
+              <p class="project-desc">28-module coding harness investigation (95% prefix cache, SHA-256 hashline edits, shadow Git index checkpoints, AST skeletonizer) compared against OmO, OpenCode, Claude Code &amp; agy.</p>
+              <div class="project-tags">
+                <span class="project-tag">MCP 2024-11-05</span>
+                <span class="project-tag">AST Skeletonizer</span>
+                <span class="project-tag">Hashline Edit</span>
+                <span class="project-tag">Shadow Git</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener" class="project-card active" data-category="physical-ai">
+            <div class="project-thumb">
+              <span class="project-index">04 • 1st Place Winner</span>
+              <img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="GeminiSpace Spatial AI" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-cat">Spatial AI • Google Hackathon 1st Place</div>
+              <h3 class="project-title">GeminiSpace: Indoor Semantic Spatial Map</h3>
+              <p class="project-desc">1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026. Converts single-view/360° room photos into an interactive 2D/3D semantic navigation map.</p>
+              <div class="project-tags">
+                <span class="project-tag">Gemini 3</span>
+                <span class="project-tag">Spatial Grounding</span>
+                <span class="project-tag">Live Web App</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="https://opic.mincasurong.com/" target="_blank" rel="noopener" class="project-card active" data-category="apps">
+            <div class="project-thumb">
+              <span class="project-index">05 • Live AI App</span>
+              <img src="/screenshots/opic.png" alt="OPIc AI Master Coach" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-cat">Live Web Application</div>
+              <h3 class="project-title">OPIc AI Master Coach</h3>
+              <p class="project-desc">Real-time AI voice speaking coach and rubric evaluator designed for OPIc Advanced Low (AL) preparation.</p>
+              <div class="project-tags">
+                <span class="project-tag">Gemini Live Audio</span>
+                <span class="project-tag">React 19</span>
+                <span class="project-tag">Cloud Run</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="https://jplt.mincasurong.com/" target="_blank" rel="noopener" class="project-card active" data-category="apps">
+            <div class="project-thumb">
+              <span class="project-index">06 • Live AI App</span>
+              <img src="/screenshots/jplt.png" alt="JLPT N4 Mock Exam & Drill Master" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-cat">Live Web Application</div>
+              <h3 class="project-title">JLPT N4 Mock Exam &amp; Drill Master</h3>
+              <p class="project-desc">Adaptive Japanese proficiency exam simulator with real-time Gemini AI grammar and kanji weakness tutoring.</p>
+              <div class="project-tags">
+                <span class="project-tag">Gemini API</span>
+                <span class="project-tag">Adaptive Drill</span>
+                <span class="project-tag">Free SaaS</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank" rel="noopener" class="project-card active" data-category="apps">
+            <div class="project-thumb">
+              <span class="project-index">07 • Google Play</span>
+              <img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" alt="UrKuma Android App" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-cat">Android Application (Google Play)</div>
+              <h3 class="project-title">UrKuma: Korean-Japanese Kanji Quiz</h3>
+              <p class="project-desc">Production Android mobile app on Google Play for 3-minute daily Sino-Korean and Japanese Kanji mastery.</p>
+              <div class="project-tags">
+                <span class="project-tag">Google Play</span>
+                <span class="project-tag">Android</span>
+                <span class="project-tag">Gamified SRS</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="/archive/#research-2022" class="project-card active" data-category="rehab">
+            <div class="project-thumb">
+              <span class="project-index">08 • KFDA Medical Robot</span>
+              <img src="https://img.youtube.com/vi/lkfVqltgM94/maxresdefault.jpg" alt="SUBAR & AI Therapist" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-cat">Medical Robotics &amp; HRI</div>
+              <h3 class="project-title">KFDA Exoskeleton SUBAR &amp; AI Therapist</h3>
+              <p class="project-desc">Lower-limb gait rehabilitation robot certified by KFDA and deployed across 6 hospitals, paired with an IEEE TNSRE AI Therapist.</p>
+              <div class="project-tags">
+                <span class="project-tag">KFDA Certified</span>
+                <span class="project-tag">IEEE TNSRE</span>
+                <span class="project-tag">6 Hospitals</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </article>
+
+      <article class="publications" data-page="publications">
+        <header>
+          <h2 class="article-title" data-i18n="pubsHeading">Selected Publications, Patents &amp; Disclosures</h2>
+        </header>
+
+        <h3 class="section-subtitle">M9G Technical Research Disclosures (2026)</h3>
+        <div class="pub-list" style="margin-bottom:28px;">
+          <div class="pub-row">
+            <span class="pub-code">M9G-TR-03</span>
+            <div class="pub-info">
+              <div class="pub-title">Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning</div>
+              <div class="pub-meta">Minsu Chang, Ph.D. (M9G) • Oct 2026 • STAMP-Bench-V1 (1,000 Episodes, 100% Fault Interception)</div>
+            </div>
+            <a href="/blog/stamp/" class="pub-ext">Read Article →</a>
+          </div>
+
+          <div class="pub-row">
+            <span class="pub-code">M9G-TR-02</span>
+            <div class="pub-info">
+              <div class="pub-title">Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity</div>
+              <div class="pub-meta">Minsu Chang, Ph.D. (M9G) • Oct 2026 • 28 Python Modules, 169 Unit Tests &amp; m9g-mcp Pivot</div>
+            </div>
+            <a href="/blog/m9g-agent/" class="pub-ext">Read Article →</a>
+          </div>
+
+          <div class="pub-row">
+            <span class="pub-code">M9G-TR-01</span>
+            <div class="pub-info">
+              <div class="pub-title">Symbolic 3D Grounding and Software-Pipelined VLA Task Planning for Multi-Arm Manipulation</div>
+              <div class="pub-meta">Minsu Chang, Ph.D. (M9G) • Oct 2026 • Isaac Sim 6.0 &amp; ROS 2 Jazzy (3x FR3, -76.6% API Cost)</div>
+            </div>
+            <a href="/blog/VLA/" class="pub-ext">Read Article →</a>
+          </div>
+        </div>
+
+        <h3 class="section-subtitle">Selected Peer-Reviewed Publications (5 of 16)</h3>
+        <div class="pub-list" style="margin-bottom:28px;">
+          <div class="pub-row">
+            <span class="pub-code">ICRA 2025</span>
+            <div class="pub-info">
+              <div class="pub-title">OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</div>
+              <div class="pub-meta"><strong>Minsu Chang</strong>, J. Jang, D. Han, W. Choi, S. Kim, H. Park, H. Choi • IEEE ICRA 2025 (Atlanta, USA)</div>
+            </div>
+            <a href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener" class="pub-ext">IEEE Xplore ↗</a>
+          </div>
+
+          <div class="pub-row">
+            <span class="pub-code">TNSRE 2020</span>
+            <div class="pub-info">
+              <div class="pub-title">AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</div>
+              <div class="pub-meta"><strong>Minsu Chang</strong>, T. Kim, J. Beom, S. Won, D. Jeon • IEEE Trans. Neural Syst. Rehabil. Eng. (2020)</div>
+            </div>
+            <a href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener" class="pub-ext">IEEE Xplore ↗</a>
+          </div>
+
+          <div class="pub-row">
+            <span class="pub-code">TNSRE 2019</span>
+            <div class="pub-info">
+              <div class="pub-title">Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</div>
+              <div class="pub-meta"><strong>Minsu Chang</strong>, K. Kim, D. Jeon • IEEE Trans. Neural Syst. Rehabil. Eng. (2019)</div>
+            </div>
+            <a href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener" class="pub-ext">IEEE Xplore ↗</a>
+          </div>
+
+          <div class="pub-row">
+            <span class="pub-code">MDPI 2019</span>
+            <div class="pub-info">
+              <div class="pub-title">Precise flowrate control of fluid gear pump in automated painting system using a repetitive controller</div>
+              <div class="pub-meta">K. Park, <strong>Minsu Chang</strong>, D. Jeon • Applied Sciences 9(16), 3413 (2019)</div>
+            </div>
+            <a href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener" class="pub-ext">MDPI ↗</a>
+          </div>
+
+          <div class="pub-row">
+            <span class="pub-code">ICORR 2017</span>
+            <div class="pub-info">
+              <div class="pub-title">A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</div>
+              <div class="pub-meta"><strong>Minsu Chang</strong>, Y. Kim, Y. Lee, D. Jeon • IEEE ICORR / RehabWeek (London, 2017)</div>
+            </div>
+            <a href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener" class="pub-ext">IEEE Xplore ↗</a>
+          </div>
+        </div>
+
+        <h3 class="section-subtitle">Selected US &amp; KR Patents (5 of 11)</h3>
+        <div class="pub-list">
+          <div class="pub-row">
+            <span class="pub-code">US Granted</span>
+            <div class="pub-info">
+              <div class="pub-title">Optical monitoring device (US12411092B2)</div>
+              <div class="pub-meta">W. Hong, H. Kwon, G. Kim, W. Oh, H. Jeon, H. Choi, <strong>Minsu CHANG</strong>, Y. Choi</div>
+            </div>
+            <a href="https://patents.google.com/patent/US12411092B2/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a>
+          </div>
+
+          <div class="pub-row">
+            <span class="pub-code">US2026</span>
+            <div class="pub-info">
+              <div class="pub-title">Mobile machine for adjusting safety margin and moving method thereof (US20260072439A1)</div>
+              <div class="pub-meta"><strong>Minsu CHANG</strong>, S. Kim, J. Jang, W. Choi, D. Han, H. Park</div>
+            </div>
+            <a href="https://patents.google.com/patent/US20260072439A1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a>
+          </div>
+
+          <div class="pub-row">
+            <span class="pub-code">US2026</span>
+            <div class="pub-info">
+              <div class="pub-title">Transfer system (US20260028212A1)</div>
+              <div class="pub-meta"><strong>Minsu CHANG</strong>, S. Kim, J. Jang, D. Han, H. Choi, T. Ha</div>
+            </div>
+            <a href="https://patents.google.com/patent/US20260028212A1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a>
+          </div>
+
+          <div class="pub-row">
+            <span class="pub-code">KR Granted</span>
+            <div class="pub-info">
+              <div class="pub-title">Rehabilitation robot for gait assistant driven by a motor (KR 10-2132113 B1)</div>
+              <div class="pub-meta"><strong>CHANG, Min-su</strong>, JEON, Do Young</div>
+            </div>
+            <a href="https://patents.google.com/patent/KR102132113B1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a>
+          </div>
+
+          <div class="pub-row">
+            <span class="pub-code">Full Archive</span>
+            <div class="pub-info">
+              <div class="pub-title">Explore All 16 Peer-Reviewed Publications, 11 US/KR Patents &amp; 12 Robotics Tutorials</div>
+              <div class="pub-meta">Complete repository in /archive/ and /tutorials/</div>
+            </div>
+            <a href="/archive/" class="pub-ext">Full Archive →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <div class="modal-container" id="spotlight-modal">
+    <div class="modal-overlay" onclick="closeSpotlightModal()"></div>
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="closeSpotlightModal()" aria-label="Close Modal">✕</button>
+      <span class="spotlight-badge" id="modal-sub"></span>
+      <h3 class="article-title" style="font-size:1.3rem; margin-bottom:12px;" id="modal-title"></h3>
+      <p style="color:var(--text-secondary); font-size:14.5px; line-height:1.68;" id="modal-body"></p>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 <strong>M9G (Minsu Chang, Ph.D. / 장민수)</strong> • <a href="/">Main Portfolio</a> • <a href="/blog/">Technical Research Blog</a> • <a href="/tutorials/">Tutorials</a> • <a href="/archive/">Full Archive</a>
+  </footer>
+
+  <script>
+    function toggleSidebar() {
+      const sb = document.querySelector('[data-sidebar]');
+      if (sb) sb.classList.toggle('active');
+    }
+
+    function switchTab(tabId, btnEl) {
+      document.querySelectorAll('article[data-page]').forEach(art => {
+        art.classList.toggle('active', art.getAttribute('data-page') === tabId);
+      });
+      document.querySelectorAll('.navbar-link').forEach(btn => {
+        btn.classList.toggle('active', btn === btnEl || btn.getAttribute('data-nav-target') === tabId);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function filterProjects(category, btnEl) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      document.querySelectorAll('.project-card').forEach(card => {
+        const cat = card.getAttribute('data-category');
+        card.classList.toggle('active', category === 'all' || cat === category);
+      });
+    }
+
+    function openSpotlightModal(title, sub, body) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-sub').textContent = sub;
+      document.getElementById('modal-body').textContent = body;
+      document.getElementById('spotlight-modal').classList.add('active');
+    }
+
+    function closeSpotlightModal() {
+      document.getElementById('spotlight-modal').classList.remove('active');
+    }
+
+    function downloadVcf() {
+      const vcf = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'N:Chang;Minsu;;;Ph.D.',
+        'FN:Minsu Chang, Ph.D. (M9G)',
+        'ORG:M9G Research & Systems Engineering',
+        'TITLE:Roboticist & Physical AI Systems Architect',
+        'URL:https://mincasurong.github.io/',
+        'ITEM1.URL:https://www.linkedin.com/in/mincasurong/',
+        'ITEM1.X-ABLabel:LinkedIn',
+        'ITEM2.URL:https://github.com/mincasurong',
+        'ITEM2.X-ABLabel:GitHub',
+        'NOTE:1st-Place Winner Google Gemini 3 Seoul Hackathon 2026 | 16 Publications | 11 US/KR Patents',
+        'END:VCARD'
+      ].join('\r\n');
+      const blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Minsu_Chang_PhD_M9G.vcf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function applyTheme(theme) {
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle-btn');
+      if (theme === 'light') {
+        root.classList.add('light');
+        root.classList.remove('dark');
+        if (btn) btn.textContent = '☾ Dark';
+      } else {
+        root.classList.add('dark');
+        root.classList.remove('light');
+        if (btn) btn.textContent = '☀ Light';
+      }
+    }
+
+    function toggleTheme() {
+      const isLight = document.documentElement.classList.contains('light');
+      const next = isLight ? 'dark' : 'light';
+      try { localStorage.setItem('m9g_vcard_theme', next); } catch (e) {}
+      applyTheme(next);
+    }
+    applyTheme((function() { try { return localStorage.getItem('m9g_vcard_theme') || 'dark'; } catch (e) { return 'dark'; } })());
+
+    const VCARD_I18N = {
+      en: {
+        headerBrand: "Digital vCard & CV",
+        navVcard: "vCard", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
+        profileName: "Minsu Chang, Ph.D.",
+        profileRole: "Roboticist & Physical AI Architect",
+        showContactsBtn: "Show Credentials",
+        sideDegLabel: "Academic Degrees", sideDegVal: "Ph.D., M.S., B.S. in Mechanical Eng. (Sogang Univ.)",
+        sideAwardLabel: "Key Distinction", sideAwardVal: "1st Place Winner • Google Gemini 3 Seoul Hackathon 2026",
+        sideIpLabel: "Publications & IP", sideIpVal: "16 Peer-Reviewed Papers & 11 Patents (7 US, 4 KR)",
+        sideLocLabel: "Location", sideLocVal: "Seoul, Republic of Korea",
+        btnSaveVcf: "Save .vcf", btnReadBlog: "Research Blog ↗",
+        tabAbout: "About", tabResume: "Resume", tabPortfolio: "Portfolio", tabPubs: "Publications & IP",
+        aboutHeading: "About M9G (Minsu Chang, Ph.D.)",
+        skillsMatrixHeading: "Core Technical Stack",
+        whatIDoHeading: "What I Architect",
+        spotlightHeading: "Milestone Spotlights (Click to Inspect)",
+        resumeHeading: "Resume & Career Timeline",
+        expHeading: "Research & Engineering Experience",
+        eduHeading: "Education",
+        proficiencyHeading: "Domain Proficiency",
+        portfolioHeading: "Featured Systems & Live Portfolio",
+        pubsHeading: "Selected Publications, Patents & Disclosures"
+      },
+      ko: {
+        headerBrand: "디지털 vCard & 이력서",
+        navVcard: "vCard", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
+        profileName: "장민수 공학박사 (Minsu Chang)",
+        profileRole: "로보틱스 & 피지컬 AI 시스템 아키텍트",
+        showContactsBtn: "상세 이력 펼치기",
+        sideDegLabel: "학위", sideDegVal: "서강대학교 기계공학 학사·석사·박사 (Ph.D.)",
+        sideAwardLabel: "주요 수상", sideAwardVal: "Google Gemini 3 서울 해커톤 2026 최종 1위 우승",
+        sideIpLabel: "논문 및 특허", sideIpVal: "학술논문 16편 & 한·미 특허 11건 (미국 7, 한국 4)",
+        sideLocLabel: "거점", sideLocVal: "대한민국 서울",
+        btnSaveVcf: ".vcf 연락처 저장", btnReadBlog: "리서치 블로그 ↗",
+        tabAbout: "소개", tabResume: "이력서 (CV)", tabPortfolio: "포트폴리오", tabPubs: "논문 & 특허",
+        aboutHeading: "M9G (장민수 박사 / Minsu Chang, Ph.D.) 소개",
+        skillsMatrixHeading: "핵심 기술 스택 (Core Stack)",
+        whatIDoHeading: "핵심 연구 및 아키텍처 영역",
+        spotlightHeading: "주요 마일스톤 하이라이트 (클릭 시 상세 보기)",
+        resumeHeading: "연구·경력 타임라인 및 학력",
+        expHeading: "주요 연구 및 엔지니어링 경력",
+        eduHeading: "학력 사항",
+        proficiencyHeading: "도메인 기술 숙련도",
+        portfolioHeading: "핵심 시스템 및 라이브 앱 포트폴리오",
+        pubsHeading: "주요 학술논문, 특허 및 기술 리포트"
+      },
+      ja: {
+        headerBrand: "デジタル vCard & 経歴書",
+        navVcard: "vCard", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
+        profileName: "Minsu Chang, Ph.D. (張 民洙)",
+        profileRole: "ロボティクス & フィジカルAI アーキテクト",
+        showContactsBtn: "詳細プロフィールを表示",
+        sideDegLabel: "学位", sideDegVal: "西江大学 機械工学 学士・修士・博士 (Ph.D.)",
+        sideAwardLabel: "主な受賞歴", sideAwardVal: "Google Gemini 3 ソウルハッカソン 2026 第1位優勝",
+        sideIpLabel: "論文・特許", sideIpVal: "査読付き論文 16編 & 日米韓特許 11件 (米国7, 韓国4)",
+        sideLocLabel: "拠点", sideLocVal: "韓国・ソウル",
+        btnSaveVcf: ".vcf 保存", btnReadBlog: "リサーチブログ ↗",
+        tabAbout: "概要", tabResume: "経歴・学歴", tabPortfolio: "ポートフォリオ", tabPubs: "論文 & 特許",
+        aboutHeading: "M9G (Minsu Chang, Ph.D.) について",
+        skillsMatrixHeading: "コア技術スタック",
+        whatIDoHeading: "アーキテクチャ設計領域",
+        spotlightHeading: "マイルストーン・ハイライト",
+        resumeHeading: "キャリア & 学歴タイムライン",
+        expHeading: "研究・エンジニアリング経歴",
+        eduHeading: "学歴",
+        proficiencyHeading: "専門領域習熟度",
+        portfolioHeading: "主要システム & ライブアプリ",
+        pubsHeading: "主要論文・特許・技術レポート"
+      },
+      zh: {
+        headerBrand: "数字名片 vCard 与简历",
+        navVcard: "数字名片", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
+        profileName: "Minsu Chang, Ph.D. (张民洙)",
+        profileRole: "机器人学与具身物理 AI 架构师",
+        showContactsBtn: "展开详细资历",
+        sideDegLabel: "学术学位", sideDegVal: "西江大学 机械工程 学士、硕士、博士 (Ph.D.)",
+        sideAwardLabel: "核心奖项", sideAwardVal: "Google Gemini 3 首尔黑客松 2026 冠军 (第 1 名)",
+        sideIpLabel: "论文与专利", sideIpVal: "16 篇学术论文 & 11 项美韩专利 (7 项美国, 4 项韩国)",
+        sideLocLabel: "所在地", sideLocVal: "韩国首尔",
+        btnSaveVcf: "保存 .vcf", btnReadBlog: "研究博客 ↗",
+        tabAbout: "关于", tabResume: "履历 (CV)", tabPortfolio: "项目集", tabPubs: "论文与专利",
+        aboutHeading: "关于 M9G (Minsu Chang, Ph.D.)",
+        skillsMatrixHeading: "核心技术栈",
+        whatIDoHeading: "核心架构与研究方向",
+        spotlightHeading: "里程碑聚焦（点击查看详情）",
+        resumeHeading: "研发履历与教育时间线",
+        expHeading: "研究与系统工程经历",
+        eduHeading: "教育背景",
+        proficiencyHeading: "专业领域熟练度",
+        portfolioHeading: "精选系统与在线应用作品集",
+        pubsHeading: "代表性论文、专利与技术披露"
+      },
+      es: {
+        headerBrand: "vCard Digital y CV",
+        navVcard: "vCard", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
+        profileName: "Minsu Chang, Ph.D.",
+        profileRole: "Roboticista y Arquitecto de IA Física",
+        showContactsBtn: "Ver Credenciales",
+        sideDegLabel: "Grados Académicos", sideDegVal: "Ph.D., M.S., B.S. en Ing. Mecánica (Univ. Sogang)",
+        sideAwardLabel: "Distinción Clave", sideAwardVal: "1er Lugar • Google Gemini 3 Seoul Hackathon 2026",
+        sideIpLabel: "Publicaciones e IP", sideIpVal: "16 Artículos Científicos y 11 Patentes (7 EE.UU., 4 Corea)",
+        sideLocLabel: "Ubicación", sideLocVal: "Seúl, República de Corea",
+        btnSaveVcf: "Guardar .vcf", btnReadBlog: "Blog Técnico ↗",
+        tabAbout: "Perfil", tabResume: "Currículum", tabPortfolio: "Portafolio", tabPubs: "Publicaciones e IP",
+        aboutHeading: "Sobre M9G (Minsu Chang, Ph.D.)",
+        skillsMatrixHeading: "Stack Técnico Principal",
+        whatIDoHeading: "Áreas de Arquitectura",
+        spotlightHeading: "Hitos Destacados (Clic para Inspeccionar)",
+        resumeHeading: "Línea de Tiempo Profesional y Académica",
+        expHeading: "Experiencia en Investigación e Ingeniería",
+        eduHeading: "Educación",
+        proficiencyHeading: "Dominio Técnico",
+        portfolioHeading: "Sistemas Destacados y Apps en Vivo",
+        pubsHeading: "Publicaciones, Patentes e Informes Técnicos"
+      }
+    };
+
+    function toggleLangMenu(e) {
+      e.stopPropagation();
+      document.getElementById('lang-popup').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      const wrap = document.getElementById('lang-dropdown-wrap');
+      if (wrap && !wrap.contains(e.target)) document.getElementById('lang-popup').classList.remove('open');
+    });
+    function setLang(lang) {
+      if (!VCARD_I18N[lang]) lang = 'en';
+      try { localStorage.setItem('m9g_portfolio_lang', lang); } catch (e) {}
+      document.documentElement.lang = lang;
+      const lbl = document.getElementById('current-lang-label');
+      if (lbl) lbl.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(function(opt) {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      const popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.remove('open');
+      const dict = VCARD_I18N[lang];
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+    setLang((function() { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch (e) { return 'en'; } })());
+  </script>
+</body>
+</html>
