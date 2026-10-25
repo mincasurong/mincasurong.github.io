@@ -418,7 +418,7 @@
           <a href="/tutorials/" data-i18n="navTutorials">Tutorials</a>
           <a href="/blog/" style="color:var(--dm-blue);font-weight:700;" data-i18n="navBlog">Blog</a>
           <a href="/archive/" data-i18n="navArchive">Archive</a>
-          <a href="/" class="back-link" data-i18n="navPortfolio">Portfolio</a>
+          <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a>
         </nav>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
           <button class="lang-box-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
@@ -996,7 +996,7 @@
 
     const BLOG_I18N = {
       en: {
-        blogHeaderBrand: "Technical Research Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Portfolio",
+        blogHeaderBrand: "Technical Research Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
         articleTag: "M9G-TR-2026-03 • Spatial, Task & Motion Planning",
         articleTitle: "Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning",
         articleLede: "Allowing a Vision-Language-Action (VLA) planner to stream unverified Cartesian poses or joint commands directly to low-level robotic controllers exposes multi-manipulator workcells to unreachable inverse-kinematics targets, 3D workspace collisions, joint torque spikes, and concurrent zone mutex deadlocks. In Project STAMP (v1.0.0-stamp), we decouple high-level multimodal reasoning (Gemini 4 Argon / Gemini 3.5 Flash-Lite) from ROS 2 Jazzy and MoveIt 2 actuation through a strict four-stage closed-loop architecture: Plan (TaskDAG) → Gate (Deterministic Shield) → Execute (MoveIt 2 / ROS 2) → Write-Back (Context Repair). Evaluated across 1,000 multi-arm Franka Emika FR3 episodes in STAMP-Bench-V1 under 60% synthetic fault injection, Project STAMP intercepts 100.0% of unsafe dispatches (610/610) and elevates episode task completion from 39.0% (single-shot VLA) to 100.0% via two-turn geometric and temporal write-back recovery.",
@@ -1028,7 +1028,7 @@
         tocSec3: "4-Layer Deterministic Shield", tocSec4: "STAMP-Bench-V1 (1,000 Episodes)", tocSec5: "Standalone REST & MCP Server"
       },
       ko: {
-        blogHeaderBrand: "기술 리서치 블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "포트폴리오",
+        blogHeaderBrand: "기술 리서치 블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
         articleTag: "M9G-TR-2026-03 • 시공간 태스크 및 모션 플래닝 (STAMP)",
         articleTitle: "Project STAMP: 다중 로봇 팔 VLA 태스크 및 모션 플래닝을 위한 결정론적 검증 게이트와 폐루프 컨텍스트 복구",
         articleLede: "비전-언어-액션(VLA) 플래너가 검증되지 않은 3D 목표 좌표나 관절 명령을 하위 로봇 제어기에 직접 발행하도록 허용하면, 역기구학(IK) 도달 불가 영역 진입, 3D 작업 공간 충돌, 관절 토크 스파이크, 공유 작업 구역 뮤텍스 데드락 위험에 노출됩니다. Project STAMP(v1.0.0-stamp)는 상위 멀티모달 추론(Gemini 4 Argon / 3.5 Flash-Lite)과 ROS 2 Jazzy 및 MoveIt 2 하드웨어 실행을 Plan(TaskDAG) → Gate(결정론적 안전 실드) → Execute(MoveIt 2 / ROS 2) → Write-Back(컨텍스트 복구)의 4단계 폐루프 파이프라인으로 엄격히 분리합니다. 60% 합성 결함이 주입된 1,000개 다중 로봇 에피소드(STAMP-Bench-V1) 평가 결과, STAMP는 위험 명령을 100.0%(610/610) 사전 차단하고 단일 호출 VLA 대비 태스크 완수율을 39.0%에서 100.0%(+61.0%p)로 끌어올렸습니다.",
@@ -1060,7 +1060,7 @@
         tocSec3: "4계층 결정론적 검증 게이트", tocSec4: "STAMP-Bench-V1 (1,000 에피소드)", tocSec5: "독립형 REST 및 MCP 서버"
       },
       ja: {
-        blogHeaderBrand: "技術リサーチブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "ポートフォリオ",
+        blogHeaderBrand: "技術リサーチブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
         articleTag: "M9G-TR-2026-03 • 時空間タスク＆モーション計画 (STAMP)",
         articleTitle: "Project STAMP: マルチアームVLAタスク＆モーション計画のための決定論的検証ゲートと閉ループ文脈修復",
         articleLede: "Vision-Language-Action (VLA) プランナーが未検証の3D目標姿勢や関節コマンドを低レベル制御器へ直接送信すると、逆運動学(IK)の到達不能領域、3D作業空間での衝突、関節トルクスパイク、共有ゾーンのミューテックス競合が発生します。Project STAMP (v1.0.0-stamp) は、上位マルチモーダル推論 (Gemini 4 Argon / 3.5 Flash-Lite) と ROS 2 Jazzy / MoveIt 2 実行を、Plan (TaskDAG) → Gate (決定論的シールド) → Execute (MoveIt 2 / ROS 2) → Write-Back (文脈修復) の4段階閉ループパイプラインで厳密に分離します。60%の合成フォルト注入を含む1,000エピソード (STAMP-Bench-V1) において、STAMPは危険なディスパッチを100.0% (610/610) 遮断し、タスク完了率を単発VLAの39.0%から100.0% (+61.0%) へと引き上げました。",
@@ -1092,7 +1092,7 @@
         tocSec3: "4層決定論的検証シールド", tocSec4: "STAMP-Bench-V1 (1,000試行)", tocSec5: "スタンドアロンREST & MCP"
       },
       zh: {
-        blogHeaderBrand: "技术研究博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "作品集",
+        blogHeaderBrand: "技术研究博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
         articleTag: "M9G-TR-2026-03 • 时空任务与运动规划 (STAMP)",
         articleTitle: "Project STAMP：面向多机械臂 VLA 任务与运动规划的确定性安全校验门控与闭环上下文修复",
         articleLede: "若允许视觉-语言-动作 (VLA) 规划器将未校验的 3D 目标位姿或关节指令直接发送至底层机器人控制器，多机械臂工作站将面临逆运动学 (IK) 不可达、3D 工作空间碰撞、关节力矩尖峰以及共享区域互斥死锁等硬件风险。在 Project STAMP (v1.0.0-stamp) 中，我们通过严格的四阶段闭环架构——Plan (TaskDAG) → Gate (确定性安全护盾) → Execute (MoveIt 2 / ROS 2) → Write-Back (上下文修复)——将高层多模态推理 (Gemini 4 Argon / 3.5 Flash-Lite) 与 ROS 2 Jazzy 及 MoveIt 2 底层执行彻底解耦。在包含 60% 合成故障注入的 1,000 场多机械臂实验 (STAMP-Bench-V1) 中，Project STAMP 实现了 100.0% 的危险指令拦截率 (610/610)，并通过两轮几何与时间窗口写回修复将任务完成率从单次 VLA 规划的 39.0% 提升至 100.0% (+61.0%)。",
@@ -1124,7 +1124,7 @@
         tocSec3: "四层确定性校验护盾", tocSec4: "STAMP-Bench-V1 (1,000 场实验)", tocSec5: "独立 REST 与 MCP 服务"
       },
       es: {
-        blogHeaderBrand: "Blog de Investigación Técnica", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portafolio",
+        blogHeaderBrand: "Blog de Investigación Técnica", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
         articleTag: "M9G-TR-2026-03 • Planificación Espaciotemporal de Tareas y Movimiento (STAMP)",
         articleTitle: "Project STAMP: Compuertas de Verificación Determinista y Reparación de Contexto en Lazo Cerrado para Planificación VLA Multi-Brazo",
         articleLede: "Permitir que un planificador Visión-Lenguaje-Acción (VLA) transmita poses cartesianas o comandos articulares no verificados directamente a los controladores robóticos de bajo nivel expone las celdas multi-manipulador a objetivos cinemáticos inalcanzables, colisiones 3D, picos de par articular e interbloqueos en zonas compartidas. En Project STAMP (v1.0.0-stamp), desacoplamos el razonamiento multimodal de alto nivel (Gemini 4 Argon / Gemini 3.5 Flash-Lite) de la actuación en ROS 2 Jazzy y MoveIt 2 mediante una arquitectura en lazo cerrado de cuatro etapas: Plan (TaskDAG) → Gate (Escudo Determinista) → Execute (MoveIt 2 / ROS 2) → Write-Back (Reparación de Contexto). Evaluado en 1,000 episodios con tres brazos Franka Emika FR3 en STAMP-Bench-V1 bajo un 60% de inyección sintética de fallos, Project STAMP intercepta el 100.0% de los despachos inseguros (610/610) y eleva la tasa de finalización de tareas del 39.0% (VLA de disparo único) al 100.0% mediante recuperación write-back en dos turnos.",

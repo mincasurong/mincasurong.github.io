@@ -417,7 +417,7 @@
           <a href="/tutorials/" data-i18n="navTutorials">Tutorials</a>
           <a href="/blog/" style="color:var(--dm-blue);font-weight:700;" data-i18n="navBlog">Blog</a>
           <a href="/archive/" data-i18n="navArchive">Archive</a>
-          <a href="/" class="back-link" data-i18n="navPortfolio">Portfolio</a>
+          <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a>
         </nav>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
           <button class="lang-box-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
@@ -813,7 +813,7 @@
 
     const BLOG_I18N = {
       en: {
-        blogHeaderBrand: "Technical Research Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Portfolio",
+        blogHeaderBrand: "Technical Research Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
         articleTag: "M9G-TR-2026-01 • Embodied Physical AI",
         articleTitle: "Symbolic 3D Grounding and Software-Pipelined VLA Task Planning for Multi-Arm Manipulation",
         articleLede: "When orchestrating multiple 7-DoF robotic manipulators in a shared physical workspace, streaming overhead RGB camera frames on every planning turn inflates token budgets and GPU rendering latency. In our three-arm Franka Emika FR3 station in NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) bridged over FastDDS unicast to ROS 2 Jazzy (50 Hz damped least-squares inverse kinematics), we demonstrate that symbolic 3D /tf coordinate grounding paired with a hybrid Brain-Executor routing topology discovers a conflict-free 10-turn software-pipelined schedule—cutting per-trial API cost by 76.6% ($0.01972 vs. $0.08437) with zero RGB image tokens.",
@@ -845,7 +845,7 @@
         tocSec3: "Empirical Telemetry & Cost", tocSec3Sub: "Quadratic Token Economics", tocSec4: "10-Turn Pipelined Schedule"
       },
       ko: {
-        blogHeaderBrand: "기술 리서치 블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "포트폴리오",
+        blogHeaderBrand: "기술 리서치 블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
         articleTag: "M9G-TR-2026-01 • 피지컬 AI & 다중 로봇 제어",
         articleTitle: "다중 로봇 팔 매니퓰레이션을 위한 3D 심볼릭 그라운딩 및 소프트웨어 파이프라인 VLA 태스크 플래닝",
         articleLede: "공유 작업 공간에서 다수의 7자유도(7-DoF) 로봇 팔을 동시에 제어할 때, 매 플래닝 턴마다 상단 RGB 카메라 이미지를 전송하면 토큰 비용과 GPU 렌더링 지연이 급증합니다. 본 연구는 NVIDIA Isaac Sim 6.0(240 Hz PhysX TGS)과 ROS 2 Jazzy(50 Hz DLS 역기구학 제어기)를 FastDDS 유니캐스트로 연결한 3대 Franka Emika FR3 스테이션에서, 순수 3D /tf 좌표 그라운딩과 하이브리드 Brain-Executor 라우팅만으로 무충돌 10턴 소프트웨어 파이프라인 스케줄을 도출하여 API 비용을 76.6%($0.08437 → $0.01972) 절감함을 실증합니다.",
@@ -877,7 +877,7 @@
         tocSec3: "실증 텔레메트리 및 비용", tocSec3Sub: "2차 함수적 토큰 경제성", tocSec4: "10턴 파이프라인 스케줄"
       },
       ja: {
-        blogHeaderBrand: "技術リサーチブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "ポートフォリオ",
+        blogHeaderBrand: "技術リサーチブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
         articleTag: "M9G-TR-2026-01 • 身体性フィジカルAI",
         articleTitle: "マルチアーム操作における3DシンボリックグラウンディングとソフトウェアパイプラインVLAタスク計画",
         articleLede: "共有作業空間内で複数の7自由度ロボットアームを協調制御する際、毎ターンRGBカメラ画像を送信するとトークン予算とGPU描画遅延が増大します。NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) と ROS 2 Jazzy (50 Hz DLS逆運動学制御) を接続した3台Franka Emika FR3ステーションにおいて、3D /tf座標グラウンディングとハイブリッドBrain-Executorルーティングにより10ターンのパイプラインスケジュールを導出し、APIコストを76.6% ($0.08437 → $0.01972) 削減できることを実証しました。",
@@ -909,7 +909,7 @@
         tocSec3: "実証テレメトリとコスト", tocSec3Sub: "二次関数トークン経済性", tocSec4: "10ターンパイプライン計画"
       },
       zh: {
-        blogHeaderBrand: "技术研究博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "作品集",
+        blogHeaderBrand: "技术研究博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
         articleTag: "M9G-TR-2026-01 • 具身物理 AI",
         articleTitle: "面向多机械臂操作的 3D 符号空间接地与软件流水线 VLA 任务规划",
         articleLede: "在共享工作空间中协同控制多台 7 自由度机械臂时，若每轮规划均传输顶部 RGB 相机图像，将显著推高 Token 消耗与 GPU 渲染延迟。在 NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) 与 ROS 2 Jazzy (50 Hz 阻尼最小二乘逆运动学) 组成的 3 台 Franka Emika FR3 工站上，我们证明纯 3D /tf 坐标接地配合混合 Brain-Executor 路由可生成无冲突的 10 轮软件流水线调度，在零图像 Token 下将单次实验 API 成本从 $0.08437 降至 $0.01972 (-76.6%)。",
@@ -941,7 +941,7 @@
         tocSec3: "实证遥测与成本", tocSec3Sub: "二次方 Token 经济学", tocSec4: "10 轮流水线调度"
       },
       es: {
-        blogHeaderBrand: "Blog de Investigación Técnica", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portafolio",
+        blogHeaderBrand: "Blog de Investigación Técnica", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
         articleTag: "M9G-TR-2026-01 • IA Física Corporizada",
         articleTitle: "Anclaje Simbólico 3D y Planificación de Tareas VLA Segmentada para Manipulación Multi-Brazo",
         articleLede: "Al coordinar múltiples manipuladores robóticos de 7-DoF en un espacio de trabajo compartido, transmitir imágenes RGB en cada turno infla el presupuesto de tokens y la latencia GPU. En nuestra estación de tres brazos Franka Emika FR3 en NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) y ROS 2 Jazzy (cinemática inversa DLS a 50 Hz), demostramos que el anclaje simbólico 3D /tf combinado con un enrutamiento híbrido Cerebro-Ejecutor descubre un cronograma segmentado de 10 turnos libre de conflictos, reduciendo el costo API por prueba en un 76.6% ($0.01972 vs. $0.08437) con cero tokens de imagen RGB.",

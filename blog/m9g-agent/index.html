@@ -430,7 +430,7 @@
           <a href="/tutorials/" data-i18n="navTutorials">Tutorials</a>
           <a href="/blog/" style="color:var(--dm-blue);font-weight:700;" data-i18n="navBlog">Blog</a>
           <a href="/archive/" data-i18n="navArchive">Archive</a>
-          <a href="/" class="back-link" data-i18n="navPortfolio">Portfolio</a>
+          <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a>
         </nav>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
           <button class="lang-box-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
@@ -929,7 +929,7 @@
     const BLOG_I18N = {
       en: {
         blogHeaderBrand: "Technical Research Blog",
-        navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Portfolio",
+        navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
         articleTag: "M9G-TR-2026-02 • Agentic Systems & Harness Engineering",
         articleTitle: "Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity",
         articleLede: "We set out to engineer our own standalone multi-agent coding harness—m9g-agent-corps (28 Python modules, ~640 KB of source in src/ag_harness/, 17 test suites with 169 unit tests)—combining a 3-tier Gemini model router, SHA-256 hashline editing, AST structural skeletonization, shadow Git index checkpointing, and a 5-tier self-healing hook pipeline. Despite every subsystem passing unit verification in isolation, running m9g-agent-corps as a primary daily coding harness failed to match the reliability and speed of pre-existing harnesses: Oh-My-OpenAgent (OmO), OpenCode, Claude Code, and Google Antigravity. This technical disclosure documents what we investigated while building the harness, why our standalone orchestrator failed under real engineering load, and why we ultimately extracted its deterministic substrates into an open-source MCP power-tool server (m9g-mcp).",
@@ -950,7 +950,7 @@
       },
       ko: {
         blogHeaderBrand: "기술 리서치 블로그",
-        navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "포트폴리오",
+        navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
         articleTag: "M9G-TR-2026-02 • 에이전트 시스템 & 하네스 엔지니어링",
         articleTitle: "새로운 멀티에이전트 코딩 하네스 자체 구축 시도와 실패 분석: m9g-agent-corps 제작기 및 OmO, OpenCode, Claude Code, Antigravity와의 비교",
         articleLede: "우리는 3계층 Gemini 모델 라우터, SHA-256 해시라인(Hashline) 편집기, AST 코드 스켈레톤 압축기, 임시 GIT_INDEX_FILE 섀도우 체크포인트, 5단계 자가 치유 훅 파이프라인을 결합한 독자적인 멀티에이전트 코딩 하네스 m9g-agent-corps(28개 파이썬 모듈, 약 640KB, 17개 테스트 스위트·169개 단위 테스트)를 바닥부터 직접 설계·구현했습니다. 그러나 개별 서브시스템이 모든 단위 테스트를 통과했음에도 불구하고, 실제 엔지니어링 작업에서 주력 코딩 하네스로 구동했을 때 기존 상용 하네스인 OmO(Oh-My-OpenAgent), OpenCode, Claude Code, Google Antigravity의 속도와 신뢰성을 넘어서는 데 실패했습니다. 본 리포트는 새 하네스를 구축하며 탐구한 6대 핵심 기술과 자체 오케스트레이터가 실패한 구조적 원인, 그리고 최종적으로 핵심 기질(substrate)들을 오픈소스 MCP 파워툴 서버(m9g-mcp)로 피벗한 과정을 코드 레벨에서 기록합니다.",
@@ -971,7 +971,7 @@
       },
       ja: {
         blogHeaderBrand: "技術リサーチブログ",
-        navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "ポートフォリオ",
+        navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
         articleTag: "M9G-TR-2026-02 • エージェントシステム & ハーネス工学",
         articleTitle: "マルチエージェント・コーディングハーネスの独自構築と失敗の記録：m9g-agent-corps の内部調査と OmO・OpenCode・Claude Code・Antigravity との比較",
         articleLede: "我々は3階層Geminiモデルルーター、SHA-256ハッシュライン編集器、AST構造スケルトナイザ、シャドウGitインデックス・チェックポイント、5段階自己修復フックパイプラインを統合した独自のコーディングハーネス m9g-agent-corps（28 Pythonモジュール、約640KB、17テストスイート・169単体テスト）をゼロから構築しました。各サブシステムは単体検証をすべて通過したにもかかわらず、実務のメインハーネスとしては OmO (Oh-My-OpenAgent)、OpenCode、Claude Code、Google Antigravity の信頼性と速度に及びませんでした。本稿では、新ハーネス構築の過程で調査・実装した6つの技術領域、独自オーケストレータが失敗した6つの構造的原因、そして最終的に決定論的サブストレートをオープンソースMCPサーバー (m9g-mcp) へとピボットした経緯を詳述します。",
@@ -992,7 +992,7 @@
       },
       zh: {
         blogHeaderBrand: "技术研究博客",
-        navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "作品集",
+        navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
         articleTag: "M9G-TR-2026-02 • 智能体系统与编码框架工程",
         articleTitle: "从零构建多智能体编码框架及其失败复盘：深入 m9g-agent-corps 并对比 OmO、OpenCode、Claude Code 与 Antigravity",
         articleLede: "我们曾尝试从零构建一套独立的多智能体编码框架 m9g-agent-corps（包含 28 个 Python 模块、约 640 KB 源码、17 个测试套件共 169 项单元测试），集成了三层 Gemini 路由、SHA-256 哈希行编辑器、AST 结构化骨架压缩、影子 Git 索引检查点以及五层自愈钩子流水线。然而尽管所有子系统在独立单元测试中全部通过，将其作为日常主力编码框架时却未能匹敌现有成熟框架——Oh-My-OpenAgent (OmO)、OpenCode、Claude Code 与 Google Antigravity。本文完整记录了我们在构建新框架过程中深入探索的六大核心机制、独立编排器在真实工程负载下失败的六个根源，以及我们如何将核心底层能力重构为开源 MCP 工具服务器 (m9g-mcp)。",
@@ -1013,7 +1013,7 @@
       },
       es: {
         blogHeaderBrand: "Blog de Investigación Técnica",
-        navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portafolio",
+        navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
         articleTag: "M9G-TR-2026-02 • Sistemas Agénticos e Ingeniería de Harnesses",
         articleTitle: "Construyendo un Harness de Codificación Multi-Agente desde Cero y Por Qué Fracasó: m9g-agent-corps frente a OmO, OpenCode, Claude Code y Antigravity",
         articleLede: "Nos propusimos construir desde cero nuestro propio harness de codificación multi-agente—m9g-agent-corps (28 módulos Python, ~640 KB en src/ag_harness/, 17 suites con 169 pruebas unitarias)—combinando enrutamiento Gemini de 3 niveles, edición por hash de línea SHA-256, esqueletización AST, puntos de control Git en índice sombra y un pipeline de hooks de 5 niveles. Aunque cada subsistema superó las pruebas unitarias de forma aislada, al operarlo como harness principal no logró igualar la velocidad ni la fiabilidad de los harnesses preexistentes: Oh-My-OpenAgent (OmO), OpenCode, Claude Code y Google Antigravity. Este artículo documenta lo que investigamos al construirlo, por qué fracasó como orquestador independiente y cómo extrajimos sus mejores sustratos hacia un servidor MCP abierto (m9g-mcp).",
