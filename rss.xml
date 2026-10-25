@@ -5,15 +5,23 @@
     <link>https://mincasurong.github.io/</link>
     <description>Official portfolio and engineering blog of Minsu Chang, Ph.D. (장민수, mincasurong, M9G): 1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026, Multi-Robot VLA Benchmarks in NVIDIA Isaac Sim 6.0 &amp; ROS 2, ROS/MoveIt/Jetson Nano Tutorials, 16 Publications, and 11 US/KR Patents.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 24 Oct 2026 17:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2026 07:00:00 GMT</lastBuildDate>
     <atom:link href="https://mincasurong.github.io/rss.xml" rel="self" type="application/rss+xml" />
 
     <item>
-      <title>Dissecting m9g-agent-corps: Why Production Coding Harnesses Outperform Custom Multi-Agent Wrappers &amp; What Antigravity (agy) Actually Is</title>
-      <link>https://mincasurong.github.io/blog/m9g-agent-corps/</link>
-      <guid>https://mincasurong.github.io/blog/m9g-agent-corps/</guid>
+      <title>Project STAMP: Decoupling Multimodal VLA Reasoning from Robot Execution via Deterministic Pre-Dispatch Gating and Fault Write-Back</title>
+      <link>https://mincasurong.github.io/blog/stamp/</link>
+      <guid>https://mincasurong.github.io/blog/stamp/</guid>
+      <pubDate>Sun, 25 Oct 2026 07:00:00 GMT</pubDate>
+      <description>M9G-TR-2026-03 by Minsu Chang, Ph.D. (M9G): A 4-stage closed-loop Spatial, Task &amp; Motion Planning (STAMP) framework (Plan -&gt; Gate -&gt; Execute -&gt; Write-Back) achieving 100% deterministic fault interception and 100% episode completion across 1,000 multi-arm episodes.</description>
+    </item>
+
+    <item>
+      <title>Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity</title>
+      <link>https://mincasurong.github.io/blog/m9g-agent/</link>
+      <guid>https://mincasurong.github.io/blog/m9g-agent/</guid>
       <pubDate>Tue, 20 Oct 2026 09:00:00 GMT</pubDate>
-      <description>A code-level architectural audit by Minsu Chang (장민수, mincasurong, M9G) of m9g-agent-corps (31 Python modules) vs. OmO, Claude Code, Codex, Grok Bot, and Google Antigravity (agy).</description>
+      <description>M9G-TR-2026-02 by Minsu Chang, Ph.D. (M9G): What we investigated across 28 Python modules and 169 unit tests while building m9g-agent-corps, why our standalone harness failed against OmO, OpenCode, Claude Code, and Antigravity, and how we pivoted its substrates into the m9g-mcp power-tool server.</description>
     </item>
 
     <item>

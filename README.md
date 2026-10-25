@@ -48,20 +48,33 @@ We developed **GeminiSpace**, a Vision-Language-Action (VLA) navigation system t
 
 Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Benchmarks.
 
-### 📊 Featured Benchmark Report
+### 📊 Featured Technical Research Blogs
 
 <table>
   <tr>
     <td width="42%" valign="middle">
-      <a href="https://mincasurong.github.io/blog/">
+      <a href="https://mincasurong.github.io/blog/stamp/">
+        <img src="https://mincasurong.github.io/screenshots/stamp-architecture-nanobanana.png" width="100%" alt="Project STAMP 4-Stage Deterministic Pre-Dispatch Gating Architecture" style="border-radius: 8px;" />
+      </a>
+    </td>
+    <td width="58%" valign="middle">
+      <p><code>mincasurong.github.io/blog/stamp</code> • <b>M9G-TR-2026-03 • 100% Fault Interception (1,000 Episodes)</b></p>
+      <h3><a href="https://mincasurong.github.io/blog/stamp/">Project STAMP: Decoupling Multimodal VLA Reasoning from Robot Execution via Deterministic Pre-Dispatch Gating & Write-Back</a></h3>
+      <p>4-stage closed-loop spatial, task & motion planning (Plan → Gate → Execute → Write-Back) intercepting 610/610 kinematic, AABB collision, torque, and zone-lock faults in Isaac Sim 6.0 & ROS 2 Jazzy.</p>
+      <p><a href="https://mincasurong.github.io/blog/stamp/"><b>Read STAMP Technical Blog ↗</b></a></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="42%" valign="middle">
+      <a href="https://mincasurong.github.io/blog/VLA/">
         <img src="https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png" width="100%" alt="3-Stage VLA Task Planner Architecture" style="border-radius: 8px;" />
       </a>
     </td>
     <td width="58%" valign="middle">
-      <p><code>mincasurong.github.io/blog</code> • <b>3-Arm FR3 Tower • -76.6% API Cost ($0.01972)</b></p>
-      <h3><a href="https://mincasurong.github.io/blog/">Empirical Comparison of VLA Task Planners: ER-2 vs. Gemini 4 Argon</a></h3>
+      <p><code>mincasurong.github.io/blog/VLA</code> • <b>M9G-TR-2026-01 • 3-Arm FR3 Tower • -76.6% API Cost ($0.01972)</b></p>
+      <h3><a href="https://mincasurong.github.io/blog/VLA/">Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Argon</a></h3>
       <p>3-Stage hardware-in-the-loop benchmark in Isaac Sim 6.0 & ROS 2 Jazzy with Nano Banana Pro architecture and token/latency charts.</p>
-      <p><a href="https://mincasurong.github.io/blog/"><b>Read VLA Blog ↗</b></a> &nbsp;•&nbsp; <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA"><b>Watch Side-by-Side Video ↗</b></a></p>
+      <p><a href="https://mincasurong.github.io/blog/VLA/"><b>Read VLA Blog ↗</b></a> &nbsp;•&nbsp; <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA"><b>Watch Side-by-Side Video ↗</b></a></p>
     </td>
   </tr>
 </table>
@@ -194,10 +207,10 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
       </a>
     </td>
     <td width="58%" valign="middle">
-      <p><code>mincasurong.github.io/blog/m9g-agent-corps</code> • <b>31 Modules Audited • m9g vs. OmO / Claude Code / Codex / agy</b></p>
-      <h3><a href="https://mincasurong.github.io/blog/m9g-agent-corps/">Dissecting m9g-agent-corps: Why Production Harnesses Outperform Custom Wrappers — and What Antigravity (agy) Actually Is</a></h3>
-      <p>Code-level audit of our 3-tier multi-agent coding corps (<code>src/ag_harness/</code>), the 6 reliability gaps vs. OmO / Claude Code / Codex, and the dual surface of Google Antigravity (<code>agy</code>).</p>
-      <p><a href="https://mincasurong.github.io/blog/m9g-agent-corps/"><b>Read Agent Harness Blog ↗</b></a> &nbsp;•&nbsp; <a href="https://www.youtube.com/watch?v=sdE7r72gJsU"><b>Watch Weekend Sprint Video ↗</b></a></p>
+      <p><code>mincasurong.github.io/blog/m9g-agent</code> • <b>M9G-TR-2026-02 • 28 Modules / 169 Tests • m9g vs. OmO / OpenCode / Claude Code / agy</b></p>
+      <h3><a href="https://mincasurong.github.io/blog/m9g-agent/">Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity</a></h3>
+      <p>Source-level post-mortem of engineering a 28-module coding harness (<code>src/ag_harness/</code>), the 6 subsystems we investigated, why our standalone harness failed against pre-existing harnesses, and how we pivoted its substrates into the <code>m9g-mcp</code> power-tool server.</p>
+      <p><a href="https://mincasurong.github.io/blog/m9g-agent/"><b>Read Agent Harness Blog ↗</b></a> &nbsp;•&nbsp; <a href="https://www.youtube.com/watch?v=sdE7r72gJsU"><b>Watch Weekend Sprint Video ↗</b></a></p>
     </td>
   </tr>
 </table>

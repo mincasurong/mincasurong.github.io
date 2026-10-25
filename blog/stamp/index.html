@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task &amp; Motion Planning — M9G Technical Research Blog</title>
+  <link rel="canonical" href="https://mincasurong.github.io/blog/stamp/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Minsu Chang, Ph.D. (M9G / mincasurong)" />
+  <meta name="description" content="M9G-TR-2026-03 by Minsu Chang, Ph.D.: Empirical systems analysis of Project STAMP (Spatial, Task & Motion Planning), a 4-stage Plan-Gate-Execute-WriteBack framework decoupling Gemini 4 Argon from ROS 2 Jazzy & MoveIt 2 across 1,000 multi-arm Franka FR3 fault-injection episodes." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://mincasurong.github.io/blog/stamp/" />
+  <meta property="og:title" content="Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Planning — M9G Research" />
+  <meta property="og:description" content="Decoupling Gemini 4 Argon from ROS 2 / MoveIt 2 via FrankaFR3DeterministicGate and write_limit_back context repair intercepts 100.0% of hardware faults (610/610) and boosts task completion from 39.0% to 100.0% across 1,000 STAMP-Bench-V1 episodes." />
+  <meta property="og:image" content="https://mincasurong.github.io/screenshots/stamp-architecture-nanobanana.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning",
+    "identifier": "M9G-TR-2026-03",
+    "datePublished": "2026-10-25",
+    "dateModified": "2026-10-25",
+    "inLanguage": ["en", "ko", "ja", "zh", "es"],
+    "image": "https://mincasurong.github.io/screenshots/stamp-architecture-nanobanana.png",
+    "author": {
+      "@type": "Person",
+      "name": "Minsu Chang",
+      "honorificSuffix": "Ph.D.",
+      "alternateName": ["장민수", "M9G", "mincasurong"],
+      "url": "https://mincasurong.github.io/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "M9G Research & Systems Engineering",
+      "url": "https://mincasurong.github.io/"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f8f9fa;
+      --surface-alt: #f1f3f4;
+      --surface-tint: #f4f7fb;
+      --border: #dadce0;
+      --border-subtle: #e8eaed;
+      --text: #202124;
+      --text-body: #3c4043;
+      --text-secondary: #5f6368;
+      --text-muted: #70757a;
+      --dm-blue: #1a73e8;
+      --dm-blue-dark: #174ea6;
+      --dm-blue-bg: #e8f0fe;
+      --dm-navy: #0b1f44;
+      --dm-green: #1e8e3e;
+      --dm-green-dark: #137333;
+      --dm-green-bg: #e6f4ea;
+      --dm-amber: #e37400;
+      --dm-amber-dark: #b06000;
+      --dm-amber-bg: #fef7e0;
+      --dm-red: #d93025;
+      --dm-red-bg: #fce8e6;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; width: 100%; max-width: 100%;
+      overflow-x: clip; background: var(--bg); color: var(--text);
+      font-family: var(--font-sans); font-size: 16px; line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+    }
+    img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 100;
+      background: linear-gradient(90deg, #1a73e8 0%, #174ea6 50%, #137333 100%);
+    }
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner {
+      max-width: 1140px; margin: 0 auto; padding: 4px 16px; min-height: 44px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .brand {
+      font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text);
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; }
+    .brand-sep { color: var(--border); font-weight: 400; }
+    .brand-sec { font-size: 13px; font-weight: 600; color: var(--dm-blue); }
+    .topnav {
+      display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600;
+      color: var(--text-secondary); overflow-x: auto; scrollbar-width: none; white-space: nowrap; min-width: 0;
+    }
+    .topnav::-webkit-scrollbar { display: none; }
+    .topnav a { padding: 4px 8px; line-height: 1.1; border-radius: 6px; }
+    .topnav a:hover { color: var(--dm-blue); }
+    .topnav a.back-link {
+      color: #ffffff; background: var(--dm-blue); font-weight: 600;
+      padding: 5px 12px; border-radius: 999px; font-size: 12.5px;
+    }
+    @media (max-width: 600px) { .brand-sec, .brand-sep { display: none; } }
+
+    .lang-dropdown-wrap { position: relative; }
+    .lang-box-btn {
+      height: 28px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text); font-family: var(--font-mono);
+      font-size: 11px; font-weight: 700; line-height: 1; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+    }
+    .lang-box-btn:hover { border-color: var(--dm-blue); color: var(--dm-blue); }
+    .lang-popup {
+      position: absolute; top: calc(100% + 6px); right: 0; min-width: 136px;
+      background: #ffffff; border: 1px solid var(--border); border-radius: 10px;
+      box-shadow: 0 10px 28px rgba(32, 33, 36, 0.14); padding: 4px; display: none; z-index: 300;
+    }
+    .lang-popup.open { display: block; }
+    .lang-option {
+      width: 100%; text-align: left; background: transparent; border: 0; border-radius: 6px;
+      padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--text-secondary);
+      display: flex; align-items: center; justify-content: space-between; cursor: pointer;
+    }
+    .lang-option:hover { background: var(--surface); color: var(--text); }
+    .lang-option.active { background: var(--dm-blue-bg); color: var(--dm-blue); font-weight: 700; }
+
+    .article-hero {
+      background: linear-gradient(180deg, var(--surface-tint) 0%, #ffffff 100%);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 36px 16px 32px;
+    }
+    .hero-inner { max-width: 1140px; margin: 0 auto; }
+    .blog-post-switcher {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
+      padding: 6px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px;
+    }
+    .blog-post-tab {
+      flex: 1 1 210px; display: flex; flex-direction: column; gap: 2px;
+      padding: 8px 12px; border-radius: 6px; border: 1px solid transparent;
+      color: var(--text-secondary); transition: all 0.15s ease;
+    }
+    .blog-post-tab:hover { background: var(--surface); color: var(--text); }
+    .blog-post-tab.active {
+      background: var(--dm-blue-bg); color: var(--dm-blue-dark);
+      border-color: rgba(26, 115, 232, 0.35);
+    }
+    .blog-post-tab-kicker {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .blog-post-tab-title {
+      font-family: var(--font-display); font-size: 12px; font-weight: 700; line-height: 1.3;
+    }
+
+    .dm-kicker-row {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px;
+      font-family: var(--font-mono); font-size: 11.5px; color: var(--text-secondary);
+    }
+    .dm-badge {
+      background: var(--dm-blue-bg); color: var(--dm-blue-dark);
+      padding: 3px 10px; border-radius: 4px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    h1 {
+      font-family: var(--font-display); font-size: clamp(1.7rem, 3.6vw, 2.48rem);
+      font-weight: 800; line-height: 1.18; letter-spacing: -0.022em;
+      color: var(--text); margin: 0 0 16px 0; max-width: 960px; overflow-wrap: break-word;
+    }
+    .lede {
+      font-size: 1.05rem; color: var(--text-body); margin: 0 0 24px 0;
+      line-height: 1.68; max-width: 900px;
+    }
+    .byline-bar {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px;
+      padding-top: 18px; border-top: 1px solid var(--border); font-size: 12.5px;
+    }
+    .byline-cell { min-width: 0; }
+    .byline-label {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 2px;
+    }
+    .byline-val {
+      color: var(--text); font-weight: 600; line-height: 1.35; overflow-wrap: anywhere;
+    }
+
+    .layout {
+      max-width: 1140px; margin: 0 auto; padding: 36px 16px 84px;
+      display: grid; grid-template-columns: minmax(0, 760px) 290px;
+      justify-content: space-between; gap: 44px; align-items: start;
+    }
+    article { min-width: 0; width: 100%; max-width: 100%; }
+
+    .dm-takeaways {
+      background: var(--surface-tint); border: 1px solid rgba(26, 115, 232, 0.25);
+      border-left: 4px solid var(--dm-blue); border-radius: 0 10px 10px 0;
+      padding: 18px 20px; margin-bottom: 28px;
+    }
+    .dm-takeaways-title {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.07em; color: var(--dm-blue-dark);
+      margin: 0 0 10px 0;
+    }
+    .dm-takeaways ul { margin: 0; padding-left: 18px; }
+    .dm-takeaways li { font-size: 0.93rem; color: var(--text-body); margin-bottom: 8px; line-height: 1.58; }
+    .dm-takeaways li:last-child { margin-bottom: 0; }
+
+    .spec-strip {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 32px;
+    }
+    .spec-cell {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; min-width: 0;
+    }
+    .spec-label {
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;
+    }
+    .spec-val {
+      font-family: var(--font-display); font-size: 1.22rem; font-weight: 800;
+      color: var(--dm-blue-dark); font-variant-numeric: tabular-nums;
+    }
+    .spec-val.green { color: var(--dm-green-dark); }
+    .spec-val.amber { color: var(--dm-amber-dark); }
+    .spec-val.red { color: var(--dm-red); }
+    .spec-note { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; line-height: 1.35; }
+
+    .media-block {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px; margin-bottom: 36px; max-width: 100%;
+    }
+    .media-header {
+      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 10px; font-size: 13px; font-weight: 700; color: var(--text);
+    }
+    .media-header a { color: var(--dm-blue); font-family: var(--font-mono); font-size: 11.5px; }
+    .video-container {
+      position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000;
+      border-radius: 6px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 12px;
+    }
+    .video-container video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .timestamp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .ts-btn {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px;
+      text-align: left; color: var(--text); cursor: pointer; min-width: 0;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+    .ts-btn:hover, .ts-btn.active { border-color: var(--dm-blue); background: var(--dm-blue-bg); }
+    .ts-time { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--dm-blue-dark); display: block; margin-bottom: 2px; }
+    .ts-title { font-size: 13px; font-weight: 700; color: var(--text); display: block; line-height: 1.35; }
+    .ts-sub { font-size: 12px; color: var(--text-secondary); display: block; margin-top: 3px; line-height: 1.38; }
+
+    h2 {
+      font-family: var(--font-display); font-size: 1.42rem; font-weight: 800; color: var(--text);
+      margin: 44px 0 14px 0; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+      letter-spacing: -0.015em; scroll-margin-top: 72px;
+    }
+    h3 {
+      font-family: var(--font-display); font-size: 1.08rem; font-weight: 700;
+      color: var(--dm-navy); margin: 28px 0 10px 0;
+    }
+    p { margin: 0 0 16px 0; color: var(--text-body); overflow-wrap: break-word; }
+    ul, ol { margin: 0 0 18px 0; padding-left: 20px; color: var(--text-body); }
+    li { margin-bottom: 10px; overflow-wrap: break-word; }
+    li strong { color: var(--text); }
+    .c-blue { color: var(--dm-blue-dark); font-weight: 600; }
+    .c-green { color: var(--dm-green-dark); font-weight: 600; }
+    .c-amber { color: var(--dm-amber-dark); font-weight: 600; }
+    .c-red { color: var(--dm-red); font-weight: 600; }
+    code {
+      font-family: var(--font-mono); font-size: 0.84em; background: var(--surface-alt);
+      border: 1px solid var(--border); color: var(--dm-blue-dark); padding: 1px 5px; border-radius: 4px;
+      overflow-wrap: anywhere; word-break: break-word;
+    }
+
+    .telemetry-formula-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--dm-navy); border-radius: 0 8px 8px 0;
+      padding: 14px 16px; margin: 16px 0 20px;
+      font-family: var(--font-mono); font-size: 12.5px; line-height: 1.65;
+      color: var(--text); max-width: 100%; overflow-wrap: anywhere; word-break: break-word;
+    }
+    .telemetry-formula-header {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px;
+      display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+    }
+
+    .figure-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px; margin: 22px 0 26px; max-width: 100%;
+    }
+    .figure-box img { width: 100%; border-radius: 6px; border: 1px solid var(--border); background: #ffffff; }
+    .figure-caption {
+      font-size: 12.5px; color: var(--text-secondary); margin-top: 10px; line-height: 1.5;
+    }
+
+    .data-fig-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 20px 0 26px; width: 100%; }
+    .data-fig {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 8px;
+      padding: 16px; min-width: 0; max-width: 100%;
+    }
+    .data-fig-head {
+      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 12px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;
+    }
+    .data-fig-title { font-size: 12.5px; font-weight: 700; color: var(--dm-navy); text-transform: uppercase; letter-spacing: 0.04em; }
+    .data-fig-unit { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+    .bar-metric-row { margin-bottom: 12px; }
+    .bar-metric-row:last-child { margin-bottom: 0; }
+    .bar-metric-top {
+      display: flex; justify-content: space-between; gap: 8px;
+      font-family: var(--font-mono); font-size: 12px; margin-bottom: 5px; flex-wrap: wrap;
+    }
+    .bar-metric-name { color: var(--text); font-weight: 500; }
+    .bar-metric-val { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+    .bar-metric-val strong { color: var(--text); }
+    .bar-track {
+      width: 100%; height: 10px; background: var(--surface-alt);
+      border: 1px solid var(--border); border-radius: 999px; overflow: hidden; display: flex;
+    }
+    .bar-fill { height: 100%; }
+
+    .table-scroll {
+      width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--border); border-radius: 8px; background: #ffffff; margin: 18px 0 26px;
+    }
+    .table-provenance-bar {
+      background: var(--surface); padding: 8px 12px; border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+    th, td {
+      padding: 10px 12px; border-bottom: 1px solid var(--border-subtle);
+      text-align: left; vertical-align: top; color: var(--text);
+    }
+    th {
+      background: var(--surface); font-family: var(--font-mono); font-size: 11px;
+      font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    td.num, th.num { text-align: right; }
+    tr:last-child td { border-bottom: 0; }
+    tr.highlight-row td { background: var(--dm-green-bg); }
+
+    .citation-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 4px solid var(--dm-navy); border-radius: 0 8px 8px 0;
+      padding: 18px 20px; margin-top: 36px;
+    }
+    .citation-title {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--dm-navy); margin: 0 0 8px 0;
+    }
+    .citation-pre {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 6px;
+      padding: 12px; font-family: var(--font-mono); font-size: 11.5px; line-height: 1.55;
+      color: var(--text-body); overflow-x: auto; margin: 10px 0 0 0; white-space: pre-wrap; word-break: break-word;
+    }
+
+    .sidebar { position: sticky; top: 72px; display: flex; flex-direction: column; gap: 16px; min-width: 0; width: 100%; }
+    .side-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .side-heading {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--dm-navy);
+      margin: 0 0 10px 0; padding-bottom: 6px; border-bottom: 1px solid var(--border);
+    }
+    .side-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+    .side-links li { margin: 0; }
+    .side-links a { color: var(--text-secondary); display: block; padding: 3px 0; font-weight: 500; }
+    .side-links a:hover { color: var(--dm-blue); }
+    .kv-list { list-style: none; margin: 0; padding: 0; font-family: var(--font-mono); font-size: 11.5px; display: flex; flex-direction: column; gap: 6px; }
+    .kv-list li { margin: 0; display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 5px; }
+    .kv-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+    .kv-list span:first-child { color: var(--text-muted); }
+    .kv-list span:last-child { color: var(--text); font-weight: 600; text-align: right; }
+
+    footer {
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 28px 16px; text-align: center; font-size: 12.5px; color: var(--text-secondary);
+    }
+    footer a { color: var(--dm-blue); font-weight: 500; }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+      .sidebar { position: static; }
+      .byline-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      body { font-size: 15px; }
+      .layout { padding: 20px 14px 56px; }
+      .spec-strip, .byline-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .timestamp-grid { grid-template-columns: 1fr; }
+      .media-block, .figure-box, .data-fig { padding: 12px; }
+      table { table-layout: fixed; width: 100%; }
+      th, td { padding: 6px 5px; font-size: 11px; overflow-wrap: anywhere; word-break: break-word; white-space: normal; }
+      .bar-metric-top { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="/" class="brand">
+        <span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span>
+        <span class="brand-sep">|</span>
+        <span class="brand-sec" data-i18n="blogHeaderBrand">Technical Research Blog</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
+        <nav class="topnav">
+          <a href="/tutorials/" data-i18n="navTutorials">Tutorials</a>
+          <a href="/blog/" style="color:var(--dm-blue);font-weight:700;" data-i18n="navBlog">Blog</a>
+          <a href="/archive/" data-i18n="navArchive">Archive</a>
+          <a href="/" class="back-link" data-i18n="navPortfolio">Portfolio</a>
+        </nav>
+        <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
+          <button class="lang-box-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
+            <span id="current-lang-label">EN</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="lang-popup" id="lang-popup">
+            <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span><span>EN</span></button>
+            <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span><span>KO</span></button>
+            <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span><span>JA</span></button>
+            <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span><span>ZH</span></button>
+            <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span><span>ES</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="article-hero">
+    <div class="hero-inner">
+      <nav class="blog-post-switcher" aria-label="Technical Research Blog Navigation">
+        <a href="/blog/" class="blog-post-tab">
+          <span class="blog-post-tab-kicker">Research Index</span>
+          <span class="blog-post-tab-title">← All M9G Technical Research Articles (/blog)</span>
+        </a>
+        <a href="/blog/VLA/" class="blog-post-tab">
+          <span class="blog-post-tab-kicker">M9G-TR-2026-01 • Physical AI</span>
+          <span class="blog-post-tab-title">Symbolic 3D Grounding &amp; Software-Pipelined VLA Planning</span>
+        </a>
+        <a href="/blog/m9g-agent/" class="blog-post-tab">
+          <span class="blog-post-tab-kicker">M9G-TR-2026-02 • Agentic Systems</span>
+          <span class="blog-post-tab-title">Systems Audit of m9g-agent-corps &amp; Google Antigravity</span>
+        </a>
+        <a href="/blog/stamp/" class="blog-post-tab active">
+          <span class="blog-post-tab-kicker">M9G-TR-2026-03 • Embodied TAMP</span>
+          <span class="blog-post-tab-title">Project STAMP: Deterministic Verification Gate &amp; Write-Back</span>
+        </a>
+      </nav>
+
+      <div class="dm-kicker-row">
+        <span class="dm-badge" data-i18n="articleTag">M9G-TR-2026-03 • Spatial, Task &amp; Motion Planning</span>
+        <span>Published October 25, 2026</span>
+        <span>•</span>
+        <span>Gemini 4 Argon + ROS 2 Jazzy / MoveIt 2 / Isaac Sim 6.0</span>
+      </div>
+
+      <h1 data-i18n="articleTitle">Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning</h1>
+
+      <p class="lede" data-i18n="articleLede">
+        Allowing a Vision-Language-Action (VLA) planner to stream unverified Cartesian poses or joint commands directly to low-level robotic controllers exposes multi-manipulator workcells to unreachable inverse-kinematics targets, 3D workspace collisions, joint torque spikes, and concurrent zone mutex deadlocks. In Project STAMP (v1.0.0-stamp), we decouple high-level multimodal reasoning (Gemini 4 Argon / Gemini 3.5 Flash-Lite) from ROS 2 Jazzy and MoveIt 2 actuation through a strict four-stage closed-loop architecture: Plan (TaskDAG) → Gate (Deterministic Shield) → Execute (MoveIt 2 / ROS 2) → Write-Back (Context Repair). Evaluated across 1,000 multi-arm Franka Emika FR3 episodes in STAMP-Bench-V1 under 60% synthetic fault injection, Project STAMP intercepts 100.0% of unsafe dispatches (610/610) and elevates episode task completion from 39.0% (single-shot VLA) to 100.0% via two-turn geometric and temporal write-back recovery.
+      </p>
+
+      <div class="byline-bar">
+        <div class="byline-cell">
+          <div class="byline-label">Author &amp; Principal Researcher</div>
+          <div class="byline-val">Minsu Chang, Ph.D. (장민수 / M9G)</div>
+        </div>
+        <div class="byline-cell">
+          <div class="byline-label">Frozen Benchmark Manifest</div>
+          <div class="byline-val"><code>stamp_bench_v1_manifest.json</code></div>
+        </div>
+        <div class="byline-cell">
+          <div class="byline-label">Verification &amp; Control Stack</div>
+          <div class="byline-val">3x Franka FR3 + MoveIt 2 + MCP (:8095)</div>
+        </div>
+        <div class="byline-cell">
+          <div class="byline-label">Disclosure Status</div>
+          <div class="byline-val">M9G Web-Native Prior Art (Non-arXiv)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="layout">
+    <article>
+      <div class="dm-takeaways">
+        <div class="dm-takeaways-title" data-i18n="takeawaysHeader">Research Highlights &amp; Systems Summary</div>
+        <ul>
+          <li data-i18n="finding1"><strong class="c-blue">Strict Architectural Decoupling via Canonical Schemas:</strong> <code>GeminiArgonPlanner</code> never publishes to ROS 2 topics directly; instead, it emits a Pydantic v2 / JSON Schema Draft 2020-12 <code>TaskDAG</code> verified against a 3D <code>SpatialState</code> before <code>DecoupledROS2Executor</code> or <code>MoveItPreDispatchGuard</code> can dispatch a single motion primitive.</li>
+          <li data-i18n="finding2"><strong class="c-red">100.0% Deterministic Fault Interception Across Four Physical Layers:</strong> <code>FrankaFR3DeterministicGate</code> checks every candidate <code>TaskNode</code> against 7-DoF Damped Least Squares (DLS) IK reachability (<code>[0.15m, 0.85m]</code>, residual <code>&le; 15.0 mm</code>), 3D AABB collision volumes and table clearance (<code>Z &ge; 0.20m</code>), URDF joint/torque envelopes (<code>[87..12] Nm</code>), and multi-arm zone/tool time-window locks—blocking <code>610 / 610</code> injected faults in <code>STAMP-Bench-V1</code>.</li>
+          <li data-i18n="finding3"><strong class="c-green">+61.0% Task Completion Gain via Closed-Loop <code>write_limit_back</code>:</strong> Rather than aborting on a gate rejection, <code>FeedbackContextStore.write_limit_back()</code> serializes each <code>HardwareFaultLog</code> into an exact physical correction constraint (<code>[STAMP_GATE_FAULT ...]</code>) injected into the planner prompt, achieving 100.0% two-turn recovery (<code>100.0%</code> vs. <code>39.0%</code> single-shot success across 1,000 episodes in <code>1.61 s</code> wall-clock evaluation).</li>
+        </ul>
+      </div>
+
+      <div class="spec-strip">
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi1Label">Fault Interception</div>
+          <div class="spec-val green">100.0%</div>
+          <div class="spec-note" data-i18n="kpi1Note">610 / 610 injected episodes blocked</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi2Label">Episode Completion</div>
+          <div class="spec-val green">100.0%</div>
+          <div class="spec-note" data-i18n="kpi2Note">+61.0% vs. Single-Shot VLA (39.0%)</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi3Label">Write-Back Recovery</div>
+          <div class="spec-val">2 Turns</div>
+          <div class="spec-note" data-i18n="kpi3Note">100.0% convergence via fault hints</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi4Label">Unsafe Dispatches</div>
+          <div class="spec-val green">0 / 1,000</div>
+          <div class="spec-note" data-i18n="kpi4Note">vs. 610 / 1,000 unverified in baseline</div>
+        </div>
+      </div>
+
+      <section id="video-walkthrough" class="media-block">
+        <div class="media-header">
+          <span data-i18n="videoHeader">Conceptual Simulation Preview: Spatio-Temporal Multi-Arm Coordination in Project STAMP</span>
+          <a href="/screenshots/stamp-demo-veo.mp4" target="_blank" rel="noopener noreferrer">Direct MP4 Stream (stamp-demo-veo.mp4) ↗</a>
+        </div>
+        <div class="video-container">
+          <video id="stamp-video" controls autoplay muted loop playsinline poster="/screenshots/stamp-architecture-nanobanana.png">
+            <source src="/screenshots/stamp-demo-veo.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="timestamp-grid">
+          <button class="ts-btn active" onclick="seekLocalVideo(0, this)">
+            <span class="ts-time">Stage 1 — Multimodal Ingestion</span>
+            <span class="ts-title" data-i18n="ts1Title">Video-to-TaskDAG Grounding</span>
+            <span class="ts-sub" data-i18n="ts1Sub">Maps process actions (chop, pour, transfer, wait) to parameterized 7-DoF FR3 skill nodes.</span>
+          </button>
+          <button class="ts-btn" onclick="seekLocalVideo(2, this)">
+            <span class="ts-time">Stage 2 — Deterministic Gate</span>
+            <span class="ts-title" data-i18n="ts2Title">4-Layer Kinematic &amp; Mutex Shield</span>
+            <span class="ts-sub" data-i18n="ts2Sub">Verifies 7-DoF DLS IK residual (&le;15mm), 3D AABB collision clearance, URDF torque bounds, and zone locks.</span>
+          </button>
+          <button class="ts-btn" onclick="seekLocalVideo(4, this)">
+            <span class="ts-time">Stage 3 — Write-Back Repair</span>
+            <span class="ts-title" data-i18n="ts3Title">Closed-Loop Context Repair</span>
+            <span class="ts-sub" data-i18n="ts3Sub">Converts GateVerdict rejections into [STAMP_GATE_FAULT] geometric &amp; time-window repair hints.</span>
+          </button>
+          <button class="ts-btn" onclick="seekLocalVideo(6, this)">
+            <span class="ts-time">Stage 4 — Verified Dispatch</span>
+            <span class="ts-title" data-i18n="ts4Title">MoveIt 2 Pre-Dispatch Execution</span>
+            <span class="ts-sub" data-i18n="ts4Sub">Dispatches strictly approved TaskNodes with pre-solved 7-DoF joint solutions to ROS 2 Jazzy.</span>
+          </button>
+        </div>
+      </section>
+
+      <h2 id="decoupling-rationale" data-i18n="sec1Title">Why Direct VLA-to-Controller Execution Fails in Multi-Arm Workcells</h2>
+      <p data-i18n="sec1P1">
+        When foundation models act as high-level task and motion planners for multi-manipulator cells, a recurring architectural anti-pattern is coupling the model's tool-call output directly to ROS 2 action servers or MoveIt 2 trajectory controllers. Even when a frontier model such as <code>gemini-4-argon</code> correctly decomposes a long-horizon task semantically, single-shot coordinate generation remains vulnerable to four physical failure modes: targets placed outside the manipulator's spherical reach envelope, end-effector bounding boxes that clip workbench obstacles, posture seeds that exceed distal wrist torque limits under payload, and overlapping time windows where two arms contend for the same shared workspace zone or fixture.
+      </p>
+      <p data-i18n="sec1P2">
+        <strong>Project STAMP</strong> (<em>Spatial, Task &amp; Motion Planning</em>, <code>v1.0.0-stamp</code>) resolves this vulnerability by introducing a deterministic verification air-gap between multimodal planning and physical execution. Instead of emitting raw controller commands, the planner is restricted to producing a declarative <code>TaskDAG</code> evaluated against a real-time 3D scene snapshot (<code>SpatialState</code>). No command can reach <code>DecoupledROS2Executor</code> or <code>MoveItPreDispatchGuard</code> unless every node in the directed acyclic graph passes <code>FrankaFR3DeterministicGate</code> with <code>GateVerdict.passed == True</code>.
+      </p>
+
+      <div class="telemetry-formula-box">
+        <div class="telemetry-formula-header">
+          <span>Project STAMP 4-Stage Closed-Loop Execution Law</span>
+          <span>Ref: M9G-TR-2026-03 (v1.0.0-stamp)</span>
+        </div>
+        Plan [ GeminiArgonPlanner(Goal, SpatialState, C_repair) → TaskDAG ] → Gate [ FrankaFR3DeterministicGate(TaskDAG, SpatialState) → GateVerdict ] → { PASS: DecoupledROS2Executor(q_sol) | REJECT: FeedbackContextStore.write_limit_back(HardwareFaultLog) → C_repair }
+      </div>
+
+      <figure class="figure-box">
+        <img src="/screenshots/stamp-architecture-nanobanana.png" alt="Project STAMP 4-Stage Closed-Loop Architecture Diagram (M9G-TR-2026-03)" />
+        <figcaption class="figure-caption" data-i18n="fig1Caption">
+          Figure 1 (M9G-TR-2026-03). Project STAMP four-stage architecture: (1) Multimodal Video &amp; 3D Scene Graph Grounding, (2) Decoupled Gemini 4 Argon TaskDAG Planner, (3) Four-Layer FrankaFR3DeterministicGate &amp; MoveItPreDispatchGuard, and (4) Verified ROS 2 Execution with closed-loop write_limit_back context repair.
+        </figcaption>
+      </figure>
+
+      <h2 id="schema-contracts" data-i18n="sec2Title">Four Canonical Schema Contracts &amp; Video-to-TaskDAG Ingestion</h2>
+      <p data-i18n="sec2P1">
+        To guarantee zero ambiguity between the generative planner, the deterministic gate, and external Model Context Protocol (MCP) clients, <code>stamp/stamp_schemas/</code> codifies four Pydantic v2 models exported as strict JSON Schema Draft 2020-12 artifacts (<code>export_all_json_schemas()</code>):
+      </p>
+      <ul>
+        <li data-i18n="schema1Desc"><strong><code>TaskDAG</code> &amp; <code>TaskNode</code> (<code>TaskDAG.schema.json</code>):</strong> Represents a parallel multi-arm task graph where each node specifies <code>node_id</code>, assigned manipulator <code>arm_id</code> (<code>FR3_1</code>, <code>FR3_2</code>, <code>FR3_3</code>), primitive <code>action</code>, <code>target_pose</code> <code>[x, y, z, yaw]</code> in world meters/radians, upstream <code>dependencies</code>, claimed <code>shared_zone</code>, <code>required_tool</code>, and scheduled <code>time_window</code> <code>(t_start, t_end)</code>.</li>
+        <li data-i18n="schema2Desc"><strong><code>SpatialState</code> (<code>SpatialState.schema.json</code>):</strong> Captures the complete 3D workcell state at planning time, including per-arm base transforms and 7-DoF joint states (<code>RobotArmState</code> with <code>joint_torques_nm</code> and custom URDF <code>joint_limits_rad</code>), tracked 3D objects (<code>ObjectPose3D</code>), 3D obstacle AABBs (<code>WorkspaceZoneBox</code>), and active mutex maps (<code>active_zone_locks</code>, <code>active_tool_locks</code>).</li>
+        <li data-i18n="schema3Desc"><strong><code>GateVerdict</code> (<code>GateVerdict.schema.json</code>):</strong> Emitted by <code>FrankaFR3DeterministicGate.evaluate_dag()</code>, recording boolean <code>passed</code>, <code>approved_node_ids</code>, <code>rejected_node_ids</code>, pre-solved 7-DoF IK joint vectors <code>joint_solutions</code> (in radians), and cumulative <code>interception_rate</code>.</li>
+        <li data-i18n="schema4Desc"><strong><code>HardwareFaultLog</code> &amp; <code>FaultCode</code> (<code>HardwareFaultLog.schema.json</code>):</strong> Standardized diagnostic record binding a rejected <code>node_id</code> and <code>arm_id</code> to a deterministic <code>FaultCode</code>, scalar <code>measured_value</code> vs. <code>limit_value</code>, physical <code>unit</code>, and an actionable <code>correction_hint</code> string serialized via <code>to_context_constraint()</code>.</li>
+      </ul>
+
+      <h3 id="video-ingestion" data-i18n="sec2SubTitle">Multimodal Video-to-TAMP Skill Grounding</h3>
+      <p data-i18n="sec2P2">
+        Beyond static scene graphs, <code>MultimodalVideoIngestor</code> (<code>stamp/video_ingestion.py</code>) translates long-horizon multi-dish process videos (such as <code>multi_dish_stir_fry_and_soup</code>) into parallel 3-arm <code>TaskDAG</code> schedules. High-level semantic actions extracted from video streams are mapped deterministically onto parameterized Franka Emika FR3 motion primitives via <code>VIDEO_ACTION_TO_FR3_SKILL</code> while scheduling non-overlapping earliest-available timelines across <code>FR3_1..3</code>, shared zones, and tools:
+      </p>
+
+      <div class="table-scroll">
+        <div class="table-provenance-bar">
+          <span>M9G-TR-2026-03 • MultimodalVideoIngestor Skill Mapping &amp; 6-Node Parallel TaskDAG</span>
+          <span>Author: Minsu Chang, Ph.D. (M9G)</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>DAG Node ID</th>
+              <th>Video Action → FR3 Primitive</th>
+              <th>Assigned Arm</th>
+              <th>Shared Zone &amp; Tool Lock</th>
+              <th class="num">Target Pose <code>[x, y, z, yaw]</code></th>
+              <th class="num">Scheduled Window</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>v1_chop_vegetables</code></td>
+              <td><code>chop</code> → <code>pick_and_oscillate_z</code> (3 strokes, 8.0 N)</td>
+              <td><code>FR3_1</code></td>
+              <td><code>cutting_board</code> / <code>knife_fixture</code></td>
+              <td class="num"><code>[0.00, -0.93, 0.34, 0.0]</code></td>
+              <td class="num"><code>[0.00s, 1.60s]</code></td>
+            </tr>
+            <tr>
+              <td><code>v2_chop_tofu_parallel</code></td>
+              <td><code>chop</code> → <code>pick_and_oscillate_z</code> (3 strokes, 8.0 N)</td>
+              <td><code>FR3_2</code></td>
+              <td><code>prep_board_2</code> / <code>cleaver_fixture</code></td>
+              <td class="num"><code>[0.80, 0.46, 0.34, 0.0]</code></td>
+              <td class="num"><code>[0.00s, 1.50s]</code></td>
+            </tr>
+            <tr class="highlight-row">
+              <td><code>v3_transfer_veg_to_wok</code></td>
+              <td><code>transfer</code> → <code>pick_and_place</code> (clearance 0.14m)</td>
+              <td><code>FR3_1</code></td>
+              <td><code>central_table</code> / <code>None</code></td>
+              <td class="num"><code>[0.00, 0.00, 0.35, 0.0]</code></td>
+              <td class="num"><strong><code>[1.60s, 3.00s]</code></strong></td>
+            </tr>
+            <tr class="highlight-row">
+              <td><code>v4_pour_broth</code></td>
+              <td><code>pour</code> → <code>wrist_pitch_tilt</code> (1.35 rad, 0.6s dwell)</td>
+              <td><code>FR3_3</code></td>
+              <td><code>central_table</code> / <code>ladle_vessel</code></td>
+              <td class="num"><code>[-0.04, 0.04, 0.40, 0.0]</code></td>
+              <td class="num"><strong><code>[3.00s, 4.80s]</code></strong></td>
+            </tr>
+            <tr>
+              <td><code>v5_wait_simmer</code></td>
+              <td><code>wait</code> → <code>hold_posture</code> (0.5s dwell)</td>
+              <td><code>FR3_2</code></td>
+              <td><code>None</code> / <code>None</code></td>
+              <td class="num"><code>[0.80, 0.46, 0.38, 0.0]</code></td>
+              <td class="num"><code>[1.50s, 2.00s]</code></td>
+            </tr>
+            <tr class="highlight-row">
+              <td><code>v6_transfer_tofu_to_pot</code></td>
+              <td><code>transfer</code> → <code>pick_and_place</code> (deps: <code>v4, v5</code>)</td>
+              <td><code>FR3_2</code></td>
+              <td><code>central_table</code> / <code>None</code></td>
+              <td class="num"><code>[0.02, -0.02, 0.42, 0.0]</code></td>
+              <td class="num"><strong><code>[4.80s, 6.20s]</code></strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="deterministic-gate" data-i18n="sec3Title">Inside the Four-Layer Deterministic Shield &amp; Closed-Loop Write-Back</h2>
+      <p data-i18n="sec3P1">
+        Every candidate <code>TaskNode</code> in a proposed <code>TaskDAG</code> is inspected sequentially across four orthogonal physical verification layers inside <code>FrankaFR3DeterministicGate._evaluate_single_node()</code> (and enforced at the controller boundary by <code>MoveItPreDispatchGuard.verify_moveit_goal()</code>). When any invariant is violated, the gate blocks execution and synthesizes a deterministic repair rule for <code>FeedbackContextStore.write_limit_back()</code>:
+      </p>
+
+      <div class="telemetry-formula-box">
+        <div class="telemetry-formula-header">
+          <span>Four-Layer Deterministic Gate Invariants (FrankaFR3DeterministicGate)</span>
+          <span>Ref: M9G-TR-2026-03 • stamp/stamp_gate/__init__.py</span>
+        </div>
+        1. Kinematic Reach &amp; 7-DoF DLS IK: r_3D = ||p_target − p_base||₂ ∈ [0.15m, 0.85m] ∧ ||FK(DLS_IK(p_local, q_des, q_seed)) − p_local||₂ ≤ 0.015m (15.0 mm)<br/>
+        2. 3D Workspace &amp; AABB Collision: z_target ≥ 0.20m ∧ ||p_xy − p_base,xy||₂ ≥ 0.12m ∧ ∀B ∈ Boxes_obs: AABB(p_target ± [0.04, 0.04, 0.05]m) ∩ B = ∅<br/>
+        3. Joint &amp; Torque Envelopes: ∀j ∈ {1..7}: q_j ∈ [q_min,j, q_max,j] (URDF) ∧ |τ_j| ≤ τ_max,j ([87, 87, 87, 87, 12, 12, 12] Nm)<br/>
+        4. Spatio-Temporal Mutex Locks: ∀(n_a, n_b) claiming shared_zone Z or required_tool T (arm_a ≠ arm_b): max(t_start,a, t_start,b) ≥ min(t_end,a, t_end,b)
+      </div>
+
+      <div class="table-scroll">
+        <div class="table-provenance-bar">
+          <span>M9G-TR-2026-03 • Standardized Fault Taxonomy &amp; Closed-Loop Repair Mechanics</span>
+          <span>Author: Minsu Chang, Ph.D. (M9G)</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>FaultCode Enum</th>
+              <th>Deterministic Trigger Condition</th>
+              <th>Injected Context Constraint (<code>write_limit_back</code>)</th>
+              <th>Planner Turn-2 Repair Transformation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong class="c-red"><code>IK_UNREACHABLE</code></strong></td>
+              <td>3D radial distance <code>r_3D &notin; [0.15m, 0.85m]</code> from assigned arm's <code>fr3_link0</code> base, or 150-iteration 7-DoF DLS IK residual exceeds <code>15.0 mm</code>.</td>
+              <td><code>[STAMP_GATE_FAULT node=... arm=FR3_k code=IK_UNREACHABLE measured=1.98m limit=0.85m]: move target within 0.52m of base</code></td>
+              <td>Projects target XY radially along the base-to-target vector onto the <code>r = 0.52m</code> kinematic sweet spot and clamps <code>Z &isin; [0.32m, 0.62m]</code>.</td>
+            </tr>
+            <tr>
+              <td><strong class="c-red"><code>WORKSPACE_COLLISION</code></strong></td>
+              <td>Target penetrates table floor (<code>Z &lt; 0.20m</code>), enters the <code>0.12m</code> base column cylinder, or end-effector AABB intersects an obstacle <code>WorkspaceZoneBox</code>.</td>
+              <td><code>[STAMP_GATE_FAULT node=... code=WORKSPACE_COLLISION]: End-effector AABB intersects obstacle; raise Z above box.max_z + 0.08m</code></td>
+              <td>Lifts target <code>Z</code> to <code>max(0.34m, box.max_z + 0.08m)</code>, or retracts XY to <code>0.5 &times; base_xyz</code> at <code>Z = 0.38m</code> if vertical clearance exceeds <code>0.68m</code>.</td>
+            </tr>
+            <tr>
+              <td><strong class="c-amber"><code>RESOURCE_CONTENTION</code></strong></td>
+              <td>Two manipulators claim the same <code>shared_zone</code> (e.g., <code>central_table</code>) or <code>required_tool</code> during overlapping <code>[t_start, t_end]</code> windows or active lock.</td>
+              <td><code>[STAMP_GATE_FAULT node=... code=RESOURCE_CONTENTION]: Shared zone contended over [0.00s, 1.50s]; shift time_window after 1.50s</code></td>
+              <td>Shifts the contending node's <code>time_window</code> to <code>[mutex_cursor + 0.15s, mutex_cursor + 0.15s + dur]</code> and releases conflicting foreign locks.</td>
+            </tr>
+            <tr>
+              <td><strong class="c-amber"><code>JOINT_LIMIT_EXCEEDED</code></strong></td>
+              <td>Any of the 7 FR3 joint angles violates URDF <code>[q_min, q_max]</code> radians, or joint torque <code>|&tau;_j|</code> exceeds <code>[87, 87, 87, 87, 12, 12, 12] Nm</code>.</td>
+              <td><code>[STAMP_GATE_FAULT node=... code=JOINT_LIMIT_EXCEEDED measured=115.0Nm limit=87.0Nm]: retract moment arm &amp; enable reduced_payload_mode</code></td>
+              <td>Retracts target moment arm to <code>0.45 &times; base_xyz</code> at <code>Z = 0.38m</code>, resets seed to <code>FR3_HOME_CONFIG</code>, and sets <code>reduced_payload_mode = True</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="empirical-benchmarks" data-i18n="sec4Title">Empirical Evaluation: STAMP-Bench-V1 (1,000 Fault-Injected Episodes)</h2>
+      <p data-i18n="sec4P1">
+        To rigorously quantify the reliability gap between unguarded single-shot VLA planning and Project STAMP's closed-loop <code>Plan → Gate → Write-Back</code> architecture, we executed the 1,000-episode fault-injection benchmark frozen in <code>datasets/stamp_bench_v1/stamp_bench_v1_manifest.json</code> (SHA-256 trace digest <code>8d8b72bb75c3865e...98b4c0aad</code>, deterministic RNG seed <code>202703</code>). Across 1,000 parallel 3-arm episodes, the campaign injected synthetic physical faults at a 60% target rate (resulting in <code>610</code> fault-injected episodes and <code>1,076</code> total node-level fault events across out-of-reach object jitter at <code>[1.42, -1.32, 0.34]m</code>, central workspace obstacle blockers, <code>115.0 Nm</code> joint torque spikes on <code>J1</code>, and concurrent <code>central_table</code> time-window collisions):
+      </p>
+
+      <div class="data-fig-grid">
+        <div class="data-fig">
+          <div class="data-fig-head">
+            <span class="data-fig-title" data-i18n="fig2aTitle">Figure 2A. Episode Task Completion &amp; Fault Interception (1,000 Episodes)</span>
+            <span class="data-fig-unit">STAMP-Bench-V1 • Seed: 202703</span>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">Single-Shot VLA Planning (Unguarded Baseline)</span><span class="bar-metric-val"><strong style="color:var(--dm-red);">39.0% Completion</strong> (390 / 1,000 pass • 610 unsafe dispatches)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:39.0%; background:var(--dm-amber);"></div><div class="bar-fill" style="width:61.0%; background:var(--dm-red);"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">FrankaFR3DeterministicGate Fault Interception Rate</span><span class="bar-metric-val"><strong style="color:var(--dm-blue-dark);">100.0% Interception</strong> (610 / 610 fault episodes caught, KPI &gt;95%)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:100.0%; background:var(--dm-blue);"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">Project STAMP (Plan → Gate → write_limit_back Re-Plan)</span><span class="bar-metric-val"><strong style="color:var(--dm-green-dark);">100.0% Completion (+61.0%)</strong> (1,000 / 1,000 pass • 0 unsafe dispatches)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:100.0%; background:var(--dm-green);"></div></div>
+          </div>
+        </div>
+
+        <div class="data-fig">
+          <div class="data-fig-head">
+            <span class="data-fig-title" data-i18n="fig2bTitle">Figure 2B. Node-Level Hardware Fault Breakdown Intercepted by Gate (1,076 Total Faults)</span>
+            <span class="data-fig-unit">610 Fault-Injected Episodes • STAMP-Bench-V1</span>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">WORKSPACE_COLLISION (Obstacle AABB &amp; Table Z &lt; 0.20m)</span><span class="bar-metric-val"><strong>471 faults</strong> (43.8% of intercepted node faults)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:43.8%; background:var(--dm-red);"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">JOINT_LIMIT_EXCEEDED (115.0 Nm Torque Spike &amp; URDF Rad Limits)</span><span class="bar-metric-val"><strong>304 faults</strong> (28.3% of intercepted node faults)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:28.3%; background:var(--dm-amber);"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">RESOURCE_CONTENTION (central_table &amp; Shared Fixture Overlap)</span><span class="bar-metric-val"><strong>156 faults</strong> (14.5% of intercepted node faults)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:14.5%; background:var(--dm-blue);"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">IK_UNREACHABLE (Radial Reach &gt; 0.85m &amp; DLS IK Residual &gt; 15mm)</span><span class="bar-metric-val"><strong>145 faults</strong> (13.5% of intercepted node faults)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:13.5%; background:var(--dm-green);"></div></div>
+          </div>
+        </div>
+
+        <div class="data-fig">
+          <div class="data-fig-head">
+            <span class="data-fig-title" data-i18n="fig2cTitle">Figure 2C. Cumulative Episode Convergence Across Planning Attempts (1,000 Episodes)</span>
+            <span class="data-fig-unit">Single-Shot vs. Closed-Loop Write-Back</span>
+          </div>
+          <svg viewBox="0 0 600 225" width="100%" height="auto" role="img" aria-label="Cumulative episode success rate across planning turns in STAMP-Bench-V1">
+            <line x1="54" y1="22" x2="565" y2="22" stroke="#e8eaed" stroke-dasharray="3,3" />
+            <line x1="54" y1="64" x2="565" y2="64" stroke="#e8eaed" stroke-dasharray="3,3" />
+            <line x1="54" y1="106" x2="565" y2="106" stroke="#e8eaed" stroke-dasharray="3,3" />
+            <line x1="54" y1="148" x2="565" y2="148" stroke="#e8eaed" stroke-dasharray="3,3" />
+            <line x1="54" y1="190" x2="565" y2="190" stroke="#dadce0" />
+            <text x="46" y="26" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">100%</text>
+            <text x="46" y="68" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">75%</text>
+            <text x="46" y="110" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">50%</text>
+            <text x="46" y="152" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">25%</text>
+            <text x="46" y="193" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">0%</text>
+            <rect x="215" y="22" width="350" height="168" fill="#e6f4ea" opacity="0.55" />
+            <line x1="215" y1="22" x2="215" y2="190" stroke="#1e8e3e" stroke-dasharray="4,3" />
+            <text x="390" y="42" fill="#137333" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" text-anchor="middle">+610 Fault Episodes Recovered via write_limit_back (+61.0%)</text>
+            <text x="390" y="56" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="9" text-anchor="middle">100.0% Convergence by Attempt 2 (840 Repair Tokens)</text>
+            <polyline fill="none" stroke="#d93025" stroke-width="2.4" stroke-dasharray="5,4" points="70,124.5 215,124.5 385,124.5 545,124.5" />
+            <polyline fill="none" stroke="#1e8e3e" stroke-width="3.0" points="70,124.5 215,22 385,22 545,22" />
+            <circle cx="70" cy="124.5" r="4.5" fill="#1a73e8" />
+            <circle cx="215" cy="22" r="5" fill="#1e8e3e" />
+            <circle cx="545" cy="124.5" r="4" fill="#d93025" />
+            <circle cx="545" cy="22" r="4.5" fill="#1e8e3e" />
+            <text x="78" y="117" fill="#174ea6" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600">Attempt 1: 39.0% (390/1000)</text>
+            <text x="223" y="16" fill="#137333" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">Attempt 2 (STAMP): 100.0% (1000/1000)</text>
+            <text x="540" y="140" fill="#d93025" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="600" text-anchor="end">Single-Shot Ceiling: 39.0% (610 Unsafe)</text>
+            <text x="60" y="182" fill="#70757a" font-family="JetBrains Mono, monospace" font-size="8.5">© M9G-TR-2026-03 • Minsu Chang, Ph.D. (M9G)</text>
+            <text x="70" y="208" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">Attempt 1 (Initial DAG)</text>
+            <text x="215" y="208" fill="#137333" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" text-anchor="middle">Attempt 2 (Write-Back)</text>
+            <text x="385" y="208" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">Attempt 3 (Max=2)</text>
+            <text x="545" y="208" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">Attempt 4 (Max=3)</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <div class="table-provenance-bar">
+          <span>M9G-TR-2026-03 • STAMP-Bench-V1 1,000-Episode Campaign Telemetry (<code>stamp_bench_v1_manifest.json</code>)</span>
+          <span>Author: Minsu Chang, Ph.D. (M9G)</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Benchmark Metric (1,000 Multi-Arm Episodes)</th>
+              <th class="num">Single-Shot VLA Baseline</th>
+              <th class="num">Project STAMP (<code>Plan → Gate → Write-Back</code>)</th>
+              <th class="num">Systems Delta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Episodes Evaluated (<code>seed = 202703</code>)</td>
+              <td class="num">1,000</td>
+              <td class="num">1,000</td>
+              <td class="num">Identical workload</td>
+            </tr>
+            <tr>
+              <td>Episodes with Synthetic Fault Injection (<code>p = 0.60</code>)</td>
+              <td class="num">610 (61.0%)</td>
+              <td class="num">610 (61.0%)</td>
+              <td class="num">1,076 node faults</td>
+            </tr>
+            <tr>
+              <td>Deterministic Gate Fault Interception Rate</td>
+              <td class="num">0.0% (0 / 610)</td>
+              <td class="num"><strong>100.0% (610 / 610)</strong></td>
+              <td class="num" style="color:var(--dm-green-dark); font-weight:700;">+100.0% (KPI &gt;95%)</td>
+            </tr>
+            <tr>
+              <td>Unverified / Unsafe Hardware Dispatches</td>
+              <td class="num" style="color:var(--dm-red); font-weight:700;">610 / 1,000</td>
+              <td class="num"><strong>0 / 1,000</strong></td>
+              <td class="num" style="color:var(--dm-green-dark); font-weight:700;">-100.0% (Zero unsafe)</td>
+            </tr>
+            <tr>
+              <td>Closed-Loop <code>write_limit_back</code> Recovery Rate</td>
+              <td class="num">0.0% (No feedback loop)</td>
+              <td class="num"><strong>100.0% (610 / 610 recovered)</strong></td>
+              <td class="num" style="color:var(--dm-green-dark); font-weight:700;">2-turn convergence</td>
+            </tr>
+            <tr>
+              <td>Tokens per 6-Node DAG (Initial / Write-Back Repair)</td>
+              <td class="num">1,060 tok (1 call)</td>
+              <td class="num">1,060 tok (clean) / 1,870 tok (repaired)</td>
+              <td class="num">+810 tok on fault only</td>
+            </tr>
+            <tr>
+              <td>1,000-Episode Campaign Wall-Clock Runtime (Cached DLS IK)</td>
+              <td class="num">—</td>
+              <td class="num"><strong>1.61 s (1.61 ms / episode)</strong></td>
+              <td class="num">Sub-2ms gate + repair</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>End-to-End Episode Task Completion Rate</strong></td>
+              <td class="num">39.0% (390 / 1,000)</td>
+              <td class="num" style="color:var(--dm-green-dark); font-weight:700;">100.0% (1,000 / 1,000)</td>
+              <td class="num" style="color:var(--dm-green-dark); font-weight:700;">+61.0% absolute gain</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="standalone-mcp" data-i18n="sec5Title">Decoupled Deployment: Standalone REST &amp; Model Context Protocol (MCP) Server</h2>
+      <p data-i18n="sec5P1">
+        A core systems requirement of Project STAMP is that deterministic kinematic and spatial verification should not be locked inside a monolithic simulator process. Through <code>StampStandaloneEngine</code> (<code>stamp/api_server.py</code>), the entire <code>Plan → Gate → Write-Back</code> loop operates as a zero-ROS-dependency microservice over HTTP REST (port <code>:8095</code>) or JSON-RPC 2.0 MCP stdio transport. External agent harnesses can pass custom robot URDF XML definitions (parsed dynamically via <code>parse_urdf_joint_limits()</code>) and reach bounds on every call:
+      </p>
+
+      <div class="table-scroll">
+        <div class="table-provenance-bar">
+          <span>M9G-TR-2026-03 • StampStandaloneEngine REST &amp; JSON-RPC 2.0 MCP Interface</span>
+          <span>Author: Minsu Chang, Ph.D. (M9G)</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>MCP Tool / HTTP Endpoint</th>
+              <th>Input Contract</th>
+              <th>Deterministic Engine Behavior &amp; Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>stamp_plan_and_verify</code><br/><code>POST /v1/stamp/plan_and_verify</code></td>
+              <td><code>goal</code>, <code>spatial_state</code>, optional <code>urdf_xml</code>, <code>reach_bounds_m</code>, <code>video_events</code>, <code>max_replans</code></td>
+              <td>Applies custom URDF revolute/prismatic limits, executes closed-loop <code>ClosedLoopStampOrchestrator.run_episode()</code>, and returns verified <code>dag</code>, <code>verdict</code>, and <code>active_write_back_constraints</code>.</td>
+            </tr>
+            <tr>
+              <td><code>stamp_verify_dag</code><br/><code>POST /v1/stamp/verify_dag</code></td>
+              <td>Candidate <code>dag</code> (<code>TaskDAG</code>), <code>spatial_state</code>, optional <code>urdf_xml</code>, <code>reach_bounds_m</code></td>
+              <td>Runs <code>FrankaFR3DeterministicGate.evaluate_dag()</code> in under 2 ms, automatically appends any <code>HardwareFaultLog</code> entries to <code>FeedbackContextStore</code>, and returns <code>GateVerdict</code> with pre-solved 7-DoF <code>joint_solutions</code>.</td>
+            </tr>
+            <tr>
+              <td><code>stamp_write_limit_back</code><br/><code>POST /v1/stamp/write_limit_back</code></td>
+              <td>List of <code>HardwareFaultLog</code> objects from simulator or hardware protective stops</td>
+              <td>Serializes hardware faults into deduplicated <code>[STAMP_GATE_FAULT ...]</code> prompt constraints and returns updated <code>fault_summary</code> counts by <code>FaultCode</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p data-i18n="sec5P2">
+        Paired with our unattended batch harness (<code>scripts/run_stamp_batch.py</code>), cross-OS WSL2 FastDDS heartbeat watchdog (<code>scripts/fastdds_watchdog.py</code>), and SHA-256 dataset freezer (<code>scripts/freeze_stamp_bench_v1.py</code>), Project STAMP establishes a reproducible blueprint for deploying frontier multimodal models safely across physical multi-arm manipulation stations.
+      </p>
+
+      <section id="provenance" class="citation-card">
+        <div class="citation-title" data-i18n="provHeader">Research Provenance, Prior Art Disclosure &amp; Anti-Scraping Notice</div>
+        <p style="font-size:13px; margin-bottom:8px;" data-i18n="provBody">
+          This technical article (<strong>M9G-TR-2026-03</strong>), the Project STAMP (<code>v1.0.0-stamp</code>) four-stage <code>Plan → Gate → Execute → Write-Back</code> architecture, the four-layer <code>FrankaFR3DeterministicGate</code> formulation, and the 1,000-episode empirical benchmark in <code>STAMP-Bench-V1</code> (<code>stamp_bench_v1_manifest.json</code>) constitute original published prior art by <strong>Minsu Chang, Ph.D. (장민수 / M9G)</strong>. This work is published exclusively as a web-native technical research disclosure on <code>mincasurong.github.io</code>. Unauthorized copying, translation, or conversion of these tables, schemas, or analyses into third-party conference papers (IEEE ICRA, IROS, RA-L, CoRL) or arXiv preprints is strictly prohibited.
+        </p>
+        <div class="citation-pre">Minsu Chang, Ph.D. (M9G), "Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning," M9G Technical Research Blog (M9G-TR-2026-03), Oct. 25, 2026. URL: https://mincasurong.github.io/blog/stamp/ | Benchmark: STAMP-Bench-V1 (v1.0.0-stamp)</div>
+      </section>
+    </article>
+
+    <aside class="sidebar">
+      <div class="side-panel">
+        <h3 class="side-heading" data-i18n="sideContents">Article Sections</h3>
+        <ul class="side-links">
+          <li><a href="#video-walkthrough" data-i18n="tocVideo">Simulation Video Preview</a></li>
+          <li><a href="#decoupling-rationale" data-i18n="tocSec1">Decoupling VLA from Control</a></li>
+          <li><a href="#schema-contracts" data-i18n="tocSec2">Canonical Schemas &amp; Video DAG</a></li>
+          <li><a href="#deterministic-gate" data-i18n="tocSec3">4-Layer Deterministic Shield</a></li>
+          <li><a href="#empirical-benchmarks" data-i18n="tocSec4">STAMP-Bench-V1 (1,000 Episodes)</a></li>
+          <li><a href="#standalone-mcp" data-i18n="tocSec5">Standalone REST &amp; MCP Server</a></li>
+          <li><a href="#provenance">Provenance &amp; Prior Art Record</a></li>
+        </ul>
+      </div>
+      <div class="side-panel">
+        <h3 class="side-heading" data-i18n="sideConfig">STAMP System Telemetry Spec</h3>
+        <ul class="kv-list">
+          <li><span>Disclosure ID</span><span>M9G-TR-2026-03</span></li>
+          <li><span>Release Tag</span><span>v1.0.0-stamp</span></li>
+          <li><span>VLA Planner</span><span>Gemini 4 Argon</span></li>
+          <li><span>Control Stack</span><span>ROS 2 Jazzy + MoveIt 2</span></li>
+          <li><span>IK Solver</span><span>7-DoF DLS (&le;15.0 mm)</span></li>
+          <li><span>Reach Envelope</span><span>[0.15m, 0.85m] (3x FR3)</span></li>
+          <li><span>Gate Interception</span><span style="color:var(--dm-green-dark);">100.0% (610 / 610)</span></li>
+          <li><span>Task Completion</span><span style="color:var(--dm-green-dark);">100.0% (+61.0%)</span></li>
+        </ul>
+      </div>
+      <div class="side-panel">
+        <h3 class="side-heading" data-i18n="sideLinks">Research Navigation</h3>
+        <ul class="side-links">
+          <li><a href="/blog/">← M9G Technical Blog Index</a></li>
+          <li><a href="/blog/VLA/">→ M9G-TR-2026-01: Symbolic 3D VLA Planning</a></li>
+          <li><a href="/blog/m9g-agent/">→ M9G-TR-2026-02: Coding Harness Audit</a></li>
+          <li><a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener noreferrer">IsaacSim_GeminiRobotics Repo ↗</a></li>
+          <li><a href="/" data-i18n="navPortfolio">M9G Main Portfolio</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    © 2026 M9G (Minsu Chang, Ph.D.) • <a href="/">mincasurong.github.io</a> • <a href="/blog/">Research Blog Index</a> • <a href="https://github.com/mincasurong">GitHub</a> • <a href="https://www.linkedin.com/in/mincasurong/">LinkedIn</a>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const doc = document.documentElement;
+      const top = doc.scrollTop || document.body.scrollTop;
+      const height = doc.scrollHeight - doc.clientHeight;
+      document.getElementById('progress-bar').style.width = (height > 0 ? (top / height) * 100 : 0) + '%';
+    }, { passive: true });
+
+    function seekLocalVideo(seconds, btn) {
+      const vid = document.getElementById('stamp-video');
+      if (vid) {
+        try {
+          vid.currentTime = seconds;
+          vid.play();
+        } catch {}
+      }
+      document.querySelectorAll('.ts-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }
+
+    const BLOG_I18N = {
+      en: {
+        blogHeaderBrand: "Technical Research Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Portfolio",
+        articleTag: "M9G-TR-2026-03 • Spatial, Task & Motion Planning",
+        articleTitle: "Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning",
+        articleLede: "Allowing a Vision-Language-Action (VLA) planner to stream unverified Cartesian poses or joint commands directly to low-level robotic controllers exposes multi-manipulator workcells to unreachable inverse-kinematics targets, 3D workspace collisions, joint torque spikes, and concurrent zone mutex deadlocks. In Project STAMP (v1.0.0-stamp), we decouple high-level multimodal reasoning (Gemini 4 Argon / Gemini 3.5 Flash-Lite) from ROS 2 Jazzy and MoveIt 2 actuation through a strict four-stage closed-loop architecture: Plan (TaskDAG) → Gate (Deterministic Shield) → Execute (MoveIt 2 / ROS 2) → Write-Back (Context Repair). Evaluated across 1,000 multi-arm Franka Emika FR3 episodes in STAMP-Bench-V1 under 60% synthetic fault injection, Project STAMP intercepts 100.0% of unsafe dispatches (610/610) and elevates episode task completion from 39.0% (single-shot VLA) to 100.0% via two-turn geometric and temporal write-back recovery.",
+        takeawaysHeader: "Research Highlights & Systems Summary",
+        finding1: "Strict Architectural Decoupling via Canonical Schemas: GeminiArgonPlanner never publishes to ROS 2 topics directly; instead, it emits a Pydantic v2 / JSON Schema Draft 2020-12 TaskDAG verified against a 3D SpatialState before DecoupledROS2Executor or MoveItPreDispatchGuard can dispatch a single motion primitive.",
+        finding2: "100.0% Deterministic Fault Interception Across Four Physical Layers: FrankaFR3DeterministicGate checks every candidate TaskNode against 7-DoF Damped Least Squares (DLS) IK reachability ([0.15m, 0.85m], residual <= 15.0 mm), 3D AABB collision volumes and table clearance (Z >= 0.20m), URDF joint/torque envelopes ([87..12] Nm), and multi-arm zone/tool time-window locks—blocking 610 / 610 injected faults in STAMP-Bench-V1.",
+        finding3: "+61.0% Task Completion Gain via Closed-Loop write_limit_back: Rather than aborting on a gate rejection, FeedbackContextStore.write_limit_back() serializes each HardwareFaultLog into an exact physical correction constraint ([STAMP_GATE_FAULT ...]) injected into the planner prompt, achieving 100.0% two-turn recovery (100.0% vs. 39.0% single-shot success across 1,000 episodes in 1.61 s wall-clock evaluation).",
+        kpi1Label: "Fault Interception", kpi1Note: "610 / 610 injected episodes blocked",
+        kpi2Label: "Episode Completion", kpi2Note: "+61.0% vs. Single-Shot VLA (39.0%)",
+        kpi3Label: "Write-Back Recovery", kpi3Note: "100.0% convergence via fault hints",
+        kpi4Label: "Unsafe Dispatches", kpi4Note: "vs. 610 / 1,000 unverified in baseline",
+        videoHeader: "Conceptual Simulation Preview: Spatio-Temporal Multi-Arm Coordination in Project STAMP",
+        ts1Title: "Video-to-TaskDAG Grounding", ts1Sub: "Maps process actions (chop, pour, transfer, wait) to parameterized 7-DoF FR3 skill nodes.",
+        ts2Title: "4-Layer Kinematic & Mutex Shield", ts2Sub: "Verifies 7-DoF DLS IK residual (<=15mm), 3D AABB collision clearance, URDF torque bounds, and zone locks.",
+        ts3Title: "Closed-Loop Context Repair", ts3Sub: "Converts GateVerdict rejections into [STAMP_GATE_FAULT] geometric & time-window repair hints.",
+        ts4Title: "MoveIt 2 Pre-Dispatch Execution", ts4Sub: "Dispatches strictly approved TaskNodes with pre-solved 7-DoF joint solutions to ROS 2 Jazzy.",
+        sec1Title: "Why Direct VLA-to-Controller Execution Fails in Multi-Arm Workcells",
+        sec2Title: "Four Canonical Schema Contracts & Video-to-TaskDAG Ingestion",
+        sec2SubTitle: "Multimodal Video-to-TAMP Skill Grounding",
+        sec3Title: "Inside the Four-Layer Deterministic Shield & Closed-Loop Write-Back",
+        sec4Title: "Empirical Evaluation: STAMP-Bench-V1 (1,000 Fault-Injected Episodes)",
+        sec5Title: "Decoupled Deployment: Standalone REST & Model Context Protocol (MCP) Server",
+        fig1Caption: "Figure 1 (M9G-TR-2026-03). Project STAMP four-stage architecture: (1) Multimodal Video & 3D Scene Graph Grounding, (2) Decoupled Gemini 4 Argon TaskDAG Planner, (3) Four-Layer FrankaFR3DeterministicGate & MoveItPreDispatchGuard, and (4) Verified ROS 2 Execution with closed-loop write_limit_back context repair.",
+        fig2aTitle: "Figure 2A. Episode Task Completion & Fault Interception (1,000 Episodes)",
+        fig2bTitle: "Figure 2B. Node-Level Hardware Fault Breakdown Intercepted by Gate (1,076 Total Faults)",
+        fig2cTitle: "Figure 2C. Cumulative Episode Convergence Across Planning Attempts (1,000 Episodes)",
+        sideContents: "Article Sections", sideConfig: "STAMP System Telemetry Spec", sideLinks: "Research Navigation",
+        tocVideo: "Simulation Video Preview", tocSec1: "Decoupling VLA from Control", tocSec2: "Canonical Schemas & Video DAG",
+        tocSec3: "4-Layer Deterministic Shield", tocSec4: "STAMP-Bench-V1 (1,000 Episodes)", tocSec5: "Standalone REST & MCP Server"
+      },
+      ko: {
+        blogHeaderBrand: "기술 리서치 블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "포트폴리오",
+        articleTag: "M9G-TR-2026-03 • 시공간 태스크 및 모션 플래닝 (STAMP)",
+        articleTitle: "Project STAMP: 다중 로봇 팔 VLA 태스크 및 모션 플래닝을 위한 결정론적 검증 게이트와 폐루프 컨텍스트 복구",
+        articleLede: "비전-언어-액션(VLA) 플래너가 검증되지 않은 3D 목표 좌표나 관절 명령을 하위 로봇 제어기에 직접 발행하도록 허용하면, 역기구학(IK) 도달 불가 영역 진입, 3D 작업 공간 충돌, 관절 토크 스파이크, 공유 작업 구역 뮤텍스 데드락 위험에 노출됩니다. Project STAMP(v1.0.0-stamp)는 상위 멀티모달 추론(Gemini 4 Argon / 3.5 Flash-Lite)과 ROS 2 Jazzy 및 MoveIt 2 하드웨어 실행을 Plan(TaskDAG) → Gate(결정론적 안전 실드) → Execute(MoveIt 2 / ROS 2) → Write-Back(컨텍스트 복구)의 4단계 폐루프 파이프라인으로 엄격히 분리합니다. 60% 합성 결함이 주입된 1,000개 다중 로봇 에피소드(STAMP-Bench-V1) 평가 결과, STAMP는 위험 명령을 100.0%(610/610) 사전 차단하고 단일 호출 VLA 대비 태스크 완수율을 39.0%에서 100.0%(+61.0%p)로 끌어올렸습니다.",
+        takeawaysHeader: "핵심 연구 결과 및 시스템 요약",
+        finding1: "표준 스키마 계약을 통한 플래너-제어기 완전 분리: GeminiArgonPlanner는 ROS 2 토픽에 직접 명령을 발행하지 않고 Pydantic v2 / JSON Schema Draft 2020-12 기반의 TaskDAG만 생성하며, GateVerdict.passed == True가 검증된 노드만 DecoupledROS2Executor 및 MoveItPreDispatchGuard로 전달됩니다.",
+        finding2: "4계층 물리 검증 게이트를 통한 100.0% 결함 사전 차단: FrankaFR3DeterministicGate는 모든 TaskNode에 대해 7자유도 감쇠 최소제곱법(DLS) 역기구학 도달성([0.15m, 0.85m], 오차 <= 15.0mm), 3D AABB 충돌 박스 및 테이블 바닥 클리어런스(Z >= 0.20m), URDF 관절 각도 및 토크 한계([87..12] Nm), 다중 로봇 구역/도구 시간창(time_window) 잠금을 검사하여 610개 결함 에피소드를 100% 차단했습니다.",
+        finding3: "폐루프 write_limit_back 컨텍스트 복구로 완수율 +61.0% 향상: 게이트 거부 시 즉시 실패 처리하는 대신 FeedbackContextStore.write_limit_back()이 HardwareFaultLog를 정량적 기하·시간 보정 제약식([STAMP_GATE_FAULT ...])으로 변환해 플래너 프롬프트에 재주입함으로써 1,000개 에피소드 전량을 2턴 내에 100.0% 복구(전체 평가 시간 1.61초)했습니다.",
+        kpi1Label: "결함 사전 차단율", kpi1Note: "주입된 610 / 610 결함 에피소드 완벽 차단",
+        kpi2Label: "에피소드 완수율", kpi2Note: "단일 호출 VLA(39.0%) 대비 +61.0%p 향상",
+        kpi3Label: "Write-Back 수렴", kpi3Note: "결함 힌트 주입 후 2턴 내 100.0% 복구",
+        kpi4Label: "위험 하드웨어 발행", kpi4Note: "베이스라인 610건 대비 0 / 1,000건 달성",
+        videoHeader: "개념 시뮬레이션 프리뷰: Project STAMP의 시공간 다중 로봇 팔 협업 및 안전 검증",
+        ts1Title: "비디오-TaskDAG 그라운딩", ts1Sub: "조리/공정 비디오 액션(chop, pour, transfer, wait)을 7-DoF FR3 모션 프리미티브 노드로 변환합니다.",
+        ts2Title: "4계층 기구학 및 뮤텍스 안전 실드", ts2Sub: "7-DoF DLS IK 잔차(<=15mm), 3D AABB 충돌 클리어런스, URDF 토크 한계, 공유 구역 잠금을 검증합니다.",
+        ts3Title: "폐루프 컨텍스트 복구 (Write-Back)", ts3Sub: "GateVerdict 거부 사유를 [STAMP_GATE_FAULT] 기하학적·시간적 보정 제약 조건으로 변환해 재계획합니다.",
+        ts4Title: "MoveIt 2 사전 검증 디스패치", ts4Sub: "사전 계산된 7자유도 관절 해(q_sol)와 함께 승인된 TaskNode만 ROS 2 Jazzy 제어기로 전송합니다.",
+        sec1Title: "다중 로봇 워크셀에서 VLA-제어기 직접 연결이 실패하는 구조적 이유",
+        sec2Title: "4대 표준 스키마 계약 및 멀티모달 비디오-TaskDAG 인제스천",
+        sec2SubTitle: "멀티모달 비디오-TAMP 스킬 매핑 아키텍처",
+        sec3Title: "4계층 결정론적 안전 실드와 폐루프 Write-Back 복구 메커니즘",
+        sec4Title: "실증 벤치마크: STAMP-Bench-V1 (1,000개 결함 주입 에피소드 평가)",
+        sec5Title: "디커플링 배포: 독립형 REST 및 Model Context Protocol (MCP) 서버",
+        fig1Caption: "그림 1 (M9G-TR-2026-03). Project STAMP 4단계 폐루프 아키텍처: (1) 멀티모달 비디오 및 3D SpatialState 그라운딩, (2) 디커플링된 Gemini 4 Argon TaskDAG 플래너, (3) 4계층 FrankaFR3DeterministicGate 및 MoveItPreDispatchGuard, (4) 검증된 ROS 2 실행 및 write_limit_back 컨텍스트 복구.",
+        fig2aTitle: "그림 2A. 에피소드 태스크 완수율 및 결함 차단율 비교 (1,000 에피소드)",
+        fig2bTitle: "그림 2B. 결정론적 게이트가 차단한 노드 레벨 하드웨어 결함 분포 (총 1,076건)",
+        fig2cTitle: "그림 2C. 플래닝 시도 횟수에 따른 누적 에피소드 수렴 곡선 (1,000 에피소드)",
+        sideContents: "아티클 섹션", sideConfig: "STAMP 시스템 사양", sideLinks: "리서치 내비게이션",
+        tocVideo: "시뮬레이션 비디오 프리뷰", tocSec1: "VLA 추론과 하드웨어 제어 분리", tocSec2: "표준 스키마 및 비디오 DAG",
+        tocSec3: "4계층 결정론적 검증 게이트", tocSec4: "STAMP-Bench-V1 (1,000 에피소드)", tocSec5: "독립형 REST 및 MCP 서버"
+      },
+      ja: {
+        blogHeaderBrand: "技術リサーチブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "ポートフォリオ",
+        articleTag: "M9G-TR-2026-03 • 時空間タスク＆モーション計画 (STAMP)",
+        articleTitle: "Project STAMP: マルチアームVLAタスク＆モーション計画のための決定論的検証ゲートと閉ループ文脈修復",
+        articleLede: "Vision-Language-Action (VLA) プランナーが未検証の3D目標姿勢や関節コマンドを低レベル制御器へ直接送信すると、逆運動学(IK)の到達不能領域、3D作業空間での衝突、関節トルクスパイク、共有ゾーンのミューテックス競合が発生します。Project STAMP (v1.0.0-stamp) は、上位マルチモーダル推論 (Gemini 4 Argon / 3.5 Flash-Lite) と ROS 2 Jazzy / MoveIt 2 実行を、Plan (TaskDAG) → Gate (決定論的シールド) → Execute (MoveIt 2 / ROS 2) → Write-Back (文脈修復) の4段階閉ループパイプラインで厳密に分離します。60%の合成フォルト注入を含む1,000エピソード (STAMP-Bench-V1) において、STAMPは危険なディスパッチを100.0% (610/610) 遮断し、タスク完了率を単発VLAの39.0%から100.0% (+61.0%) へと引き上げました。",
+        takeawaysHeader: "リサーチハイライト & システム要約",
+        finding1: "標準スキーマ契約によるプランナーと制御器の完全分離: GeminiArgonPlannerはROS 2トピックへ直接パブリッシュせず、Pydantic v2 / JSON Schema Draft 2020-12準拠のTaskDAGを生成し、GateVerdict.passed == Trueが検証されたノードのみがDecoupledROS2ExecutorとMoveItPreDispatchGuardへ渡されます。",
+        finding2: "4層物理検証ゲートによる100.0%フォルト遮断: FrankaFR3DeterministicGateは全TaskNodeに対して7自由度DLS逆運動学の到達可能性 ([0.15m, 0.85m]、残差 <= 15.0mm)、3D AABB衝突ボックスとテーブル高さ (Z >= 0.20m)、URDF関節・トルク制限 ([87..12] Nm)、マルチアーム共有ゾーン・ツールの時間窓ロックを検査し、610件のフォルトを100%阻止しました。",
+        finding3: "閉ループ write_limit_back によるタスク完了率 +61.0% 向上: FeedbackContextStore.write_limit_back() が HardwareFaultLog を幾何学的・時間的修復制約 ([STAMP_GATE_FAULT ...]) に変換してプランナーのプロンプトへ再注入し、1,000エピソード全てを2ターン以内に100.0%回復 (実測1.61秒) させました。",
+        kpi1Label: "フォルト遮断率", kpi1Note: "注入された610 / 610エピソードを完全遮断",
+        kpi2Label: "タスク完了率", kpi2Note: "単発VLA (39.0%) 比 +61.0% 向上",
+        kpi3Label: "Write-Back収束", kpi3Note: "フォルト制約注入により2ターンで100%回復",
+        kpi4Label: "未検証ディスパッチ", kpi4Note: "ベースライン610件に対し 0 / 1,000件",
+        videoHeader: "コンセプトシミュレーション映像: Project STAMPにおける時空間マルチアーム協調制御",
+        ts1Title: "ビデオからTaskDAGへの接地", ts1Sub: "調理・作業映像のアクション (chop, pour, transfer, wait) を7自由度FR3スキルノードへ変換します。",
+        ts2Title: "4層運動学＆ミューテックス検証ゲート", ts2Sub: "7自由度DLS IK残差 (<=15mm)、3D AABB衝突回避、URDFトルク上限、共有ゾーンロックを検証します。",
+        ts3Title: "閉ループ文脈修復 (Write-Back)", ts3Sub: "GateVerdictの拒否理由を [STAMP_GATE_FAULT] 幾何・時間ウィンドウ修復ヒントへ変換します。",
+        ts4Title: "MoveIt 2 事前検証ディスパッチ", ts4Sub: "事前求解された7自由度関節解と共に、承認済みTaskNodeのみをROS 2 Jazzyへ送信します。",
+        sec1Title: "マルチアーム作業セルにおいてVLAと制御器の直結が失敗する理由",
+        sec2Title: "4つの標準スキーマ契約とマルチモーダル映像からのTaskDAG抽出",
+        sec2SubTitle: "マルチモーダル映像からTAMPスキルへのマッピング",
+        sec3Title: "4層決定論的シールドと閉ループ Write-Back 修復の内部機構",
+        sec4Title: "実証評価: STAMP-Bench-V1 (1,000フォルト注入エピソード)",
+        sec5Title: "分離デプロイメント: スタンドアロンREST & Model Context Protocol (MCP) サーバー",
+        fig1Caption: "図1 (M9G-TR-2026-03). Project STAMPの4段階閉ループアーキテクチャ: (1) マルチモーダル映像＆3D SpatialState接地、(2) 分離されたGemini 4 Argon TaskDAGプランナー、(3) 4層FrankaFR3DeterministicGate＆MoveItPreDispatchGuard、(4) 検証済みROS 2実行とwrite_limit_back修復。",
+        fig2aTitle: "図2A. エピソード完了率とフォルト遮断率の比較 (1,000エピソード)",
+        fig2bTitle: "図2B. 決定論的ゲートが遮断したノードレベル・ハードウェアフォルト内訳 (計1,076件)",
+        fig2cTitle: "図2C. 計画試行回数に対する累積エピソード収束曲線 (1,000エピソード)",
+        sideContents: "記事セクション", sideConfig: "STAMP システム仕様", sideLinks: "リサーチナビゲーション",
+        tocVideo: "シミュレーション映像プレビュー", tocSec1: "VLA推論と制御器の分離", tocSec2: "標準スキーマと映像DAG",
+        tocSec3: "4層決定論的検証シールド", tocSec4: "STAMP-Bench-V1 (1,000試行)", tocSec5: "スタンドアロンREST & MCP"
+      },
+      zh: {
+        blogHeaderBrand: "技术研究博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "作品集",
+        articleTag: "M9G-TR-2026-03 • 时空任务与运动规划 (STAMP)",
+        articleTitle: "Project STAMP：面向多机械臂 VLA 任务与运动规划的确定性安全校验门控与闭环上下文修复",
+        articleLede: "若允许视觉-语言-动作 (VLA) 规划器将未校验的 3D 目标位姿或关节指令直接发送至底层机器人控制器，多机械臂工作站将面临逆运动学 (IK) 不可达、3D 工作空间碰撞、关节力矩尖峰以及共享区域互斥死锁等硬件风险。在 Project STAMP (v1.0.0-stamp) 中，我们通过严格的四阶段闭环架构——Plan (TaskDAG) → Gate (确定性安全护盾) → Execute (MoveIt 2 / ROS 2) → Write-Back (上下文修复)——将高层多模态推理 (Gemini 4 Argon / 3.5 Flash-Lite) 与 ROS 2 Jazzy 及 MoveIt 2 底层执行彻底解耦。在包含 60% 合成故障注入的 1,000 场多机械臂实验 (STAMP-Bench-V1) 中，Project STAMP 实现了 100.0% 的危险指令拦截率 (610/610)，并通过两轮几何与时间窗口写回修复将任务完成率从单次 VLA 规划的 39.0% 提升至 100.0% (+61.0%)。",
+        takeawaysHeader: "核心研究亮点与系统摘要",
+        finding1: "基于规范 Schema 契约的规划与控制彻底解耦：GeminiArgonPlanner 绝不直接向 ROS 2 话题发布指令，而是输出符合 Pydantic v2 / JSON Schema Draft 2020-12 规范的 TaskDAG；仅当 GateVerdict.passed == True 时，DecoupledROS2Executor 与 MoveItPreDispatchGuard 才会下发运动原语。",
+        finding2: "四层物理校验门控实现 100.0% 故障拦截：FrankaFR3DeterministicGate 对每个候选 TaskNode 依次执行 7 自由度阻尼最小二乘 (DLS) 逆运动学可达性校验 ([0.15m, 0.85m]，残差 <= 15.0 mm)、3D AABB 碰撞盒与桌面高度校验 (Z >= 0.20m)、URDF 关节角与力矩包络校验 ([87..12] Nm) 以及多臂共享区域/工具时间窗互斥锁校验，成功拦截 STAMP-Bench-V1 中全部 610 场注入故障。",
+        finding3: "闭环 write_limit_back 上下文修复带来 +61.0% 完成率提升：面对门控拒绝，FeedbackContextStore.write_limit_back() 将 HardwareFaultLog 序列化为精确的物理修正约束 ([STAMP_GATE_FAULT ...]) 并写回规划器提示词，在 1,000 场实验中以 1.61 秒总耗时实现两轮内 100.0% 闭环恢复。",
+        kpi1Label: "故障拦截率", kpi1Note: "610 / 610 注入故障 100% 拦截",
+        kpi2Label: "任务完成率", kpi2Note: "较单次 VLA (39.0%) 提升 +61.0%",
+        kpi3Label: "写回修复收敛", kpi3Note: "通过故障提示实现 2 轮内 100% 恢复",
+        kpi4Label: "危险指令下发", kpi4Note: "对比基线 610 次降为 0 / 1,000 次",
+        videoHeader: "概念仿真预览：Project STAMP 中的时空多机械臂协同与安全校验",
+        ts1Title: "视频流至 TaskDAG 空间接地", ts1Sub: "将多菜品烹饪视频动作 (chop, pour, transfer, wait) 映射为参数化 7 自由度 FR3 技能节点。",
+        ts2Title: "四层运动学与互斥锁安全护盾", ts2Sub: "校验 7-DoF DLS IK 残差 (<=15mm)、3D AABB 碰撞净空、URDF 力矩上限与共享区域时间锁。",
+        ts3Title: "闭环上下文写回修复 (Write-Back)", ts3Sub: "将 GateVerdict 拒绝日志转化为 [STAMP_GATE_FAULT] 几何位姿与时间窗重排提示词。",
+        ts4Title: "MoveIt 2 预调度安全执行", ts4Sub: "仅将通过门控的 TaskNode 及其预求解 7 自由度关节角发送至 ROS 2 Jazzy 控制器。",
+        sec1Title: "为什么 VLA 直接驱动底层控制器会在多机械臂工作站中失效",
+        sec2Title: "四大标准 Schema 契约与多模态视频至 TaskDAG 抽取流水线",
+        sec2SubTitle: "多模态视频至 TAMP 技能原语映射",
+        sec3Title: "四层确定性安全护盾与闭环 Write-Back 修复机制详解",
+        sec4Title: "实证基准评估：STAMP-Bench-V1 (1,000 场故障注入实验)",
+        sec5Title: "解耦部署架构：独立 HTTP REST 与模型上下文协议 (MCP) 服务器",
+        fig1Caption: "图 1 (M9G-TR-2026-03). Project STAMP 四阶段闭环架构：(1) 多模态视频与 3D SpatialState 场景图接地，(2) 解耦的 Gemini 4 Argon TaskDAG 规划器，(3) 四层 FrankaFR3DeterministicGate 与 MoveItPreDispatchGuard，(4) 经校验的 ROS 2 执行与 write_limit_back 闭环修复。",
+        fig2aTitle: "图 2A. 实验任务完成率与门控故障拦截率对比 (1,000 场实验)",
+        fig2bTitle: "图 2B. 确定性门控拦截的节点级硬件故障分类统计 (共 1,076 次故障)",
+        fig2cTitle: "图 2C. 随规划轮次演进的累计任务收敛曲线 (1,000 场实验)",
+        sideContents: "文章目录", sideConfig: "STAMP 系统遥测规格", sideLinks: "研究导航",
+        tocVideo: "概念仿真视频预览", tocSec1: "VLA 推理与底层控制解耦", tocSec2: "标准 Schema 与视频 DAG",
+        tocSec3: "四层确定性校验护盾", tocSec4: "STAMP-Bench-V1 (1,000 场实验)", tocSec5: "独立 REST 与 MCP 服务"
+      },
+      es: {
+        blogHeaderBrand: "Blog de Investigación Técnica", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portafolio",
+        articleTag: "M9G-TR-2026-03 • Planificación Espaciotemporal de Tareas y Movimiento (STAMP)",
+        articleTitle: "Project STAMP: Compuertas de Verificación Determinista y Reparación de Contexto en Lazo Cerrado para Planificación VLA Multi-Brazo",
+        articleLede: "Permitir que un planificador Visión-Lenguaje-Acción (VLA) transmita poses cartesianas o comandos articulares no verificados directamente a los controladores robóticos de bajo nivel expone las celdas multi-manipulador a objetivos cinemáticos inalcanzables, colisiones 3D, picos de par articular e interbloqueos en zonas compartidas. En Project STAMP (v1.0.0-stamp), desacoplamos el razonamiento multimodal de alto nivel (Gemini 4 Argon / Gemini 3.5 Flash-Lite) de la actuación en ROS 2 Jazzy y MoveIt 2 mediante una arquitectura en lazo cerrado de cuatro etapas: Plan (TaskDAG) → Gate (Escudo Determinista) → Execute (MoveIt 2 / ROS 2) → Write-Back (Reparación de Contexto). Evaluado en 1,000 episodios con tres brazos Franka Emika FR3 en STAMP-Bench-V1 bajo un 60% de inyección sintética de fallos, Project STAMP intercepta el 100.0% de los despachos inseguros (610/610) y eleva la tasa de finalización de tareas del 39.0% (VLA de disparo único) al 100.0% mediante recuperación write-back en dos turnos.",
+        takeawaysHeader: "Aspectos Destacados de la Investigación y Resumen de Sistemas",
+        finding1: "Desacoplamiento Arquitectónico Estricto mediante Esquemas Canónicos: GeminiArgonPlanner nunca publica directamente en tópicos de ROS 2; emite un TaskDAG en Pydantic v2 / JSON Schema Draft 2020-12 verificado frente a un SpatialState 3D antes de que DecoupledROS2Executor o MoveItPreDispatchGuard despachen cualquier primitiva.",
+        finding2: "100.0% de Intercepción Determinista de Fallos en Cuatro Capas Físicas: FrankaFR3DeterministicGate verifica cada TaskNode frente a alcanzabilidad IK DLS de 7-DoF ([0.15m, 0.85m], residual <= 15.0 mm), cajas de colisión AABB 3D y altura de mesa (Z >= 0.20m), límites articulares y de par URDF ([87..12] Nm), y bloqueos temporales de zona/herramienta—bloqueando 610 / 610 episodios con fallos en STAMP-Bench-V1.",
+        finding3: "+61.0% en Finalización de Tareas mediante write_limit_back en Lazo Cerrado: En lugar de abortar tras un rechazo, FeedbackContextStore.write_limit_back() convierte cada HardwareFaultLog en una restricción física exacta ([STAMP_GATE_FAULT ...]) inyectada en el prompt del planificador, logrando un 100.0% de recuperación en dos turnos (100.0% vs. 39.0% en 1,000 episodios ejecutados en 1.61 s).",
+        kpi1Label: "Intercepción de Fallos", kpi1Note: "610 / 610 episodios con fallos bloqueados",
+        kpi2Label: "Finalización de Episodios", kpi2Note: "+61.0% vs. VLA de Disparo Único (39.0%)",
+        kpi3Label: "Recuperación Write-Back", kpi3Note: "100.0% de convergencia en 2 turnos",
+        kpi4Label: "Despachos Inseguros", kpi4Note: "0 / 1,000 vs. 610 en línea base",
+        videoHeader: "Vista Previa de Simulación Conceptual: Coordinación Espaciotemporal Multi-Brazo en Project STAMP",
+        ts1Title: "Anclaje de Video a TaskDAG", ts1Sub: "Mapea acciones de video (chop, pour, transfer, wait) a nodos de habilidad FR3 de 7-DoF parametrizados.",
+        ts2Title: "Escudo Cinemático y Mutex de 4 Capas", ts2Sub: "Verifica residual IK DLS de 7-DoF (<=15mm), colisiones AABB 3D, límites de par URDF y bloqueos de zona.",
+        ts3Title: "Reparación de Contexto en Lazo Cerrado", ts3Sub: "Convierte rechazos de GateVerdict en pistas de reparación geométrica y temporal [STAMP_GATE_FAULT].",
+        ts4Title: "Ejecución Pre-Despacho en MoveIt 2", ts4Sub: "Despacha únicamente TaskNodes aprobados con soluciones articulares pre-resueltas a ROS 2 Jazzy.",
+        sec1Title: "Por Qué Falla la Ejecución Directa VLA-a-Controlador en Celdas Multi-Brazo",
+        sec2Title: "Cuatro Contratos de Esquema Canónicos e Ingestión de Video a TaskDAG",
+        sec2SubTitle: "Anclaje Multimodal de Habilidades Video-a-TAMP",
+        sec3Title: "Dentro del Escudo Determinista de Cuatro Capas y la Reparación Write-Back",
+        sec4Title: "Evaluación Empírica: STAMP-Bench-V1 (1,000 Episodios con Inyección de Fallos)",
+        sec5Title: "Despliegue Desacoplado: Servidor Independiente REST y Model Context Protocol (MCP)",
+        fig1Caption: "Figura 1 (M9G-TR-2026-03). Arquitectura de cuatro etapas de Project STAMP: (1) Anclaje Multimodal de Video y SpatialState 3D, (2) Planificador TaskDAG Desacoplado con Gemini 4 Argon, (3) FrankaFR3DeterministicGate de 4 Capas y MoveItPreDispatchGuard, y (4) Ejecución Verificada en ROS 2 con reparación write_limit_back.",
+        fig2aTitle: "Figura 2A. Tasa de Finalización de Tareas e Intercepción de Fallos (1,000 Episodios)",
+        fig2bTitle: "Figura 2B. Desglose de Fallos de Hardware Interceptados por la Compuerta (1,076 Fallos)",
+        fig2cTitle: "Figura 2C. Convergencia Acumulada de Episodios por Intento de Planificación (1,000 Episodios)",
+        sideContents: "Secciones del Artículo", sideConfig: "Especificación del Sistema STAMP", sideLinks: "Navegación de Investigación",
+        tocVideo: "Vista Previa de Simulación", tocSec1: "Desacoplando VLA del Control", tocSec2: "Esquemas Canónicos y DAG de Video",
+        tocSec3: "Escudo Determinista de 4 Capas", tocSec4: "STAMP-Bench-V1 (1,000 Episodios)", tocSec5: "Servidor Independiente REST y MCP"
+      }
+    };
+
+    function toggleLangMenu(e) {
+      e.stopPropagation();
+      document.getElementById('lang-popup').classList.toggle('open');
+    }
+    document.addEventListener('click', e => {
+      const wrap = document.getElementById('lang-dropdown-wrap');
+      if (wrap && !wrap.contains(e.target)) document.getElementById('lang-popup').classList.remove('open');
+    });
+    function setLang(lang) {
+      if (!BLOG_I18N[lang]) lang = 'en';
+      try { localStorage.setItem('m9g_portfolio_lang', lang); } catch {}
+      document.documentElement.lang = lang;
+      const lbl = document.getElementById('current-lang-label');
+      if (lbl) lbl.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      const popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.remove('open');
+      const dict = BLOG_I18N[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+    setLang((function(){ try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch { return 'en'; } })());
+  </script>
+</body>
+</html>
