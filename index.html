@@ -54,11 +54,11 @@
       ]
     }
     </script>
-    <script type="module" crossorigin src="/assets/index-CUgyI4_0.js?v=20261025o"></script>
+    <script type="module" crossorigin src="/assets/index-CUgyI4_0.js?v=20261027a"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" crossorigin href="/assets/index-Bt7xwmGO.css?v=20261025o">
+    <link rel="stylesheet" crossorigin href="/assets/index-Bt7xwmGO.css?v=20261027a">
     <style>
             /* Unified Google-Blog Topbar & Concise Single-Row Navigation (1:1 with /blog/) */
       .topbar {
@@ -494,8 +494,8 @@
         border-top-color: rgba(255, 255, 255, 0.08);
       }
       .gblog-action-card {
-        background: #ffffff;
-        border: 1px solid #dadce0;
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+        border: 1.5px solid #f59e0b !important;
         border-radius: 18px;
         padding: 18px 20px;
         display: flex;
@@ -503,74 +503,106 @@
         justify-content: space-between;
         gap: 14px;
         text-decoration: none;
-        transition: transform 0.22s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.22s cubic-bezier(0.2, 0, 0, 1), border-color 0.2s ease, background-color 0.2s ease;
-        box-shadow: 0 1px 3px rgba(60, 64, 67, 0.06);
+        transition: transform 0.22s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.22s cubic-bezier(0.2, 0, 0, 1), border-color 0.2s ease, background 0.2s ease;
+        box-shadow: 0 4px 16px rgba(245, 158, 11, 0.14) !important;
       }
       .gblog-action-card:hover {
         transform: translateY(-3px);
-        border-color: #1a73e8;
-        box-shadow: 0 8px 24px rgba(26, 115, 232, 0.14);
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+        border-color: #d97706 !important;
+        box-shadow: 0 10px 26px rgba(245, 158, 11, 0.24) !important;
       }
       html:not(.light) .gblog-action-card {
-        background: #18181c;
-        border-color: rgba(255, 255, 255, 0.12);
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(212, 175, 55, 0.06) 100%) !important;
+        border: 1.5px solid rgba(251, 191, 36, 0.48) !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
       }
       html:not(.light) .gblog-action-card:hover {
-        border-color: #8ab4f8;
-        background: #1e1e24;
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.28) 0%, rgba(212, 175, 55, 0.12) 100%) !important;
+        border-color: #fbbf24 !important;
+      }
+      .gblog-action-title {
+        color: #78350f !important;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 1.25;
+      }
+      html:not(.light) .gblog-action-title {
+        color: #fde68a !important;
+      }
+      .gblog-action-sub {
+        color: #92400e !important;
+        font-size: 12.5px;
+        font-weight: 500;
+        line-height: 1.4;
+        margin-top: 3px;
+      }
+      html:not(.light) .gblog-action-sub {
+        color: #fcd34d !important;
+        opacity: 0.88;
       }
       .gblog-icon-circle {
         width: 44px;
         height: 44px;
-        border-radius: 14px;
-        background: #e8f0fe;
-        color: #1a73e8;
+        border-radius: 13px;
+        background: #f59e0b !important;
+        color: #ffffff !important;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
+        transition: transform 0.2s ease, background-color 0.2s ease;
       }
       .gblog-action-card:hover .gblog-icon-circle {
-        background: #1a73e8;
-        color: #ffffff;
-        transform: scale(1.05);
+        background: #d97706 !important;
+        transform: scale(1.06);
       }
       html:not(.light) .gblog-icon-circle {
-        background: rgba(26, 115, 232, 0.2);
-        color: #8ab4f8;
+        background: #fbbf24 !important;
+        color: #111111 !important;
       }
-      html:not(.light) .gblog-action-card:hover .gblog-icon-circle {
-        background: #1a73e8;
-        color: #ffffff;
-      }
-      .gblog-cta-pill {
+      .gblog-arrow-badge {
+        width: 34px;
+        height: 34px;
+        border-radius: 9999px;
+        background: rgba(245, 158, 11, 0.18) !important;
+        color: #b45309 !important;
+        border: 1px solid rgba(245, 158, 11, 0.38) !important;
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        padding: 8px 16px;
-        border-radius: 9999px;
-        background: #e8f0fe;
-        color: #1a73e8;
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        font-size: 12.5px;
-        font-weight: 700;
-        white-space: nowrap;
+        justify-content: center;
         flex-shrink: 0;
-        transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        transition: all 0.2s ease;
       }
-      .gblog-action-card:hover .gblog-cta-pill {
-        background: #1a73e8;
-        color: #ffffff;
-        transform: translateX(2px);
+      .gblog-action-card:hover .gblog-arrow-badge {
+        background: #d97706 !important;
+        color: #ffffff !important;
+        border-color: #d97706 !important;
+        transform: translateX(3px);
       }
-      html:not(.light) .gblog-cta-pill {
-        background: rgba(26, 115, 232, 0.22);
-        color: #8ab4f8;
+      html:not(.light) .gblog-arrow-badge {
+        background: rgba(251, 191, 36, 0.18) !important;
+        color: #fbbf24 !important;
+        border-color: rgba(251, 191, 36, 0.4) !important;
       }
-      html:not(.light) .gblog-action-card:hover .gblog-cta-pill {
-        background: #1a73e8;
-        color: #ffffff;
+      html:not(.light) .gblog-action-card:hover .gblog-arrow-badge {
+        background: #fbbf24 !important;
+        color: #111111 !important;
+      }
+      .gblog-sublinks-row {
+        margin-top: 26px !important;
+        padding-top: 22px !important;
+        border-top: 1px solid #dadce0 !important;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+      html:not(.light) .gblog-sublinks-row {
+        border-top-color: rgba(255, 255, 255, 0.12) !important;
       }
       .gblog-icon-pill {
         display: inline-flex;
