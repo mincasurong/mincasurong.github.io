@@ -54,11 +54,11 @@
       ]
     }
     </script>
-    <script type="module" crossorigin src="/assets/index-CUgyI4_0.js?v=20261027a"></script>
+    <script type="module" crossorigin src="/assets/index-CUgyI4_0.js?v=20261027b"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" crossorigin href="/assets/index-Bt7xwmGO.css?v=20261027a">
+    <link rel="stylesheet" crossorigin href="/assets/index-Bt7xwmGO.css?v=20261027b">
     <style>
             /* Unified Google-Blog Topbar & Concise Single-Row Navigation (1:1 with /blog/) */
       .topbar {
@@ -648,6 +648,24 @@
         background: rgba(26, 115, 232, 0.22);
         border-color: #8ab4f8;
         color: #ffffff;
+      }
+      @keyframes m9gPulseGlow {
+        0%, 100% {
+          box-shadow: 0 6px 24px rgba(245, 158, 11, 0.18), 0 0 0 0 rgba(245, 158, 11, 0.28);
+        }
+        50% {
+          box-shadow: 0 12px 34px rgba(245, 158, 11, 0.32), 0 0 0 6px rgba(245, 158, 11, 0);
+        }
+      }
+      @keyframes m9gFloatIcon {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-3px) rotate(-4deg); }
+      }
+      .gblog-bottom-cta {
+        animation: m9gPulseGlow 3.2s infinite ease-in-out;
+      }
+      .gblog-bottom-cta .gblog-icon-circle {
+        animation: m9gFloatIcon 2.8s infinite ease-in-out;
       }
       #hero { padding-top: 4rem !important; padding-bottom: 3.5rem !important; }
     </style>
