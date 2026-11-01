@@ -151,6 +151,7 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
 
 | Year | Venue | Paper Title | Link |
 | :---: | :---: | :--- | :---: |
+| **2026** | **IROS** | **SPLiT**: Spatially Generalizable Phase-Partitioned Motion Generation for Adaptive Liquid Transfer (H. Kim, S. Jeon, **M. Chang**, H. Lee, J. Park) | [IEEE/RSJ IROS 2026 ↗](https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate) |
 | **2025** | **ICRA** | **OPPA**: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation | [IEEE Xplore ↗](https://ieeexplore.ieee.org/document/11128768) |
 | **2020** | **IEEE TNSRE** | **AI Therapist** realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training | [IEEE Xplore ↗](https://ieeexplore.ieee.org/document/9260225) |
 | **2019** | **IEEE TNSRE** | Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic | [IEEE Xplore ↗](https://ieeexplore.ieee.org/document/8792083/) |

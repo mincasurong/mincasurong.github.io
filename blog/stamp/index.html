@@ -503,11 +503,7 @@
           <a href="/blog/" style="background:#e8f0fe;border:1px solid rgba(26,115,232,0.32);border-radius:999px;padding:4px 10px;color:#1a73e8;font-weight:700;" data-i18n="navBlog">Blog</a>
           <a href="/tutorials/" style="background:#f1f3f4;border:1px solid #dadce0;border-radius:999px;padding:4px 10px;color:#202124;" data-i18n="navTutorials">Tutorials</a>
           <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a>
-          <a href="/blog/sdl-survey/" class="blog-post-tab">
-          <span class="blog-post-tab-kicker">M9G-TR-2026-04 • SOTA Survey</span>
-          <span class="blog-post-tab-title">Isaac Sim Multi-Robot Assembly, Deformables &amp; SDLs</span>
-        </a>
-      </nav>
+        </nav>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
           <button class="lang-box-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
             <span id="current-lang-label">EN</span>
@@ -543,6 +539,10 @@
         <a href="/blog/stamp/" class="blog-post-tab active">
           <span class="blog-post-tab-kicker">M9G-TR-2026-03 • Embodied TAMP</span>
           <span class="blog-post-tab-title">Deterministic Pre-Dispatch Gating &amp; Write-Back</span>
+        </a>
+              <a href="/blog/sdl-survey/" class="blog-post-tab">
+          <span class="blog-post-tab-kicker">M9G-TR-2026-04 • SOTA Survey</span>
+          <span class="blog-post-tab-title">Isaac Sim Multi-Robot Assembly, Deformables &amp; SDLs</span>
         </a>
       </nav>
 
@@ -617,31 +617,31 @@
       <section id="video-walkthrough" class="media-block">
         <div class="media-header">
           <span data-i18n="videoHeader">Conceptual Simulation Preview: Spatio-Temporal Multi-Arm Coordination in Project STAMP</span>
-          <a href="/screenshots/stamp-demo-veo.mp4" target="_blank" rel="noopener noreferrer">Direct MP4 Stream (stamp-demo-veo.mp4) ↗</a>
+          <a href="/screenshots/videos/blog3-wrapup-omni.mp4" target="_blank" rel="noopener noreferrer">Direct MP4 Stream (blog3-wrapup-omni.mp4 • 40s Gemini Omni 1.1 Flash) ↗</a>
         </div>
         <div class="video-container">
           <video id="stamp-video" controls autoplay muted loop playsinline poster="/screenshots/stamp-architecture-nanobanana.png">
-            <source src="/screenshots/stamp-demo-veo.mp4" type="video/mp4" />
+            <source src="/screenshots/videos/blog3-wrapup-omni.mp4" type="video/mp4" />
           </video>
         </div>
         <div class="timestamp-grid">
           <button class="ts-btn active" onclick="seekLocalVideo(0, this)">
-            <span class="ts-time">Stage 1 — Multimodal Ingestion</span>
+            <span class="ts-time">00:00 – 00:10 • Stage 1</span>
             <span class="ts-title" data-i18n="ts1Title">Video-to-TaskDAG Grounding</span>
             <span class="ts-sub" data-i18n="ts1Sub">Maps process actions (chop, pour, transfer, wait) to parameterized 7-DoF FR3 skill nodes.</span>
           </button>
-          <button class="ts-btn" onclick="seekLocalVideo(2, this)">
-            <span class="ts-time">Stage 2 — Deterministic Gate</span>
+          <button class="ts-btn" onclick="seekLocalVideo(10, this)">
+            <span class="ts-time">00:10 – 00:20 • Stage 2</span>
             <span class="ts-title" data-i18n="ts2Title">4-Layer Kinematic &amp; Mutex Shield</span>
             <span class="ts-sub" data-i18n="ts2Sub">Verifies 7-DoF DLS IK residual (&le;15mm), 3D AABB collision clearance, URDF torque bounds, and zone locks.</span>
           </button>
-          <button class="ts-btn" onclick="seekLocalVideo(4, this)">
-            <span class="ts-time">Stage 3 — Write-Back Repair</span>
+          <button class="ts-btn" onclick="seekLocalVideo(20, this)">
+            <span class="ts-time">00:20 – 00:30 • Stage 3</span>
             <span class="ts-title" data-i18n="ts3Title">Closed-Loop Context Repair</span>
             <span class="ts-sub" data-i18n="ts3Sub">Converts GateVerdict rejections into [STAMP_GATE_FAULT] geometric &amp; time-window repair hints.</span>
           </button>
-          <button class="ts-btn" onclick="seekLocalVideo(6, this)">
-            <span class="ts-time">Stage 4 — Verified Dispatch</span>
+          <button class="ts-btn" onclick="seekLocalVideo(30, this)">
+            <span class="ts-time">00:30 – 00:40 • Stage 4</span>
             <span class="ts-title" data-i18n="ts4Title">MoveIt 2 Pre-Dispatch Execution</span>
             <span class="ts-sub" data-i18n="ts4Sub">Dispatches strictly approved TaskNodes with pre-solved 7-DoF joint solutions to ROS 2 Jazzy.</span>
           </button>

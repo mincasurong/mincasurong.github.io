@@ -39,7 +39,18 @@
       "url": "https://mincasurong.github.io/"
     }
   }
-  </script>
+  
+    function seekOmniVideo(vidId, seconds, btn) {
+      var vid = document.getElementById(vidId);
+      if (vid) {
+        try { vid.currentTime = seconds; vid.play(); } catch (e) {}
+      }
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      }
+    }
+</script>
   <style>
     :root {
       --bg: #ffffff;
@@ -496,6 +507,18 @@
       color: #111111;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
     }
+  
+    .video-container video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .timestamp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+    .ts-btn {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px;
+      text-align: left; color: var(--text); cursor: pointer; min-width: 0;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+    .ts-btn:hover, .ts-btn.active { border-color: var(--dm-blue); background: var(--dm-blue-bg); }
+    .ts-time { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--dm-blue-dark); display: block; margin-bottom: 2px; }
+    .ts-title { font-size: 13px; font-weight: 700; color: var(--text); display: block; line-height: 1.35; }
+    .ts-sub { font-size: 12px; color: var(--text-secondary); display: block; margin-top: 3px; line-height: 1.38; }
   </style>
 </head>
 <body>
@@ -515,11 +538,7 @@
           <a href="/blog/" style="background:#e8f0fe;border:1px solid rgba(26,115,232,0.32);border-radius:999px;padding:4px 10px;color:#1a73e8;font-weight:700;" data-i18n="navBlog">Blog</a>
           <a href="/tutorials/" style="background:#f1f3f4;border:1px solid #dadce0;border-radius:999px;padding:4px 10px;color:#202124;" data-i18n="navTutorials">Tutorials</a>
           <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a>
-          <a href="/blog/sdl-survey/" class="blog-post-tab">
-          <span class="blog-post-tab-kicker">M9G-TR-2026-04 • SOTA Survey</span>
-          <span class="blog-post-tab-title">Isaac Sim Multi-Robot Assembly, Deformables &amp; SDLs</span>
-        </a>
-      </nav>
+        </nav>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
           <button class="lang-box-btn" onclick="toggleLangMenu(event)" aria-label="Select Language">
             <span id="current-lang-label">EN</span>
@@ -555,6 +574,10 @@
         <a href="/blog/stamp/" class="blog-post-tab">
           <span class="blog-post-tab-kicker">M9G-TR-2026-03 • Project STAMP</span>
           <span class="blog-post-tab-title">Deterministic Pre-Dispatch Gating &amp; Write-Back</span>
+        </a>
+              <a href="/blog/sdl-survey/" class="blog-post-tab">
+          <span class="blog-post-tab-kicker">M9G-TR-2026-04 • SOTA Survey</span>
+          <span class="blog-post-tab-title">Isaac Sim Multi-Robot Assembly, Deformables &amp; SDLs</span>
         </a>
       </nav>
 
@@ -950,6 +973,41 @@
         <li><strong><code>m9g_gemini_media</code> (`gemini_api_cli_bridge.py`):</strong> Stateless multimodal generation (`tts`, `image`, `video`) writing binary outputs directly to disk (`output_path`) so base64 payloads never enter the LLM context window.</li>
       </ol>
 
+
+      <section id="omni-wrapup-video" class="media-block" style="margin-top:32px;">
+        <div class="media-header">
+          <span>40s Architectural Wrap-Up Sequence (Generated with <code>gemini-omni-1.1-flash</code>)</span>
+          <a href="/screenshots/videos/blog2-wrapup-omni.mp4" target="_blank" rel="noopener noreferrer">Direct MP4 Stream (blog2-wrapup-omni.mp4) ↗</a>
+        </div>
+        <div class="video-container">
+          <video id="blog2-omni-video" controls autoplay muted loop playsinline poster="/screenshots/m9g-agent-corps-architecture.png">
+            <source src="/screenshots/videos/blog2-wrapup-omni.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="timestamp-grid">
+          <button class="ts-btn active" onclick="seekOmniVideo('blog2-omni-video', 0, this)">
+            <span class="ts-time">00:00 – 00:10 • Scene 1</span>
+            <span class="ts-title">28-Module m9g-agent-corps vs. Production Harnesses</span>
+            <span class="ts-sub">3-tier Gemini orchestration, 169 unit tests, and benchmark matrix against OmO, OpenCode &amp; Claude Code.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 10, this)">
+            <span class="ts-time">00:10 – 00:20 • Scene 2</span>
+            <span class="ts-title">Diagnosing the 6 Standalone Failure Modes</span>
+            <span class="ts-sub">Visualizing unwired gates, lossy prose-regex handoffs, and blocking CLI subprocess bottlenecks.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 20, this)">
+            <span class="ts-time">00:20 – 00:30 • Scene 3</span>
+            <span class="ts-title">Extracting the Winning Deterministic Substrates</span>
+            <span class="ts-sub">Isolating AST skeletonization, SHA-256 hashline editing, shadow Git checkpoints, and token budget control.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 30, this)">
+            <span class="ts-time">00:30 – 00:40 • Scene 4</span>
+            <span class="ts-title">The Pivot to the m9g-mcp Power-Tool Server</span>
+            <span class="ts-sub">Mounting 7 deterministic JSON-RPC 2.0 stdio tools natively inside OmO, OpenCode, and Claude Code.</span>
+          </button>
+        </div>
+      </section>
+
       <section id="provenance" class="citation-card">
         <div class="citation-title" data-i18n="provHeader">Research Provenance, Prior Art Disclosure &amp; Anti-Scraping Notice</div>
         <p style="font-size:13px; margin-bottom:8px;" data-i18n="provBody">
@@ -1163,6 +1221,17 @@
         fab.classList.toggle('visible', y > 220);
       }
     }, { passive: true });
+
+    function seekOmniVideo(vidId, seconds, btn) {
+      var vid = document.getElementById(vidId);
+      if (vid) {
+        try { vid.currentTime = seconds; vid.play(); } catch (e) {}
+      }
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      }
+    }
 </script>
 </body>
 </html>

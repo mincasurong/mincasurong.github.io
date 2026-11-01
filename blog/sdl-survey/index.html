@@ -39,7 +39,18 @@
       "url": "https://mincasurong.github.io/"
     }
   }
-  </script>
+  
+    function seekOmniVideo(vidId, seconds, btn) {
+      var vid = document.getElementById(vidId);
+      if (vid) {
+        try { vid.currentTime = seconds; vid.play(); } catch (e) {}
+      }
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      }
+    }
+</script>
   <style>
     :root {
       --bg: #ffffff;
@@ -386,6 +397,31 @@
       table { table-layout: fixed; width: 100%; }
       th, td { padding: 6px 5px; font-size: 11px; overflow-wrap: anywhere; word-break: break-word; white-space: normal; }
     }
+  
+    .media-block {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px; margin: 28px 0 36px; max-width: 100%;
+    }
+    .media-header {
+      display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 10px; font-size: 13px; font-weight: 700; color: var(--text);
+    }
+    .media-header a { color: var(--dm-blue); font-family: var(--font-mono); font-size: 11.5px; }
+    .video-container {
+      position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000;
+      border-radius: 6px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 12px;
+    }
+    .video-container video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .timestamp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .ts-btn {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px;
+      text-align: left; color: var(--text); cursor: pointer; min-width: 0;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+    .ts-btn:hover, .ts-btn.active { border-color: var(--dm-blue); background: var(--dm-blue-bg); }
+    .ts-time { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--dm-blue-dark); display: block; margin-bottom: 2px; }
+    .ts-title { font-size: 13px; font-weight: 700; color: var(--text); display: block; line-height: 1.35; }
+    .ts-sub { font-size: 12px; color: var(--text-secondary); display: block; margin-top: 3px; line-height: 1.38; }
   </style>
 </head>
 <body>
@@ -688,6 +724,41 @@
         </figcaption>
       </figure>
 
+
+      <section id="omni-wrapup-video" class="media-block">
+        <div class="media-header">
+          <span>40s SOTA Survey Wrap-Up Sequence: Assembly, Deformables &amp; Self-Driving Labs (<code>gemini-omni-1.1-flash</code>)</span>
+          <a href="/screenshots/videos/blog4-wrapup-omni.mp4" target="_blank" rel="noopener noreferrer">Direct MP4 Stream (blog4-wrapup-omni.mp4) ↗</a>
+        </div>
+        <div class="video-container">
+          <video id="blog4-omni-video" controls autoplay muted loop playsinline poster="/screenshots/sdl-survey-architecture.svg">
+            <source src="/screenshots/videos/blog4-wrapup-omni.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="timestamp-grid">
+          <button class="ts-btn active" onclick="seekOmniVideo('blog4-omni-video', 0, this)">
+            <span class="ts-time">00:00 – 00:10 • Domain 1</span>
+            <span class="ts-title">Cooperative Multi-Robot Assembly (APEX-MR &amp; Factory)</span>
+            <span class="ts-sub">Asynchronous MM-TPG pre-staging and 240 Hz PhysX TGS + SDF contact assembly in Isaac Sim.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 10, this)">
+            <span class="ts-time">00:10 – 00:20 • Domain 2</span>
+            <span class="ts-title">Flexible &amp; Deformable Object Handling (DexGarmentLab &amp; SOI)</span>
+            <span class="ts-sub">PhysX 5 PBD deformable simulation with outward bimanual handle tensioning ||p1 - p2|| = d_nom + 2Δ.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 20, this)">
+            <span class="ts-time">00:20 – 00:30 • Domain 3</span>
+            <span class="ts-title">Self-Driving Laboratories (MATTERIX, ORGANA &amp; A-Lab GPSS)</span>
+            <span class="ts-sub">Multiscale GPU digital twins verifying glassware, liquid transfer, and mutex-locked lab stations in silico.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 30, this)">
+            <span class="ts-time">00:30 – 00:40 • Synthesis</span>
+            <span class="ts-title">Project STAMP (v1.0.0-stamp) Unified Architecture</span>
+            <span class="ts-sub">Dual-view perception, 4-layer deterministic safety gating (610/610), and closed-loop write_limit_back repair.</span>
+          </button>
+        </div>
+      </section>
+
       <h2 id="references" data-i18n="sec5Title">5. References &amp; Primary Literature (2022–2026)</h2>
       <ol class="ref-list" style="font-size:13.5px; line-height:1.62;">
         <li><strong>Isaac Lab</strong>: <em>Isaac Lab: A GPU-Accelerated Simulation Framework for Multi-Modal Robot Learning</em>, <a href="https://arxiv.org/abs/2511.04831" target="_blank" rel="noopener">arXiv:2511.04831</a> · <a href="https://github.com/isaac-sim/IsaacLab" target="_blank" rel="noopener">GitHub</a></li>
@@ -868,6 +939,17 @@
       });
     }
     setLang((function() { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch (e) { return 'en'; } })());
-  </script>
+  
+    function seekOmniVideo(vidId, seconds, btn) {
+      var vid = document.getElementById(vidId);
+      if (vid) {
+        try { vid.currentTime = seconds; vid.play(); } catch (e) {}
+      }
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      }
+    }
+</script>
 </body>
 </html>
