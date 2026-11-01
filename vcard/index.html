@@ -1179,7 +1179,6 @@
       document.querySelectorAll('.navbar-link').forEach(btn => {
         btn.classList.toggle('active', btn === btnEl || btn.getAttribute('data-nav-target') === tabId);
       });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     function filterProjects(category, btnEl) {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
