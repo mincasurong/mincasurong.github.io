@@ -106,7 +106,7 @@
       "num_arms": 1,
       "status": "infeasible",
       "makespan_s": null,
-      "plan_time_s": 0.0002
+      "plan_time_s": 0.0001
     },
     {
       "file": "runs/tower__s1__fA.json",
@@ -142,7 +142,7 @@
       "num_arms": 1,
       "status": "infeasible",
       "makespan_s": null,
-      "plan_time_s": 0.0001
+      "plan_time_s": 0
     },
     {
       "file": "runs/tower__s0-s1__fA.json",
@@ -155,7 +155,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 9.518,
-      "plan_time_s": 0.0435
+      "plan_time_s": 0.0474
     },
     {
       "file": "runs/tower__s0-s2__fA.json",
@@ -181,7 +181,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 9.518,
-      "plan_time_s": 0.0128
+      "plan_time_s": 0.0126
     },
     {
       "file": "runs/tower__s2-s3__fA.json",
@@ -194,7 +194,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 9.518,
-      "plan_time_s": 0.0177
+      "plan_time_s": 0.0191
     },
     {
       "file": "runs/tower__s4-s5__fA.json",
@@ -207,7 +207,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 9.518,
-      "plan_time_s": 0.0178
+      "plan_time_s": 0.019
     },
     {
       "file": "runs/tower__s6-s7__fA.json",
@@ -220,7 +220,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 9.518,
-      "plan_time_s": 0.0223
+      "plan_time_s": 0.0235
     },
     {
       "file": "runs/tower__s0-s1-s2__fA.json",
@@ -234,7 +234,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 8.072,
-      "plan_time_s": 0.0228
+      "plan_time_s": 0.0237
     },
     {
       "file": "runs/tower__s0-s2-s3__fA.json",
@@ -248,7 +248,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 8.072,
-      "plan_time_s": 0.0161
+      "plan_time_s": 0.0186
     },
     {
       "file": "runs/tower__s0-s4-s5__fA.json",
@@ -262,7 +262,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 8.072,
-      "plan_time_s": 0.0158
+      "plan_time_s": 0.0163
     },
     {
       "file": "runs/tower__s1-s2-s3__fA.json",
@@ -276,7 +276,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 8.314,
-      "plan_time_s": 0.0258
+      "plan_time_s": 0.0275
     },
     {
       "file": "runs/tower__s0-s1-s2-s3__fA.json",
@@ -291,7 +291,7 @@
       "num_arms": 4,
       "status": "ok",
       "makespan_s": 6.765,
-      "plan_time_s": 0.0276
+      "plan_time_s": 0.0282
     },
     {
       "file": "runs/tower__s0-s1-s4-s5__fA.json",
@@ -306,7 +306,7 @@
       "num_arms": 4,
       "status": "ok",
       "makespan_s": 6.765,
-      "plan_time_s": 0.0277
+      "plan_time_s": 0.0285
     },
     {
       "file": "runs/conveyor_bar__s0__fA.json",
@@ -330,7 +330,7 @@
       "num_arms": 1,
       "status": "infeasible",
       "makespan_s": null,
-      "plan_time_s": 0.0024
+      "plan_time_s": 0.0025
     },
     {
       "file": "runs/conveyor_bar__s2__fA.json",
@@ -342,7 +342,7 @@
       "num_arms": 1,
       "status": "infeasible",
       "makespan_s": null,
-      "plan_time_s": 0.0013
+      "plan_time_s": 0.0012
     },
     {
       "file": "runs/conveyor_bar__s4__fA.json",
@@ -367,7 +367,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 7.378,
-      "plan_time_s": 0.0187
+      "plan_time_s": 0.0215
     },
     {
       "file": "runs/conveyor_bar__s0-s2__fA.json",
@@ -393,7 +393,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 7.378,
-      "plan_time_s": 0.0107
+      "plan_time_s": 0.0102
     },
     {
       "file": "runs/conveyor_bar__s2-s3__fA.json",
@@ -406,7 +406,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 7.378,
-      "plan_time_s": 0.0143
+      "plan_time_s": 0.0159
     },
     {
       "file": "runs/conveyor_bar__s4-s5__fA.json",
@@ -419,7 +419,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 7.378,
-      "plan_time_s": 0.0141
+      "plan_time_s": 0.0158
     },
     {
       "file": "runs/conveyor_bar__s6-s7__fA.json",
@@ -432,7 +432,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 8.9,
-      "plan_time_s": 0.0223
+      "plan_time_s": 0.0237
     },
     {
       "file": "runs/conveyor_bar__s0-s1-s2__fA.json",
@@ -446,7 +446,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 5.37,
-      "plan_time_s": 0.0238
+      "plan_time_s": 0.0226
     },
     {
       "file": "runs/conveyor_bar__s0-s2-s3__fA.json",
@@ -460,7 +460,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 5.37,
-      "plan_time_s": 0.0136
+      "plan_time_s": 0.0146
     },
     {
       "file": "runs/conveyor_bar__s0-s4-s5__fA.json",
@@ -474,7 +474,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 5.37,
-      "plan_time_s": 0.0151
+      "plan_time_s": 0.0142
     },
     {
       "file": "runs/conveyor_bar__s1-s2-s3__fA.json",
@@ -488,7 +488,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 6.454,
-      "plan_time_s": 0.0225
+      "plan_time_s": 0.0244
     },
     {
       "file": "runs/conveyor_bar__s0-s1-s2-s3__fA.json",
@@ -503,7 +503,7 @@
       "num_arms": 4,
       "status": "ok",
       "makespan_s": 4.567,
-      "plan_time_s": 0.0232
+      "plan_time_s": 0.0241
     },
     {
       "file": "runs/conveyor_bar__s0-s1-s4-s5__fA.json",
@@ -518,7 +518,7 @@
       "num_arms": 4,
       "status": "ok",
       "makespan_s": 4.567,
-      "plan_time_s": 0.0222
+      "plan_time_s": 0.0235
     },
     {
       "file": "runs/deformable_fold__s0__fA.json",
@@ -530,7 +530,7 @@
       "num_arms": 1,
       "status": "infeasible",
       "makespan_s": null,
-      "plan_time_s": 0.0004
+      "plan_time_s": 0.0006
     },
     {
       "file": "runs/deformable_fold__s1__fA.json",
@@ -542,7 +542,7 @@
       "num_arms": 1,
       "status": "infeasible",
       "makespan_s": null,
-      "plan_time_s": 0.0025
+      "plan_time_s": 0.0026
     },
     {
       "file": "runs/deformable_fold__s2__fA.json",
@@ -554,7 +554,7 @@
       "num_arms": 1,
       "status": "infeasible",
       "makespan_s": null,
-      "plan_time_s": 0.0005
+      "plan_time_s": 0.0006
     },
     {
       "file": "runs/deformable_fold__s4__fA.json",
@@ -566,7 +566,7 @@
       "num_arms": 1,
       "status": "infeasible",
       "makespan_s": null,
-      "plan_time_s": 0.0004
+      "plan_time_s": 0.0005
     },
     {
       "file": "runs/deformable_fold__s0-s1__fA.json",
@@ -592,7 +592,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 9.52,
-      "plan_time_s": 0.0098
+      "plan_time_s": 0.0101
     },
     {
       "file": "runs/deformable_fold__s0-s5__fA.json",
@@ -618,7 +618,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 9.52,
-      "plan_time_s": 0.0139
+      "plan_time_s": 0.0156
     },
     {
       "file": "runs/deformable_fold__s4-s5__fA.json",
@@ -644,7 +644,7 @@
       "num_arms": 2,
       "status": "ok",
       "makespan_s": 9.52,
-      "plan_time_s": 0.0257
+      "plan_time_s": 0.0275
     },
     {
       "file": "runs/deformable_fold__s0-s1-s2__fA.json",
@@ -658,7 +658,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 8.154,
-      "plan_time_s": 0.0274
+      "plan_time_s": 0.0363
     },
     {
       "file": "runs/deformable_fold__s0-s2-s3__fA.json",
@@ -672,7 +672,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 8.154,
-      "plan_time_s": 0.0154
+      "plan_time_s": 0.0218
     },
     {
       "file": "runs/deformable_fold__s0-s4-s5__fA.json",
@@ -700,7 +700,7 @@
       "num_arms": 3,
       "status": "ok",
       "makespan_s": 8.33,
-      "plan_time_s": 0.0305
+      "plan_time_s": 0.0373
     },
     {
       "file": "runs/deformable_fold__s0-s1-s2-s3__fA.json",
@@ -715,7 +715,7 @@
       "num_arms": 4,
       "status": "ok",
       "makespan_s": 7.007,
-      "plan_time_s": 0.0303
+      "plan_time_s": 0.0508
     },
     {
       "file": "runs/deformable_fold__s0-s1-s4-s5__fA.json",
