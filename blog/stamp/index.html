@@ -191,9 +191,8 @@
     }
 
     .layout {
-      max-width: 1140px; margin: 0 auto; padding: 36px 16px 84px;
-      display: grid; grid-template-columns: minmax(0, 760px) 290px;
-      justify-content: space-between; gap: 44px; align-items: start;
+      max-width: 900px; margin: 0 auto; padding: 36px 16px 84px;
+      display: block;
     }
     article { min-width: 0; width: 100%; max-width: 100%; }
 
@@ -201,6 +200,19 @@
       background: var(--surface-tint); border: 1px solid rgba(26, 115, 232, 0.25);
       border-left: 4px solid var(--dm-blue); border-radius: 0 10px 10px 0;
       padding: 18px 20px; margin-bottom: 28px;
+    }
+        .tldr-thumb-wrap {
+      margin: 0 0 14px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(26, 115, 232, 0.22);
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(11, 31, 68, 0.06);
+    }
+    .tldr-thumb-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
     .dm-takeaways-title {
       font-family: var(--font-mono); font-size: 11px; font-weight: 700;
@@ -587,6 +599,9 @@
   <div class="layout">
     <article>
       <div class="dm-takeaways">
+                <div class="tldr-thumb-wrap">
+          <img src="/screenshots/blog3-stamp-thumb-nanobanana.png" alt="M9G-TR-2026-03 • Project STAMP 4-Layer Deterministic Verification Shield (610/610 Faults Intercepted) & Closed-Loop write_limit_back Recovery" loading="eager" decoding="async" />
+        </div>
         <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Research Highlights &amp; Systems Summary</div>
         <ul>
           <li data-i18n="finding1"><strong class="c-blue">Strict Architectural Decoupling via Canonical Schemas:</strong> <code>GeminiArgonPlanner</code> never publishes to ROS 2 topics directly; instead, it emits a Pydantic v2 / JSON Schema Draft 2020-12 <code>TaskDAG</code> verified against a 3D <code>SpatialState</code> before <code>DecoupledROS2Executor</code> or <code>MoveItPreDispatchGuard</code> can dispatch a single motion primitive.</li>
@@ -1022,44 +1037,6 @@
         <div class="citation-pre">Minsu Chang, Ph.D. (M9G), "Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning," M9G Technical Research Blog (M9G-TR-2026-03), Oct. 25, 2026. URL: https://mincasurong.github.io/blog/stamp/ | Benchmark: STAMP-Bench-V1 (v1.0.0-stamp)</div>
       </section>
     </article>
-
-    <aside class="sidebar">
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideContents">Article Sections</h3>
-        <ul class="side-links">
-          <li><a href="#video-walkthrough" data-i18n="tocVideo">Simulation Video Preview</a></li>
-          <li><a href="#decoupling-rationale" data-i18n="tocSec1">Decoupling VLA from Control</a></li>
-          <li><a href="#schema-contracts" data-i18n="tocSec2">Canonical Schemas &amp; Video DAG</a></li>
-          <li><a href="#deterministic-gate" data-i18n="tocSec3">4-Layer Deterministic Shield</a></li>
-          <li><a href="#empirical-benchmarks" data-i18n="tocSec4">STAMP-Bench-V1 (1,000 Episodes)</a></li>
-          <li><a href="#standalone-mcp" data-i18n="tocSec5">Standalone REST &amp; MCP Server</a></li>
-          <li><a href="#provenance">Provenance &amp; Prior Art Record</a></li>
-        </ul>
-      </div>
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideConfig">STAMP System Telemetry Spec</h3>
-        <ul class="kv-list">
-          <li><span>Disclosure ID</span><span>M9G-TR-2026-03</span></li>
-          <li><span>Release Tag</span><span>v1.0.0-stamp</span></li>
-          <li><span>VLA Planner</span><span>Gemini 4 Argon</span></li>
-          <li><span>Control Stack</span><span>ROS 2 Jazzy + MoveIt 2</span></li>
-          <li><span>IK Solver</span><span>7-DoF DLS (&le;15.0 mm)</span></li>
-          <li><span>Reach Envelope</span><span>[0.15m, 0.85m] (3x FR3)</span></li>
-          <li><span>Gate Interception</span><span style="color:var(--dm-green-dark);">100.0% (610 / 610)</span></li>
-          <li><span>Task Completion</span><span style="color:var(--dm-green-dark);">100.0% (+61.0%)</span></li>
-        </ul>
-      </div>
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideLinks">Research Navigation</h3>
-        <ul class="side-links">
-          <li><a href="/blog/">← M9G Technical Blog Index</a></li>
-          <li><a href="/blog/VLA/">→ M9G-TR-2026-01: Symbolic 3D VLA Planning</a></li>
-          <li><a href="/blog/m9g-agent/">→ M9G-TR-2026-02: Coding Harness Audit</a></li>
-          <li><a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener noreferrer">IsaacSim_GeminiRobotics Repo ↗</a></li>
-          <li><a href="/" data-i18n="navPortfolio">M9G Main Portfolio</a></li>
-        </ul>
-      </div>
-    </aside>
   </div>
   <div class="m9g-gotop-bar">
     <button type="button" class="m9g-gotop-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Go to Top">

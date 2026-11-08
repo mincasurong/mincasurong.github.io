@@ -191,9 +191,8 @@
     }
 
     .layout {
-      max-width: 1140px; margin: 0 auto; padding: 36px 16px 84px;
-      display: grid; grid-template-columns: minmax(0, 760px) 290px;
-      justify-content: space-between; gap: 44px; align-items: start;
+      max-width: 900px; margin: 0 auto; padding: 36px 16px 84px;
+      display: block;
     }
     article { min-width: 0; width: 100%; max-width: 100%; }
 
@@ -201,6 +200,19 @@
       background: var(--surface-tint); border: 1px solid rgba(26, 115, 232, 0.25);
       border-left: 4px solid var(--dm-blue); border-radius: 0 10px 10px 0;
       padding: 18px 20px; margin-bottom: 28px;
+    }
+        .tldr-thumb-wrap {
+      margin: 0 0 14px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(26, 115, 232, 0.22);
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(11, 31, 68, 0.06);
+    }
+    .tldr-thumb-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
     .dm-takeaways-title {
       font-family: var(--font-mono); font-size: 11px; font-weight: 700;
@@ -586,6 +598,9 @@
   <div class="layout">
     <article>
       <div class="dm-takeaways">
+                <div class="tldr-thumb-wrap">
+          <img src="/screenshots/blog1-vla-thumb-nanobanana.png" alt="M9G-TR-2026-01 • Cooperative 3-Arm FR3 Tower Stacking with Zero-RGB 3D /tf Grounding & 10-Turn Software-Pipelined VLA Schedule (-76.6% API Cost)" loading="eager" decoding="async" />
+        </div>
         <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Research Highlights &amp; Systems Summary</div>
         <ul>
           <li data-i18n="finding1"><strong class="c-blue">Zero-RGB Symbolic 3D /tf Grounding:</strong> Disabling Isaac Sim Replicator RGB camera capture (<code>latest_rgb = None</code>, <code>0</code> image tokens) and feeding 50 Hz 3D <code>/tf</code> poses into <code>RuleBasedTaskGenerator</code> and <code>RuleBasedTaskVerifier</code> achieved 100% (9/9) multi-robot tower assembly with zero collisions across all three stages.</li>
@@ -844,44 +859,6 @@
         <div class="citation-pre">Minsu Chang, Ph.D. (M9G), "Symbolic 3D Grounding and Software-Pipelined VLA Task Planning for Multi-Arm Manipulation," M9G Technical Research Blog (M9G-TR-2026-01), Oct. 18, 2026. URL: https://mincasurong.github.io/blog/VLA/ | Video Proof: https://youtu.be/PPZ4vgVZlyA</div>
       </section>
     </article>
-
-    <aside class="sidebar">
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideContents">Article Sections</h3>
-        <ul class="side-links">
-          <li><a href="#video-walkthrough" data-i18n="tocVideo">Synchronized Video Proof</a></li>
-          <li><a href="#summary" data-i18n="tocSec1">Symbolic 3D /tf Grounding</a></li>
-          <li><a href="#architecture" data-i18n="tocSec2">Three-Stage Evaluation Protocol</a></li>
-          <li><a href="#metrics" data-i18n="tocSec3">Empirical Telemetry &amp; Cost</a></li>
-          <li><a href="#scaling-model" data-i18n="tocSec3Sub">Quadratic Token Economics</a></li>
-          <li><a href="#schedule-trace" data-i18n="tocSec4">10-Turn Pipelined Schedule</a></li>
-          <li><a href="#provenance">Provenance &amp; Prior Art Record</a></li>
-        </ul>
-      </div>
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideConfig">Workcell Telemetry Spec</h3>
-        <ul class="kv-list">
-          <li><span>Disclosure ID</span><span>M9G-TR-2026-01</span></li>
-          <li><span>Simulator</span><span>Isaac Sim 6.0</span></li>
-          <li><span>Physics Engine</span><span>240 Hz PhysX TGS</span></li>
-          <li><span>Middleware</span><span>ROS 2 Jazzy (FastDDS)</span></li>
-          <li><span>IK Controller</span><span>50 Hz DLS IK (3x FR3)</span></li>
-          <li><span>State Modality</span><span>3D /tf (0 RGB frames)</span></li>
-          <li><span>Stage 3 Cost</span><span style="color:var(--dm-green-dark);">$0.01972 (-76.6%)</span></li>
-        </ul>
-      </div>
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideLinks">Research Navigation</h3>
-        <ul class="side-links">
-          <li><a href="/blog/">← M9G Technical Blog Index</a></li>
-          <li><a href="/blog/stamp/">→ M9G-TR-2026-03: Project STAMP Safety Gating</a></li>
-          <li><a href="/blog/m9g-agent/">→ M9G-TR-2026-02: Coding Harness Post-Mortem</a></li>
-          <li><a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer">Side-by-Side Video (YouTube) ↗</a></li>
-          <li><a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener noreferrer">IsaacSim_GeminiRobotics Repo ↗</a></li>
-          <li><a href="/" data-i18n="navPortfolio">M9G Main Portfolio</a></li>
-        </ul>
-      </div>
-    </aside>
   </div>
   <div class="m9g-gotop-bar">
     <button type="button" class="m9g-gotop-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Go to Top">

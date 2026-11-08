@@ -202,9 +202,8 @@
     }
 
     .layout {
-      max-width: 1140px; margin: 0 auto; padding: 36px 16px 84px;
-      display: grid; grid-template-columns: minmax(0, 760px) 290px;
-      justify-content: space-between; gap: 44px; align-items: start;
+      max-width: 900px; margin: 0 auto; padding: 36px 16px 84px;
+      display: block;
     }
     article { min-width: 0; width: 100%; max-width: 100%; }
 
@@ -212,6 +211,19 @@
       background: var(--surface-tint); border: 1px solid rgba(26, 115, 232, 0.25);
       border-left: 4px solid var(--dm-blue); border-radius: 0 10px 10px 0;
       padding: 18px 20px; margin-bottom: 28px;
+    }
+        .tldr-thumb-wrap {
+      margin: 0 0 14px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(26, 115, 232, 0.22);
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(11, 31, 68, 0.06);
+    }
+    .tldr-thumb-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
     .dm-takeaways-title {
       font-family: var(--font-mono); font-size: 11px; font-weight: 700;
@@ -622,6 +634,9 @@
   <div class="layout">
     <article>
       <div class="dm-takeaways">
+                <div class="tldr-thumb-wrap">
+          <img src="/screenshots/blog2-agent-thumb-nanobanana.png" alt="M9G-TR-2026-02 • From a 28-Module Standalone Multi-Agent Harness (m9g-agent-corps) to the 7-Tool m9g-mcp JSON-RPC 2.0 Server for OmO, OpenCode & Claude Code" loading="eager" decoding="async" />
+        </div>
         <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Research Highlights &amp; Post-Mortem Summary</div>
         <ul>
           <li data-i18n="takeaway1"><strong class="c-blue">Six Core Subsystems Investigated in <code>src/ag_harness/</code>:</strong> While building <code>m9g-agent-corps</code>, we engineered and tested (1) <code>ImmutablePrefixBuilder</code> for 95% Gemini implicit cache retention (<code>$0.10/1M</code> vs. <code>$2.00/1M</code>), (2) <code>HashlineEditor</code> (4-char SHA-256 line hashes with ±25-line drift relocation and &lt;1ms AST compile checks) + <code>skeletonize_python_code()</code> (75–90% AST token compression), (3) non-destructive <code>GIT_INDEX_FILE</code> shadow Git snapshots (<code>WorkspaceCheckpointManager</code>) + SQLite WAL turn journaling (<code>SessionStore</code>), (4) a 5-tier self-healing hook pipeline (<code>FiveTierHookPipeline</code>, <code>IntentGate</code>, <code>repair_json_arguments</code>, and <code>GitMemoryFaultSidecar</code>), (5) topological multi-wave DAG orchestration (<code>DAGEngine</code>, <code>TodoManager</code>, <code>BoulderEngine</code>, and <code>Harness2</code> <code>c1..c8</code> surface validation), and (6) Windows↔WSL2 path/process bridging plus a Galois Field <code>GF(2^8)</code> terminal QR remote PWA.</li>
@@ -1009,47 +1024,6 @@
         <div class="citation-pre">Minsu Chang, Ph.D. (M9G), "Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity," M9G Technical Research Blog (M9G-TR-2026-02), Oct. 20, 2026 (Updated Oct. 25, 2026). URL: https://mincasurong.github.io/blog/m9g-agent/ | Repo: https://github.com/m9g-mincasurong/m9g-agent-corps</div>
       </section>
     </article>
-
-    <aside class="sidebar">
-      <div class="side-panel">
-        <div class="side-heading" data-i18n="sideContents">Article Sections</div>
-        <ul class="side-links">
-          <li><a href="#omni-wrapup-video">40s Architectural Wrap-Up Video</a></li>
-          <li><a href="#motivation">Why We Built a New Harness</a></li>
-          <li><a href="#investigations">6 Subsystems We Investigated</a></li>
-          <li><a href="#why-we-failed">Why Our Harness Failed (6 Causes)</a></li>
-          <li><a href="#comparison">vs. OmO, OpenCode, Claude &amp; agy</a></li>
-          <li><a href="#pivot">The Pivot to m9g-mcp Server</a></li>
-          <li><a href="#provenance">Provenance &amp; Prior Art Record</a></li>
-        </ul>
-      </div>
-
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideConfig">Engineered Artifact Spec</h3>
-        <ul class="kv-list">
-          <li><span>Disclosure ID</span><span>M9G-TR-2026-02</span></li>
-          <li><span>Repository</span><span>m9g-agent-corps</span></li>
-          <li><span>Core Engine</span><span>src/ag_harness/ (28 mod)</span></li>
-          <li><span>Test Suite</span><span>17 files / 169 tests</span></li>
-          <li><span>Tier 1 APEX</span><span>gemini-4-argon (150k)</span></li>
-          <li><span>Tier 2 MIDDLE</span><span>gemini-2.5-pro (180k)</span></li>
-          <li><span>Tier 3 Leaf</span><span>gemini-3.8-flash (100k)</span></li>
-          <li><span>Prefix Cache</span><span>95% discount ($0.10/1M)</span></li>
-          <li><span>Pivot Output</span><span>m9g-mcp (7 stdio tools)</span></li>
-        </ul>
-      </div>
-
-      <div class="side-panel">
-        <div class="side-heading" data-i18n="sideLinks">Research Navigation</div>
-        <ul class="side-links">
-          <li><a href="/blog/">← M9G Technical Blog Index</a></li>
-          <li><a href="/blog/stamp/">→ M9G-TR-2026-03: Project STAMP Safety Gating</a></li>
-          <li><a href="/blog/VLA/">← M9G-TR-2026-01: Multi-Arm VLA Benchmark</a></li>
-          <li><a href="https://github.com/mincasurong" target="_blank" rel="noopener noreferrer">M9G GitHub (@mincasurong) ↗</a></li>
-          <li><a href="/">M9G Main Portfolio</a></li>
-        </ul>
-      </div>
-    </aside>
   </div>
   <div class="m9g-gotop-bar">
     <button type="button" class="m9g-gotop-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Go to Top">

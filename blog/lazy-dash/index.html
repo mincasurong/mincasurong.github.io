@@ -191,9 +191,8 @@
     }
 
     .layout {
-      max-width: 1140px; margin: 0 auto; padding: 36px 16px 84px;
-      display: grid; grid-template-columns: minmax(0, 760px) 290px;
-      justify-content: space-between; gap: 44px; align-items: start;
+      max-width: 900px; margin: 0 auto; padding: 36px 16px 84px;
+      display: block;
     }
     article { min-width: 0; width: 100%; max-width: 100%; }
 
@@ -201,6 +200,19 @@
       background: var(--surface-tint); border: 1px solid rgba(26, 115, 232, 0.25);
       border-left: 4px solid var(--dm-blue); border-radius: 0 10px 10px 0;
       padding: 18px 20px; margin-bottom: 28px;
+    }
+        .tldr-thumb-wrap {
+      margin: 0 0 14px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(26, 115, 232, 0.22);
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(11, 31, 68, 0.06);
+    }
+    .tldr-thumb-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
     .dm-takeaways-title {
       font-family: var(--font-mono); font-size: 11px; font-weight: 700;
@@ -513,6 +525,9 @@
   <div class="layout">
     <article>
       <div class="dm-takeaways">
+                <div class="tldr-thumb-wrap">
+          <img src="/screenshots/blog5-lazydash-thumb-nanobanana.png" alt="M9G-TR-2026-05 • UIUC Lazy-DaSH (IEEE T-RO) Two-Level Hypergraph (H_T → H_M) Mapped to Gemini 4 Argon, Robotics-ER 2 & Flash-Lite in IsaacSim_Gemini" loading="eager" decoding="async" />
+        </div>
         <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Executive Summary: How Lazy-DaSH Transforms Multi-Robot VLA Orchestration</div>
         <ul>
           <li data-i18n="finding1"><strong class="c-blue">1. The Core Insight of UIUC's Lazy-DaSH (Scott Lee et al., IEEE T-RO):</strong> Original DaSH (T-RO 2023) suffers from $O(N_{\text{robots}}^2 \cdot N_{\text{objects}})$ upfront motion-hypergraph construction because it pre-validates every possible pick, place, and handover edge. Lazy-DaSH separates the <strong>Task Space Hypergraph ($\mathcal{H}_{\mathcal{T}}$)</strong> from the <strong>Motion Hypergraph ($\mathcal{H}_{\mathcal{M}}$)</strong>, greedily starting with only start/goal object states ($O_i^s, O_i^g$) and evaluating Lazy-PRM motion edges <em>only</em> along the candidate task schedule.</li>
@@ -842,47 +857,6 @@
         <div class="citation-pre">Minsu Chang, Ph.D. (M9G), "Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph Task &amp; Motion Planning and Our Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini," M9G Technical Research Blog (M9G-TR-2026-05), Nov. 8, 2026. URL: https://mincasurong.github.io/blog/lazy-dash/ | Reference Repo: https://github.com/mincasurong/IsaacSim_GeminiRobotics</div>
       </section>
     </article>
-
-    <aside class="sidebar">
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideContents">Article Sections</h3>
-        <ul class="side-links">
-          <li><a href="#omni-wrapup-video">TL;DR &amp; 40s Video Synthesis</a></li>
-          <li><a href="#executive-pipeline">4-Layer Lazy-DaSH × VLA Pipeline</a></li>
-          <li><a href="#lazy-dash-paper">1. UIUC Lazy-DaSH (IEEE T-RO)</a></li>
-          <li><a href="#isaacsim-gemini-upgrade">2. Multi-Model Gemini Mapping</a></li>
-          <li><a href="#continuous-goals-kpis">3. Continuous Goals &amp; 7 KPIs</a></li>
-          <li><a href="#references">4. Primary Literature</a></li>
-          <li><a href="#provenance">Provenance &amp; Citation</a></li>
-        </ul>
-      </div>
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideConfig">Lazy-DaSH × VLA Telemetry</h3>
-        <ul class="kv-list">
-          <li><span>Disclosure ID</span><span>M9G-TR-2026-05</span></li>
-          <li><span>Published</span><span>2026-11-08</span></li>
-          <li><span>Paper Analyzed</span><span>Lazy-DaSH (IEEE T-RO)</span></li>
-          <li><span>First Author</span><span>Seongwon "Scott" Lee (UIUC)</span></li>
-          <li><span>Layer 1 Brain</span><span>Gemini 4 Argon (1×)</span></li>
-          <li><span>Layer 2 Gate</span><span>Robotics-ER 2 + Verifier</span></li>
-          <li><span>Layer 3 Executor</span><span>Gemini 3.5 Flash-Lite</span></li>
-          <li><span>API Cost Target</span><span style="color:var(--dm-green-dark);">$0.01972 (-76.6%)</span></li>
-          <li><span>Scale Target</span><span style="color:var(--dm-green-dark);">16 Arms / 60+ Obj</span></li>
-        </ul>
-      </div>
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideLinks">Research Navigation</h3>
-        <ul class="side-links">
-          <li><a href="/blog/">← M9G Technical Blog Index</a></li>
-          <li><a href="/blog/sdl-survey/">→ M9G-TR-2026-04: Isaac Sim &amp; SDL Survey</a></li>
-          <li><a href="/blog/stamp/">→ M9G-TR-2026-03: Project STAMP Gate</a></li>
-          <li><a href="/blog/m9g-agent/">→ M9G-TR-2026-02: Coding Harness Audit</a></li>
-          <li><a href="/blog/VLA/">→ M9G-TR-2026-01: Symbolic 3D VLA Planning</a></li>
-          <li><a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener noreferrer">IsaacSim_GeminiRobotics Repo ↗</a></li>
-          <li><a href="/" data-i18n="navPortfolio">M9G Main Portal</a></li>
-        </ul>
-      </div>
-    </aside>
   </div>
 
   <div class="m9g-gotop-bar">

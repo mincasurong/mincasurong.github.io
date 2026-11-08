@@ -202,9 +202,8 @@
     }
 
     .layout {
-      max-width: 1140px; margin: 0 auto; padding: 36px 16px 84px;
-      display: grid; grid-template-columns: minmax(0, 760px) 290px;
-      justify-content: space-between; gap: 44px; align-items: start;
+      max-width: 900px; margin: 0 auto; padding: 36px 16px 84px;
+      display: block;
     }
     article { min-width: 0; width: 100%; max-width: 100%; }
 
@@ -212,6 +211,19 @@
       background: var(--surface-tint); border: 1px solid rgba(26, 115, 232, 0.25);
       border-left: 4px solid var(--dm-blue); border-radius: 0 10px 10px 0;
       padding: 18px 20px; margin-bottom: 28px;
+    }
+        .tldr-thumb-wrap {
+      margin: 0 0 14px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(26, 115, 232, 0.22);
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(11, 31, 68, 0.06);
+    }
+    .tldr-thumb-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
     .dm-takeaways-title {
       font-family: var(--font-mono); font-size: 11px; font-weight: 700;
@@ -524,6 +536,9 @@
   <div class="layout">
     <article>
       <div class="dm-takeaways">
+                <div class="tldr-thumb-wrap">
+          <img src="/screenshots/blog4-sdl-thumb-nanobanana.png" alt="M9G-TR-2026-04 • SOTA Survey (2025–2026): Sub-Millimeter Cooperative Assembly, Bimanual Deformable Object Handling & Autonomous Self-Driving Labs (SDLs)" loading="eager" decoding="async" />
+        </div>
         <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Executive Summary: The 4-Tier Neuro-Symbolic + GPU Physics Convergence</div>
         <ul>
           <li data-i18n="finding1"><strong class="c-blue">Tier 1 — Multimodal Task Graph Synthesis (<code>Plan</code>):</strong> Vision-Language-Action (VLA) models parse overhead/wrist video streams and 3D scene graphs into structured <strong>Directed Acyclic Task Graphs (TaskDAGs)</strong> or <strong>Multi-Modal Temporal Plan Graphs (MM-TPGs)</strong>—never raw joint trajectories.</li>
@@ -788,45 +803,6 @@
         <div class="citation-pre">Minsu Chang, Ph.D. (M9G), "SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling &amp; Self-Driving Labs," M9G Technical Research Blog (M9G-TR-2026-04), Nov. 1, 2026. URL: https://mincasurong.github.io/blog/sdl-survey/ | Reference Repo: https://github.com/mincasurong/IsaacSim_GeminiRobotics</div>
       </section>
     </article>
-
-    <aside class="sidebar">
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideContents">Article Sections</h3>
-        <ul class="side-links">
-          <li><a href="#omni-wrapup-video">TL;DR &amp; 40s Video Synthesis</a></li>
-          <li><a href="#executive-pipeline">4-Tier Neuro-Symbolic Pipeline</a></li>
-          <li><a href="#cooperative-assembly">1. Multi-Robot Assembly</a></li>
-          <li><a href="#deformable-handling">2. Deformable Object Handling</a></li>
-          <li><a href="#self-driving-labs">3. Self-Driving Labs (SDLs)</a></li>
-          <li><a href="#stamp-synthesis">4. Project STAMP Synthesis</a></li>
-          <li><a href="#references">5. Primary Literature (14 Refs)</a></li>
-          <li><a href="#provenance">Provenance &amp; Citation</a></li>
-        </ul>
-      </div>
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideConfig">Survey &amp; STAMP Telemetry</h3>
-        <ul class="kv-list">
-          <li><span>Disclosure ID</span><span>M9G-TR-2026-04</span></li>
-          <li><span>Published</span><span>2026-11-01</span></li>
-          <li><span>Simulator</span><span>Isaac Sim 6.0 / Isaac Lab</span></li>
-          <li><span>Physics Solver</span><span>240 Hz PhysX TGS + PBD</span></li>
-          <li><span>Reference Tag</span><span>v1.0.0-stamp</span></li>
-          <li><span>Fault Shield</span><span style="color:var(--dm-green-dark);">100.0% (610 / 610)</span></li>
-          <li><span>Write-Back Gain</span><span style="color:var(--dm-green-dark);">39.0% → 100.0%</span></li>
-        </ul>
-      </div>
-      <div class="side-panel">
-        <h3 class="side-heading" data-i18n="sideLinks">Research Navigation</h3>
-        <ul class="side-links">
-          <li><a href="/blog/">← M9G Technical Blog Index</a></li>
-          <li><a href="/blog/stamp/">→ M9G-TR-2026-03: Project STAMP Gate</a></li>
-          <li><a href="/blog/m9g-agent/">→ M9G-TR-2026-02: Coding Harness Audit</a></li>
-          <li><a href="/blog/VLA/">→ M9G-TR-2026-01: Symbolic 3D VLA Planning</a></li>
-          <li><a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener noreferrer">IsaacSim_GeminiRobotics Repo ↗</a></li>
-          <li><a href="/" data-i18n="navPortfolio">M9G Main Portal</a></li>
-        </ul>
-      </div>
-    </aside>
   </div>
 
   <div class="m9g-gotop-bar">
