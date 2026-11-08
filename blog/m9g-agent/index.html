@@ -39,18 +39,7 @@
       "url": "https://mincasurong.github.io/"
     }
   }
-  
-    function seekOmniVideo(vidId, seconds, btn) {
-      var vid = document.getElementById(vidId);
-      if (vid) {
-        try { vid.currentTime = seconds; vid.play(); } catch (e) {}
-      }
-      if (btn && btn.parentElement) {
-        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-      }
-    }
-</script>
+  </script>
   <style>
     :root {
       --bg: #ffffff;
@@ -623,6 +612,10 @@
           <span class="blog-post-tab-kicker">M9G-TR-2026-05 • Lazy-DaSH × VLA</span>
           <span class="blog-post-tab-title">UIUC Lazy-DaSH (T-RO) &amp; IsaacSim_Gemini Roadmap</span>
         </a>
+        <a href="/blog/tamp-fast-sim/" class="blog-post-tab">
+          <span class="blog-post-tab-kicker">M9G-TR-2026-06 • 3D TAMP Lite-Sim</span>
+          <span class="blog-post-tab-title">Browser-Native Multi-Robot &amp; Smart Factory WebGL</span>
+        </a>
       </nav>
 
       <div class="dm-kicker-row">
@@ -755,7 +748,7 @@
           <span class="inv-tag">Investigation 01 • Token &amp; Cache Economics</span>
           <h4>Immutable Prefix Caching &amp; Tail-Only Dynamic Injection</h4>
           <p>
-            In <code>ImmutablePrefixBuilder</code> (<code>argon_omo_substrate.py:766</code>) and <code>corps.jsonc</code>, we investigated why Gemini 2.5 Pro / 4 Argon's 95% implicit cache discount (<code>$0.10/1M</code> cached vs. <code>$2.00/1M</code> uncached) breaks in naive harnesses. We stripped dynamic regex patterns (<code>**Generated:**</code>, <code>**Timestamp:**</code>, <code>Current git status:</code>) from index 0, froze <code>&lt;immutable_system_prompt&gt;</code>, <code>&lt;immutable_agents_md&gt;</code>, sorted <code>&lt;immutable_tool_schemas&gt;</code>, and <code>&lt;immutable_repo_map&gt;</code> under a verified SHA-256 <code>prefix_hash</code>, and pushed all turn-varying state (<code>&lt;memory_sidecar_constraints&gt;</code>, <code>&lt;intent_gate_status&gt;</code>) to the user message tail while capping always-on text at <code>28,000</code> chars.
+            In <code>ImmutablePrefixBuilder</code> (<code>argon_omo_substrate.py:766</code>) and <code>corps.jsonc</code>, we investigated why Gemini 2.5 Pro / 4 Argon's 95% implicit cache discount (<code>$0.10/1M</code> cached vs. <code>$2.00/1M</code> uncached) breaks in naive harnesses. We stripped dynamic regex patterns (<code><strong>Generated:</strong></code>, <code><strong>Timestamp:</strong></code>, <code>Current git status:</code>) from index 0, froze <code>&lt;immutable_system_prompt&gt;</code>, <code>&lt;immutable_agents_md&gt;</code>, sorted <code>&lt;immutable_tool_schemas&gt;</code>, and <code>&lt;immutable_repo_map&gt;</code> under a verified SHA-256 <code>prefix_hash</code>, and pushed all turn-varying state (<code>&lt;memory_sidecar_constraints&gt;</code>, <code>&lt;intent_gate_status&gt;</code>) to the user message tail while capping always-on text at <code>28,000</code> chars.
           </p>
         </div>
 
@@ -802,17 +795,17 @@
 
       <h2 id="why-we-failed" data-i18n="sec3Title">Why Building a New Standalone Harness Failed in Practice: Six Root Causes</h2>
       <p data-i18n="sec3Intro">
-        Every subsystem above passed its unit test suite (`169/169` tests passing across 17 test files). Yet when we used `m9g-agent-corps` as our primary coding harness on real multi-file engineering tasks, it consistently felt slower, more brittle, and more error-prone than pre-existing harnesses (`OmO`, `OpenCode`, `Claude Code`, and `Antigravity`). Auditing our own codebase revealed a fundamental systems lesson: **isolated subsystems do not make a reliable coding harness; the reliability of a harness is determined by the tightest feedback loop in its inner execution kernel.** Specifically, six architectural disconnects caused our standalone harness to fail:
+        Every subsystem above passed its unit test suite (<code>169/169</code> tests passing across 17 test files). Yet when we used <code>m9g-agent-corps</code> as our primary coding harness on real multi-file engineering tasks, it consistently felt slower, more brittle, and more error-prone than pre-existing harnesses (<code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>, and <code>Antigravity</code>). Auditing our own codebase revealed a fundamental systems lesson: <strong>isolated subsystems do not make a reliable coding harness; the reliability of a harness is determined by the tightest feedback loop in its inner execution kernel.</strong> Specifically, six architectural disconnects caused our standalone harness to fail:
       </p>
 
-      <h3>Failure Cause 1 — The "Unwired Substrate" Disconnect (`argon_omo_substrate.py` vs. `main.py` &amp; `agy_workers.py`)</h3>
+      <h3>Failure Cause 1 — The "Unwired Substrate" Disconnect (<code>argon_omo_substrate.py</code> vs. <code>main.py</code> &amp; <code>agy_workers.py</code>)</h3>
       <p>
-        We built `FiveTierHookPipeline`, `IntentGate`, `HashlineEditor`, `ImmutablePrefixBuilder`, and `TmuxSubscriptionWatcher` inside `argon_omo_substrate.py` (1,245 lines) and verified them via `run_argon_smoke_benchmarks()`. However, in the actual interactive REPL loop (`stream_turn()` in `main.py:124`) and worker dispatcher (`spawn_agy_worker()` in `agy_workers.py:427`), the agent ran on `google.antigravity.Agent(config=config)`—whose built-in runtime tools (`edit_file`, `replace_file_content`, `run_command`) bypassed `FiveTierHookPipeline` and `IntentGate` entirely! Workers were merely asked *in prose* to verify their edits, whereas in **OmO**, **OpenCode**, and **Claude Code**, the edit validator, permission gate, and LSP diagnostics sit directly inside the single mandatory tool-execution path.
+        We built <code>FiveTierHookPipeline</code>, <code>IntentGate</code>, <code>HashlineEditor</code>, <code>ImmutablePrefixBuilder</code>, and <code>TmuxSubscriptionWatcher</code> inside <code>argon_omo_substrate.py</code> (1,245 lines) and verified them via <code>run_argon_smoke_benchmarks()</code>. However, in the actual interactive REPL loop (<code>stream_turn()</code> in <code>main.py:124</code>) and worker dispatcher (<code>spawn_agy_worker()</code> in <code>agy_workers.py:427</code>), the agent ran on <code>google.antigravity.Agent(config=config)</code>—whose built-in runtime tools (<code>edit_file</code>, <code>replace_file_content</code>, <code>run_command</code>) bypassed <code>FiveTierHookPipeline</code> and <code>IntentGate</code> entirely! Workers were merely asked *in prose* to verify their edits, whereas in <strong>OmO</strong>, <strong>OpenCode</strong>, and <strong>Claude Code</strong>, the edit validator, permission gate, and LSP diagnostics sit directly inside the single mandatory tool-execution path.
       </p>
 
-      <h3>Failure Cause 2 — Lossy Prose-Regex Handoffs Defaulting to False-Positive <code>SUCCESS</code> (`agy_workers.py:296-305`)</h3>
+      <h3>Failure Cause 2 — Lossy Prose-Regex Handoffs Defaulting to False-Positive <code>SUCCESS</code> (<code>agy_workers.py:296-305</code>)</h3>
       <p>
-        When our Tier-1 Higher Brain delegated a task to a Tier-2/Tier-3 worker, `WorkerHandoffReport.parse_from_markdown()` did not receive a structured tool-execution state object. Instead, it asked the worker to print a Markdown template at the end of its response and scraped it with regular expressions:
+        When our Tier-1 Higher Brain delegated a task to a Tier-2/Tier-3 worker, <code>WorkerHandoffReport.parse_from_markdown()</code> did not receive a structured tool-execution state object. Instead, it asked the worker to print a Markdown template at the end of its response and scraped it with regular expressions:
       </p>
       <div class="telemetry-formula-box">
         <div class="telemetry-formula-header">
@@ -825,12 +818,12 @@
         else: <span class="c-red">status = "SUCCESS"</span>
       </div>
       <p>
-        <strong class="c-red">Why this broke multi-wave DAGs:</strong> Whenever a worker hit its token ceiling, got truncated mid-stream, exited a CLI subprocess with a non-zero code (`check=False` at line 415), or phrased its conclusion conversationally without `## STATUS:`, `parse_from_markdown()` defaulted `status` to `"SUCCESS"` with `files_modified=[]`. `DAGEngine` treated the failed wave as completed and dispatched dependent nodes onto an unedited worktree.
+        <strong class="c-red">Why this broke multi-wave DAGs:</strong> Whenever a worker hit its token ceiling, got truncated mid-stream, exited a CLI subprocess with a non-zero code (<code>check=False</code> at line 415), or phrased its conclusion conversationally without <code>## STATUS:</code>, <code>parse_from_markdown()</code> defaulted <code>status</code> to <code>"SUCCESS"</code> with <code>files_modified=[]</code>. <code>DAGEngine</code> treated the failed wave as completed and dispatched dependent nodes onto an unedited worktree.
       </p>
 
-      <h3>Failure Cause 3 — 300-Second Black-Box CLI Subprocesses (`agy_workers.py:409-424`) vs. Live In-Process Kernels</h3>
+      <h3>Failure Cause 3 — 300-Second Black-Box CLI Subprocesses (<code>agy_workers.py:409-424</code>) vs. Live In-Process Kernels</h3>
       <p>
-        To leverage external CLI workers (`agy.exe -p` or `omo.exe -p`), `spawn_agy_worker()` wrapped a synchronous `subprocess.run` inside `asyncio.to_thread`:
+        To leverage external CLI workers (<code>agy.exe -p</code> or <code>omo.exe -p</code>), <code>spawn_agy_worker()</code> wrapped a synchronous <code>subprocess.run</code> inside <code>asyncio.to_thread</code>:
       </p>
       <div class="telemetry-formula-box">
         <div class="telemetry-formula-header">
@@ -842,20 +835,20 @@
         )
       </div>
       <p>
-        <strong class="c-red">Why this failed against OmO and OpenCode:</strong> Buffering stdout/stderr via `capture_output=True` turned every subagent into a 5-minute black box. You could not inspect live progress (unlike OmO's `task_output(mode="tail")` or `monitor`), you could not steer a drifting worker mid-turn (unlike OmO's `task_send` or `bash_input`), and if a worker timed out at 300 seconds, `subprocess.TimeoutExpired` discarded all intermediate work.
+        <strong class="c-red">Why this failed against OmO and OpenCode:</strong> Buffering stdout/stderr via <code>capture_output=True</code> turned every subagent into a 5-minute black box. You could not inspect live progress (unlike OmO's <code>task_output(mode="tail")</code> or <code>monitor</code>), you could not steer a drifting worker mid-turn (unlike OmO's <code>task_send</code> or <code>bash_input</code>), and if a worker timed out at 300 seconds, <code>subprocess.TimeoutExpired</code> discarded all intermediate work.
       </p>
 
-      <h3>Failure Cause 4 — The "Rule 1" Mandatory Delegation Tax &amp; 19-Tool Prompt Bloat (`config.py:381-485`)</h3>
+      <h3>Failure Cause 4 — The "Rule 1" Mandatory Delegation Tax &amp; 19-Tool Prompt Bloat (<code>config.py:381-485</code>)</h3>
       <p>
-        In `config.py:457`, our Higher Brain system prompt enforced **Rule 1 (Stay Above the Weeds)**: *"For any multi-file edit, UI build, reverse-engineering analysis, or test loop, you MUST NOT read 500-line files directly into your own context. Instead... dispatch `spawn_agy_worker`."* Simultaneously, `_resolve_agent_tools()` bound **19 Higher-Brain tools** plus up to `28,000` characters of static prompt prefix on Turn 1.
+        In <code>config.py:457</code>, our Higher Brain system prompt enforced <strong>Rule 1 (Stay Above the Weeds)</strong>: <em>"For any multi-file edit, UI build, reverse-engineering analysis, or test loop, you MUST NOT read 500-line files directly into your own context. Instead... dispatch <code>spawn_agy_worker</code>."</em> Simultaneously, <code>_resolve_agent_tools()</code> bound <strong>19 Higher-Brain tools</strong> plus up to <code>28,000</code> characters of static prompt prefix on Turn 1.
       </p>
       <p>
-        <strong class="c-amber">Why this tripled latency on routine tasks:</strong> For a 1-to-3 file bug fix, **Claude Code**, **OpenCode**, and **OmO** read the file, apply an exact edit, and run diagnostics in a single in-process loop (~15–25 seconds). In `m9g-agent-corps`, Rule 1 forced a multi-hop relay (`Higher Brain → cold-start worker process → re-read files from disk → compress to 300-word Markdown summary → Higher Brain`). Compressing cross-file type signatures into a 300-word prose summary stripped the exact invariants the Higher Brain needed when a test failed.
+        <strong class="c-amber">Why this tripled latency on routine tasks:</strong> For a 1-to-3 file bug fix, <strong>Claude Code</strong>, <strong>OpenCode</strong>, and <strong>OmO</strong> read the file, apply an exact edit, and run diagnostics in a single in-process loop (~15–25 seconds). In <code>m9g-agent-corps</code>, Rule 1 forced a multi-hop relay (<code>Higher Brain → cold-start worker process → re-read files from disk → compress to 300-word Markdown summary → Higher Brain</code>). Compressing cross-file type signatures into a 300-word prose summary stripped the exact invariants the Higher Brain needed when a test failed.
       </p>
 
-      <h3>Failure Cause 5 — Destructive Middle-Out String Slicing (`hooks.py:23-25` &amp; `subagents.py:34`)</h3>
+      <h3>Failure Cause 5 — Destructive Middle-Out String Slicing (<code>hooks.py:23-25</code> &amp; <code>subagents.py:34</code>)</h3>
       <p>
-        To prevent token-per-minute (TPM) exhaustion, `cap_tool_output()` truncated any tool result exceeding `12,000` characters by keeping the first `4,000` characters and the last `8,000` characters, while `trim_context_for_tier2()` excised the middle of `file_context`:
+        To prevent token-per-minute (TPM) exhaustion, <code>cap_tool_output()</code> truncated any tool result exceeding <code>12,000</code> characters by keeping the first <code>4,000</code> characters and the last <code>8,000</code> characters, while <code>trim_context_for_tier2()</code> excised the middle of <code>file_context</code>:
       </p>
       <div class="telemetry-formula-box">
         <div class="telemetry-formula-header">
@@ -866,17 +859,17 @@
         file_context[:keep_chars // 2] + "\n...[TRIMMED]...\n" + file_context[-(keep_chars // 2):]
       </div>
       <p>
-        <strong class="c-amber">Why this caused hallucinated edits:</strong> In a 600-line source module or a pytest run with multiple failures, lines 120–380 sit squarely in the deleted middle. Because the model could not see the middle of the file, it hallucinated function bodies or entered repetitive read loops. Pre-existing harnesses (`OmO`, `OpenCode`, `Claude Code`) never slice the middle out of a file read; they enforce explicit line-indexed pagination (`offset` / `limit`) so the model knows exactly which line range it holds.
+        <strong class="c-amber">Why this caused hallucinated edits:</strong> In a 600-line source module or a pytest run with multiple failures, lines 120–380 sit squarely in the deleted middle. Because the model could not see the middle of the file, it hallucinated function bodies or entered repetitive read loops. Pre-existing harnesses (<code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>) never slice the middle out of a file read; they enforce explicit line-indexed pagination (<code>offset</code> / <code>limit</code>) so the model knows exactly which line range it holds.
       </p>
 
-      <h3>Failure Cause 6 — Hard-Kill Loop Breaking &amp; Orchestrator-on-Orchestrator Friction (`agy_workers.py:557`)</h3>
+      <h3>Failure Cause 6 — Hard-Kill Loop Breaking &amp; Orchestrator-on-Orchestrator Friction (<code>agy_workers.py:557</code>)</h3>
       <p>
-        When `StreamLoopMonitor` detected 3 identical tool calls, `_run_worker()` executed `break` on the stream and killed the turn with `STATUS: FAILED`. Worse, when `m9g-agent-corps` spawned `agy` or `omo` as a CLI subagent without stripping inner orchestration, we stacked an orchestrator on top of an orchestrator—paying double prompt overhead and risking $O(b^d)$ nested subagent branching. By contrast, **OmO** uses in-stream TTSR (`<system-interrupt>`) nudges to pivot a stuck model without losing its working state.
+        When <code>StreamLoopMonitor</code> detected 3 identical tool calls, <code>_run_worker()</code> executed <code>break</code> on the stream and killed the turn with <code>STATUS: FAILED</code>. Worse, when <code>m9g-agent-corps</code> spawned <code>agy</code> or <code>omo</code> as a CLI subagent without stripping inner orchestration, we stacked an orchestrator on top of an orchestrator—paying double prompt overhead and risking exponential nested subagent branching. By contrast, <strong>OmO</strong> uses in-stream TTSR (<code>&lt;system-interrupt&gt;</code>) nudges to pivot a stuck model without losing its working state.
       </p>
 
       <h2 id="comparison" data-i18n="sec4Title">Comparing m9g-agent-corps with Pre-Existing Harnesses: OmO, OpenCode, Claude Code, and Antigravity</h2>
       <p data-i18n="sec4Intro">
-        Building `m9g-agent-corps` gave us a ground-truth lens into *why* pre-existing harnesses—**OmO (Oh-My-OpenAgent)**, **OpenCode**, **Claude Code**, and **Google Antigravity (`agy`)**—are architected the way they are. Below is our head-to-head systems comparison across execution substrates, edit mechanics, context management, and failure recovery:
+        Building <code>m9g-agent-corps</code> gave us a ground-truth lens into <em>why</em> pre-existing harnesses—<strong>OmO (Oh-My-OpenAgent)</strong>, <strong>OpenCode</strong>, <strong>Claude Code</strong>, and <strong>Google Antigravity (<code>agy</code>)</strong>—are architected the way they are. Below is our head-to-head systems comparison across execution substrates, edit mechanics, context management, and failure recovery:
       </p>
 
       <div class="data-fig-grid">
@@ -1029,19 +1022,19 @@
 
       <h2 id="pivot" data-i18n="sec5Title">The Engineering Pivot: Extracting Our Best Substrates into the m9g-mcp Power-Tool Server</h2>
       <p data-i18n="sec5P1">
-        The post-mortem of <code>m9g-agent-corps</code> taught us a decisive lesson: <strong>do not build a competing outer agent loop when pre-existing harnesses (`OmO`, `OpenCode`, `Claude Code`, `Antigravity`) already provide battle-tested inner loops, live PTY management, and native tool recovery.</strong> At the same time, several deterministic substrates we engineered during our investigation solved real pain points that pre-existing harnesses still face (such as 75–90% AST token compression, non-destructive shadow Git index checkpoints, and SHA-256 drift-tolerant batch edits).
+        The post-mortem of <code>m9g-agent-corps</code> taught us a decisive lesson: <strong>do not build a competing outer agent loop when pre-existing harnesses (<code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>, <code>Antigravity</code>) already provide battle-tested inner loops, live PTY management, and native tool recovery.</strong> At the same time, several deterministic substrates we engineered during our investigation solved real pain points that pre-existing harnesses still face (such as 75–90% AST token compression, non-destructive shadow Git index checkpoints, and SHA-256 drift-tolerant batch edits).
       </p>
       <p data-i18n="sec5P2">
-        In commit <code>cfa9395</code> (<code>ag_harness/agy_mcp_server.py</code>, 662 lines), we pivoted <code>m9g-agent-corps</code> from a monolithic competitor harness into an open-source **Model Context Protocol (MCP) Power-Tool Server (`m9g-mcp` / `m9g-power-tools`)** over JSON-RPC 2.0 `stdio` (`m9g --install-agy-mcp -w .`). Instead of wrapping `OmO`, `OpenCode`, `Claude Code`, or `Antigravity` from the outside, those harnesses now mount `m9g-power-tools` from the inside as seven deterministic tools:
+        In commit <code>cfa9395</code> (<code>ag_harness/agy_mcp_server.py</code>, 662 lines), we pivoted <code>m9g-agent-corps</code> from a monolithic competitor harness into an open-source <strong>Model Context Protocol (MCP) Power-Tool Server (<code>m9g-mcp</code> / <code>m9g-power-tools</code>)</strong> over JSON-RPC 2.0 <code>stdio</code> (<code>m9g --install-agy-mcp -w .</code>). Instead of wrapping <code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>, or <code>Antigravity</code> from the outside, those harnesses now mount <code>m9g-power-tools</code> from the inside as seven deterministic tools:
       </p>
       <ol>
-        <li><strong><code>m9g_skeletonize</code> (`context_controller.py`):</strong> AST structural compression stripping Python function/method bodies into signatures and docstrings (75%–90% token reduction before reading full files).</li>
-        <li><strong><code>m9g_checkpoint</code> (`checkpoint.py`):</strong> Non-destructive workspace snapshots (`create`, `list`, `diff`, `undo`, `rollback`) using an isolated temporary `GIT_INDEX_FILE` (`git write-tree` / `git read-tree`) that never touches the user's staged `.git/index`.</li>
-        <li><strong><code>m9g_hashline_read</code> (`hashline_tools.py`):</strong> Line-ranged file reader annotating every line with a 4-character SHA-256 hash (`L{n}:{hash}|`) and lazily surfacing subdirectory `AGENTS.md` instructions once per session.</li>
-        <li><strong><code>m9g_hashline_edit</code> (`hashline_tools.py`):</strong> Bottom-up, hash-verified multi-file batch editor with automatic `±25`-line drift relocation and sub-millisecond Python AST syntax verification.</li>
-        <li><strong><code>m9g_code_intel</code> (`hashline_tools.py`):</strong> Multi-language structural symbol search (`ast_grep`), definitions, references, document symbols, and hover docstrings across Python, TypeScript, JavaScript, Rust, and Go.</li>
-        <li><strong><code>m9g_memory</code> (`memory_store.py`):</strong> Persistent YAML-frontmatter Markdown memory blocks (`decisions`, `architecture`, `learnings`) with automatic wikilink refactoring.</li>
-        <li><strong><code>m9g_gemini_media</code> (`gemini_api_cli_bridge.py`):</strong> Stateless multimodal generation (`tts`, `image`, `video`) writing binary outputs directly to disk (`output_path`) so base64 payloads never enter the LLM context window.</li>
+        <li><strong><code>m9g_skeletonize</code> (<code>context_controller.py</code>):</strong> AST structural compression stripping Python function/method bodies into signatures and docstrings (75%–90% token reduction before reading full files).</li>
+        <li><strong><code>m9g_checkpoint</code> (<code>checkpoint.py</code>):</strong> Non-destructive workspace snapshots (<code>create</code>, <code>list</code>, <code>diff</code>, <code>undo</code>, <code>rollback</code>) using an isolated temporary <code>GIT_INDEX_FILE</code> (<code>git write-tree</code> / <code>git read-tree</code>) that never touches the user's staged <code>.git/index</code>.</li>
+        <li><strong><code>m9g_hashline_read</code> (<code>hashline_tools.py</code>):</strong> Line-ranged file reader annotating every line with a 4-character SHA-256 hash (<code>L{n}:{hash}|</code>) and lazily surfacing subdirectory <code>AGENTS.md</code> instructions once per session.</li>
+        <li><strong><code>m9g_hashline_edit</code> (<code>hashline_tools.py</code>):</strong> Bottom-up, hash-verified multi-file batch editor with automatic <code>±25</code>-line drift relocation and sub-millisecond Python AST syntax verification.</li>
+        <li><strong><code>m9g_code_intel</code> (<code>hashline_tools.py</code>):</strong> Multi-language structural symbol search (<code>ast_grep</code>), definitions, references, document symbols, and hover docstrings across Python, TypeScript, JavaScript, Rust, and Go.</li>
+        <li><strong><code>m9g_memory</code> (<code>memory_store.py</code>):</strong> Persistent YAML-frontmatter Markdown memory blocks (<code>decisions</code>, <code>architecture</code>, <code>learnings</code>) with automatic wikilink refactoring.</li>
+        <li><strong><code>m9g_gemini_media</code> (<code>gemini_api_cli_bridge.py</code>):</strong> Stateless multimodal generation (<code>tts</code>, <code>image</code>, <code>video</code>) writing binary outputs directly to disk (<code>output_path</code>) so base64 payloads never enter the LLM context window.</li>
       </ol>
 
       <section id="provenance" class="citation-card">

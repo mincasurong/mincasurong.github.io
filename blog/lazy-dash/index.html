@@ -514,6 +514,10 @@
           <span class="blog-post-tab-kicker">M9G-TR-2026-05 • Lazy-DaSH × VLA</span>
           <span class="blog-post-tab-title">UIUC Lazy-DaSH (T-RO) &amp; IsaacSim_Gemini Roadmap</span>
         </a>
+        <a href="/blog/tamp-fast-sim/" class="blog-post-tab">
+          <span class="blog-post-tab-kicker">M9G-TR-2026-06 • 3D TAMP Lite-Sim</span>
+          <span class="blog-post-tab-title">Browser-Native Multi-Robot &amp; Smart Factory WebGL</span>
+        </a>
       </nav>
 
       <div class="dm-kicker-row">
@@ -526,7 +530,7 @@
       <h1 data-i18n="articleTitle">Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph Task &amp; Motion Planning and Our Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini</h1>
 
       <p class="lede" data-i18n="articleLede">
-        Why do multi-robot Task and Motion Planning (MR-TMP) systems hit an exponential wall as the number of manipulators and objects grows? In their landmark IEEE Transactions on Robotics (T-RO) paper, <em>"Lazy-DaSH: Lazy Approach for Hypergraph-based Multi-robot Task and Motion Planning"</em> (arXiv:2504.05552), Seongwon "Scott" Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato (UIUC Parasol Lab) show that the culprit in prior hybrid planners like DaSH is <strong>eager motion-space precomputation</strong>: validating collision-free roadmaps for every possible robot–object transition before knowing which transitions the task plan actually needs. By introducing a 4-layer hierarchy with <strong>lazy motion evaluation</strong> and <strong>branch-scoped constraint feedback ($\mathcal{C}_{\mathcal{T}}, \mathcal{C}_{\mathcal{M}}$)</strong>, Lazy-DaSH scales to <strong>16 manipulators and 60+ objects</strong> while cutting representation construction and query times by <strong>$10^2\times$ to $10^3\times$</strong>. In this technical report, we distill the exact algorithmic mechanics of Lazy-DaSH and detail our continuous upgrade roadmap and KPIs for <code>IsaacSim_Gemini</code>—mapping Lazy-DaSH's 4 layers onto <strong>Gemini 4 Argon</strong>, <strong>Gemini Robotics-ER 2</strong>, and <strong>Gemini 3.5 Flash-Lite</strong> across NVIDIA Isaac Sim 6.0 and WSL2 MuJoCo 3.x.
+        Why do multi-robot Task and Motion Planning (MR-TMP) systems hit an exponential wall as the number of manipulators and objects grows? In their landmark IEEE Transactions on Robotics (T-RO) paper, <em>"Lazy-DaSH: Lazy Approach for Hypergraph-based Multi-robot Task and Motion Planning"</em> (arXiv:2504.05552), Seongwon "Scott" Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato (UIUC Parasol Lab) show that the culprit in prior hybrid planners like DaSH is <strong>eager motion-space precomputation</strong>: validating collision-free roadmaps for every possible robot–object transition before knowing which transitions the task plan actually needs. By introducing a 4-layer hierarchy with <strong>lazy motion evaluation</strong> and <strong>branch-scoped constraint feedback (Task &amp; Motion Conflict Feedback)</strong>, Lazy-DaSH scales to <strong>16 manipulators and 60+ objects</strong> while cutting representation construction and query times by <strong>100x to 1,000x</strong>. In this technical report, we distill the exact algorithmic mechanics of Lazy-DaSH and detail our continuous upgrade roadmap and KPIs for <code>IsaacSim_Gemini</code>—mapping Lazy-DaSH's 4 layers onto <strong>Gemini 4 Argon</strong>, <strong>Gemini Robotics-ER 2</strong>, and <strong>Gemini 3.5 Flash-Lite</strong> across NVIDIA Isaac Sim 6.0 and WSL2 MuJoCo 3.x.
       </p>
 
       <div class="byline-bar">
@@ -554,14 +558,14 @@
     <article>
       <div class="dm-takeaways">
                 <div class="tldr-thumb-wrap">
-          <img src="/screenshots/blog5-lazydash-thumb-nanobanana.png" alt="M9G-TR-2026-05 • UIUC Lazy-DaSH (IEEE T-RO) Two-Level Hypergraph (H_T → H_M) Mapped to Gemini 4 Argon, Robotics-ER 2 & Flash-Lite in IsaacSim_Gemini" loading="eager" decoding="async" />
+          <img src="/screenshots/blog5-lazydash-thumb-nanobanana.png" alt="M9G-TR-2026-05 • UIUC Lazy-DaSH (IEEE T-RO) Two-Level Hypergraph (Task-to-Motion Hypergraphs) Mapped to Gemini 4 Argon, Robotics-ER 2 & Flash-Lite in IsaacSim_Gemini" loading="eager" decoding="async" />
         </div>
         <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Executive Summary: How Lazy-DaSH Transforms Multi-Robot VLA Orchestration</div>
         <ul>
-          <li data-i18n="finding1"><strong class="c-blue">1. The Core Insight of UIUC's Lazy-DaSH (Scott Lee et al., IEEE T-RO):</strong> Original DaSH (T-RO 2023) suffers from $O(N_{\text{robots}}^2 \cdot N_{\text{objects}})$ upfront motion-hypergraph construction because it pre-validates every possible pick, place, and handover edge. Lazy-DaSH separates the <strong>Task Space Hypergraph ($\mathcal{H}_{\mathcal{T}}$)</strong> from the <strong>Motion Hypergraph ($\mathcal{H}_{\mathcal{M}}$)</strong>, greedily starting with only start/goal object states ($O_i^s, O_i^g$) and evaluating Lazy-PRM motion edges <em>only</em> along the candidate task schedule.</li>
-          <li data-i18n="finding2"><strong class="c-amber">2. Hierarchical Conflict Detection &amp; Scoped Constraint Feedback ($\mathcal{C}_{\mathcal{T}}, \mathcal{C}_{\mathcal{M}}$):</strong> Before invoking expensive trajectory planning, a millisecond-scale <strong>Task Conflict Detection Layer</strong> checks grasp/placement vertices against static and frontier obstacles ($\mathcal{C}_f$) and transition histories ($\mathcal{C}_h$). When a geometric block or non-monotonic occlusion occurs (e.g., <em>Shelf-Wall</em> or <em>Stocking</em>), Lazy-DaSH injects branch-scoped constraints ($\Pi_{v_{\texttt{TE}}^{\texttt{src}}v_{\texttt{TE}}}$) and selectively samples intermediate buffer poses.</li>
-          <li data-i18n="finding3"><strong class="c-green">3. Mapping Lazy-DaSH onto Multi-Model Gemini Orchestration in <code>IsaacSim_Gemini</code>:</strong> Rather than using a single monolithic VLM on every control step, we map Lazy-DaSH's 4 layers to three specialized Gemini models: <strong>Gemini 4 Argon</strong> (`1x` call, `thinking_budget=256`) builds and queries the high-level Task Space Hypergraph $\mathcal{H}_{\mathcal{T}}$; <strong>Gemini Robotics-ER 2</strong> + deterministic `RuleBasedTaskVerifier` handle spatial grounding, non-monotonic intermediate buffer sampling, and mid-air handover pose resampling; and <strong>Gemini 3.5 Flash-Lite</strong> (`thinking_budget=0`) drives high-frequency lazy step dispatch over 50 Hz DLS IK / `cuRobo`.</li>
-          <li data-i18n="finding4"><strong class="c-red">4. Continuous Project Goals &amp; Quantitative KPIs (2026–2027):</strong> Cut API cost per multi-arm episode by <strong>$\ge 76.6\%$ (`$0.01972`)</strong>, reduce motion representation collision checks by <strong>$\ge 90\%$ ($10^2\times$ reduction)</strong>, maintain <strong>100.0% pre-dispatch fault interception</strong>, and scale from 3 Franka FR3 arms (`9–18` objects, non-monotonic rearrangement &amp; handovers) in Isaac Sim 6.0 to <strong>4–8+ cooperative arms (`32–60+` objects)</strong> in WSL2-native MuJoCo 3.x.</li>
+          <li data-i18n="finding1"><strong class="c-blue">1. The Core Insight of UIUC's Lazy-DaSH (Scott Lee et al., IEEE T-RO):</strong> Original DaSH (T-RO 2023) suffers from quadratic robot-by-object upfront motion-hypergraph construction because it pre-validates every possible pick, place, and handover edge. Lazy-DaSH separates the <strong>Task Space Hypergraph (Task Space Hypergraph)</strong> from the <strong>Motion Hypergraph (Lazy Motion Hypergraph)</strong>, greedily starting with only start/goal object states (start and goal poses) and evaluating Lazy-PRM motion edges <em>only</em> along the candidate task schedule.</li>
+          <li data-i18n="finding2"><strong class="c-amber">2. Hierarchical Conflict Detection &amp; Scoped Constraint Feedback (Task &amp; Motion Conflict Feedback):</strong> Before invoking expensive trajectory planning, a millisecond-scale <strong>Task Conflict Detection Layer</strong> checks grasp/placement vertices against static and frontier obstacles (frontier collisions) and transition histories (history conflicts). When a geometric block or non-monotonic occlusion occurs (e.g., <em>Shelf-Wall</em> or <em>Stocking</em>), Lazy-DaSH injects branch-scoped constraints (along the active search branch) and selectively samples intermediate buffer poses.</li>
+          <li data-i18n="finding3"><strong class="c-green">3. Mapping Lazy-DaSH onto Multi-Model Gemini Orchestration in <code>IsaacSim_Gemini</code>:</strong> Rather than using a single monolithic VLM on every control step, we map Lazy-DaSH's 4 layers to three specialized Gemini models: <strong>Gemini 4 Argon</strong> (<code>1x</code> call, <code>thinking_budget=256</code>) builds and queries the high-level Task Space Hypergraph the Task Space Hypergraph; <strong>Gemini Robotics-ER 2</strong> + deterministic <code>RuleBasedTaskVerifier</code> handle spatial grounding, non-monotonic intermediate buffer sampling, and mid-air handover pose resampling; and <strong>Gemini 3.5 Flash-Lite</strong> (<code>thinking_budget=0</code>) drives high-frequency lazy step dispatch over 50 Hz DLS IK / <code>cuRobo</code>.</li>
+          <li data-i18n="finding4"><strong class="c-red">4. Continuous Project Goals &amp; Quantitative KPIs (2026–2027):</strong> Cut API cost per multi-arm episode by <strong>at least 76.6% (<code>$0.01972</code>)</strong>, reduce motion representation collision checks by <strong>at least 90% (100x reduction)</strong>, maintain <strong>100.0% pre-dispatch fault interception</strong>, and scale from 3 Franka FR3 arms (<code>9–18</code> objects, non-monotonic rearrangement &amp; handovers) in Isaac Sim 6.0 to <strong>4–8+ cooperative arms (<code>32–60+</code> objects)</strong> in WSL2-native MuJoCo 3.x.</li>
         </ul>
       </div>
 
@@ -602,46 +606,46 @@
           <button class="ts-btn active" onclick="seekOmniVideo('blog5-omni-video', 0, this)">
             <span class="ts-time">00:00 – 00:10 • Part 1</span>
             <span class="ts-title">UIUC Lazy-DaSH vs. DaSH: Hypergraph Decomposition</span>
-            <span class="ts-sub">Replacing exhaustive O(N_R² N_O) motion precomputation with selective Task Space Hypergraph H_T expansion (16 robots, 60+ objects).</span>
+            <span class="ts-sub">Replacing exhaustive quadratic robot-by-object motion precomputation with selective Task Space Hypergraph expansion (16 robots, 60+ objects).</span>
           </button>
           <button class="ts-btn" onclick="seekOmniVideo('blog5-omni-video', 10, this)">
             <span class="ts-time">00:10 – 00:20 • Part 2</span>
             <span class="ts-title">Layer 1 &amp; Layer 2: Gemini 4 Argon + Robotics-ER 2 Conflict Gate</span>
-            <span class="ts-sub">Single-call H_T synthesis by Argon paired with millisecond frontier/history conflict detection (C_f, C_h) and ER-2 handover pose resampling.</span>
+            <span class="ts-sub">Single-call task hypergraph synthesis by Argon paired with millisecond frontier/history frontier and history conflict detection and ER-2 handover pose resampling.</span>
           </button>
           <button class="ts-btn" onclick="seekOmniVideo('blog5-omni-video', 20, this)">
             <span class="ts-time">00:20 – 00:30 • Part 3</span>
-            <span class="ts-title">Layer 3: Lazy Motion Hypergraph H_M &amp; 50 Hz Flash-Lite Execution</span>
+            <span class="ts-title">Layer 3: Lazy Motion Hypergraph &amp; 50 Hz Flash-Lite Execution</span>
             <span class="ts-sub">Zero-thinking-token Gemini 3.5 Flash-Lite step dispatch with Lazy-PRM and 50 Hz DLS IK across Isaac Sim 6.0 and WSL2 MuJoCo 3.x.</span>
           </button>
           <button class="ts-btn" onclick="seekOmniVideo('blog5-omni-video', 30, this)">
             <span class="ts-time">00:30 – 00:40 • Part 4</span>
             <span class="ts-title">Layer 4: Scoped Constraint Write-Back &amp; 2026–2027 KPI Roadmap</span>
-            <span class="ts-sub">Branch-scoped C_T / C_M feedback achieving 100% fault interception, -76.6% API cost ($0.01972), and non-monotonic multi-arm scaling.</span>
+            <span class="ts-sub">Branch-scoped conflict feedback achieving 100% fault interception, -76.6% API cost ($0.01972), and non-monotonic multi-arm scaling.</span>
           </button>
         </div>
       </section>
 
       <div class="pipeline-flow-grid" id="executive-pipeline">
         <div class="pipeline-step-card">
-          <div class="pipeline-step-kicker">Layer 1 • Task Space Hypergraph H_T</div>
+          <div class="pipeline-step-kicker">Layer 1 • Task Space Hypergraph</div>
           <div class="pipeline-step-title">Gemini 4 Argon (Global Symbolic Architect)</div>
-          <p class="pipeline-step-desc">Constructs minimal $\mathcal{H}_{\mathcal{T}} = (\mathcal{V}_{\mathcal{T}}, \mathcal{E}_{\mathcal{T}})$ over start/goal object states ($O_i^s, O_i^g$) and robot-object composites ($R_k+O_i$) with <code>thinking_budget=256</code>.</p>
+          <p class="pipeline-step-desc">Constructs minimal the Task Space Hypergraph over start/goal object states (start and goal poses) and robot-object composites (robot-object composites) with <code>thinking_budget=256</code>.</p>
         </div>
         <div class="pipeline-step-card step-gate">
           <div class="pipeline-step-kicker" style="color:var(--dm-amber-dark);">Layer 2 • Task Conflict Detection (&lt;5 ms)</div>
           <div class="pipeline-step-title">Gemini Robotics-ER 2 + RuleBasedTaskVerifier</div>
-          <p class="pipeline-step-desc">Validates transition anchor configurations $q$, catches frontier ($\mathcal{C}_f$) &amp; history ($\mathcal{C}_h$) conflicts, and samples intermediate buffer/handover poses on demand.</p>
+          <p class="pipeline-step-desc">Validates transition anchor configurations, catches frontier (frontier collisions) &amp; history (history conflicts) conflicts, and samples intermediate buffer/handover poses on demand.</p>
         </div>
         <div class="pipeline-step-card step-exec">
-          <div class="pipeline-step-kicker" style="color:var(--dm-green-dark);">Layer 3 • Lazy Motion Hypergraph H_M</div>
+          <div class="pipeline-step-kicker" style="color:var(--dm-green-dark);">Layer 3 • Lazy Motion Hypergraph</div>
           <div class="pipeline-step-title">Gemini 3.5 Flash-Lite + 50 Hz DLS IK / cuRobo</div>
-          <p class="pipeline-step-desc">Dispatches candidate schedule steps with <code>thinking_budget=0</code>; evaluates Lazy-PRM / 50 Hz IK edges $E_{\mathcal{M}}^{\texttt{tran}}, E_{\mathcal{M}}^{\texttt{move}}$ strictly along active hyperarcs.</p>
+          <p class="pipeline-step-desc">Dispatches candidate schedule steps with <code>thinking_budget=0</code>; evaluates Lazy-PRM / 50 Hz IK edges transition and motion hyperarcs strictly along active hyperarcs.</p>
         </div>
         <div class="pipeline-step-card step-wb">
           <div class="pipeline-step-kicker" style="color:var(--dm-red);">Layer 4 • Scoped Constraint Feedback</div>
-          <div class="pipeline-step-title">Branch-Scoped Write-Back ($\mathcal{C}_{\mathcal{T}}, \mathcal{C}_{\mathcal{M}}$)</div>
-          <p class="pipeline-step-desc">Scopes conflict certificates to the exact task/motion branch ($\Pi_{v_{\texttt{TE}}^{\texttt{src}}v_{\texttt{TE}}}$) and selectively expands $\mathcal{H}_{\mathcal{T}}$ or $\mathcal{H}_{\mathcal{M}}$ without global state blowup.</p>
+          <div class="pipeline-step-title">Branch-Scoped Write-Back (Task &amp; Motion Conflict Feedback)</div>
+          <p class="pipeline-step-desc">Scopes conflict certificates to the exact task/motion branch (along the active search branch) and selectively expands the Task Space Hypergraph or the Lazy Motion Hypergraph without global state blowup.</p>
         </div>
       </div>
 
@@ -650,30 +654,30 @@
         Multi-Robot Task and Motion Planning (MR-TMP) for object rearrangement requires reasoning simultaneously over <strong>discrete multi-modal transitions</strong> (<code>pick</code>, <code>place</code>, <code>handover</code>, <code>support</code>) and <strong>continuous collision-free trajectories</strong> in high-dimensional composite configuration spaces. Coupled planners scale exponentially with robot count, while purely decoupled planners fail when tight spatial coordination or multi-step handovers are required.
       </p>
       <p>
-        In 2023, UIUC's Parasol Lab introduced <strong>DaSH (Decomposable State Space Hypergraph)</strong> (J. Motes et al., <em>IEEE T-RO</em> 2023), which modeled coupled robot–object subsets as vertices in a directed hypergraph and achieved a $10^3\times$ speedup over prior mode-graph baselines. However, as <strong>Seongwon "Scott" Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato</strong> demonstrate in <strong>Lazy-DaSH</strong> (<a href="https://arxiv.org/abs/2504.05552" target="_blank" rel="noopener" style="color:var(--dm-blue);font-weight:600;">arXiv:2504.05552</a>, <em>IEEE T-RO</em>), original DaSH hits two fundamental bottlenecks in complex workspaces:
+        In 2023, UIUC's Parasol Lab introduced <strong>DaSH (Decomposable State Space Hypergraph)</strong> (J. Motes et al., <em>IEEE T-RO</em> 2023), which modeled coupled robot–object subsets as vertices in a directed hypergraph and achieved a 1,000x speedup over prior mode-graph baselines. However, as <strong>Seongwon "Scott" Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato</strong> demonstrate in <strong>Lazy-DaSH</strong> (<a href="https://arxiv.org/abs/2504.05552" target="_blank" rel="noopener" style="color:var(--dm-blue);font-weight:600;">arXiv:2504.05552</a>, <em>IEEE T-RO</em>), original DaSH hits two fundamental bottlenecks in complex workspaces:
       </p>
       <ol>
-        <li><strong>Quadratic Upfront Motion-Graph Construction ($O(N_{\text{robots}}^2 \cdot N_{\text{objects}})$):</strong> DaSH eagerly constructs and collision-checks roadmaps for <em>every feasible transition and motion</em> before running its combined task-and-motion query. Over 95% of those expensive collision-checked motion hyperarcs are never used in the final schedule.</li>
+        <li><strong>Quadratic Upfront Motion-Graph Construction (quadratic robot-by-object):</strong> DaSH eagerly constructs and collision-checks roadmaps for <em>every feasible transition and motion</em> before running its combined task-and-motion query. Over 95% of those expensive collision-checked motion hyperarcs are never used in the final schedule.</li>
         <li><strong>Blindness to Task-Level Geometric &amp; Non-Monotonic Constraints:</strong> Because DaSH couples task and motion search solely over pre-sampled motion representations, it cannot infer when a front object blocks a rear shelf slot (<em>Shelf-Wall</em>) or when existing items must be temporarily unpacked into intermediate buffer poses and restocked in reverse order (<em>Stocking</em>).</li>
       </ol>
 
       <div class="telemetry-formula-box">
         <div class="telemetry-formula-header">
-          <span>Lazy-DaSH Formal Hypergraph &amp; Scoped Constraint Formulation</span>
+          <span>Lazy-DaSH Four-Layer Architecture &amp; Scoped Constraint Rules</span>
           <span>Ref: Seongwon "Scott" Lee et al., UIUC Parasol Lab (arXiv:2504.05552, Sec. III–IV)</span>
         </div>
-        Task Space Element:   T_i = (B_i, W_i, C_i) ∈ T,   B_i ⊆ B (Movable Bodies), W_i ⊆ W (Config Space), C_i ⊆ C (Constraints)<br/>
-        Task Hypergraph:      H_T = (V_T, E_T),   v_T = ⟨T_i⟩ ∈ V_T (Robot R_k, Composite R_k+O_i, or Location-Specific Object O_i^s, O_i^g)<br/>
-        Motion Hypergraph:    H_M = (V_M, E_M),   v_M = ⟨v_T, q⟩ ∈ V_M,   E_M = ⟨Tail, Head, E_T, π⟩ ∈ {E_M^comp, E_M^tran, E_M^move}<br/>
-        Scoped Feedback:      C_T = C_f (Frontier Collisions) ∪ C_h (Transition History on branch Π_{v_TE^src → v_TE})   |   C_M (Motion Conflicts on Π_{v_ME^src → v_ME})
+        <div><strong>1. Task Space Element:</strong> Groups each active subset of robots and movable objects together with its configuration space and active grasp or placement constraints.</div>
+        <div><strong>2. Task Space Hypergraph:</strong> Connects start object poses, goal object poses, and robot-object composites via directed <code>pick</code>, <code>place</code>, and <code>handover</code> hyperarcs without pre-sampling intermediate buffers.</div>
+        <div><strong>3. Lazy Motion Hypergraph:</strong> Anchors Lazy-PRM roadmaps strictly to the transition configurations used in the candidate task schedule (<code>transit</code>, <code>transfer</code>, and <code>coupled move</code> hyperarcs).</div>
+        <div><strong>4. Branch-Scoped Conflict Feedback:</strong> Records frontier obstacle blocks and transition-history conflicts along the active search branch so only the blocked sub-branch is expanded or resampled.</div>
       </div>
 
       <h3>How Lazy-DaSH Solves Both Bottlenecks: The 4-Layer Hierarchy</h3>
       <ul>
-        <li><strong>Layer 1 — Task Planning Layer ($\mathcal{H}_{\mathcal{T}}$ &amp; Task-Extended Hypergraph $\mathcal{H}_{\texttt{TE}}$):</strong> Starts with a <em>greedy minimal assumption</em>: object-only task vertices encode only explicit start ($O_i^s$) and goal ($O_i^g$) poses under stability constraints $s_c(O, q)$, without pre-sampling intermediate buffer placements. A depth-first task query over $\mathcal{H}_{\texttt{TE}}$ rapidly extracts an optimistic candidate task schedule $\mathcal{S}_{\mathcal{T}}$.</li>
-        <li><strong>Layer 2 — Task Conflict Detection Layer ($\mathcal{C}_{\mathcal{T}} = \mathcal{C}_f \cup \mathcal{C}_h$ in Milliseconds):</strong> Before building any motion roadmaps, Lazy-DaSH samples transition anchor configurations $q$ (e.g., grasp, placement, and mid-air handover poses) along $\mathcal{S}_{\mathcal{T}}$ and performs fast per-configuration collision checks. If a grasp vertex collides with a blocking object at the current frontier (Fig. 3 in the paper), it records a <strong>frontier constraint ($\mathcal{C}_f$)</strong> or <strong>history constraint ($\mathcal{C}_h$)</strong> and triggers targeted task-space expansion (sampling an intermediate stable buffer pose for the blocker) only when required.</li>
-        <li><strong>Layer 3 — Lazy Motion Planning Layer ($\mathcal{H}_{\mathcal{M}}$ via Lazy-PRM):</strong> Using the verified transition configurations as anchors for $E_{\mathcal{M}}^{\texttt{tran}}$, Lazy-DaSH constructs edge-unvalidated roadmaps (following Bohlin &amp; Kavraki's Lazy-PRM) <em>strictly within the decoupled robot/object subspaces present in $\mathcal{S}_{\mathcal{T}}$</em>. Collision checking along path $\pi$ is deferred until the motion query $\textsc{QueryMotionPlan}(\mathcal{S}_{\mathcal{T}}, \mathcal{H}_{\mathcal{T}}, \mathcal{H}_{\mathcal{M}}, \mathcal{C}_{\mathcal{M}})$ evaluates the optimistic schedule $\mathcal{S}_{\mathcal{M}}$.</li>
-        <li><strong>Layer 4 — Motion Conflict Resolution &amp; Context-Scoped Feedback ($\mathcal{C}_{\mathcal{M}}$):</strong> Inter-robot trajectory collisions across concurrent hyperarcs are resolved via motion constraint feedback $\mathcal{C}_{\mathcal{M}}$ or transition resampling (e.g., sampling alternative mid-air handover poses across a wall). Crucially, both $\mathcal{C}_{\mathcal{T}}$ and $\mathcal{C}_{\mathcal{M}}$ are <strong>scoped to the exact search branch history</strong> ($\Pi_{v_{\texttt{TE}}^{\texttt{src}}v_{\texttt{TE}}}$) and lifted when new samples are added—preserving <strong>probabilistic completeness</strong> without permanently pruning valid schedules.</li>
+        <li><strong>Layer 1 — Task Planning Layer (Task Space &amp; Task-Extended Hypergraphs):</strong> Starts with a <em>greedy minimal assumption</em>: object-only task vertices encode only explicit start (start pose) and goal (goal pose) poses under stability constraints stability constraints, without pre-sampling intermediate buffer placements. A depth-first task query over the Task-Extended Hypergraph rapidly extracts an optimistic candidate task schedule the candidate task schedule.</li>
+        <li><strong>Layer 2 — Task Conflict Detection Layer (Millisecond Frontier &amp; History Conflict Checks):</strong> Before building any motion roadmaps, Lazy-DaSH samples transition anchor configurations (e.g., grasp, placement, and mid-air handover poses) along the candidate task schedule and performs fast per-configuration collision checks. If a grasp vertex collides with a blocking object at the current frontier (Fig. 3 in the paper), it records a <strong>frontier constraint (frontier collisions)</strong> or <strong>history constraint (history conflicts)</strong> and triggers targeted task-space expansion (sampling an intermediate stable buffer pose for the blocker) only when required.</li>
+        <li><strong>Layer 3 — Lazy Motion Planning Layer (Lazy-PRM Motion Hypergraph):</strong> Using the verified transition configurations as anchors for transition hyperarcs, Lazy-DaSH constructs edge-unvalidated roadmaps (following Bohlin &amp; Kavraki's Lazy-PRM) <em>strictly within the decoupled robot/object subspaces present in the candidate task schedule</em>. Collision checking along the trajectory path is deferred until the motion query <code>QueryMotionPlan</code> evaluates the optimistic schedule the candidate motion schedule.</li>
+        <li><strong>Layer 4 — Motion Conflict Resolution &amp; Context-Scoped Feedback (Motion Conflict Feedback):</strong> Inter-robot trajectory collisions across concurrent hyperarcs are resolved via motion constraint feedback motion-conflict or transition resampling (e.g., sampling alternative mid-air handover poses across a wall). Crucially, both task-conflict and motion-conflict are <strong>scoped to the exact search branch history</strong> (along the active search branch) and lifted when new samples are added—preserving <strong>probabilistic completeness</strong> without permanently pruning valid schedules.</li>
       </ul>
 
       <div class="table-scroll">
@@ -693,33 +697,33 @@
           <tbody>
             <tr class="highlight-row">
               <td><strong>1. Sorting</strong><br/><em>(Cross-Workstation Handovers)</em></td>
-              <td>Quadratic growth of robot–robot handover combinations as $N_{\text{robots}}$ and $N_{\text{objects}}$ scale.</td>
+              <td>Quadratic growth of robot–robot handover combinations as robot count and object count scale.</td>
               <td>Scales up to <strong>4 robots / 14 objects</strong> before motion-hypergraph memory &amp; construction timeout.</td>
-              <td>Scales to <strong>16 robots / 60+ objects</strong> ($4\times$ robots, $>4\times$ objects); $\mathcal{H}_{\mathcal{M}}$ size reduced by <strong>$10^2\times$</strong>.</td>
+              <td>Scales to <strong>16 robots / 60+ objects</strong> (4x robots, over 4x objects); the Lazy Motion Hypergraph size reduced by <strong>100x</strong>.</td>
             </tr>
             <tr class="highlight-row">
               <td><strong>2. Wall</strong><br/><em>(Interaction Obstructions)</em></td>
               <td>Thin partition walls invalidate optimistic direct transfers, forcing multi-hop relay handovers over walls.</td>
               <td>Scales up to <strong>5 robots / 10 objects</strong>; struggles with repeated motion-level replanning.</td>
-              <td>Scales to <strong>8 robots / 40+ objects</strong>; resamples mid-air handover configurations via $\mathcal{C}_{\mathcal{M}}$ feedback.</td>
+              <td>Scales to <strong>8 robots / 40+ objects</strong>; resamples mid-air handover configurations via motion-conflict feedback.</td>
             </tr>
             <tr class="highlight-row">
               <td><strong>3. Shelf-Wall</strong><br/><em>(Geometric Occlusion + Handover)</em></td>
               <td>Deep shelves where front objects completely block access to rear goal slots while shelves block cross-side reach.</td>
               <td><span class="c-red"><strong>Fails (0% solved)</strong></span> even for <strong>2 robots</strong> within time limit due to lack of task-level geometric feedback.</td>
-              <td>Solves up to <strong>4 robots / 32 objects</strong>; Task Conflict Detection ($\mathcal{C}_f$) enforces back-to-front placement order.</td>
+              <td>Solves up to <strong>4 robots / 32 objects</strong>; Task Conflict Detection (frontier collisions) enforces back-to-front placement order.</td>
             </tr>
             <tr class="highlight-row">
               <td><strong>4. Stocking</strong><br/><em>(Non-Monotonic Unpack &amp; Restock)</em></td>
               <td>Existing front items must be moved out to temporary buffers so new items can be stocked behind them, then restocked in reverse order.</td>
               <td><span class="c-red"><strong>Fails (0% solved)</strong></span>; unguided pose pre-sampling explodes search without discovering buffer sequences.</td>
-              <td>Solves <strong>2-layer (2 robots / 28 objects)</strong> and <strong>3-layer non-monotonicity (2 robots / 18 objects)</strong> via selective $\mathcal{H}_{\mathcal{T}}$ expansion.</td>
+              <td>Solves <strong>2-layer (2 robots / 28 objects)</strong> and <strong>3-layer non-monotonicity (2 robots / 18 objects)</strong> via selective the Task Space Hypergraph expansion.</td>
             </tr>
             <tr>
               <td><strong>5. Lab (Wet-Lab Inspection)</strong><br/><em>(Multi-Stage Operations &amp; Lid Mutex)</em></td>
               <td>Two 3-axis gantry robots uncap sealed specimen containers, place lids in a crowded sanitization zone (vertex–vertex conflict), inspect, and recap.</td>
               <td>Handles baseline object count; degrades as sanitization-zone lid placement conflicts accumulate.</td>
-              <td>Handles <strong>$>2\times$ objects</strong> requiring multi-stage uncap $\rightarrow$ sanitize $\rightarrow$ inspect $\rightarrow$ recap cycles with lid pose resampling.</td>
+              <td>Handles <strong>over 2x more objects</strong> requiring multi-stage uncap &rarr; sanitize &rarr; inspect &rarr; recap cycles with lid pose resampling.</td>
             </tr>
           </tbody>
         </table>
@@ -731,7 +735,7 @@
       </p>
       <ul>
         <li>In <strong>computational TAMP (DaSH)</strong>, the bottleneck was <em>eagerly computing and collision-checking all motion roadmaps upfront</em>.</li>
-        <li>In <strong>foundation-model VLA TAMP</strong>, the bottleneck is <em>eagerly invoking a frontier reasoning model (`gemini-4-argon` with high `thinking_budget` and dense visual tokens) on every low-level step and every unvalidated candidate trajectory</em>.</li>
+        <li>In <strong>foundation-model VLA TAMP</strong>, the bottleneck is <em>eagerly invoking a frontier reasoning model (<code>gemini-4-argon</code> with high <code>thinking_budget</code> and dense visual tokens) on every low-level step and every unvalidated candidate trajectory</em>.</li>
       </ul>
       <p>
         Further, in the conclusion of their IEEE T-RO paper, Lee et al. explicitly highlight that: (1) Lazy-DaSH's motion conflict resolution layer can be paired with specialized schedulers, and (2) <em>"adapting online execution into the Lazy-DaSH framework to enhance robustness in dynamic environments represents a promising research direction."</em> Upgrading <code>IsaacSim_Gemini</code> with Lazy-DaSH's hierarchical decomposition and branch-scoped constraint feedback allows us to orchestrate <strong>Gemini 4 Argon</strong>, <strong>Gemini Robotics-ER 2</strong>, and <strong>Gemini 3.5 Flash-Lite</strong> as a closed-loop, online Lazy-DaSH engine across <strong>NVIDIA Isaac Sim 6.0</strong> and <strong>WSL2 MuJoCo 3.x</strong>:
@@ -740,7 +744,7 @@
       <figure class="figure-box">
         <img src="/screenshots/lazy-dash-architecture-nanobanana.png" alt="Lazy-DaSH 4-Layer Multi-Model VLA Orchestration in IsaacSim_Gemini" />
         <figcaption class="figure-caption" data-i18n="fig1Caption">
-          Figure 1 (M9G-TR-2026-05). Upgrading IsaacSim_Gemini with Lazy-DaSH's 4-layer hierarchy: Layer 1 Task Space Hypergraph H_T (Gemini 4 Argon, 1x call), Layer 2 Millisecond Task Conflict Detection &amp; Spatial Grounding (Gemini Robotics-ER 2 + RuleBasedTaskVerifier), Layer 3 Lazy Motion Hypergraph H_M &amp; 50 Hz Execution (Gemini 3.5 Flash-Lite + DLS IK / cuRobo), and Layer 4 Scoped Constraint Write-Back (C_T, C_M).
+          Figure 1 (M9G-TR-2026-05). Upgrading IsaacSim_Gemini with Lazy-DaSH's 4-layer hierarchy: Layer 1 Task Space Hypergraph (Gemini 4 Argon, 1x call), Layer 2 Millisecond Task Conflict Detection &amp; Spatial Grounding (Gemini Robotics-ER 2 + RuleBasedTaskVerifier), Layer 3 Lazy Motion Hypergraph &amp; 50 Hz Execution (Gemini 3.5 Flash-Lite + DLS IK / cuRobo), and Layer 4 Scoped Constraint Write-Back.
         </figcaption>
       </figure>
 
@@ -761,28 +765,28 @@
           </thead>
           <tbody>
             <tr class="highlight-row">
-              <td><strong>Layer 1: Task Space Hypergraph ($\mathcal{H}_{\mathcal{T}}$) &amp; Query ($\mathcal{H}_{\texttt{TE}}$)</strong></td>
+              <td><strong>Layer 1: Task Space Hypergraph (Task Space &amp; Extended Query Graph)</strong></td>
               <td><strong>Gemini 4 Argon</strong><br/>(<code>gemini-4-argon</code> in <code>gemini_robotics_node.py</code>)</td>
-              <td>Symbolic 3D <code>/tf</code> state ($O_i^s, O_i^g$) + $\mathcal{C}_{\mathcal{T}}$ history · <code>thinking_budget=256</code> · <strong>1× Call per Episode / Expansion</strong></td>
-              <td>Synthesizes the minimal Task Space Hypergraph $\mathcal{H}_{\mathcal{T}}$ using only start/goal object states and software-pipelined `pick` / `place` / `handover` hyperarcs $E_{\mathcal{T}}$. Expands $\mathcal{H}_{\mathcal{T}}$ with intermediate buffer vertices <em>only</em> when triggered by Layer 2 $\mathcal{C}_{\mathcal{T}}$ feedback.</td>
+              <td>Symbolic 3D <code>/tf</code> state (start and goal poses) + task-conflict history · <code>thinking_budget=256</code> · <strong>1× Call per Episode / Expansion</strong></td>
+              <td>Synthesizes the minimal Task Space Hypergraph the Task Space Hypergraph using only start/goal object states and software-pipelined <code>pick</code> / <code>place</code> / <code>handover</code> hyperarcs task hyperarcs. Expands the Task Space Hypergraph with intermediate buffer vertices <em>only</em> when triggered by Layer 2 task-conflict feedback.</td>
             </tr>
             <tr class="highlight-row">
-              <td><strong>Layer 2: Task Conflict Detection ($\mathcal{C}_{\mathcal{T}} = \mathcal{C}_f \cup \mathcal{C}_h$) &amp; Pose Resampling</strong></td>
+              <td><strong>Layer 2: Task Conflict Detection (Frontier &amp; History Conflict Gate) &amp; Pose Resampling</strong></td>
               <td><strong>Gemini Robotics-ER 2</strong> + <strong><code>RuleBasedTaskVerifier</code></strong><br/>(<code>rule_based_verifier.py</code> &amp; <code>stamp_gate</code>)</td>
               <td>Deterministic 3D AABB / SDF + Overhead/Wrist PiP on conflict · <strong>&lt; 5 ms (Gate) / On-Demand ER-2</strong></td>
-              <td>Validates transition anchor configurations $q$ (grasp, place, mid-air handover, SDL lid buffer) in milliseconds. Detects frontier occlusions ($\mathcal{C}_f$) and non-monotonic blockers; invokes <strong>Gemini Robotics-ER 2</strong>'s spatial grounding only to sample collision-free intermediate buffer or handover poses when the greedy assumption fails.</td>
+              <td>Validates transition anchor configurations (grasp, place, mid-air handover, SDL lid buffer) in milliseconds. Detects frontier occlusions (frontier collisions) and non-monotonic blockers; invokes <strong>Gemini Robotics-ER 2</strong>'s spatial grounding only to sample collision-free intermediate buffer or handover poses when the greedy assumption fails.</td>
             </tr>
             <tr class="highlight-row">
-              <td><strong>Layer 3: Lazy Motion Hypergraph ($\mathcal{H}_{\mathcal{M}}$) &amp; Step Execution</strong></td>
+              <td><strong>Layer 3: Lazy Motion Hypergraph (Lazy Motion Hypergraph) &amp; Step Execution</strong></td>
               <td><strong>Gemini 3.5 Flash-Lite</strong> + <strong>50 Hz DLS IK / <code>cuRobo</code></strong><br/>(<code>multi_robot_controller.py</code>)</td>
-              <td>Verified candidate schedule $\mathcal{S}_{\mathcal{T}}$ · <code>thinking_budget=0</code> · <strong>10× Step Calls + 50 Hz Control</strong></td>
-              <td>Translates active hyperarcs in $\mathcal{S}_{\mathcal{T}}$ into tool dispatches with zero reasoning-token overhead. Evaluates Lazy-PRM / 50 Hz Damped Least Squares IK motion hyperarcs ($E_{\mathcal{M}}^{\texttt{tran}}, E_{\mathcal{M}}^{\texttt{move}}$) strictly for the arms and objects in the candidate plan across Isaac Sim 6.0 and WSL2 MuJoCo 3.x.</td>
+              <td>Verified candidate schedule the candidate task schedule · <code>thinking_budget=0</code> · <strong>10× Step Calls + 50 Hz Control</strong></td>
+              <td>Translates active hyperarcs in the candidate task schedule into tool dispatches with zero reasoning-token overhead. Evaluates Lazy-PRM / 50 Hz Damped Least Squares IK motion hyperarcs (transition and motion hyperarcs) strictly for the arms and objects in the candidate plan across Isaac Sim 6.0 and WSL2 MuJoCo 3.x.</td>
             </tr>
             <tr>
-              <td><strong>Layer 4: Motion Conflict Resolution &amp; Scoped Write-Back ($\mathcal{C}_{\mathcal{M}}, \mathcal{C}_{\mathcal{T}}$)</strong></td>
+              <td><strong>Layer 4: Motion Conflict Resolution &amp; Scoped Write-Back (Motion &amp; Task Conflict Feedback)</strong></td>
               <td><strong><code>stamp_feedback</code></strong> + <strong>RCPSP Wavefront Scheduler</strong><br/>(<code>center_occupied_by</code> mutex)</td>
-              <td><code>HardwareFaultLog</code> + branch path $\Pi_{v_{\texttt{TE}}^{\texttt{src}}v_{\texttt{TE}}}$ · <strong>0-Token Local Splice or Scoped Escalation</strong></td>
-              <td>Resolves inter-arm trajectory contentions via time-window mutexes (`STAGED_PRE_GATE`) or 0-token local subgraph splicing. If a handover or non-monotonic conflict persists, injects branch-scoped $\mathcal{C}_{\mathcal{T}} / \mathcal{C}_{\mathcal{M}}$ certificates via `write_limit_back` to re-invoke Layer 1/2 selectively.</td>
+              <td><code>HardwareFaultLog</code> + branch path the active search branch · <strong>0-Token Local Splice or Scoped Escalation</strong></td>
+              <td>Resolves inter-arm trajectory contentions via time-window mutexes (<code>STAGED_PRE_GATE</code>) or 0-token local subgraph splicing. If a handover or non-monotonic conflict persists, injects branch-scoped task and motion conflict certificates via <code>write_limit_back</code> to re-invoke Layer 1/2 selectively.</td>
             </tr>
           </tbody>
         </table>
@@ -816,39 +820,39 @@
             </tr>
             <tr class="highlight-row">
               <td><strong>KPI-2: Motion Validation &amp; IK Query Overhead</strong></td>
-              <td>100% eager pre-validation of all candidate robot–object pairs ($O(N_R^2 N_O)$)</td>
-              <td>Per-turn `RuleBasedTaskVerifier` + 50 Hz DLS IK on active step</td>
-              <td><strong>$\ge 90\%$ reduction ($10^2\times$ fewer collision checks)</strong> via Lazy-PRM edge evaluation restricted to $\mathcal{S}_{\mathcal{T}}$</td>
+              <td>100% eager pre-validation of all candidate robot–object pairs (quadratic robot-by-object)</td>
+              <td>Per-turn <code>RuleBasedTaskVerifier</code> + 50 Hz DLS IK on active step</td>
+              <td><strong>at least 90% reduction (100x fewer collision checks)</strong> via Lazy-PRM edge evaluation restricted to the candidate task schedule</td>
             </tr>
             <tr class="highlight-row">
               <td><strong>KPI-3: Non-Monotonic &amp; Multi-Hop Handover Success</strong></td>
               <td>0% on occluded <em>Shelf-Wall</em> or multi-layer <em>Stocking</em> (no buffer discovery)</td>
-              <td>Single-hop central-jig handoff (`Z2_PrecisionAssemblyJig`)</td>
-              <td><strong>$\ge 95\%$ completion on 2–3 layer non-monotonic <em>Stocking</em> &amp; cross-wall multi-hop handovers</strong> via $\mathcal{C}_f / \mathcal{C}_h$ buffer expansion</td>
+              <td>Single-hop central-jig handoff (<code>Z2_PrecisionAssemblyJig</code>)</td>
+              <td><strong>at least 95% completion on 2–3 layer non-monotonic <em>Stocking</em> &amp; cross-wall multi-hop handovers</strong> via frontier and history conflict buffer expansion</td>
             </tr>
             <tr class="highlight-row">
               <td><strong>KPI-4: VLA Token &amp; API Cost per Episode</strong></td>
-              <td>50,190 tok (`$0.07860` on ER-2) / 38,713 tok (`$0.08437` on Pure Argon)</td>
-              <td><strong>38,277 tok (`$0.01972`, `-76.6%` cost)</strong> on 9-block tower (`1A + 10F`)</td>
-              <td><strong>$\le \$0.025$ per 18-object non-monotonic episode</strong> (`1×` Argon $\mathcal{H}_{\mathcal{T}}$ + $\le 2\times$ ER-2 buffer resamples + `0-think` Flash-Lite steps)</td>
+              <td>50,190 tok (<code>$0.07860</code> on ER-2) / 38,713 tok (<code>$0.08437</code> on Pure Argon)</td>
+              <td><strong>38,277 tok (<code>$0.01972</code>, <code>-76.6%</code> cost)</strong> on 9-block tower (<code>1A + 10F</code>)</td>
+              <td><strong>under $0.025 per 18-object non-monotonic episode</strong> (<code>1×</code> Argon the Task Space Hypergraph + up to 2x ER-2 buffer resamples + <code>0-think</code> Flash-Lite steps)</td>
             </tr>
             <tr>
               <td><strong>KPI-5: Turn-0 &amp; Replanning Latency</strong></td>
               <td>8,870 ms Turn-0 plan + 13.31 s/turn step latency (Pure Argon)</td>
-              <td>4,670 ms Turn-0 plan + 4.17 s/turn step latency (`-68.7%`)</td>
-              <td><strong>$&lt; 5.0\text{ ms}$ Layer-2 Task Conflict Detection</strong> + <strong>$&lt; 1.5\text{ s}$ scoped branch replanning</strong> on $\mathcal{C}_{\mathcal{T}}$ trigger</td>
+              <td>4,670 ms Turn-0 plan + 4.17 s/turn step latency (<code>-68.7%</code>)</td>
+              <td><strong>under 5.0 ms Layer-2 Task Conflict Detection</strong> + <strong>under 1.5 s scoped branch replanning</strong> on task-conflict trigger</td>
             </tr>
             <tr>
               <td><strong>KPI-6: Pre-Dispatch Safety &amp; SDL Invariant Shield</strong></td>
               <td>39.0% single-shot episode completion under injected faults</td>
-              <td><strong>100.0% fault interception (`610/610`)</strong> &amp; <strong>100.0% write-back completion</strong></td>
-              <td><strong>100.0% interception across 8 fault classes</strong> (adding `FRONTIER_OCCLUSION`, `HANDOVER_IK_INVALID`, and `SDL_LID_VERTEX_CONFLICT`)</td>
+              <td><strong>100.0% fault interception (<code>610/610</code>)</strong> &amp; <strong>100.0% write-back completion</strong></td>
+              <td><strong>100.0% interception across 8 fault classes</strong> (adding <code>FRONTIER_OCCLUSION</code>, <code>HANDOVER_IK_INVALID</code>, and <code>SDL_LID_VERTEX_CONFLICT</code>)</td>
             </tr>
             <tr>
-              <td><strong>KPI-7: Cross-Simulator Parity (Isaac Sim 6.0 $\leftrightarrow$ MuJoCo 3.x)</strong></td>
+              <td><strong>KPI-7: Cross-Simulator Parity (Isaac Sim 6.0 and MuJoCo 3.x)</strong></td>
               <td>Windows Isaac Sim only (heavy GPU VRAM footprint)</td>
-              <td>Dual bridge (`three_robot_tower.py` + WSL2 `mujoco_sim_node.py`)</td>
-              <td><strong>100% identical ROS 2 `/tf` &amp; Hypergraph API</strong>: run 1,000-episode Lazy-DaSH batch sweeps in headless WSL2 MuJoCo at $10\times$ real-time, then validate top schedules in 240 Hz Isaac Sim 6.0</td>
+              <td>Dual bridge (<code>three_robot_tower.py</code> + WSL2 <code>mujoco_sim_node.py</code>)</td>
+              <td><strong>100% identical ROS 2 <code>/tf</code> &amp; Hypergraph API</strong>: run 1,000-episode Lazy-DaSH batch sweeps in headless WSL2 MuJoCo at 10x real-time, then validate top schedules in 240 Hz Isaac Sim 6.0</td>
             </tr>
           </tbody>
         </table>
@@ -856,14 +860,14 @@
 
       <h3>4-Phase Engineering Implementation Plan in <code>D:/git/IsaacSim_Gemini</code></h3>
       <ol>
-        <li><strong>Phase 1 — Declarative Task Space Hypergraph ($\mathcal{H}_{\mathcal{T}}$) &amp; Location-Specific Object Vertices (Nov–Dec 2026):</strong>
-          Upgrade <code>RuleBasedTaskGenerator</code> and <code>stamp_schemas</code> so every movable object in <code>WorkcellSpec</code> (`ChamferedPeg_M12`, `SiliconeSampleBag_DualHandle`, `ReagentVial_20mL`, `HexagonalStock_Prism`) is represented as a location-specific vertex $O_i^s, O_i^g$ connected by typed `pick`, `place`, `handover`, and `uncap_lid` hyperarcs $E_{\mathcal{T}}$. <strong>Gemini 4 Argon</strong> queries this compact hypergraph in a single Turn-0 call (`thinking_budget=256`).</li>
-        <li><strong>Phase 2 — Millisecond Task Conflict Detector ($\mathcal{C}_f, \mathcal{C}_h$) &amp; ER-2 Buffer Sampler (Jan–Feb 2027):</strong>
-          Extend <code>RuleBasedTaskVerifier</code> (`rule_based_verifier.py`) with Lazy-DaSH's `TaskConflictDetection` algorithm. When a candidate schedule attempts to place or grasp an object occluded by a front blocker (non-monotonic <em>Stocking</em> or <em>Shelf-Wall</em>) or places two SDL container lids in overlapping sanitization slots (<em>Lab</em> vertex–vertex conflict), the verifier emits a branch-scoped $\mathcal{C}_f / \mathcal{C}_h$ constraint and calls <strong>Gemini Robotics-ER 2</strong> to sample a valid intermediate buffer pose $O_i^{\text{buf}}$ or mid-air handover configuration.</li>
-        <li><strong>Phase 3 — Lazy Motion Hypergraph ($\mathcal{H}_{\mathcal{M}}$) with <code>Gemini 3.5 Flash-Lite</code> + 50 Hz DLS IK / <code>cuRobo</code> (Mar–May 2027):</strong>
-          Couple <strong>Gemini 3.5 Flash-Lite</strong> (`thinking_budget=0`) with a Lazy-PRM / 50 Hz Damped Least Squares IK motion cache in <code>MultiRobotController</code>. Motion trajectories $\pi$ and swept-volume AABB checks are evaluated lazily only for the transitions present in the verified task schedule $\mathcal{S}_{\mathcal{T}}$, slashing motion-validation compute by $>90\%$.</li>
+        <li><strong>Phase 1 — Declarative Task Space Hypergraph (Task Space Hypergraph) &amp; Location-Specific Object Vertices (Nov–Dec 2026):</strong>
+          Upgrade <code>RuleBasedTaskGenerator</code> and <code>stamp_schemas</code> so every movable object in <code>WorkcellSpec</code> (<code>ChamferedPeg_M12</code>, <code>SiliconeSampleBag_DualHandle</code>, <code>ReagentVial_20mL</code>, <code>HexagonalStock_Prism</code>) is represented as a location-specific vertex start and goal poses connected by typed <code>pick</code>, <code>place</code>, <code>handover</code>, and <code>uncap_lid</code> hyperarcs task hyperarcs. <strong>Gemini 4 Argon</strong> queries this compact hypergraph in a single Turn-0 call (<code>thinking_budget=256</code>).</li>
+        <li><strong>Phase 2 — Millisecond Task Conflict Detector (Frontier &amp; History Conflict Sets) &amp; ER-2 Buffer Sampler (Jan–Feb 2027):</strong>
+          Extend <code>RuleBasedTaskVerifier</code> (<code>rule_based_verifier.py</code>) with Lazy-DaSH's <code>TaskConflictDetection</code> algorithm. When a candidate schedule attempts to place or grasp an object occluded by a front blocker (non-monotonic <em>Stocking</em> or <em>Shelf-Wall</em>) or places two SDL container lids in overlapping sanitization slots (<em>Lab</em> vertex–vertex conflict), the verifier emits a branch-scoped frontier and history conflict constraint and calls <strong>Gemini Robotics-ER 2</strong> to sample a valid intermediate buffer pose intermediate buffer pose or mid-air handover configuration.</li>
+        <li><strong>Phase 3 — Lazy Motion Hypergraph (Lazy Motion Hypergraph) with <code>Gemini 3.5 Flash-Lite</code> + 50 Hz DLS IK / <code>cuRobo</code> (Mar–May 2027):</strong>
+          Couple <strong>Gemini 3.5 Flash-Lite</strong> (<code>thinking_budget=0</code>) with a Lazy-PRM / 50 Hz Damped Least Squares IK motion cache in <code>MultiRobotController</code>. Motion trajectories and swept-volume AABB checks are evaluated lazily only for the transitions present in the verified task schedule the candidate task schedule, slashing motion-validation compute by over 90%.</li>
         <li><strong>Phase 4 — Large-Scale 8–16 Arm MuJoCo 3.x Stress-Testing &amp; Isaac Sim 6.0 Digital Twin Transfer (Jun–Sep 2027):</strong>
-          Leverage our WSL2-native MuJoCo 3.x bridge (`wsl_ws/launcher_mujoco.sh`) to benchmark 8-to-16 manipulator <em>Sorting</em> and <em>Wall</em> handover topologies alongside 3-arm non-monotonic <em>Stocking</em> and <em>SDL Wet-Lab</em> inspection in NVIDIA Isaac Sim 6.0, streaming real-time hypergraph frontier states to the React 19 + `@xyflow/react` v12 Digital Twin UI.</li>
+          Leverage our WSL2-native MuJoCo 3.x bridge (<code>wsl_ws/launcher_mujoco.sh</code>) to benchmark 8-to-16 manipulator <em>Sorting</em> and <em>Wall</em> handover topologies alongside 3-arm non-monotonic <em>Stocking</em> and <em>SDL Wet-Lab</em> inspection in NVIDIA Isaac Sim 6.0, streaming real-time hypergraph frontier states to the React 19 + <code>@xyflow/react</code> v12 Digital Twin UI.</li>
       </ol>
 
       <h2 id="references" data-i18n="sec4Title">4. References &amp; Primary Literature</h2>
@@ -912,7 +916,7 @@
         blogHeaderBrand: "Technical Research Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
         articleTag: "M9G-TR-2026-05 • IEEE T-RO Paper Synthesis & Multi-Model VLA Upgrade Plan",
         articleTitle: "Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph Task & Motion Planning and Our Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini",
-        articleLede: "Why do multi-robot Task and Motion Planning (MR-TMP) systems hit an exponential wall as the number of manipulators and objects grows? In their landmark IEEE Transactions on Robotics (T-RO) paper, 'Lazy-DaSH: Lazy Approach for Hypergraph-based Multi-robot Task and Motion Planning' (arXiv:2504.05552), Seongwon 'Scott' Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato (UIUC Parasol Lab) show that the culprit in prior hybrid planners like DaSH is eager motion-space precomputation. By introducing a 4-layer hierarchy with lazy motion evaluation and branch-scoped constraint feedback (C_T, C_M), Lazy-DaSH scales to 16 manipulators and 60+ objects while cutting representation construction and query times by 100x to 1000x. Here we distill Lazy-DaSH and detail our continuous upgrade roadmap and KPIs for IsaacSim_Gemini across Gemini 4 Argon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite.",
+        articleLede: "Why do multi-robot Task and Motion Planning (MR-TMP) systems hit an exponential wall as the number of manipulators and objects grows? In their landmark IEEE Transactions on Robotics (T-RO) paper, 'Lazy-DaSH: Lazy Approach for Hypergraph-based Multi-robot Task and Motion Planning' (arXiv:2504.05552), Seongwon 'Scott' Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato (UIUC Parasol Lab) show that the culprit in prior hybrid planners like DaSH is eager motion-space precomputation. By introducing a 4-layer hierarchy with lazy motion evaluation and branch-scoped constraint feedback (Scoped Conflict Feedback), Lazy-DaSH scales to 16 manipulators and 60+ objects while cutting representation construction and query times by 100x to 1000x. Here we distill Lazy-DaSH and detail our continuous upgrade roadmap and KPIs for IsaacSim_Gemini across Gemini 4 Argon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite.",
         takeawaysHeader: "TL;DR — Executive Summary: How Lazy-DaSH Transforms Multi-Robot VLA Orchestration",
         sec1Title: "1. Paper Deep-Dive: UIUC's Lazy-DaSH (Seongwon \"Scott\" Lee et al., IEEE T-RO)",
         sec2Title: "2. Bridging Lazy-DaSH to IsaacSim_Gemini: Multi-Model VLA Orchestration",
@@ -924,7 +928,7 @@
         blogHeaderBrand: "기술 리서치 블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
         articleTag: "M9G-TR-2026-05 • IEEE T-RO 논문 심층 분석 및 멀티모델 VLA 업그레이드 로드맵",
         articleTitle: "UIUC Lazy-DaSH (IEEE T-RO) 심층 분석: 계층적 하이퍼그래프 다중 로봇 TAMP와 IsaacSim_Gemini 멀티모델(Argon · ER-2 · Flash-Lite) 오케스트레이션 및 KPI 로드맵",
-        articleLede: "다중 로봇 태스크 및 모션 플래닝(MR-TMP)에서 로봇 팔과 물체 수가 늘어날수록 계산량이 기하급수적으로 폭발하는 근본 원인은 무엇일까요? UIUC Parasol Lab의 Seongwon 'Scott' Lee, James Motes, Isaac Ngui, Marco Morales, Nancy M. Amato 연구팀은 최신 IEEE Transactions on Robotics (T-RO) 논문 'Lazy-DaSH'(arXiv:2504.05552)를 통해 기존 DaSH의 한계가 '모든 가능한 행동의 모션 가능성을 사전에 전수 계산(eager precomputation)'하는 데 있음을 규명했습니다. Lazy-DaSH는 태스크 공간 하이퍼그래프(H_T)와 지연 모션 검증(Lazy Motion Validation, H_M), 그리고 분기 범위 제약 피드백(C_T, C_M)의 4계층 구조를 통해 16대 매니퓰레이터·60개 이상의 물체까지 확장하며 플래닝 시간을 100~1,000배 단축했습니다. 본 리포트에서는 Lazy-DaSH의 핵심 원리를 분석하고, 이를 IsaacSim_Gemini의 Gemini 4 Argon, Gemini Robotics-ER 2, Gemini 3.5 Flash-Lite 멀티모델 아키텍처와 지속적 KPI 목표에 결합하는 업그레이드 계획을 제시합니다.",
+        articleLede: "다중 로봇 태스크 및 모션 플래닝(MR-TMP)에서 로봇 팔과 물체 수가 늘어날수록 계산량이 기하급수적으로 폭발하는 근본 원인은 무엇일까요? UIUC Parasol Lab의 Seongwon 'Scott' Lee, James Motes, Isaac Ngui, Marco Morales, Nancy M. Amato 연구팀은 최신 IEEE Transactions on Robotics (T-RO) 논문 'Lazy-DaSH'(arXiv:2504.05552)를 통해 기존 DaSH의 한계가 '모든 가능한 행동의 모션 가능성을 사전에 전수 계산(eager precomputation)'하는 데 있음을 규명했습니다. Lazy-DaSH는 태스크 공간 하이퍼그래프(Task Hypergraph)와 지연 모션 검증(Lazy Motion Validation, H_M), 그리고 분기 범위 제약 피드백(Scoped Conflict Feedback)의 4계층 구조를 통해 16대 매니퓰레이터·60개 이상의 물체까지 확장하며 플래닝 시간을 100~1,000배 단축했습니다. 본 리포트에서는 Lazy-DaSH의 핵심 원리를 분석하고, 이를 IsaacSim_Gemini의 Gemini 4 Argon, Gemini Robotics-ER 2, Gemini 3.5 Flash-Lite 멀티모델 아키텍처와 지속적 KPI 목표에 결합하는 업그레이드 계획을 제시합니다.",
         takeawaysHeader: "TL;DR — 핵심 요약: Lazy-DaSH와 멀티모델 VLA 오케스트레이션의 결합",
         sec1Title: "1. 논문 심층 분석: UIUC Lazy-DaSH (Seongwon \"Scott\" Lee 외, IEEE T-RO)",
         sec2Title: "2. Lazy-DaSH를 IsaacSim_Gemini로 이식하기: 3종 Gemini 멀티모델 역할 분담",
@@ -936,7 +940,7 @@
         blogHeaderBrand: "技術リサーチブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
         articleTag: "M9G-TR-2026-05 • IEEE T-RO論文解説＆マルチモデルVLAアップグレード計画",
         articleTitle: "UIUC Lazy-DaSH (IEEE T-RO) に学ぶ：階層型ハイパーグラフTAMPと IsaacSim_Gemini マルチモデル (Argon・ER-2・Flash-Lite) 協調KPIロードマップ",
-        articleLede: "UIUC Parasol Lab の Seongwon 'Scott' Lee らによる IEEE T-RO 論文『Lazy-DaSH』(arXiv:2504.05552) は、タスク空間ハイパーグラフ (H_T)、ミリ秒単位のタスク競合検出、遅延モーション検証 (H_M)、およびスコープ付き制約フィードバック (C_T, C_M) によって 16台のアーム・60個以上の物体へのスケーリングと 100〜1000倍の高速化を実現しました。本稿では Lazy-DaSH の数理とアルゴリズムを解説し、IsaacSim_Gemini における Gemini 4 Argon、Gemini Robotics-ER 2、Gemini 3.5 Flash-Lite の階層的オーケストレーション設計と継続的KPI目標を提示します。",
+        articleLede: "UIUC Parasol Lab の Seongwon 'Scott' Lee らによる IEEE T-RO 論文『Lazy-DaSH』(arXiv:2504.05552) は、タスク空間ハイパーグラフ (Task Hypergraph)、ミリ秒単位のタスク競合検出、遅延モーション検証 (Motion Hypergraph)、およびスコープ付き制約フィードバック (Scoped Conflict Feedback) によって 16台のアーム・60個以上の物体へのスケーリングと 100〜1000倍の高速化を実現しました。本稿では Lazy-DaSH の数理とアルゴリズムを解説し、IsaacSim_Gemini における Gemini 4 Argon、Gemini Robotics-ER 2、Gemini 3.5 Flash-Lite の階層的オーケストレーション設計と継続的KPI目標を提示します。",
         takeawaysHeader: "TL;DR — エグゼクティブサマリー：Lazy-DaSH が変革するマルチロボットVLA計画",
         sec1Title: "1. 論文詳解：UIUC Lazy-DaSH (Seongwon \"Scott\" Lee et al., IEEE T-RO)",
         sec2Title: "2. Lazy-DaSH から IsaacSim_Gemini へ：マルチモデルVLAオーケ스트レーション",
@@ -948,7 +952,7 @@
         blogHeaderBrand: "技术研究博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
         articleTag: "M9G-TR-2026-05 • IEEE T-RO 论文深度解析与多模型 VLA 升级路线图",
         articleTitle: "借鉴 UIUC Lazy-DaSH (IEEE T-RO)：分层超图多机器人任务与运动规划及 IsaacSim_Gemini 多模型 (Argon · ER-2 · Flash-Lite) 协同与 KPI 路线图",
-        articleLede: "UIUC Parasol 实验室 Seongwon 'Scott' Lee 等人在 IEEE T-RO 发表的《Lazy-DaSH》(arXiv:2504.05552) 揭示了传统混合规划器 DaSH 的瓶颈在于预先计算所有可能动作的运动可行性。通过引入任务空间超图 (H_T)、毫秒级任务冲突检测、惰性运动超图验证 (H_M) 以及分支作用域约束反馈 (C_T, C_M)，Lazy-DaSH 成功扩展至 16 台机械臂与 60+ 物体，并将规划速度提升 2 至 3 个数量级。本文深入剖析 Lazy-DaSH 架构，并阐述如何在 IsaacSim_Gemini 中将其映射至 Gemini 4 Argon、Gemini Robotics-ER 2 与 Gemini 3.5 Flash-Lite，确立持续演进的工程目标与 7 项核心 KPI。",
+        articleLede: "UIUC Parasol 实验室 Seongwon 'Scott' Lee 等人在 IEEE T-RO 发表的《Lazy-DaSH》(arXiv:2504.05552) 揭示了传统混合规划器 DaSH 的瓶颈在于预先计算所有可能动作的运动可行性。通过引入任务空间超图 (Task Hypergraph)、毫秒级任务冲突检测、惰性运动超图验证 (Motion Hypergraph) 以及分支作用域约束反馈 (Scoped Conflict Feedback)，Lazy-DaSH 成功扩展至 16 台机械臂与 60+ 物体，并将规划速度提升 2 至 3 个数量级。本文深入剖析 Lazy-DaSH 架构，并阐述如何在 IsaacSim_Gemini 中将其映射至 Gemini 4 Argon、Gemini Robotics-ER 2 与 Gemini 3.5 Flash-Lite，确立持续演进的工程目标与 7 项核心 KPI。",
         takeawaysHeader: "TL;DR — 核心摘要：Lazy-DaSH 如何赋能多模型 VLA 协同规划",
         sec1Title: "1. 论文深度剖析：UIUC Lazy-DaSH (Seongwon \"Scott\" Lee 等, IEEE T-RO)",
         sec2Title: "2. 将 Lazy-DaSH 映射至 IsaacSim_Gemini：多模型 VLA 协同架构",
@@ -960,7 +964,7 @@
         blogHeaderBrand: "Blog de Investigación Técnica", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
         articleTag: "M9G-TR-2026-05 • Síntesis de IEEE T-RO y Hoja de Ruta VLA Multi-Modelo",
         articleTitle: "Aprendiendo de Lazy-DaSH de UIUC (IEEE T-RO): Planificación Jerárquica con Hipergrafos y Nuestra Hoja de Ruta VLA Multi-Modelo para IsaacSim_Gemini",
-        articleLede: "En su artículo de IEEE Transactions on Robotics (T-RO), 'Lazy-DaSH' (arXiv:2504.05552), Seongwon 'Scott' Lee y el Parasol Lab de UIUC demuestran cómo escalar la planificación de tareas y movimientos multirrobot (MR-TMP) a 16 manipuladores y más de 60 objetos mediante evaluación perezosa de movimiento y retroalimentación de restricciones con alcance de rama (C_T, C_M). Analizamos Lazy-DaSH y presentamos nuestra hoja de ruta de actualización y KPIs continuos para IsaacSim_Gemini orquestando Gemini 4 Argon, Gemini Robotics-ER 2 y Gemini 3.5 Flash-Lite.",
+        articleLede: "En su artículo de IEEE Transactions on Robotics (T-RO), 'Lazy-DaSH' (arXiv:2504.05552), Seongwon 'Scott' Lee y el Parasol Lab de UIUC demuestran cómo escalar la planificación de tareas y movimientos multirrobot (MR-TMP) a 16 manipuladores y más de 60 objetos mediante evaluación perezosa de movimiento y retroalimentación de restricciones con alcance de rama (Scoped Conflict Feedback). Analizamos Lazy-DaSH y presentamos nuestra hoja de ruta de actualización y KPIs continuos para IsaacSim_Gemini orquestando Gemini 4 Argon, Gemini Robotics-ER 2 y Gemini 3.5 Flash-Lite.",
         takeawaysHeader: "TL;DR — Resumen Ejecutivo: Cómo Lazy-DaSH Transforma la Orquestación VLA Multirrobot",
         sec1Title: "1. Análisis del Artículo: Lazy-DaSH de UIUC (Seongwon \"Scott\" Lee et al., IEEE T-RO)",
         sec2Title: "2. De Lazy-DaSH a IsaacSim_Gemini: Orquestación VLA Multi-Modelo",

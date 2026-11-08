@@ -39,18 +39,7 @@
       "url": "https://mincasurong.github.io/"
     }
   }
-  
-    function seekOmniVideo(vidId, seconds, btn) {
-      var vid = document.getElementById(vidId);
-      if (vid) {
-        try { vid.currentTime = seconds; vid.play(); } catch (e) {}
-      }
-      if (btn && btn.parentElement) {
-        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-      }
-    }
-</script>
+  </script>
   <style>
     :root {
       --bg: #ffffff;
@@ -525,6 +514,10 @@
           <span class="blog-post-tab-kicker">M9G-TR-2026-05 • Lazy-DaSH × VLA</span>
           <span class="blog-post-tab-title">UIUC Lazy-DaSH (T-RO) &amp; IsaacSim_Gemini Roadmap</span>
         </a>
+        <a href="/blog/tamp-fast-sim/" class="blog-post-tab">
+          <span class="blog-post-tab-kicker">M9G-TR-2026-06 • 3D TAMP Lite-Sim</span>
+          <span class="blog-post-tab-title">Browser-Native Multi-Robot &amp; Smart Factory WebGL</span>
+        </a>
       </nav>
 
       <div class="dm-kicker-row">
@@ -618,7 +611,7 @@
           <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 10, this)">
             <span class="ts-time">00:10 – 00:20 • Domain 2</span>
             <span class="ts-title">Flexible &amp; Deformable Object Handling (DexGarmentLab &amp; SOI)</span>
-            <span class="ts-sub">PhysX 5 PBD deformable simulation with outward bimanual handle tensioning ||p1 - p2|| = d_nom + 2Δ.</span>
+            <span class="ts-sub">PhysX 5 PBD deformable simulation with outward bimanual handle tensioning (nominal rim span plus dual tension offsets).</span>
           </button>
           <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 20, this)">
             <span class="ts-time">00:20 – 00:30 • Domain 3</span>
@@ -711,10 +704,10 @@
 
       <div class="telemetry-formula-box">
         <div class="telemetry-formula-header">
-          <span>Bimanual Structure-of-Interest (SOI) Outward Tension Constraint</span>
+          <span>Bimanual Structure-of-Interest (SOI) Outward Tension Rule</span>
           <span>Ref: SOI Bag Manipulation / Project STAMP Mode 2 &amp; 5</span>
         </div>
-        || p_1(t) - p_2(t) ||_2 = d_nom + 2 * Δ_tension   (maintains open container rim &amp; prevents inward buckling during bimanual LIFT / TRANSPORT)
+        <strong>Dual-Gripper Handle Distance</strong> = <code>Nominal Rim Width + (2 &times; Outward Tension Offset)</code> &mdash; keeps the flexible container rim taut and prevents inward buckling during synchronized bimanual lifting and transport.
       </div>
 
       <div class="table-scroll">
@@ -743,7 +736,7 @@
             </tr>
             <tr class="highlight-row">
               <td><strong>Structure-of-Interest (SOI) Bimanual Bag Manipulation</strong> <em>(IEEE / arXiv)</em><br/><a href="https://arxiv.org/abs/2401.11432" target="_blank" rel="noopener">arXiv:2401.11432</a></td>
-              <td><strong>SOI Rim Tracking &amp; Tensioned Lift</strong>: Identifies the bag opening rim and dual handles as Structures of Interest (SOIs) and enforces an outward bimanual tension offset (<code>||p_1(t) - p_2(t)|| = d_nom + 2*Δ_tension</code>) so the bag mouth stays open during packing and lifting.</td>
+              <td><strong>SOI Rim Tracking &amp; Tensioned Lift</strong>: Identifies the bag opening rim and dual handles as Structures of Interest (SOIs) and enforces an outward bimanual tension offset (<code>gripper span = nominal rim width + 2 &times; tension offset</code>) so the bag mouth stays open during packing and lifting.</td>
               <td>Apply an outward <code>tension_offset</code> along the handle axis during bimanual <code>LIFT</code> so packed items do not spill or pinch.</td>
             </tr>
           </tbody>

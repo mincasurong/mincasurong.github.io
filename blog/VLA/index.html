@@ -587,6 +587,10 @@
           <span class="blog-post-tab-kicker">M9G-TR-2026-05 • Lazy-DaSH × VLA</span>
           <span class="blog-post-tab-title">UIUC Lazy-DaSH (T-RO) &amp; IsaacSim_Gemini Roadmap</span>
         </a>
+        <a href="/blog/tamp-fast-sim/" class="blog-post-tab">
+          <span class="blog-post-tab-kicker">M9G-TR-2026-06 • 3D TAMP Lite-Sim</span>
+          <span class="blog-post-tab-title">Browser-Native Multi-Robot &amp; Smart Factory WebGL</span>
+        </a>
       </nav>
 
       <div class="dm-kicker-row">
@@ -825,24 +829,26 @@
 
       <h3 id="scaling-model" data-i18n="sec3SubTitle">Quadratic Context Accumulation &amp; Thinking-Budget Economics</h3>
       <p data-i18n="sec3P1">
-        Even with camera streams disabled, input tokens represent 96.4% to 97.8% of total token volume across all three stages. Each turn transmits a static base context <code>B_base ≈ 2,800</code> tokens—comprising <code>SYSTEM_PROMPT</code> and <code>ROBOT_TOOLS</code> JSON schemas (~1,450 tokens) plus the Turn-0 <code>RuleBasedTaskGenerator</code> 3D blueprint and strategy (~1,350 tokens)—alongside a rolling increment <code>ΔB_turn ≈ 250–380</code> tokens of multi-turn <code>function_call</code> and controller <code>function_response</code> records. Re-sending the rolling conversation history on every turn yields quadratic input growth with respect to horizon <em>T</em>:
+        Even with camera streams disabled, input tokens represent 96.4% to 97.8% of total token volume across all three stages. Each turn transmits a static base context of <code>~2,800 tokens</code>—comprising <code>SYSTEM_PROMPT</code> and <code>ROBOT_TOOLS</code> JSON schemas (~1,450 tokens) plus the Turn-0 <code>RuleBasedTaskGenerator</code> 3D blueprint and strategy (~1,350 tokens)—alongside a rolling increment of <code>250 to 380 tokens</code> of multi-turn <code>function_call</code> and controller <code>function_response</code> records. Re-sending the rolling conversation history on every turn yields quadratic input growth with respect to horizon <em>T</em>:
       </p>
       <div class="telemetry-formula-box">
         <div class="telemetry-formula-header">
-          <span>M9G Context Scaling Model (IsaacSim_GeminiRobotics Mode 1)</span>
+          <span>M9G Context Scaling Rule (IsaacSim_GeminiRobotics Mode 1)</span>
           <span>Ref: M9G-TR-2026-01</span>
         </div>
-        CumulativeInputTokens(T; M9G_Mode1) ≈ T · B_base (2,800 tok) + [ T(T − 1) / 2 ] · ΔB_turn (250..380 tok)
+        <strong>Cumulative Input Tokens (for <em>T</em> turns)</strong> = (<em>T</em> &times; 2,800 Base Context Tokens) + [ <em>T</em> &times; (<em>T</em> &minus; 1) / 2 ] &times; (250 to 380 Per-Turn History Tokens)
       </div>
       <p data-i18n="sec3P2">
         Compressing the schedule from 13 turns (Stage 1) to 10 turns (Stages 2 and 3) eliminates the three largest context turns at the end of the episode (where each call exceeds 4,500 input tokens), saving 10,929 input tokens automatically. Furthermore, in Stage 1, <code>gemini-robotics-er-2-preview</code> consumed 1,086 internal thinking tokens billed at the $10.00/1M output rate ($0.01086, or 13.8% of Stage 1's entire cost), whereas in Stage 2, allowing <code>thinking_budget=512</code> on routine step turns inflated mean step latency on Turns 1–2 to 13.31 seconds. By restricting reasoning to Turn 0 on <code>gemini-4-argon</code> ($2.00/1M in, $10.00/1M out) and executing Turns 1–10 on <code>gemini-3.5-flash-lite</code> ($0.30/1M in, $2.50/1M out, <code>thinking_budget=0</code>), Stage 3 decomposes trial cost as follows:
       </p>
       <div class="telemetry-formula-box">
         <div class="telemetry-formula-header">
-          <span>M9G Stage 3 Hybrid Cost Decomposition (CUSTOM_trial01_20261018_174106.jsonl)</span>
+          <span>M9G Stage 3 Hybrid Cost Breakdown (CUSTOM_trial01_20261018_174106.jsonl)</span>
           <span>Total: $0.01972 (-76.6%)</span>
         </div>
-        Cost_Stage3(M9G) = <span class="c-blue">Turn0_ArgonBrain [ 2,800 in × $2.00/1M + 220 out × $10.00/1M = $0.00780 ]</span> + <span class="c-green">Turns1..10_FlashLiteExecutor [ 34,648 in × $0.30/1M + 609 out × $2.50/1M = $0.01192 ]</span> = <strong class="c-green">$0.01972</strong>
+        <div><strong class="c-blue">1. Turn 0 Global Brain (Gemini 4 Argon, 1 Call):</strong> 2,800 input tokens (&times; $2.00 / 1M) + 220 output tokens (&times; $10.00 / 1M) = <strong>$0.00780</strong></div>
+        <div><strong class="c-green">2. Turns 1 to 10 Step Executor (Gemini 3.5 Flash-Lite, 10 Calls):</strong> 34,648 input tokens (&times; $0.30 / 1M) + 609 output tokens (&times; $2.50 / 1M) = <strong>$0.01192</strong></div>
+        <div><strong>Total Stage 3 Episode Cost:</strong> $0.00780 + $0.01192 = <strong class="c-green">$0.01972 (&minus;76.6% vs. Stage 2 Pure Argon)</strong></div>
       </div>
 
       <h2 id="schedule-trace" data-i18n="sec4Title">Inside the 10-Turn Software-Pipelined Schedule</h2>
