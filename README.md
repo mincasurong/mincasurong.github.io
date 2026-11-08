@@ -4,7 +4,7 @@
 
 ### *by Agent-enabled System Engineering* &nbsp; [<kbd>&nbsp;🔵 LinkedIn ↗&nbsp;</kbd>](https://www.linkedin.com/in/mincasurong/) &nbsp; [<kbd>&nbsp;⚫ GitHub ↗&nbsp;</kbd>](https://github.com/mincasurong)
 
-[🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎓 Tutorials ↗](https://mincasurong.github.io/tutorials/) • [🏛️ Full Archive & Patents ↗](https://mincasurong.github.io/archive/) • [📝 Engineering Blog ↗](https://mincasurong.github.io/blog/)
+[🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [🦾 3D Fast-Sim ↗](https://mincasurong.github.io/fast-sim/) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎓 Tutorials ↗](https://mincasurong.github.io/tutorials/) • [🏛️ Full Archive & Patents ↗](https://mincasurong.github.io/archive/) • [📝 Engineering Blog ↗](https://mincasurong.github.io/blog/)
 
 </div>
 
@@ -47,6 +47,24 @@ We developed **GeminiSpace**, a Vision-Language-Action (VLA) navigation system t
 ## 🤖 Gemini × Robotic Arm Series (Isaac Sim & ROS 2)
 
 Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Benchmarks.
+
+### 🦾 Interactive 3D Fast-Sim Web App (Live in Browser)
+
+<table>
+  <tr>
+    <td width="42%" valign="middle">
+      <a href="https://mincasurong.github.io/fast-sim/">
+        <img src="https://mincasurong.github.io/screenshots/lazy-dash-architecture-nanobanana.png" width="100%" alt="Reconfigurable Franka FR3 Workcell & Multi-Cell Factory 3D Fast-Sim" style="border-radius: 8px;" />
+      </a>
+    </td>
+    <td width="58%" valign="middle">
+      <p><code>mincasurong.github.io/fast-sim</code> • <b>Live 3D WebGL • 52 Scenarios • Zero Install</b></p>
+      <h3><a href="https://mincasurong.github.io/fast-sim/">Reconfigurable Franka FR3 Workcell &amp; Multi-Cell Factory 3D Fast-Sim</a></h3>
+      <p>Interactive browser 3D simulation featuring the <b>Lazy-DaSH RCPSP Scheduler</b>, <b>Real-Time Execution Hypergraph</b>, <b>7-DOF Damped Least-Squares (DLS) IK</b>, and <b>Mobile Manipulator Material Transfer</b> across 8-slot Franka FR3 workcells and 5-MM multi-cell factories.</p>
+      <p><a href="https://mincasurong.github.io/fast-sim/"><b>Launch Interactive 3D Fast-Sim (/fast-sim/) ↗</b></a> &nbsp;•&nbsp; <a href="https://mincasurong.github.io/blog/lazy-dash/"><b>Read Lazy-DaSH Blog ↗</b></a></p>
+    </td>
+  </tr>
+</table>
 
 ### 📊 Featured Technical Research Blogs
 

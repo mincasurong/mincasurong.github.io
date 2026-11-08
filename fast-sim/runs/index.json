@@ -1,0 +1,736 @@
+{
+  "schema": "stamp.fast-sim.index/1",
+  "models": [
+    {
+      "name": "tower",
+      "title": "Mode 1 · 6-Block Cooperative Tower",
+      "objects": 6
+    },
+    {
+      "name": "conveyor_bar",
+      "title": "Mode 2 · Bimanual LongBar & Conveyor",
+      "objects": 3
+    },
+    {
+      "name": "deformable_fold",
+      "title": "Mode 3 · Deformable Unfold, Fold & Handover",
+      "objects": 3
+    }
+  ],
+  "slots": [
+    {
+      "id": "s0",
+      "xyz": [
+        -0.62,
+        0,
+        0
+      ],
+      "yaw": 0
+    },
+    {
+      "id": "s1",
+      "xyz": [
+        0.62,
+        0,
+        0
+      ],
+      "yaw": 3.141592653589793
+    },
+    {
+      "id": "s2",
+      "xyz": [
+        -0.32,
+        -0.5,
+        0
+      ],
+      "yaw": 1.02
+    },
+    {
+      "id": "s3",
+      "xyz": [
+        0.32,
+        -0.5,
+        0
+      ],
+      "yaw": 2.12
+    },
+    {
+      "id": "s4",
+      "xyz": [
+        -0.32,
+        0.5,
+        0
+      ],
+      "yaw": -1.02
+    },
+    {
+      "id": "s5",
+      "xyz": [
+        0.32,
+        0.5,
+        0
+      ],
+      "yaw": -2.12
+    },
+    {
+      "id": "s6",
+      "xyz": [
+        -0.58,
+        -0.38,
+        0
+      ],
+      "yaw": 0.58
+    },
+    {
+      "id": "s7",
+      "xyz": [
+        0.58,
+        0.38,
+        0
+      ],
+      "yaw": -2.56
+    }
+  ],
+  "feeder_layouts": [
+    "fA",
+    "conv"
+  ],
+  "runs": [
+    {
+      "file": "runs/tower__s0__fA.json",
+      "model": "tower",
+      "slots": [
+        "s0"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0.0002
+    },
+    {
+      "file": "runs/tower__s1__fA.json",
+      "model": "tower",
+      "slots": [
+        "s1"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0
+    },
+    {
+      "file": "runs/tower__s2__fA.json",
+      "model": "tower",
+      "slots": [
+        "s2"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0
+    },
+    {
+      "file": "runs/tower__s4__fA.json",
+      "model": "tower",
+      "slots": [
+        "s4"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0.0001
+    },
+    {
+      "file": "runs/tower__s0-s1__fA.json",
+      "model": "tower",
+      "slots": [
+        "s0",
+        "s1"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 9.518,
+      "plan_time_s": 0.0435
+    },
+    {
+      "file": "runs/tower__s0-s2__fA.json",
+      "model": "tower",
+      "slots": [
+        "s0",
+        "s2"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0.0001
+    },
+    {
+      "file": "runs/tower__s0-s5__fA.json",
+      "model": "tower",
+      "slots": [
+        "s0",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 9.518,
+      "plan_time_s": 0.0128
+    },
+    {
+      "file": "runs/tower__s2-s3__fA.json",
+      "model": "tower",
+      "slots": [
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 9.518,
+      "plan_time_s": 0.0177
+    },
+    {
+      "file": "runs/tower__s4-s5__fA.json",
+      "model": "tower",
+      "slots": [
+        "s4",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 9.518,
+      "plan_time_s": 0.0178
+    },
+    {
+      "file": "runs/tower__s6-s7__fA.json",
+      "model": "tower",
+      "slots": [
+        "s6",
+        "s7"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 9.518,
+      "plan_time_s": 0.0223
+    },
+    {
+      "file": "runs/tower__s0-s1-s2__fA.json",
+      "model": "tower",
+      "slots": [
+        "s0",
+        "s1",
+        "s2"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 8.072,
+      "plan_time_s": 0.0228
+    },
+    {
+      "file": "runs/tower__s0-s2-s3__fA.json",
+      "model": "tower",
+      "slots": [
+        "s0",
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 8.072,
+      "plan_time_s": 0.0161
+    },
+    {
+      "file": "runs/tower__s0-s4-s5__fA.json",
+      "model": "tower",
+      "slots": [
+        "s0",
+        "s4",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 8.072,
+      "plan_time_s": 0.0158
+    },
+    {
+      "file": "runs/tower__s1-s2-s3__fA.json",
+      "model": "tower",
+      "slots": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 8.314,
+      "plan_time_s": 0.0258
+    },
+    {
+      "file": "runs/tower__s0-s1-s2-s3__fA.json",
+      "model": "tower",
+      "slots": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 4,
+      "status": "ok",
+      "makespan_s": 6.765,
+      "plan_time_s": 0.0276
+    },
+    {
+      "file": "runs/tower__s0-s1-s4-s5__fA.json",
+      "model": "tower",
+      "slots": [
+        "s0",
+        "s1",
+        "s4",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 4,
+      "status": "ok",
+      "makespan_s": 6.765,
+      "plan_time_s": 0.0277
+    },
+    {
+      "file": "runs/conveyor_bar__s0__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s0"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0.0005
+    },
+    {
+      "file": "runs/conveyor_bar__s1__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s1"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0.0024
+    },
+    {
+      "file": "runs/conveyor_bar__s2__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s2"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0.0013
+    },
+    {
+      "file": "runs/conveyor_bar__s4__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s4"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0
+    },
+    {
+      "file": "runs/conveyor_bar__s0-s1__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s0",
+        "s1"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 7.378,
+      "plan_time_s": 0.0187
+    },
+    {
+      "file": "runs/conveyor_bar__s0-s2__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s0",
+        "s2"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0
+    },
+    {
+      "file": "runs/conveyor_bar__s0-s5__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s0",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 7.378,
+      "plan_time_s": 0.0107
+    },
+    {
+      "file": "runs/conveyor_bar__s2-s3__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 7.378,
+      "plan_time_s": 0.0143
+    },
+    {
+      "file": "runs/conveyor_bar__s4-s5__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s4",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 7.378,
+      "plan_time_s": 0.0141
+    },
+    {
+      "file": "runs/conveyor_bar__s6-s7__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s6",
+        "s7"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 8.9,
+      "plan_time_s": 0.0223
+    },
+    {
+      "file": "runs/conveyor_bar__s0-s1-s2__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s0",
+        "s1",
+        "s2"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 5.37,
+      "plan_time_s": 0.0238
+    },
+    {
+      "file": "runs/conveyor_bar__s0-s2-s3__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s0",
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 5.37,
+      "plan_time_s": 0.0136
+    },
+    {
+      "file": "runs/conveyor_bar__s0-s4-s5__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s0",
+        "s4",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 5.37,
+      "plan_time_s": 0.0151
+    },
+    {
+      "file": "runs/conveyor_bar__s1-s2-s3__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 6.454,
+      "plan_time_s": 0.0225
+    },
+    {
+      "file": "runs/conveyor_bar__s0-s1-s2-s3__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 4,
+      "status": "ok",
+      "makespan_s": 4.567,
+      "plan_time_s": 0.0232
+    },
+    {
+      "file": "runs/conveyor_bar__s0-s1-s4-s5__fA.json",
+      "model": "conveyor_bar",
+      "slots": [
+        "s0",
+        "s1",
+        "s4",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 4,
+      "status": "ok",
+      "makespan_s": 4.567,
+      "plan_time_s": 0.0222
+    },
+    {
+      "file": "runs/deformable_fold__s0__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s0"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0.0004
+    },
+    {
+      "file": "runs/deformable_fold__s1__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s1"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0.0025
+    },
+    {
+      "file": "runs/deformable_fold__s2__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s2"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0.0005
+    },
+    {
+      "file": "runs/deformable_fold__s4__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s4"
+      ],
+      "feeders": "fA",
+      "num_arms": 1,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0.0004
+    },
+    {
+      "file": "runs/deformable_fold__s0-s1__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s0",
+        "s1"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0
+    },
+    {
+      "file": "runs/deformable_fold__s0-s2__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s0",
+        "s2"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 9.52,
+      "plan_time_s": 0.0098
+    },
+    {
+      "file": "runs/deformable_fold__s0-s5__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s0",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0
+    },
+    {
+      "file": "runs/deformable_fold__s2-s3__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 9.52,
+      "plan_time_s": 0.0139
+    },
+    {
+      "file": "runs/deformable_fold__s4-s5__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s4",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0
+    },
+    {
+      "file": "runs/deformable_fold__s6-s7__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s6",
+        "s7"
+      ],
+      "feeders": "fA",
+      "num_arms": 2,
+      "status": "ok",
+      "makespan_s": 9.52,
+      "plan_time_s": 0.0257
+    },
+    {
+      "file": "runs/deformable_fold__s0-s1-s2__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s0",
+        "s1",
+        "s2"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 8.154,
+      "plan_time_s": 0.0274
+    },
+    {
+      "file": "runs/deformable_fold__s0-s2-s3__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s0",
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 8.154,
+      "plan_time_s": 0.0154
+    },
+    {
+      "file": "runs/deformable_fold__s0-s4-s5__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s0",
+        "s4",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0
+    },
+    {
+      "file": "runs/deformable_fold__s1-s2-s3__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 3,
+      "status": "ok",
+      "makespan_s": 8.33,
+      "plan_time_s": 0.0305
+    },
+    {
+      "file": "runs/deformable_fold__s0-s1-s2-s3__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "feeders": "fA",
+      "num_arms": 4,
+      "status": "ok",
+      "makespan_s": 7.007,
+      "plan_time_s": 0.0303
+    },
+    {
+      "file": "runs/deformable_fold__s0-s1-s4-s5__fA.json",
+      "model": "deformable_fold",
+      "slots": [
+        "s0",
+        "s1",
+        "s4",
+        "s5"
+      ],
+      "feeders": "fA",
+      "num_arms": 4,
+      "status": "infeasible",
+      "makespan_s": null,
+      "plan_time_s": 0
+    }
+  ]
+}

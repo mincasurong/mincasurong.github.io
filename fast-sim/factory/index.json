@@ -1,0 +1,41 @@
+{
+  "schema": "stamp.fast-sim.factory-index/1",
+  "scenarios": [
+    {
+      "file": "factory/multi_cell_stamp.json",
+      "title": "STAMP Multi-Cell Factory · 5 Mobile Manipulators · 9 Orders",
+      "orders": 9,
+      "mms": 5,
+      "variant": "parts",
+      "makespan_s": 60,
+      "throughput_per_hour": 540
+    },
+    {
+      "file": "factory/mixed9_3mm.json",
+      "title": "Nine Mixed Orders · 3 Mobile Manipulators (Part Jobs)",
+      "orders": 9,
+      "mms": 3,
+      "variant": "parts",
+      "makespan_s": 60,
+      "throughput_per_hour": 540
+    },
+    {
+      "file": "factory/mixed9_1mm.json",
+      "title": "Single Mobile Manipulator Bottleneck · 9 Orders",
+      "orders": 9,
+      "mms": 1,
+      "variant": "parts",
+      "makespan_s": 60,
+      "throughput_per_hour": 540
+    },
+    {
+      "file": "factory/mixed9_kits.json",
+      "title": "Baseline Kit-per-Order · 3 Mobile Manipulators",
+      "orders": 9,
+      "mms": 3,
+      "variant": "kits",
+      "makespan_s": 60,
+      "throughput_per_hour": 540
+    }
+  ]
+}

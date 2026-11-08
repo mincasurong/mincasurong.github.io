@@ -54,11 +54,11 @@
       ]
     }
     </script>
-    <script type="module" crossorigin src="/assets/index-CUgyI4_0.js?v=20261108c"></script>
+    <script type="module" crossorigin src="/assets/index-CUgyI4_0.js?v=20261108d"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" crossorigin href="/assets/index-Bt7xwmGO.css?v=20261108c">
+    <link rel="stylesheet" crossorigin href="/assets/index-Bt7xwmGO.css?v=20261108d">
     <style>
             /* Unified Google-Blog Topbar & Concise Single-Row Navigation (1:1 with /blog/) */
       .topbar {
@@ -963,6 +963,33 @@
       html.light .m9g-cover-blog-desc {
         color: #3c4043;
       }
+      .m9g-fastsim-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        border-radius: 9999px;
+        background: #fbbf24;
+        color: #111111;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        box-shadow: 0 4px 14px rgba(251, 191, 36, 0.28);
+        transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      .m9g-cover-blog-card:hover .m9g-fastsim-cta {
+        transform: translateX(3px);
+        background: #f59e0b;
+      }
+      html.light .m9g-fastsim-cta {
+        background: #1a73e8 !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 14px rgba(26, 115, 232, 0.25) !important;
+      }
+      html.light .m9g-cover-blog-card:hover .m9g-fastsim-cta {
+        background: #174ea6 !important;
+      }
 
       /* Light Mode: Override Tailwind v4 CSS variables so ALL amber/emerald/gold classes become Google Blue (#1a73e8) */
       html.light {
@@ -1133,6 +1160,7 @@
         <h2>Recent Highlights &amp; Engineering Blogs</h2>
         <ul>
           <li><strong>1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026</strong> — Created <a href="https://geminispace.mincasurong.com/"><em>GeminiSpace</em> (Live Cloud Run App)</a>, an indoor spatial AI navigation system turning room photos into interactive 2D/3D semantic maps (<a href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/">Google Korea Official Blog Interview</a> • <a href="https://cerebralvalley.ai/e/gemini-3-seoul-hackathon/hackathon/gallery?project=27">Cerebral Valley Winners Gallery</a>).</li>
+          <li><a href="https://mincasurong.github.io/fast-sim/"><strong>Reconfigurable Franka FR3 Workcell &amp; Multi-Cell Factory 3D Fast-Sim (Live WebGL App)</strong></a> — Interactive 3D simulation featuring Lazy-DaSH RCPSP Scheduler, Real-Time Execution Hypergraph, 7-DOF DLS IK, and Mobile Manipulator Material Transfer.</li>
           <li><a href="https://mincasurong.github.io/blog/lazy-dash/">Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph Task &amp; Motion Planning and Our Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini (M9G-TR-2026-05)</a></li>
           <li><a href="https://mincasurong.github.io/blog/sdl-survey/">SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling &amp; Self-Driving Labs (M9G-TR-2026-04)</a></li>
           <li><a href="https://mincasurong.github.io/blog/stamp/">Project STAMP: Decoupling Multimodal VLA Reasoning from Robot Execution via Deterministic Pre-Dispatch Gating and Fault Write-Back (M9G-TR-2026-03)</a></li>
