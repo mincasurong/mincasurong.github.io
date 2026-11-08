@@ -54,11 +54,11 @@
       ]
     }
     </script>
-    <script type="module" crossorigin src="/assets/index-CUgyI4_0.js?v=20261108b"></script>
+    <script type="module" crossorigin src="/assets/index-CUgyI4_0.js?v=20261108c"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" crossorigin href="/assets/index-Bt7xwmGO.css?v=20261108b">
+    <link rel="stylesheet" crossorigin href="/assets/index-Bt7xwmGO.css?v=20261108c">
     <style>
             /* Unified Google-Blog Topbar & Concise Single-Row Navigation (1:1 with /blog/) */
       .topbar {
@@ -964,32 +964,78 @@
         color: #3c4043;
       }
 
-      /* Light Mode: Unify "Try GeminiSpace Free" button & sub-links to Blue-White (#1a73e8 / #ffffff) */
+      /* Light Mode: Override Tailwind v4 CSS variables so ALL amber/emerald/gold classes become Google Blue (#1a73e8) */
+      html.light {
+        --color-amber-300: #1a73e8 !important;
+        --color-amber-400: #1a73e8 !important;
+        --color-amber-500: #1a73e8 !important;
+        --color-amber-950: #174ea6 !important;
+        --color-emerald-400: #1a73e8 !important;
+        --color-emerald-500: #1a73e8 !important;
+      }
+      html:not(.light) {
+        --color-amber-300: #fbbf24 !important;
+        --color-amber-400: #fbbf24 !important;
+        --color-amber-500: #fbbf24 !important;
+        --color-emerald-400: #fbbf24 !important;
+        --color-emerald-500: #fbbf24 !important;
+      }
       html.light a[href*="geminispace.mincasurong.com"] {
-        background: linear-gradient(135deg, #f8fbff 0%, #e8f0fe 100%) !important;
-        border: 1.5px solid rgba(26, 115, 232, 0.42) !important;
-        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.12) !important;
+        background-color: #1a73e8 !important;
+        background-image: none !important;
+        border: 1.5px solid #1a73e8 !important;
+        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.25) !important;
       }
       html.light a[href*="geminispace.mincasurong.com"]:hover {
-        background: linear-gradient(135deg, #e8f0fe 0%, #d2e3fc 100%) !important;
-        border-color: #1a73e8 !important;
-        box-shadow: 0 10px 28px rgba(26, 115, 232, 0.22) !important;
+        background-color: #174ea6 !important;
+        background-image: none !important;
+        border-color: #174ea6 !important;
+        box-shadow: 0 10px 28px rgba(26, 115, 232, 0.35) !important;
       }
-      html.light .bg-amber-400 {
-        background-color: #1a73e8 !important;
+      html.light a[href*="geminispace.mincasurong.com"] span,
+      html.light a[href*="geminispace.mincasurong.com"] p,
+      html.light a[href*="geminispace.mincasurong.com"] svg {
         color: #ffffff !important;
       }
-      html.light .bg-amber-400 svg {
-        color: #ffffff !important;
-      }
-      html.light .border-amber-400\/40,
-      html.light .border-amber-400\/30,
-      html.light .border-amber-400\/20 {
-        border-color: rgba(26, 115, 232, 0.35) !important;
-      }
-      html.light .group\/cta:hover .group-hover\/cta\:text-amber-300,
-      html.light .group\/link:hover .group-hover\/link\:text-amber-400 {
+      html.light a[href*="geminispace.mincasurong.com"] .bg-amber-400 {
+        background-color: #ffffff !important;
         color: #1a73e8 !important;
+      }
+      html.light a[href*="geminispace.mincasurong.com"] .bg-amber-400 svg {
+        color: #1a73e8 !important;
+      }
+      html.light a[href*="geminispace.mincasurong.com"] .bg-amber-400\/20 {
+        background-color: rgba(255, 255, 255, 0.22) !important;
+        border-color: rgba(255, 255, 255, 0.45) !important;
+        color: #ffffff !important;
+      }
+      html:not(.light) a[href*="geminispace.mincasurong.com"] {
+        background-color: #fbbf24 !important;
+        background-image: none !important;
+        border: 1.5px solid #fbbf24 !important;
+        box-shadow: 0 6px 22px rgba(251, 191, 36, 0.28) !important;
+      }
+      html:not(.light) a[href*="geminispace.mincasurong.com"]:hover {
+        background-color: #f59e0b !important;
+        background-image: none !important;
+        border-color: #f59e0b !important;
+      }
+      html:not(.light) a[href*="geminispace.mincasurong.com"] span,
+      html:not(.light) a[href*="geminispace.mincasurong.com"] p,
+      html:not(.light) a[href*="geminispace.mincasurong.com"] svg {
+        color: #111111 !important;
+      }
+      html:not(.light) a[href*="geminispace.mincasurong.com"] .bg-amber-400 {
+        background-color: #111111 !important;
+        color: #fbbf24 !important;
+      }
+      html:not(.light) a[href*="geminispace.mincasurong.com"] .bg-amber-400 svg {
+        color: #fbbf24 !important;
+      }
+      html:not(.light) a[href*="geminispace.mincasurong.com"] .bg-amber-400\/20 {
+        background-color: rgba(17, 17, 17, 0.14) !important;
+        border-color: rgba(17, 17, 17, 0.35) !important;
+        color: #111111 !important;
       }
 
       #hero { padding-top: 4rem !important; padding-bottom: 3.5rem !important; }
