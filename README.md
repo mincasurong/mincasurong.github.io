@@ -53,6 +53,32 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
 <table>
   <tr>
     <td width="42%" valign="middle">
+      <a href="https://mincasurong.github.io/blog/lazy-dash/">
+        <img src="https://mincasurong.github.io/screenshots/lazy-dash-architecture-nanobanana.png" width="100%" alt="Lazy-DaSH Multi-Model VLA Orchestration in IsaacSim_Gemini" style="border-radius: 8px;" />
+      </a>
+    </td>
+    <td width="58%" valign="middle">
+      <p><code>mincasurong.github.io/blog/lazy-dash</code> • <b>M9G-TR-2026-05 • UIUC Lazy-DaSH (IEEE T-RO) • Argon + ER-2 + Flash-Lite</b></p>
+      <h3><a href="https://mincasurong.github.io/blog/lazy-dash/">Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph TAMP &amp; Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini</a></h3>
+      <p>Summarizing Seongwon "Scott" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab, arXiv:2504.05552) and mapping its 4-layer lazy hypergraph &amp; scoped constraint feedback onto Gemini 4 Argon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite with 7 continuous KPIs.</p>
+      <p><a href="https://mincasurong.github.io/blog/lazy-dash/"><b>Read Lazy-DaSH Blog ↗</b></a></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="42%" valign="middle">
+      <a href="https://mincasurong.github.io/blog/sdl-survey/">
+        <img src="https://mincasurong.github.io/screenshots/sdl-survey-architecture.svg" width="100%" alt="SOTA Survey: Multi-Robot Assembly, Deformables & Self-Driving Labs in Isaac Sim" style="border-radius: 8px;" />
+      </a>
+    </td>
+    <td width="58%" valign="middle">
+      <p><code>mincasurong.github.io/blog/sdl-survey</code> • <b>M9G-TR-2026-04 • 14 SOTA Systems • Assembly, Deformables &amp; SDLs</b></p>
+      <h3><a href="https://mincasurong.github.io/blog/sdl-survey/">SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling &amp; Self-Driving Labs</a></h3>
+      <p>4-tier neuro-symbolic + GPU physics synthesis across MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, and Project STAMP (v1.0.0-stamp).</p>
+      <p><a href="https://mincasurong.github.io/blog/sdl-survey/"><b>Read SDL Survey Blog ↗</b></a></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="42%" valign="middle">
       <a href="https://mincasurong.github.io/blog/stamp/">
         <img src="https://mincasurong.github.io/screenshots/stamp-architecture-nanobanana.png" width="100%" alt="Project STAMP 4-Stage Deterministic Pre-Dispatch Gating Architecture" style="border-radius: 8px;" />
       </a>
@@ -211,7 +237,7 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
       <p><code>mincasurong.github.io/blog/m9g-agent</code> • <b>M9G-TR-2026-02 • 28 Modules / 169 Tests • m9g vs. OmO / OpenCode / Claude Code / agy</b></p>
       <h3><a href="https://mincasurong.github.io/blog/m9g-agent/">Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity</a></h3>
       <p>Source-level post-mortem of engineering a 28-module coding harness (<code>src/ag_harness/</code>), the 6 subsystems we investigated, why our standalone harness failed against pre-existing harnesses, and how we pivoted its substrates into the <code>m9g-mcp</code> power-tool server.</p>
-      <p><a href="https://mincasurong.github.io/blog/m9g-agent/"><b>Read Agent Harness Blog ↗</b></a> &nbsp;•&nbsp; <a href="https://www.youtube.com/watch?v=sdE7r72gJsU"><b>Watch Weekend Sprint Video ↗</b></a></p>
+      <p><a href="https://mincasurong.github.io/blog/m9g-agent/"><b>Read Agent Harness Blog ↗</b></a></p>
     </td>
   </tr>
 </table>

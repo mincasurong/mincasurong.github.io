@@ -3,10 +3,26 @@
   <channel>
     <title>M9G (Minsu Chang, Ph.D. / 장민수 / mincasurong) — Robotics, Physical AI &amp; Agentic Systems</title>
     <link>https://mincasurong.github.io/</link>
-    <description>Official portfolio and engineering blog of Minsu Chang, Ph.D. (장민수, mincasurong, M9G): 1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026, Multi-Robot VLA Benchmarks in NVIDIA Isaac Sim 6.0 &amp; ROS 2, ROS/MoveIt/Jetson Nano Tutorials, 16 Publications, and 11 US/KR Patents.</description>
+    <description>Official portfolio and engineering blog of Minsu Chang, Ph.D. (장민수, mincasurong, M9G): 1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026, Multi-Robot VLA Benchmarks in NVIDIA Isaac Sim 6.0 &amp; ROS 2, ROS/MoveIt/Jetson Nano Tutorials, 21 Peer-Reviewed Publications (IEEE ICRA, IEEE/RSJ IROS, IEEE TNSRE), and 14+ US/KR Patents.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Oct 2026 07:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 08 Nov 2026 12:00:00 GMT</lastBuildDate>
     <atom:link href="https://mincasurong.github.io/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph Task &amp; Motion Planning and Our Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini</title>
+      <link>https://mincasurong.github.io/blog/lazy-dash/</link>
+      <guid>https://mincasurong.github.io/blog/lazy-dash/</guid>
+      <pubDate>Sun, 08 Nov 2026 12:00:00 GMT</pubDate>
+      <description>M9G-TR-2026-05 by Minsu Chang, Ph.D. (M9G): Summarizing Seongwon "Scott" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab, IEEE T-RO, arXiv:2504.05552) and mapping its 4-layer lazy hypergraph &amp; branch-scoped constraint feedback onto Gemini 4 Argon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite in IsaacSim_Gemini with 7 continuous KPIs.</description>
+    </item>
+
+    <item>
+      <title>SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling &amp; Self-Driving Labs</title>
+      <link>https://mincasurong.github.io/blog/sdl-survey/</link>
+      <guid>https://mincasurong.github.io/blog/sdl-survey/</guid>
+      <pubDate>Sun, 01 Nov 2026 09:00:00 GMT</pubDate>
+      <description>M9G-TR-2026-04 by Minsu Chang, Ph.D. (M9G): 4-tier neuro-symbolic + GPU physics synthesis across 14 SOTA frameworks (MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, A-Lab GPSS) and Project STAMP (v1.0.0-stamp) in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy.</description>
+    </item>
 
     <item>
       <title>Project STAMP: Decoupling Multimodal VLA Reasoning from Robot Execution via Deterministic Pre-Dispatch Gating and Fault Write-Back</title>
@@ -25,11 +41,11 @@
     </item>
 
     <item>
-      <title>Empirical Comparison of VLA Task Planners on a 3-Arm 9-Block Tower in NVIDIA Isaac Sim 6.0 &amp; ROS 2 Jazzy</title>
-      <link>https://mincasurong.github.io/blog/</link>
-      <guid>https://mincasurong.github.io/blog/</guid>
+      <title>Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Argon</title>
+      <link>https://mincasurong.github.io/blog/VLA/</link>
+      <guid>https://mincasurong.github.io/blog/VLA/</guid>
       <pubDate>Sun, 18 Oct 2026 09:00:00 GMT</pubDate>
-      <description>Benchmarking Gemini Robotics-ER 2, Gemini 4 Argon, and hybrid Argon + Flash-Lite task planners on 3 Franka Emika FR3 robotic arms in Isaac Sim 6.0 by Minsu Chang (장민수, mincasurong, M9G).</description>
+      <description>M9G-TR-2026-01 by Minsu Chang, Ph.D. (M9G): Benchmarking Gemini Robotics-ER 2, Gemini 4 Argon, and hybrid Argon + Flash-Lite task planners on 3 Franka Emika FR3 robotic arms in Isaac Sim 6.0 (-76.6% API cost at $0.01972).</description>
     </item>
 
     <item>
@@ -44,8 +60,8 @@
       <title>Patents, Publications, Medical Robotics (SUBAR) &amp; Research Archive — Minsu Chang, Ph.D. (장민수 / M9G)</title>
       <link>https://mincasurong.github.io/archive/</link>
       <guid>https://mincasurong.github.io/archive/</guid>
-      <pubDate>Sat, 24 Oct 2026 09:00:00 GMT</pubDate>
-      <description>11 US/KR Patents, 16 Peer-Reviewed Publications (ICRA, IEEE TNSRE, ICORR), KFDA-certified lower-limb rehabilitation exoskeleton SUBAR &amp; AI Therapist videos, Google Cloud OnBoard recap, and Sogang Univ. LQR/MATLAB control lectures.</description>
+      <pubDate>Sun, 01 Nov 2026 09:00:00 GMT</pubDate>
+      <description>14+ US/KR Patents, 21 Peer-Reviewed Publications (IEEE ICRA, IEEE/RSJ IROS, IEEE TNSRE, ICORR), KFDA-certified lower-limb rehabilitation exoskeleton SUBAR &amp; AI Therapist videos, Google Cloud OnBoard recap, and Sogang Univ. LQR/MATLAB control lectures.</description>
     </item>
   </channel>
 </rss>

@@ -7,12 +7,12 @@
   <link rel="canonical" href="https://mincasurong.github.io/blog/" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Minsu (Max) Chang, Ph.D." />
-  <meta name="description" content="M9G Technical Research Blog by Minsu (Max) Chang, Ph.D.: Multi-arm VLA task planning in Isaac Sim 6.0 & ROS 2, Project STAMP deterministic safety gating, and coding agent harnesses." />
+  <meta name="description" content="M9G Technical Research Blog by Minsu (Max) Chang, Ph.D.: UIUC Lazy-DaSH (IEEE T-RO) hypergraph multi-robot TAMP, SOTA Self-Driving Labs (SDLs), Project STAMP deterministic safety gating, 3-arm VLA planning in Isaac Sim 6.0 &amp; ROS 2, and coding agent harnesses." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mincasurong.github.io/blog/" />
   <meta property="og:title" content="M9G | Technical Research Blog" />
-  <meta property="og:description" content="Concise visual engineering posts on Physical AI, multi-robot VLA planning, Project STAMP, and coding agent harnesses." />
-  <meta property="og:image" content="https://mincasurong.github.io/screenshots/stamp-architecture-nanobanana.png" />
+  <meta property="og:description" content="Concise visual engineering posts on UIUC Lazy-DaSH (IEEE T-RO), multi-robot VLA planning, Self-Driving Labs, Project STAMP, and coding agent harnesses." />
+  <meta property="og:image" content="https://mincasurong.github.io/screenshots/lazy-dash-architecture-nanobanana.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -449,16 +449,36 @@
     <div class="sub-bar">
       <div class="sub-bar-left">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-        <span data-i18n="feedHeader">Published Research Posts (4)</span>
+        <span data-i18n="feedHeader">Published Research Posts (5)</span>
       </div>
       <div class="filter-pills">
-        <button class="filter-pill active" onclick="filterFeed('all', this)" data-i18n="tabAll">All (4)</button>
-        <button class="filter-pill" onclick="filterFeed('robotics', this)" data-i18n="tabRobotics">Physical AI &amp; Robotics (3)</button>
+        <button class="filter-pill active" onclick="filterFeed('all', this)" data-i18n="tabAll">All (5)</button>
+        <button class="filter-pill" onclick="filterFeed('robotics', this)" data-i18n="tabRobotics">Physical AI &amp; Robotics (4)</button>
         <button class="filter-pill" onclick="filterFeed('agents', this)" data-i18n="tabAgents">Coding Agents (1)</button>
       </div>
     </div>
 
     <div class="showcase-list">
+      <div class="showcase-card" data-topic="robotics">
+        <a href="/blog/lazy-dash/" class="card-thumb">
+          <img src="/screenshots/lazy-dash-architecture-nanobanana.png" alt="UIUC Lazy-DaSH (IEEE T-RO) & IsaacSim_Gemini Multi-Model VLA Roadmap" loading="lazy" />
+          <span class="card-type-badge">Blog 05 • Lazy-DaSH × VLA</span>
+        </a>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="card-badge">IEEE T-RO (UIUC) • Argon + ER-2 + Flash-Lite • 16 Arms / 60+ Obj</span>
+          </div>
+          <h2 class="card-title"><a href="/blog/lazy-dash/" data-i18n="b5Title">Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph TAMP &amp; Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini</a></h2>
+          <p class="card-desc" data-i18n="b5Desc">Summarizing Seongwon "Scott" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab) and mapping its 4-layer lazy hypergraph &amp; scoped constraint feedback onto Gemini 4 Argon, Robotics-ER 2, and Flash-Lite with 7 continuous KPIs.</p>
+        </div>
+        <div class="card-cta-wrap">
+          <a href="/blog/lazy-dash/" class="card-cta">
+            <span data-i18n="b5Btn">Read Lazy-DaSH Blog</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </a>
+        </div>
+      </div>
+
       <div class="showcase-card" data-topic="robotics">
         <a href="/blog/sdl-survey/" class="card-thumb">
           <img src="/screenshots/sdl-survey-architecture.svg" alt="SOTA Survey: Multi-Robot Assembly, Deformables & Self-Driving Labs in Isaac Sim" loading="lazy" />
@@ -679,8 +699,11 @@
         blogHeaderBrand: "Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
         hubTitle: "M9G Technical Research & Engineering Blog",
         hubSub: "Concise engineering disclosures on multi-robot VLA manipulation in NVIDIA Isaac Sim 6.0 & ROS 2, deterministic robot safety gates, and multi-agent coding harnesses.",
-        feedHeader: "Published Research Posts (4)",
-        tabAll: "All (4)", tabRobotics: "Physical AI & Robotics (3)", tabAgents: "Coding Agents (1)",
+        feedHeader: "Published Research Posts (5)",
+        tabAll: "All (5)", tabRobotics: "Physical AI & Robotics (4)", tabAgents: "Coding Agents (1)",
+        b5Title: "Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph TAMP & Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini",
+        b5Desc: "Summarizing Seongwon \"Scott\" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab) and mapping its 4-layer lazy hypergraph & scoped constraint feedback onto Gemini 4 Argon, Robotics-ER 2, and Flash-Lite with 7 continuous KPIs.",
+        b5Btn: "Read Lazy-DaSH Blog",
         b4Title: "SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling & Self-Driving Labs",
         b4Desc: "4-tier neuro-symbolic + GPU physics synthesis across MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, and Project STAMP (v1.0.0-stamp).",
         b4Btn: "Read SDL Survey",
@@ -698,8 +721,11 @@
         blogHeaderBrand: "블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
         hubTitle: "M9G 기술 리서치 & 엔지니어링 블로그",
         hubSub: "NVIDIA Isaac Sim 6.0 및 ROS 2 다중 로봇 VLA 제어, 결정론적 안전 검증 게이트(STAMP), 멀티에이전트 코딩 하네스 연구 리포트.",
-        feedHeader: "발표된 기술 리포트 (4편)",
-        tabAll: "전체 (4)", tabRobotics: "피지컬 AI & 로보틱스 (3)", tabAgents: "코딩 에이전트 (1)",
+        feedHeader: "발표된 기술 리포트 (5편)",
+        tabAll: "전체 (5)", tabRobotics: "피지컬 AI & 로보틱스 (4)", tabAgents: "코딩 에이전트 (1)",
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) 심층 분석: 계층적 하이퍼그래프 TAMP 및 IsaacSim_Gemini 멀티모델(Argon·ER-2·Flash-Lite) 업그레이드 로드맵",
+        b5Desc: "UIUC Parasol Lab(Seongwon 'Scott' Lee 외)의 Lazy-DaSH 논문 분석과 4계층 지연 하이퍼그래프·분기 범위 제약 피드백을 Gemini 4 Argon, Robotics-ER 2, Flash-Lite 및 7대 KPI로 매핑한 아키텍처.",
+        b5Btn: "Lazy-DaSH 블로그 읽기",
         b4Title: "SOTA 서베이 (2025–2026): NVIDIA Isaac Sim 기반 에이전틱 다중 로봇 조작 — 정밀 조립, 유연체 핸들링 및 자율 실험실(SDL)",
         b4Desc: "MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA 등 14개 선도 프레임워크와 Project STAMP(v1.0.0-stamp)의 4계층 뉴로-심볼릭 + GPU 물리 파이프라인 종합 분석.",
         b4Btn: "SDL 서베이 읽기",
@@ -717,8 +743,11 @@
         blogHeaderBrand: "ブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
         hubTitle: "M9G 技術リサーチ & エンジニアリングブログ",
         hubSub: "NVIDIA Isaac Sim 6.0 & ROS 2 マルチロボットVLA制御、決定論的安全ゲート (STAMP)、マルチエージェント・ハーネスに関する技術記事。",
-        feedHeader: "公開リサーチ記事 (4)",
-        tabAll: "すべて (4)", tabRobotics: "フィジカルAI & ロボティクス (3)", tabAgents: "コーディングエージェント (1)",
+        feedHeader: "公開リサーチ記事 (5)",
+        tabAll: "すべて (5)", tabRobotics: "フィジカルAI & ロボティクス (4)", tabAgents: "コーディングエージェント (1)",
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) に学ぶ：階層型ハイパーグラフTAMPと IsaacSim_Gemini マルチモデル協調KPIロードマップ",
+        b5Desc: "UIUC Parasol Lab (Seongwon 'Scott' Lee ら) の Lazy-DaSH 論文解説と、4層ハイパーグラフ＆制約フィードバックを Gemini 4 Argon・Robotics-ER 2・Flash-Lite に統合する7つのKPI。",
+        b5Btn: "Lazy-DaSH 記事を読む",
         b4Title: "SOTAサーベイ (2025–2026): NVIDIA Isaac Simにおけるエージェンティック・マルチロボットマニピュレーション — 組立・柔軟物操作・自律実験室(SDL)",
         b4Desc: "MATTERIX、APEX-MR、RoboFactory、DexGarmentLab、ORGANAなど14の最新フレームワークとProject STAMP (v1.0.0-stamp) の4層統合アーキテクチャ。",
         b4Btn: "SDL サーベイを読む",
@@ -736,8 +765,11 @@
         blogHeaderBrand: "博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
         hubTitle: "M9G 技术研究与系统工程博客",
         hubSub: "聚焦 NVIDIA Isaac Sim 6.0 与 ROS 2 多臂 VLA 操控、Project STAMP 确定性安全门控与多智能体编码框架。",
-        feedHeader: "已发布技术报告 (4)",
-        tabAll: "全部 (4)", tabRobotics: "物理 AI 与机器人 (3)", tabAgents: "编码智能体 (1)",
+        feedHeader: "已发布技术报告 (5)",
+        tabAll: "全部 (5)", tabRobotics: "物理 AI 与机器人 (4)", tabAgents: "编码智能体 (1)",
+        b5Title: "借鉴 UIUC Lazy-DaSH (IEEE T-RO)：分层超图多机器人 TAMP 与 IsaacSim_Gemini 多模型 (Argon · ER-2 · Flash-Lite) 升级路线图",
+        b5Desc: "深度解析 UIUC Parasol 实验室 (Seongwon 'Scott' Lee 等) 的 Lazy-DaSH 论文，并将其四层惰性超图与作用域约束反馈映射至 Gemini 4 Argon、Robotics-ER 2、Flash-Lite 与 7 项核心 KPI。",
+        b5Btn: "阅读 Lazy-DaSH 博客",
         b4Title: "前沿综述 (2025–2026)：NVIDIA Isaac Sim 中的智能体多机器人操控 — 协同装配、柔性物体操作与自动驾驶实验室 (SDL)",
         b4Desc: "系统梳理 MATTERIX、APEX-MR、RoboFactory、DexGarmentLab、ORGANA 等 14 项代表性工作与 Project STAMP (v1.0.0-stamp) 四层神经符号 + GPU 物理架构。",
         b4Btn: "阅读 SDL 综述",
@@ -755,8 +787,11 @@
         blogHeaderBrand: "Blog", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
         hubTitle: "Blog de Investigación e Ingeniería M9G",
         hubSub: "Artículos técnicos sobre manipulación VLA multirrobot en NVIDIA Isaac Sim 6.0 y ROS 2, compuertas de seguridad deterministas (STAMP) y agentes de código.",
-        feedHeader: "Artículos Publicados (4)",
-        tabAll: "Todos (4)", tabRobotics: "IA Física y Robótica (3)", tabAgents: "Agentes de Código (1)",
+        feedHeader: "Artículos Publicados (5)",
+        tabAll: "Todos (5)", tabRobotics: "IA Física y Robótica (4)", tabAgents: "Agentes de Código (1)",
+        b5Title: "Aprendiendo de Lazy-DaSH de UIUC (IEEE T-RO): Planificación Jerárquica con Hipergrafos y Hoja de Ruta VLA Multi-Modelo para IsaacSim_Gemini",
+        b5Desc: "Síntesis de Lazy-DaSH (Seongwon 'Scott' Lee et al., UIUC) y mapeo de su hipergrafo perezoso de 4 capas a Gemini 4 Argon, Robotics-ER 2 y Flash-Lite con 7 KPIs continuos.",
+        b5Btn: "Leer Blog Lazy-DaSH",
         b4Title: "Revisión SOTA (2025–2026): Manipulación Multirrobot Agéntica en NVIDIA Isaac Sim — Ensamblaje, Objetos Deformables y Laboratorios Autónomos (SDL)",
         b4Desc: "Síntesis neuro-simbólica + física GPU de 4 niveles en MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA y Project STAMP (v1.0.0-stamp).",
         b4Btn: "Leer Revisión SDL",
