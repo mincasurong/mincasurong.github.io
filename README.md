@@ -4,7 +4,7 @@
 
 ### *by Agent-enabled System Engineering* &nbsp; [<kbd>&nbsp;🔵 LinkedIn ↗&nbsp;</kbd>](https://www.linkedin.com/in/mincasurong/) &nbsp; [<kbd>&nbsp;⚫ GitHub ↗&nbsp;</kbd>](https://github.com/mincasurong)
 
-[🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [🦾 3D Fast-Sim ↗](https://stamp-fast-sim-web-kkwxezedia-du.a.run.app) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎓 Tutorials ↗](https://mincasurong.github.io/tutorials/) • [🏛️ Full Archive & Patents ↗](https://mincasurong.github.io/archive/) • [📝 Engineering Blog ↗](https://mincasurong.github.io/blog/)
+[🏆 Recent News](#-recent-news) • [🤖 Robotic Arms](#-gemini--robotic-arm-series-isaac-sim--ros-2) • [🦾 3D TAMP Lite-Sim ↗](https://tamp.mincasurong.com) • [📚 Publications](#-publications) • [📱 Gemini Diaries](#-gemini-diaries--free-live-apps) • [🎓 Tutorials ↗](https://mincasurong.github.io/tutorials/) • [🏛️ Full Archive & Patents ↗](https://mincasurong.github.io/archive/) • [📝 Engineering Blog ↗](https://mincasurong.github.io/blog/)
 
 </div>
 
@@ -53,15 +53,15 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
 <table>
   <tr>
     <td width="42%" valign="middle">
-      <a href="https://stamp-fast-sim-web-kkwxezedia-du.a.run.app">
-        <img src="https://mincasurong.github.io/screenshots/lazy-dash-architecture-nanobanana.png" width="100%" alt="Reconfigurable Franka FR3 Workcell & Multi-Cell Factory 3D Fast-Sim" style="border-radius: 8px;" />
+      <a href="https://tamp.mincasurong.com">
+        <img src="https://mincasurong.github.io/screenshots/blog6-fastsim-thumb-nanobanana.png" width="100%" alt="Reconfigurable Franka FR3 Workcell & Multi-Cell Factory 3D Lite-Sim (tamp.mincasurong.com)" style="border-radius: 8px;" />
       </a>
     </td>
     <td width="58%" valign="middle">
-      <p><code>stamp-fast-sim-web (GCP Cloud Run)</code> • <b>Live 3D WebGL • 52 Scenarios • Zero Install</b></p>
-      <h3><a href="https://stamp-fast-sim-web-kkwxezedia-du.a.run.app">Reconfigurable Franka FR3 Workcell &amp; Multi-Cell Factory 3D Fast-Sim</a></h3>
-      <p>Interactive browser 3D simulation featuring the <b>Lazy-DaSH RCPSP Scheduler</b>, <b>Real-Time Execution Hypergraph</b>, <b>7-DOF Damped Least-Squares (DLS) IK</b>, and <b>Mobile Manipulator Material Transfer</b> across 8-slot Franka FR3 workcells and multi-cell factories.</p>
-      <p><a href="https://stamp-fast-sim-web-kkwxezedia-du.a.run.app"><b>Launch Interactive 3D Fast-Sim (Cloud Run) ↗</b></a> &nbsp;•&nbsp; <a href="https://mincasurong.github.io/blog/lazy-dash/"><b>Read Lazy-DaSH Blog ↗</b></a></p>
+      <p><code>tamp.mincasurong.com</code> • <b>Live 60 FPS WebGL • 7-DoF DLS IK &lt;25 ms • Zero Install</b></p>
+      <h3><a href="https://tamp.mincasurong.com">Reconfigurable Franka FR3 Workcell &amp; Multi-Cell Factory 3D Lite-Sim</a></h3>
+      <p>Interactive browser 3D simulation featuring the <b>Lazy-DaSH RCPSP Scheduler</b>, <b>Real-Time Execution Hypergraph</b>, <b>7-DoF Damped Least-Squares (DLS) IK</b>, and <b>Mobile Manipulator Material Transfer</b> across 8-slot Franka FR3 workcells and 6-cell (18 FR3 + 4 AMR) smart factories.</p>
+      <p><a href="https://tamp.mincasurong.com"><b>Launch tamp.mincasurong.com ↗</b></a> &nbsp;•&nbsp; <a href="https://mincasurong.github.io/blog/tamp-fast-sim/"><b>Read Engineering Blog (M9G-TR-2026-06) ↗</b></a></p>
     </td>
   </tr>
 </table>
@@ -69,6 +69,19 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
 ### 📊 Featured Technical Research Blogs
 
 <table>
+  <tr>
+    <td width="42%" valign="middle">
+      <a href="https://mincasurong.github.io/blog/tamp-fast-sim/">
+        <img src="https://mincasurong.github.io/screenshots/blog6-fastsim-thumb-nanobanana.png" width="100%" alt="Browser-Native 3D Multi-Robot & Smart Factory Lite-Sim (tamp.mincasurong.com)" style="border-radius: 8px;" />
+      </a>
+    </td>
+    <td width="58%" valign="middle">
+      <p><code>mincasurong.github.io/blog/tamp-fast-sim</code> • <b>M9G-TR-2026-06 • tamp.mincasurong.com • 60 FPS WebGL TAMP</b></p>
+      <h3><a href="https://mincasurong.github.io/blog/tamp-fast-sim/">Building a Browser-Native 3D Multi-Robot &amp; Smart Factory Lite-Sim (tamp.mincasurong.com): Why Real-Time WebGL TAMP Is Hard &amp; How We Overcame It</a></h3>
+      <p>How we overcame 5 core bottlenecks: 134 KB binary STL meshes, pure TypeScript 7-DoF DLS IK (&lt;25 ms), 128 Hz swept capsule gate with 3D red ghost debugging, elevated AMR turret docking, and a 6-cell (18 FR3 + 4 AMR) smart factory at 720/h throughput.</p>
+      <p><a href="https://mincasurong.github.io/blog/tamp-fast-sim/"><b>Read 3D Lite-Sim Blog ↗</b></a> &nbsp;•&nbsp; <a href="https://tamp.mincasurong.com"><b>Launch Live App ↗</b></a></p>
+    </td>
+  </tr>
   <tr>
     <td width="42%" valign="middle">
       <a href="https://mincasurong.github.io/blog/lazy-dash/">

@@ -486,19 +486,39 @@
     <div class="sub-bar">
       <div class="sub-bar-left">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-        <span data-i18n="feedHeader">Published Research Posts (5)</span>
+        <span data-i18n="feedHeader">Published Research Posts (6)</span>
       </div>
       <div class="filter-pills">
-        <button class="filter-pill active" onclick="filterFeed('all', this)" data-i18n="tabAll">All (5)</button>
-        <button class="filter-pill" onclick="filterFeed('robotics', this)" data-i18n="tabRobotics">Physical AI &amp; Robotics (4)</button>
+        <button class="filter-pill active" onclick="filterFeed('all', this)" data-i18n="tabAll">All (6)</button>
+        <button class="filter-pill" onclick="filterFeed('robotics', this)" data-i18n="tabRobotics">Physical AI &amp; Robotics (5)</button>
         <button class="filter-pill" onclick="filterFeed('agents', this)" data-i18n="tabAgents">Coding Agents (1)</button>
       </div>
     </div>
 
     <div class="showcase-list">
       <div class="showcase-card featured-hero-card" data-topic="robotics">
+        <a href="/blog/tamp-fast-sim/" class="card-thumb">
+          <img src="/screenshots/blog6-fastsim-thumb-nanobanana.png" alt="Building a Browser-Native 3D Multi-Robot & Smart Factory Lite-Sim (tamp.mincasurong.com)" loading="eager" />
+          <span class="card-type-badge">Blog 06 • 3D TAMP Lite-Sim</span>
+          <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + Live App</span>
+        </a>
+        <div class="card-body">
+          <div>
+            <div class="card-meta">
+              <span class="card-badge">tamp.mincasurong.com • 60 FPS WebGL • 7-DoF DLS IK &lt;25 ms</span>
+              <a href="/blog/tamp-fast-sim/" class="card-icon-btn" aria-label="Open Blog 06">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+              </a>
+            </div>
+            <h2 class="card-title"><a href="/blog/tamp-fast-sim/" data-i18n="b6Title">Building a Browser-Native 3D Multi-Robot &amp; Smart Factory Lite-Sim (tamp.mincasurong.com): Why Real-Time WebGL TAMP Is Hard &amp; How We Overcame It</a></h2>
+            <p class="card-desc" data-i18n="b6Desc">134 KB binary STL pack, in-browser 7-DoF DLS IK (&lt;25 ms), 128 Hz swept capsule gate with 3D red ghost debugging, and a 6-cell 18-FR3 + 4-AMR smart factory at 720/h throughput.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-card" data-topic="robotics">
         <a href="/blog/lazy-dash/" class="card-thumb">
-          <img src="/screenshots/blog5-lazydash-thumb-nanobanana.png" alt="UIUC Lazy-DaSH (IEEE T-RO) & IsaacSim_Gemini Multi-Model VLA Roadmap" loading="eager" />
+          <img src="/screenshots/blog5-lazydash-thumb-nanobanana.png" alt="UIUC Lazy-DaSH (IEEE T-RO) & IsaacSim_Gemini Multi-Model VLA Roadmap" loading="lazy" />
           <span class="card-type-badge">Blog 05 • Lazy-DaSH × VLA</span>
           <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + TL;DR</span>
         </a>
@@ -511,7 +531,7 @@
               </a>
             </div>
             <h2 class="card-title"><a href="/blog/lazy-dash/" data-i18n="b5Title">UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini: Multi-Model VLA Hypergraph Roadmap</a></h2>
-            <p class="card-desc" data-i18n="b5Desc">4-layer lazy hypergraph (H_T → H_M) mapped to Gemini 4 Argon, Robotics-ER 2 &amp; Flash-Lite with 7 KPIs.</p>
+            <p class="card-desc" data-i18n="b5Desc">4-layer lazy hypergraph (Task-to-Motion Hypergraphs) mapped to Gemini 4 Argon, Robotics-ER 2 &amp; Flash-Lite with 7 KPIs.</p>
           </div>
         </div>
       </div>
@@ -736,10 +756,12 @@
         blogHeaderBrand: "Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
         hubTitle: "M9G Technical Research & Engineering Blog",
         hubSub: "Visual TL;DRs & 40s video syntheses on Physical AI, multi-robot VLA planning, and coding agent harnesses.",
-        feedHeader: "Published Research Posts (5)",
-        tabAll: "All (5)", tabRobotics: "Physical AI & Robotics (4)", tabAgents: "Coding Agents (1)",
+        feedHeader: "Published Research Posts (6)",
+        tabAll: "All (6)", tabRobotics: "Physical AI & Robotics (5)", tabAgents: "Coding Agents (1)",
+        b6Title: "Building a Browser-Native 3D Multi-Robot & Smart Factory Lite-Sim (tamp.mincasurong.com): Why Real-Time WebGL TAMP Is Hard & How We Overcame It",
+        b6Desc: "134 KB binary STL pack, in-browser 7-DoF DLS IK (<25 ms), 128 Hz swept capsule gate with 3D red ghost debugging, and a 6-cell 18-FR3 + 4-AMR smart factory at 720/h throughput.",
         b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini: Multi-Model VLA Hypergraph Roadmap",
-        b5Desc: "4-layer lazy hypergraph (H_T → H_M) mapped to Gemini 4 Argon, Robotics-ER 2 & Flash-Lite with 7 KPIs.",
+        b5Desc: "4-layer lazy hypergraph (Task-to-Motion Hypergraphs) mapped to Gemini 4 Argon, Robotics-ER 2 & Flash-Lite with 7 KPIs.",
         b4Title: "SOTA Survey (2025–2026): Multi-Robot Assembly, Deformables & Self-Driving Labs in Isaac Sim",
         b4Desc: "MATTERIX, APEX-MR, RoboFactory, DexGarmentLab & ORGANA unified in Project STAMP.",
         b3Title: "Project STAMP: 4-Layer Deterministic Safety Gate & Write-Back for Multi-Arm VLA",
@@ -753,10 +775,12 @@
         blogHeaderBrand: "블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
         hubTitle: "M9G 기술 리서치 & 엔지니어링 블로그",
         hubSub: "피지컬 AI, 다중 로봇 VLA 플래닝, 코딩 에이전트 하네스의 핵심 TL;DR 및 40초 비디오 요약.",
-        feedHeader: "발표된 기술 리포트 (5편)",
-        tabAll: "전체 (5)", tabRobotics: "피지컬 AI & 로보틱스 (4)", tabAgents: "코딩 에이전트 (1)",
+        feedHeader: "발표된 기술 리포트 (6편)",
+        tabAll: "전체 (6)", tabRobotics: "피지컬 AI & 로보틱스 (5)", tabAgents: "코딩 에이전트 (1)",
+        b6Title: "브라우저 네이티브 3D 다중 로봇 & 스마트 팩토리 Lite-Sim 구축기 (tamp.mincasurong.com): 실시간 WebGL TAMP의 5대 난제와 극복 과정",
+        b6Desc: "134 KB 바이너리 STL 메쉬, 25ms 미만 7자유도 DLS 역기구학, 128 Hz 캡슐 충돌 검증 및 6워크셀(18 FR3 + 4 AMR) 720/h 스마트 팩토리 구현.",
         b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini: 멀티모델 VLA 하이퍼그래프 로드맵",
-        b5Desc: "4계층 지연 하이퍼그래프(H_T → H_M)와 Argon · ER-2 · Flash-Lite 7대 KPI 오케스트레이션.",
+        b5Desc: "4계층 지연 하이퍼그래프(Task-to-Motion Hypergraphs)와 Argon · ER-2 · Flash-Lite 7대 KPI 오케스트레이션.",
         b4Title: "SOTA 서베이 (2025–2026): Isaac Sim 다중 로봇 조립, 유연체 핸들링 및 자율 실험실(SDL)",
         b4Desc: "MATTERIX, APEX-MR, RoboFactory, DexGarmentLab 등 14개 SOTA와 Project STAMP 통합.",
         b3Title: "Project STAMP: 다중 로봇 팔 VLA를 위한 4계층 결정론적 안전 게이트 & Write-Back",
@@ -770,10 +794,12 @@
         blogHeaderBrand: "ブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
         hubTitle: "M9G 技術リサーチ & エンジニアリングブログ",
         hubSub: "フィジカルAI、マルチロボットVLA計画、エージェント・ハーネスの視覚的TL;DR＆40秒動画要約。",
-        feedHeader: "公開リサーチ記事 (5)",
-        tabAll: "すべて (5)", tabRobotics: "フィジカルAI & ロボティクス (4)", tabAgents: "コーディングエージェント (1)",
+        feedHeader: "公開リサーチ記事 (6)",
+        tabAll: "すべて (6)", tabRobotics: "フィジカルAI & ロボティクス (5)", tabAgents: "コーディングエージェント (1)",
+        b6Title: "ブラウザネイティブ 3D マルチロボット＆スマート工場 Lite-Sim 構築記 (tamp.mincasurong.com)：WebGL TAMP の5大技術課題と解決策",
+        b6Desc: "134 KB STLメッシュ、25ms未満の7自由度DLS逆運動学、128 Hzカプセル衝突ゲート、18台FR3＋4台AMRの6セル工場(720/h)を実現。",
         b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini：マルチモデルVLAハイパーグラフ計画",
-        b5Desc: "4層遅延ハイパーグラフ (H_T → H_M) を Argon・ER-2・Flash-Lite と7つのKPIに統合。",
+        b5Desc: "4層遅延ハイパーグラフ (Task-to-Motion Hypergraphs) を Argon・ER-2・Flash-Lite と7つのKPIに統合。",
         b4Title: "SOTAサーベイ (2025–2026)：Isaac Sim マルチロボット組立・柔軟物・自律実験室 (SDL)",
         b4Desc: "MATTERIX、APEX-MR、RoboFactory、DexGarmentLab 等14システムと Project STAMP の統合。",
         b3Title: "Project STAMP：4層決定論的安全ゲート＆閉ループ Write-Back 修復",
@@ -787,10 +813,12 @@
         blogHeaderBrand: "博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
         hubTitle: "M9G 技术研究与系统工程博客",
         hubSub: "物理 AI、多臂 VLA 规划与多智能体编码框架的视觉 TL;DR 与 40 秒视频精粹。",
-        feedHeader: "已发布技术报告 (5)",
-        tabAll: "全部 (5)", tabRobotics: "物理 AI 与机器人 (4)", tabAgents: "编码智能体 (1)",
+        feedHeader: "已发布技术报告 (6)",
+        tabAll: "全部 (6)", tabRobotics: "物理 AI 与机器人 (5)", tabAgents: "编码智能体 (1)",
+        b6Title: "构建浏览器原生 3D 多机器人与智能工厂 Lite-Sim (tamp.mincasurong.com)：实时 WebGL TAMP 的五大技术难点与攻克之道",
+        b6Desc: "134 KB 二进制 STL 网格、低于 25ms 的 7-DoF DLS 逆运动学、128 Hz 胶囊碰撞门控与 6 工作站 (18 FR3 + 4 AMR) 720/h 智能工厂仿真。",
         b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini：多模型 VLA 超图路线图",
-        b5Desc: "四层惰性超图 (H_T → H_M) 映射至 Argon、ER-2 与 Flash-Lite 及 7 项核心 KPI。",
+        b5Desc: "四层惰性超图 (Task-to-Motion Hypergraphs) 映射至 Argon、ER-2 与 Flash-Lite 及 7 项核心 KPI。",
         b4Title: "前沿综述 (2025–2026)：Isaac Sim 多机器人装配、柔性物体与自动驾驶实验室 (SDL)",
         b4Desc: "系统梳理 MATTERIX、APEX-MR、RoboFactory 等 14 项工作与 Project STAMP 统一架构。",
         b3Title: "Project STAMP：面向多臂 VLA 的四层确定性安全门控与闭环 Write-Back",
@@ -804,10 +832,12 @@
         blogHeaderBrand: "Blog", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
         hubTitle: "Blog de Investigación e Ingeniería M9G",
         hubSub: "TL;DR visuales y síntesis en video de 40s sobre IA Física, VLA multirrobot y agentes de código.",
-        feedHeader: "Artículos Publicados (5)",
-        tabAll: "Todos (5)", tabRobotics: "IA Física y Robótica (4)", tabAgents: "Agentes de Código (1)",
+        feedHeader: "Artículos Publicados (6)",
+        tabAll: "Todos (6)", tabRobotics: "IA Física y Robótica (5)", tabAgents: "Agentes de Código (1)",
+        b6Title: "Construyendo un Lite-Sim 3D Multirrobot y de Fábrica Inteligente en el Navegador (tamp.mincasurong.com): Por Qué Es Difícil y Cómo lo Superamos",
+        b6Desc: "Mallas STL de 134 KB, IK DLS de 7-GDL en <25 ms, compuerta de cápsulas a 128 Hz con fantasmas 3D y fábrica de 6 celdas (18 FR3 + 4 AMRs, 720/h).",
         b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini: Hoja de Ruta VLA con Hipergrafos",
-        b5Desc: "Hipergrafo perezoso de 4 capas (H_T → H_M) con Argon, ER-2, Flash-Lite y 7 KPIs.",
+        b5Desc: "Hipergrafo perezoso de 4 capas (Task-to-Motion Hypergraphs) con Argon, ER-2, Flash-Lite y 7 KPIs.",
         b4Title: "Revisión SOTA (2025–2026): Ensamblaje, Deformables y Laboratorios Autónomos (SDL)",
         b4Desc: "MATTERIX, APEX-MR, RoboFactory y DexGarmentLab unificados en Project STAMP.",
         b3Title: "Project STAMP: Compuerta Determinista de 4 Capas y Write-Back para VLA",

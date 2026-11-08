@@ -5,8 +5,16 @@
     <link>https://mincasurong.github.io/</link>
     <description>Official portfolio and engineering blog of Minsu Chang, Ph.D. (장민수, mincasurong, M9G): 1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026, Multi-Robot VLA Benchmarks in NVIDIA Isaac Sim 6.0 &amp; ROS 2, ROS/MoveIt/Jetson Nano Tutorials, 21 Peer-Reviewed Publications (IEEE ICRA, IEEE/RSJ IROS, IEEE TNSRE), and 14+ US/KR Patents.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 08 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2026 12:00:00 GMT</lastBuildDate>
     <atom:link href="https://mincasurong.github.io/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>Building a Browser-Native 3D Multi-Robot &amp; Smart Factory Lite-Sim (tamp.mincasurong.com): Why Real-Time WebGL TAMP Is Hard and How We Overcame It</title>
+      <link>https://mincasurong.github.io/blog/tamp-fast-sim/</link>
+      <guid>https://mincasurong.github.io/blog/tamp-fast-sim/</guid>
+      <pubDate>Sun, 15 Nov 2026 12:00:00 GMT</pubDate>
+      <description>M9G-TR-2026-06 by Minsu Chang, Ph.D. (M9G): Engineering tamp.mincasurong.com — how we overcame 5 core browser TAMP bottlenecks using a 134 KB binary STL mesh pack, pure TypeScript 7-DoF DLS IK (&lt;25 ms), 128 Hz swept capsule safety gate with 3D red ghost debugging, elevated AMR turret docking, and a 6-cell (18 FR3 + 4 AMR) smart factory at 720/h throughput.</description>
+    </item>
 
     <item>
       <title>Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph Task &amp; Motion Planning and Our Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini</title>
