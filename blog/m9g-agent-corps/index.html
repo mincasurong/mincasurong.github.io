@@ -63,22 +63,50 @@
       --text-body: #3c4043;
       --text-secondary: #5f6368;
       --text-muted: #70757a;
-      --dm-blue: #1a73e8;
+            --dm-blue: #1a73e8;
       --dm-blue-dark: #174ea6;
       --dm-blue-bg: #e8f0fe;
-      --dm-navy: #0b1f44;
-      --dm-green: #1e8e3e;
-      --dm-green-dark: #137333;
-      --dm-green-bg: #e6f4ea;
-      --dm-amber: #e37400;
-      --dm-amber-dark: #b06000;
-      --dm-amber-bg: #fef7e0;
-      --dm-red: #d93025;
-      --dm-red-bg: #fce8e6;
+      --dm-navy: #174ea6;
+      --dm-green: #1a73e8;
+      --dm-green-dark: #174ea6;
+      --dm-green-bg: #e8f0fe;
+      --dm-amber: #1a73e8;
+      --dm-amber-dark: #174ea6;
+      --dm-amber-bg: #e8f0fe;
+      --dm-red: #1a73e8;
+      --dm-red-bg: #e8f0fe;
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
+        html.dark {
+      --bg: #111111;
+      --surface: #181818;
+      --surface-alt: #222222;
+      --surface-tint: #18181c;
+      --border: #2a2a2a;
+      --border-subtle: #222222;
+      --text: #fcfcfb;
+      --text-body: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --dm-blue: #fbbf24;
+      --dm-blue-dark: #fbbf24;
+      --dm-blue-bg: rgba(251, 191, 36, 0.14);
+      --dm-navy: #fbbf24;
+      --dm-green: #fbbf24;
+      --dm-green-dark: #fbbf24;
+      --dm-green-bg: rgba(251, 191, 36, 0.14);
+      --dm-amber: #fbbf24;
+      --dm-amber-dark: #fbbf24;
+      --dm-amber-bg: rgba(251, 191, 36, 0.14);
+      --dm-red: #fbbf24;
+      --dm-red-bg: rgba(251, 191, 36, 0.14);
+    }
+    html.dark .topbar { background: rgba(17, 17, 17, 0.94); }
+    html.dark .article-hero { background: linear-gradient(180deg, #18181c 0%, #111111 100%); }
+    html.dark .blog-post-switcher, html.dark .ts-btn, html.dark .table-scroll, html.dark .citation-pre { background: #18181c; }
+    html.dark .topnav a.back-link { background: #fbbf24; color: #111111; }
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0; width: 100%; max-width: 100%;
