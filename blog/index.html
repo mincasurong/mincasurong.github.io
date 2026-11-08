@@ -222,83 +222,117 @@
       background: var(--emerald-dim); border-color: var(--emerald-border); color: var(--emerald);
     }
 
-    .showcase-list { display: flex; flex-direction: column; gap: 20px; }
+    .showcase-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    @media (min-width: 720px) {
+      .showcase-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .showcase-card.featured-hero-card {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1.38fr 1fr;
+        align-items: stretch;
+      }
+    }
     .showcase-card {
-      padding: 18px 20px; border-radius: 16px;
+      padding: 14px; border-radius: 18px;
       border: 1px solid var(--border); background: var(--surface);
       backdrop-filter: blur(12px);
-      display: flex; flex-direction: column; gap: 18px;
+      display: flex; flex-direction: column; gap: 14px;
       transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.28s ease;
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      position: relative;
     }
     html.light .showcase-card { box-shadow: 0 8px 28px rgba(60, 64, 67, 0.08); }
     .showcase-card:hover {
-      transform: translateY(-5px) translateX(3px) scale(1.008);
+      transform: translateY(-5px) scale(1.01);
       border-color: var(--gold); background: var(--surface-hover);
     }
-    .showcase-card.hidden { display: none; }
-
-    @media (min-width: 768px) {
-      .showcase-card {
-        flex-direction: row; align-items: center; justify-content: space-between; gap: 22px;
-      }
-    }
+    .showcase-card.hidden { display: none !important; }
 
     .card-thumb {
       position: relative; width: 100%; aspect-ratio: 16 / 9;
       border-radius: 12px; overflow: hidden; border: 1px solid var(--border);
-      background: #000; flex-shrink: 0; display: block;
+      background: #ffffff; flex-shrink: 0; display: block;
     }
-    @media (min-width: 768px) { .card-thumb { width: 256px; } }
     .card-thumb img {
-      width: 100%; height: 100%; object-fit: cover; object-position: top;
-      transition: transform 0.45s ease;
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .showcase-card:hover .card-thumb img { transform: scale(1.05); }
+    .showcase-card:hover .card-thumb img { transform: scale(1.045); }
     .card-type-badge {
-      position: absolute; top: 8px; left: 8px;
-      padding: 2px 8px; border-radius: 4px;
-      background: rgba(0, 0, 0, 0.82); border: 1px solid rgba(255, 255, 255, 0.14);
-      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      position: absolute; top: 10px; left: 10px;
+      padding: 4px 10px; border-radius: 6px;
+      background: rgba(17, 17, 17, 0.86); border: 1px solid rgba(255, 255, 255, 0.18);
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.06em; color: #34d399;
+      backdrop-filter: blur(6px);
+    }
+    .card-duration-badge {
+      position: absolute; bottom: 10px; right: 10px;
+      padding: 3px 8px; border-radius: 5px;
+      background: rgba(17, 17, 17, 0.88); color: #ffffff;
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+    .card-duration-dot {
+      width: 6px; height: 6px; border-radius: 999px; background: #ef4444;
+      display: inline-block;
     }
 
-    .card-body { flex: 1; min-width: 0; }
-    .card-meta {
-      display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 8px;
+    .card-body {
+      flex: 1; min-width: 0; display: flex; flex-direction: column;
+      justify-content: space-between; padding: 2px 6px 4px;
     }
-    .card-domain { font-family: var(--font-mono); font-size: 11px; color: var(--text-sub); }
+    .card-meta {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;
+    }
     .card-badge {
-      font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
-      letter-spacing: 0.05em; color: var(--gold);
-      padding: 2px 8px; border-radius: 4px;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.04em; color: var(--gold);
+      padding: 3px 9px; border-radius: 6px;
       background: var(--gold-dim); border: 1px solid var(--gold-border);
     }
+    .card-title-row {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    }
     .card-title {
-      font-family: var(--font-serif); font-size: 1.22rem; font-weight: 700;
-      color: var(--text); margin-bottom: 6px; line-height: 1.32;
+      font-family: var(--font-display); font-size: 1.16rem; font-weight: 800;
+      color: var(--text); margin-bottom: 6px; line-height: 1.3;
+      letter-spacing: -0.015em;
       transition: color 0.2s ease;
+    }
+    .showcase-card.featured-hero-card .card-title {
+      font-size: clamp(1.25rem, 2.2vw, 1.52rem);
     }
     .showcase-card:hover .card-title { color: var(--gold); }
     .card-desc {
-      font-size: 13.5px; color: var(--text-sub); line-height: 1.55;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      font-size: 13px; color: var(--text-sub); line-height: 1.45;
+      display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .showcase-card.featured-hero-card .card-desc {
+      -webkit-line-clamp: 2;
+      font-size: 13.8px;
     }
 
-    .card-cta-wrap { width: 100%; flex-shrink: 0; }
-    @media (min-width: 768px) { .card-cta-wrap { width: auto; } }
-    .card-cta {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      width: 100%; padding: 13px 22px; border-radius: 12px;
-      background: #ffffff; color: #000000;
-      font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-      transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    .card-icon-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px; border-radius: 999px; flex-shrink: 0;
+      background: var(--gold-dim); color: var(--gold);
+      border: 1px solid var(--gold-border);
+      transition: all 0.2s ease;
     }
-    .showcase-card:hover .card-cta {
-      background: var(--gold); color: #000000; transform: scale(1.03);
+    .showcase-card:hover .card-icon-btn {
+      background: var(--gold); color: #ffffff; transform: translate(2px, -2px);
     }
-    html.light .card-cta { background: #1a73e8; color: #ffffff; }
-    html.light .showcase-card:hover .card-cta { background: #174ea6; color: #ffffff; }
+    html:not(.light) .showcase-card:hover .card-icon-btn {
+      color: #111111;
+    }
 
     footer {
       padding: 44px 24px; border-top: 1px solid var(--border);
@@ -459,23 +493,23 @@
     </div>
 
     <div class="showcase-list">
-      <div class="showcase-card" data-topic="robotics">
+      <div class="showcase-card featured-hero-card" data-topic="robotics">
         <a href="/blog/lazy-dash/" class="card-thumb">
-          <img src="/screenshots/blog5-lazydash-thumb-nanobanana.png" alt="UIUC Lazy-DaSH (IEEE T-RO) & IsaacSim_Gemini Multi-Model VLA Roadmap" loading="lazy" />
+          <img src="/screenshots/blog5-lazydash-thumb-nanobanana.png" alt="UIUC Lazy-DaSH (IEEE T-RO) & IsaacSim_Gemini Multi-Model VLA Roadmap" loading="eager" />
           <span class="card-type-badge">Blog 05 • Lazy-DaSH × VLA</span>
+          <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + TL;DR</span>
         </a>
         <div class="card-body">
-          <div class="card-meta">
-            <span class="card-badge">IEEE T-RO (UIUC) • Argon + ER-2 + Flash-Lite • 16 Arms / 60+ Obj</span>
+          <div>
+            <div class="card-meta">
+              <span class="card-badge">IEEE T-RO (UIUC) • 16 Arms / 60+ Obj • 100× Faster</span>
+              <a href="/blog/lazy-dash/" class="card-icon-btn" aria-label="Open Blog 05">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+              </a>
+            </div>
+            <h2 class="card-title"><a href="/blog/lazy-dash/" data-i18n="b5Title">UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini: Multi-Model VLA Hypergraph Roadmap</a></h2>
+            <p class="card-desc" data-i18n="b5Desc">4-layer lazy hypergraph (H_T → H_M) mapped to Gemini 4 Argon, Robotics-ER 2 &amp; Flash-Lite with 7 KPIs.</p>
           </div>
-          <h2 class="card-title"><a href="/blog/lazy-dash/" data-i18n="b5Title">Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph TAMP &amp; Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini</a></h2>
-          <p class="card-desc" data-i18n="b5Desc">Summarizing Seongwon "Scott" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab) and mapping its 4-layer lazy hypergraph &amp; scoped constraint feedback onto Gemini 4 Argon, Robotics-ER 2, and Flash-Lite with 7 continuous KPIs.</p>
-        </div>
-        <div class="card-cta-wrap">
-          <a href="/blog/lazy-dash/" class="card-cta">
-            <span data-i18n="b5Btn">Read Lazy-DaSH Blog</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-          </a>
         </div>
       </div>
 
@@ -483,19 +517,19 @@
         <a href="/blog/sdl-survey/" class="card-thumb">
           <img src="/screenshots/blog4-sdl-thumb-nanobanana.png" alt="SOTA Survey: Multi-Robot Assembly, Deformables & Self-Driving Labs in Isaac Sim" loading="lazy" />
           <span class="card-type-badge">Blog 04 • SDL Survey</span>
+          <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + TL;DR</span>
         </a>
         <div class="card-body">
-          <div class="card-meta">
-            <span class="card-badge">14 SOTA Systems • Assembly, Deformables &amp; SDLs</span>
+          <div>
+            <div class="card-meta">
+              <span class="card-badge">14 SOTA Systems • Assembly, Deformables &amp; SDLs</span>
+              <a href="/blog/sdl-survey/" class="card-icon-btn" aria-label="Open Blog 04">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+              </a>
+            </div>
+            <h2 class="card-title"><a href="/blog/sdl-survey/" data-i18n="b4Title">SOTA Survey (2025–2026): Multi-Robot Assembly, Deformables &amp; Self-Driving Labs in Isaac Sim</a></h2>
+            <p class="card-desc" data-i18n="b4Desc">MATTERIX, APEX-MR, RoboFactory, DexGarmentLab &amp; ORGANA unified in Project STAMP.</p>
           </div>
-          <h2 class="card-title"><a href="/blog/sdl-survey/" data-i18n="b4Title">SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling &amp; Self-Driving Labs</a></h2>
-          <p class="card-desc" data-i18n="b4Desc">4-tier neuro-symbolic + GPU physics synthesis across MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, and Project STAMP (v1.0.0-stamp).</p>
-        </div>
-        <div class="card-cta-wrap">
-          <a href="/blog/sdl-survey/" class="card-cta">
-            <span data-i18n="b4Btn">Read SDL Survey</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-          </a>
         </div>
       </div>
 
@@ -503,19 +537,19 @@
         <a href="/blog/stamp/" class="card-thumb">
           <img src="/screenshots/blog3-stamp-thumb-nanobanana.png" alt="Project STAMP Architecture" loading="lazy" />
           <span class="card-type-badge">Blog 03 • STAMP</span>
+          <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + TL;DR</span>
         </a>
         <div class="card-body">
-          <div class="card-meta">
-            <span class="card-badge">100% Fault Interception • 1,000 Episodes</span>
+          <div>
+            <div class="card-meta">
+              <span class="card-badge">100% Fault Shield (610/610) • 1,000 Episodes</span>
+              <a href="/blog/stamp/" class="card-icon-btn" aria-label="Open Blog 03">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+              </a>
+            </div>
+            <h2 class="card-title"><a href="/blog/stamp/" data-i18n="b3Title">Project STAMP: 4-Layer Deterministic Safety Gate &amp; Write-Back for Multi-Arm VLA</a></h2>
+            <p class="card-desc" data-i18n="b3Desc">100% fault interception (610/610) &amp; 39% → 100% completion via closed-loop write_limit_back.</p>
           </div>
-          <h2 class="card-title"><a href="/blog/stamp/" data-i18n="b3Title">Project STAMP: Deterministic Verification Gates &amp; Closed-Loop Context Repair for Multi-Arm VLA Planning</a></h2>
-          <p class="card-desc" data-i18n="b3Desc">4-stage Plan → Gate → Execute → Write-Back pipeline blocking 610/610 physical IK, collision, torque, and zone-lock faults and raising task completion from 39% to 100%.</p>
-        </div>
-        <div class="card-cta-wrap">
-          <a href="/blog/stamp/" class="card-cta">
-            <span data-i18n="b3Btn">Read STAMP Blog</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-          </a>
         </div>
       </div>
 
@@ -523,19 +557,19 @@
         <a href="/blog/m9g-agent/" class="card-thumb">
           <img src="/screenshots/blog2-agent-thumb-nanobanana.png" alt="m9g-agent-corps vs Production Harnesses" loading="lazy" />
           <span class="card-type-badge">Blog 02 • Agents</span>
+          <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + TL;DR</span>
         </a>
         <div class="card-body">
-          <div class="card-meta">
-            <span class="card-badge">28 Modules • m9g vs. OmO / OpenCode / Claude / agy</span>
+          <div>
+            <div class="card-meta">
+              <span class="card-badge">28 Modules • Pivot to m9g-mcp Server</span>
+              <a href="/blog/m9g-agent/" class="card-icon-btn" aria-label="Open Blog 02">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+              </a>
+            </div>
+            <h2 class="card-title"><a href="/blog/m9g-agent/" data-i18n="b2Title">Why Our 28-Module Coding Harness Failed vs. OmO, OpenCode &amp; Claude Code (→ m9g-mcp)</a></h2>
+            <p class="card-desc" data-i18n="b2Desc">6 root failure modes of scratch harnesses &amp; extracting 7 deterministic tools into m9g-mcp.</p>
           </div>
-          <h2 class="card-title"><a href="/blog/m9g-agent/" data-i18n="b2Title">Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode &amp; Claude Code</a></h2>
-          <p class="card-desc" data-i18n="b2Desc">Why our 28-module, 169-test standalone harness lagged pre-existing harnesses across 6 root failure modes—and how we extracted its best substrates into the m9g-mcp server.</p>
-        </div>
-        <div class="card-cta-wrap">
-          <a href="/blog/m9g-agent/" class="card-cta">
-            <span data-i18n="b2Btn">Read Agent Blog</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-          </a>
         </div>
       </div>
 
@@ -543,19 +577,19 @@
         <a href="/blog/VLA/" class="card-thumb">
           <img src="/screenshots/blog1-vla-thumb-nanobanana.png" alt="3-Arm VLA Task Planner Benchmark" loading="lazy" />
           <span class="card-type-badge">Blog 01 • VLA</span>
+          <span class="card-duration-badge"><span class="card-duration-dot"></span>0:38 Video + TL;DR</span>
         </a>
         <div class="card-body">
-          <div class="card-meta">
-            <span class="card-badge">3-Arm FR3 Tower • -76.6% API Cost ($0.01972)</span>
+          <div>
+            <div class="card-meta">
+              <span class="card-badge">3-Arm FR3 Tower • -76.6% API Cost ($0.01972)</span>
+              <a href="/blog/VLA/" class="card-icon-btn" aria-label="Open Blog 01">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+              </a>
+            </div>
+            <h2 class="card-title"><a href="/blog/VLA/" data-i18n="b1Title">Symbolic 3D /tf Grounding &amp; 10-Turn Pipelined VLA: ER-2 vs. Gemini 4 Argon</a></h2>
+            <p class="card-desc" data-i18n="b1Desc">0 RGB tokens, 10-turn pipelined schedule, and -76.6% API cost ($0.01972) in Isaac Sim 6.0.</p>
           </div>
-          <h2 class="card-title"><a href="/blog/VLA/" data-i18n="b1Title">Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: Gemini Robotics-ER 2 vs. Gemini 4 Argon</a></h2>
-          <p class="card-desc" data-i18n="b1Desc">3-stage hardware-in-the-loop benchmark in Isaac Sim 6.0 &amp; ROS 2 Jazzy achieving a 10-turn pipelined schedule with 0 RGB image tokens and -68.7% step latency.</p>
-        </div>
-        <div class="card-cta-wrap">
-          <a href="/blog/VLA/" class="card-cta">
-            <span data-i18n="b1Btn">Read VLA Blog</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-          </a>
         </div>
       </div>
     </div>
@@ -698,112 +732,87 @@
       en: {
         blogHeaderBrand: "Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
         hubTitle: "M9G Technical Research & Engineering Blog",
-        hubSub: "Concise engineering disclosures on multi-robot VLA manipulation in NVIDIA Isaac Sim 6.0 & ROS 2, deterministic robot safety gates, and multi-agent coding harnesses.",
+        hubSub: "Visual TL;DRs & 40s video syntheses on Physical AI, multi-robot VLA planning, and coding agent harnesses.",
         feedHeader: "Published Research Posts (5)",
         tabAll: "All (5)", tabRobotics: "Physical AI & Robotics (4)", tabAgents: "Coding Agents (1)",
-        b5Title: "Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph TAMP & Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini",
-        b5Desc: "Summarizing Seongwon \"Scott\" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab) and mapping its 4-layer lazy hypergraph & scoped constraint feedback onto Gemini 4 Argon, Robotics-ER 2, and Flash-Lite with 7 continuous KPIs.",
-        b5Btn: "Read Lazy-DaSH Blog",
-        b4Title: "SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling & Self-Driving Labs",
-        b4Desc: "4-tier neuro-symbolic + GPU physics synthesis across MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, and Project STAMP (v1.0.0-stamp).",
-        b4Btn: "Read SDL Survey",
-        b3Title: "Project STAMP: Deterministic Verification Gates & Closed-Loop Context Repair for Multi-Arm VLA Planning",
-        b3Desc: "4-stage Plan → Gate → Execute → Write-Back pipeline blocking 610/610 physical IK, collision, torque, and zone-lock faults and raising task completion from 39% to 100%.",
-        b3Btn: "Read STAMP Blog",
-        b2Title: "Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode & Claude Code",
-        b2Desc: "Why our 28-module, 169-test standalone harness lagged pre-existing harnesses across 6 root failure modes—and how we extracted its best substrates into the m9g-mcp server.",
-        b2Btn: "Read Agent Blog",
-        b1Title: "Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: Gemini Robotics-ER 2 vs. Gemini 4 Argon",
-        b1Desc: "3-stage hardware-in-the-loop benchmark in Isaac Sim 6.0 & ROS 2 Jazzy achieving a 10-turn pipelined schedule with 0 RGB image tokens and -68.7% step latency.",
-        b1Btn: "Read VLA Blog"
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini: Multi-Model VLA Hypergraph Roadmap",
+        b5Desc: "4-layer lazy hypergraph (H_T → H_M) mapped to Gemini 4 Argon, Robotics-ER 2 & Flash-Lite with 7 KPIs.",
+        b4Title: "SOTA Survey (2025–2026): Multi-Robot Assembly, Deformables & Self-Driving Labs in Isaac Sim",
+        b4Desc: "MATTERIX, APEX-MR, RoboFactory, DexGarmentLab & ORGANA unified in Project STAMP.",
+        b3Title: "Project STAMP: 4-Layer Deterministic Safety Gate & Write-Back for Multi-Arm VLA",
+        b3Desc: "100% fault interception (610/610) & 39% → 100% completion via closed-loop write_limit_back.",
+        b2Title: "Why Our 28-Module Coding Harness Failed vs. OmO, OpenCode & Claude Code (→ m9g-mcp)",
+        b2Desc: "6 root failure modes of scratch harnesses & extracting 7 deterministic tools into m9g-mcp.",
+        b1Title: "Symbolic 3D /tf Grounding & 10-Turn Pipelined VLA: ER-2 vs. Gemini 4 Argon",
+        b1Desc: "0 RGB tokens, 10-turn pipelined schedule, and -76.6% API cost ($0.01972) in Isaac Sim 6.0."
       },
       ko: {
         blogHeaderBrand: "블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
         hubTitle: "M9G 기술 리서치 & 엔지니어링 블로그",
-        hubSub: "NVIDIA Isaac Sim 6.0 및 ROS 2 다중 로봇 VLA 제어, 결정론적 안전 검증 게이트(STAMP), 멀티에이전트 코딩 하네스 연구 리포트.",
+        hubSub: "피지컬 AI, 다중 로봇 VLA 플래닝, 코딩 에이전트 하네스의 핵심 TL;DR 및 40초 비디오 요약.",
         feedHeader: "발표된 기술 리포트 (5편)",
         tabAll: "전체 (5)", tabRobotics: "피지컬 AI & 로보틱스 (4)", tabAgents: "코딩 에이전트 (1)",
-        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) 심층 분석: 계층적 하이퍼그래프 TAMP 및 IsaacSim_Gemini 멀티모델(Argon·ER-2·Flash-Lite) 업그레이드 로드맵",
-        b5Desc: "UIUC Parasol Lab(Seongwon 'Scott' Lee 외)의 Lazy-DaSH 논문 분석과 4계층 지연 하이퍼그래프·분기 범위 제약 피드백을 Gemini 4 Argon, Robotics-ER 2, Flash-Lite 및 7대 KPI로 매핑한 아키텍처.",
-        b5Btn: "Lazy-DaSH 블로그 읽기",
-        b4Title: "SOTA 서베이 (2025–2026): NVIDIA Isaac Sim 기반 에이전틱 다중 로봇 조작 — 정밀 조립, 유연체 핸들링 및 자율 실험실(SDL)",
-        b4Desc: "MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA 등 14개 선도 프레임워크와 Project STAMP(v1.0.0-stamp)의 4계층 뉴로-심볼릭 + GPU 물리 파이프라인 종합 분석.",
-        b4Btn: "SDL 서베이 읽기",
-        b3Title: "Project STAMP: 다중 로봇 팔 VLA 플래닝을 위한 결정론적 검증 게이트 및 폐루프 복구",
-        b3Desc: "Plan → Gate → Execute → Write-Back 4단계 안전 파이프라인으로 1,000회 실험 중 610건의 물리 결함을 100% 사전 차단하고 작업 성공률을 39%에서 100%로 향상.",
-        b3Btn: "STAMP 블로그 읽기",
-        b2Title: "멀티에이전트 코딩 하네스 자체 구축 시도와 실패 분석: m9g-agent-corps vs. OmO, OpenCode, Claude Code",
-        b2Desc: "28개 모듈·169개 테스트의 독자 하네스가 실전에서 기존 하네스에 뒤처진 6가지 구조적 원인과 핵심 기질을 m9g-mcp 서버로 전환한 과정.",
-        b2Btn: "에이전트 블로그 읽기",
-        b1Title: "3D 심볼릭 그라운딩 및 소프트웨어 파이프라인 VLA 태스크 플래닝: ER-2 vs. Gemini 4 Argon",
-        b1Desc: "Isaac Sim 6.0 & ROS 2 Jazzy 3대 로봇 팔 벤치마크: 카메라 이미지 토큰 없이 10턴 파이프라인 스케줄을 도출해 API 비용을 76.6%($0.01972) 절감.",
-        b1Btn: "VLA 블로그 읽기"
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini: 멀티모델 VLA 하이퍼그래프 로드맵",
+        b5Desc: "4계층 지연 하이퍼그래프(H_T → H_M)와 Argon · ER-2 · Flash-Lite 7대 KPI 오케스트레이션.",
+        b4Title: "SOTA 서베이 (2025–2026): Isaac Sim 다중 로봇 조립, 유연체 핸들링 및 자율 실험실(SDL)",
+        b4Desc: "MATTERIX, APEX-MR, RoboFactory, DexGarmentLab 등 14개 SOTA와 Project STAMP 통합.",
+        b3Title: "Project STAMP: 다중 로봇 팔 VLA를 위한 4계층 결정론적 안전 게이트 & Write-Back",
+        b3Desc: "610/610 물리 결함 100% 사전 차단 및 폐루프 복구로 작업 완수율 39% → 100% 달성.",
+        b2Title: "28모듈 자체 코딩 하네스 실패 분석: vs. OmO, OpenCode, Claude Code (→ m9g-mcp)",
+        b2Desc: "독자 하네스의 6대 실패 원인과 7개 핵심 기질의 m9g-mcp 서버 전환.",
+        b1Title: "3D /tf 심볼릭 그라운딩 & 10턴 파이프라인 VLA: ER-2 vs. Gemini 4 Argon",
+        b1Desc: "0 RGB 토큰·10턴 병렬 스케줄로 API 비용 76.6%($0.01972) 절감."
       },
       ja: {
         blogHeaderBrand: "ブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
         hubTitle: "M9G 技術リサーチ & エンジニアリングブログ",
-        hubSub: "NVIDIA Isaac Sim 6.0 & ROS 2 マルチロボットVLA制御、決定論的安全ゲート (STAMP)、マルチエージェント・ハーネスに関する技術記事。",
+        hubSub: "フィジカルAI、マルチロボットVLA計画、エージェント・ハーネスの視覚的TL;DR＆40秒動画要約。",
         feedHeader: "公開リサーチ記事 (5)",
         tabAll: "すべて (5)", tabRobotics: "フィジカルAI & ロボティクス (4)", tabAgents: "コーディングエージェント (1)",
-        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) に学ぶ：階層型ハイパーグラフTAMPと IsaacSim_Gemini マルチモデル協調KPIロードマップ",
-        b5Desc: "UIUC Parasol Lab (Seongwon 'Scott' Lee ら) の Lazy-DaSH 論文解説と、4層ハイパーグラフ＆制約フィードバックを Gemini 4 Argon・Robotics-ER 2・Flash-Lite に統合する7つのKPI。",
-        b5Btn: "Lazy-DaSH 記事を読む",
-        b4Title: "SOTAサーベイ (2025–2026): NVIDIA Isaac Simにおけるエージェンティック・マルチロボットマニピュレーション — 組立・柔軟物操作・自律実験室(SDL)",
-        b4Desc: "MATTERIX、APEX-MR、RoboFactory、DexGarmentLab、ORGANAなど14の最新フレームワークとProject STAMP (v1.0.0-stamp) の4層統合アーキテクチャ。",
-        b4Btn: "SDL サーベイを読む",
-        b3Title: "Project STAMP：マルチアームVLA計画のための決定論的検証ゲートと閉ループ文脈修復",
-        b3Desc: "4段階パイプラインにより1,000エピソードで610件の物理障害を100%遮断し、タスク完遂率を39%から100%へ向上。",
-        b3Btn: "STAMP 記事を読む",
-        b2Title: "マルチエージェント・ハーネスの独自構築と失敗の記録：m9g-agent-corps vs. OmO / OpenCode / Claude Code",
-        b2Desc: "28モジュール・169テストの自作ハーネスが既存ハーネスに及ばなかった6つの原因と、m9g-mcp サーバーへのピボット。",
-        b2Btn: "エージェント記事を読む",
-        b1Title: "3Dシンボリック接地とソフトウェアパイプラインVLA計画：ER-2 vs. Gemini 4 Argon",
-        b1Desc: "RGB画像トークンなしで10ターン並列スケジュールを導出し、APIコストを76.6% ($0.01972) 削減した3台FR3ベンチマーク。",
-        b1Btn: "VLA 記事を読む"
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini：マルチモデルVLAハイパーグラフ計画",
+        b5Desc: "4層遅延ハイパーグラフ (H_T → H_M) を Argon・ER-2・Flash-Lite と7つのKPIに統合。",
+        b4Title: "SOTAサーベイ (2025–2026)：Isaac Sim マルチロボット組立・柔軟物・自律実験室 (SDL)",
+        b4Desc: "MATTERIX、APEX-MR、RoboFactory、DexGarmentLab 等14システムと Project STAMP の統合。",
+        b3Title: "Project STAMP：4層決定論的安全ゲート＆閉ループ Write-Back 修復",
+        b3Desc: "610/610の物理障害を100%遮断し、タスク完遂率を39%から100%へ向上。",
+        b2Title: "28モジュール自作ハーネスの失敗とピボット：vs. OmO / OpenCode / Claude (→ m9g-mcp)",
+        b2Desc: "自作ハーネス6つの失敗要因と7つの決定論的ツールの m9g-mcp サーバー化。",
+        b1Title: "3D /tf シンボリック接地＆10ターンVLA計画：ER-2 vs. Gemini 4 Argon",
+        b1Desc: "0 RGBトークン・10ターン並列スケジュールでAPIコストを76.6% ($0.01972) 削減。"
       },
       zh: {
         blogHeaderBrand: "博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
         hubTitle: "M9G 技术研究与系统工程博客",
-        hubSub: "聚焦 NVIDIA Isaac Sim 6.0 与 ROS 2 多臂 VLA 操控、Project STAMP 确定性安全门控与多智能体编码框架。",
+        hubSub: "物理 AI、多臂 VLA 规划与多智能体编码框架的视觉 TL;DR 与 40 秒视频精粹。",
         feedHeader: "已发布技术报告 (5)",
         tabAll: "全部 (5)", tabRobotics: "物理 AI 与机器人 (4)", tabAgents: "编码智能体 (1)",
-        b5Title: "借鉴 UIUC Lazy-DaSH (IEEE T-RO)：分层超图多机器人 TAMP 与 IsaacSim_Gemini 多模型 (Argon · ER-2 · Flash-Lite) 升级路线图",
-        b5Desc: "深度解析 UIUC Parasol 实验室 (Seongwon 'Scott' Lee 等) 的 Lazy-DaSH 论文，并将其四层惰性超图与作用域约束反馈映射至 Gemini 4 Argon、Robotics-ER 2、Flash-Lite 与 7 项核心 KPI。",
-        b5Btn: "阅读 Lazy-DaSH 博客",
-        b4Title: "前沿综述 (2025–2026)：NVIDIA Isaac Sim 中的智能体多机器人操控 — 协同装配、柔性物体操作与自动驾驶实验室 (SDL)",
-        b4Desc: "系统梳理 MATTERIX、APEX-MR、RoboFactory、DexGarmentLab、ORGANA 等 14 项代表性工作与 Project STAMP (v1.0.0-stamp) 四层神经符号 + GPU 物理架构。",
-        b4Btn: "阅读 SDL 综述",
-        b3Title: "Project STAMP：面向多机械臂 VLA 规划的确定性验证门控与闭环上下文修复",
-        b3Desc: "通过 Plan → Gate → Execute → Write-Back 四阶段安全门控，在 1,000 轮实验中 100% 拦截 610 次物理故障，将任务完成率从 39% 提升至 100%。",
-        b3Btn: "阅读 STAMP 博客",
-        b2Title: "从零构建多智能体编码框架及其失败复盘：m9g-agent-corps 对比 OmO、OpenCode 与 Claude Code",
-        b2Desc: "深度复盘 28 模块、169 测试自研框架败给成熟框架的 6 个根源，以及向 m9g-mcp 工具服务器的架构转型。",
-        b2Btn: "阅读智能体博客",
-        b1Title: "3D 符号空间接地与软件流水线 VLA 任务规划：Gemini Robotics-ER 2 对比 Gemini 4 Argon",
-        b1Desc: "Isaac Sim 6.0 与 ROS 2 三机械臂基准测试：零 RGB 图像 Token 实现 10 轮流水线调度，单次实验 API 成本降低 76.6% ($0.01972)。",
-        b1Btn: "阅读 VLA 博客"
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini：多模型 VLA 超图路线图",
+        b5Desc: "四层惰性超图 (H_T → H_M) 映射至 Argon、ER-2 与 Flash-Lite 及 7 项核心 KPI。",
+        b4Title: "前沿综述 (2025–2026)：Isaac Sim 多机器人装配、柔性物体与自动驾驶实验室 (SDL)",
+        b4Desc: "系统梳理 MATTERIX、APEX-MR、RoboFactory 等 14 项工作与 Project STAMP 统一架构。",
+        b3Title: "Project STAMP：面向多臂 VLA 的四层确定性安全门控与闭环 Write-Back",
+        b3Desc: "100% 拦截 610/610 次物理故障，闭环修复将完成率从 39% 提升至 100%。",
+        b2Title: "28 模块自研编码框架失败复盘：对比 OmO / OpenCode / Claude Code (→ m9g-mcp)",
+        b2Desc: "复盘自研框架 6 大失败根源，并将 7 项核心工具提取为 m9g-mcp 服务器。",
+        b1Title: "3D /tf 符号接地与 10 轮流水线 VLA 规划：ER-2 vs. Gemini 4 Argon",
+        b1Desc: "零 RGB 图像 Token 实现 10 轮流水线调度，API 成本降低 76.6% ($0.01972)。"
       },
       es: {
         blogHeaderBrand: "Blog", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
         hubTitle: "Blog de Investigación e Ingeniería M9G",
-        hubSub: "Artículos técnicos sobre manipulación VLA multirrobot en NVIDIA Isaac Sim 6.0 y ROS 2, compuertas de seguridad deterministas (STAMP) y agentes de código.",
+        hubSub: "TL;DR visuales y síntesis en video de 40s sobre IA Física, VLA multirrobot y agentes de código.",
         feedHeader: "Artículos Publicados (5)",
         tabAll: "Todos (5)", tabRobotics: "IA Física y Robótica (4)", tabAgents: "Agentes de Código (1)",
-        b5Title: "Aprendiendo de Lazy-DaSH de UIUC (IEEE T-RO): Planificación Jerárquica con Hipergrafos y Hoja de Ruta VLA Multi-Modelo para IsaacSim_Gemini",
-        b5Desc: "Síntesis de Lazy-DaSH (Seongwon 'Scott' Lee et al., UIUC) y mapeo de su hipergrafo perezoso de 4 capas a Gemini 4 Argon, Robotics-ER 2 y Flash-Lite con 7 KPIs continuos.",
-        b5Btn: "Leer Blog Lazy-DaSH",
-        b4Title: "Revisión SOTA (2025–2026): Manipulación Multirrobot Agéntica en NVIDIA Isaac Sim — Ensamblaje, Objetos Deformables y Laboratorios Autónomos (SDL)",
-        b4Desc: "Síntesis neuro-simbólica + física GPU de 4 niveles en MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA y Project STAMP (v1.0.0-stamp).",
-        b4Btn: "Leer Revisión SDL",
-        b3Title: "Project STAMP: Compuertas de Verificación Deterministas y Reparación en Lazo Cerrado para Planificación VLA Multi-Brazo",
-        b3Desc: "Pipeline de 4 etapas (Plan → Gate → Execute → Write-Back) que intercepta 610/610 fallos físicos y eleva el éxito del 39% al 100% en 1,000 episodios.",
-        b3Btn: "Leer Blog STAMP",
-        b2Title: "Construyendo un Harness Multi-Agente desde Cero y Por Qué Fracasó: m9g-agent-corps frente a OmO, OpenCode y Claude Code",
-        b2Desc: "Por qué nuestro harness de 28 módulos y 169 pruebas fue superado por harnesses en producción y cómo extrajimos sus herramientas al servidor m9g-mcp.",
-        b2Btn: "Leer Blog Agentes",
-        b1Title: "Anclaje Simbólico 3D y Planificación VLA Segmentada: Gemini Robotics-ER 2 vs. Gemini 4 Argon",
-        b1Desc: "Benchmark de 3 brazos FR3 en Isaac Sim 6.0 y ROS 2 logrando un cronograma de 10 turnos con 0 tokens RGB y -76.6% de costo API ($0.01972).",
-        b1Btn: "Leer Blog VLA"
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini: Hoja de Ruta VLA con Hipergrafos",
+        b5Desc: "Hipergrafo perezoso de 4 capas (H_T → H_M) con Argon, ER-2, Flash-Lite y 7 KPIs.",
+        b4Title: "Revisión SOTA (2025–2026): Ensamblaje, Deformables y Laboratorios Autónomos (SDL)",
+        b4Desc: "MATTERIX, APEX-MR, RoboFactory y DexGarmentLab unificados en Project STAMP.",
+        b3Title: "Project STAMP: Compuerta Determinista de 4 Capas y Write-Back para VLA",
+        b3Desc: "100% de intercepción de fallos (610/610) y éxito del 39% → 100% en 1,000 episodios.",
+        b2Title: "Por Qué Fracasó Nuestro Harness de 28 Módulos frente a OmO y Claude (→ m9g-mcp)",
+        b2Desc: "6 fallos raíz y extracción de 7 herramientas deterministas al servidor m9g-mcp.",
+        b1Title: "Anclaje Simbólico 3D /tf y VLA en 10 Turnos: ER-2 vs. Gemini 4 Argon",
+        b1Desc: "0 tokens RGB, cronograma de 10 turnos y -76.6% de costo API ($0.01972)."
       }
     };
 
