@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling &amp; Self-Driving Labs — M9G Technical Research Blog</title>
-  <link rel="canonical" href="https://mincasurong.github.io/blog/sota-isaacsim-multi-robot-sdl-survey/" />
+  <link rel="canonical" href="https://mincasurong.github.io/blog/sdl-survey/" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Minsu Chang, Ph.D. (M9G / mincasurong)" />
   <meta name="description" content="M9G-TR-2026-04 by Minsu Chang, Ph.D.: Technical synthesis of state-of-the-art (2025–2026) agent-based and NVIDIA Isaac Sim frameworks for multi-robot assembly, flexible object manipulation, and autonomous self-driving laboratories (MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, Project STAMP)." />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://mincasurong.github.io/blog/sota-isaacsim-multi-robot-sdl-survey/" />
+  <meta property="og:url" content="https://mincasurong.github.io/blog/sdl-survey/" />
   <meta property="og:title" content="SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling &amp; Self-Driving Labs" />
   <meta property="og:description" content="Technical synthesis of 2025–2026 agentic TAMP and NVIDIA Isaac Sim digital twins across cooperative assembly (APEX-MR, RoboFactory), deformable manipulation (DexGarmentLab, MoDeSuite), and Self-Driving Labs (MATTERIX, ORGANA, A-Lab GPSS, Project STAMP)." />
-  <meta property="og:image" content="https://mincasurong.github.io/screenshots/sdl-survey-architecture.svg" />
+  <meta property="og:image" content="https://mincasurong.github.io/screenshots/blog4-sdl-thumb-nanobanana.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -524,7 +524,7 @@
   <div class="layout">
     <article>
       <div class="dm-takeaways">
-        <div class="dm-takeaways-title" data-i18n="takeawaysHeader">Executive Summary: The 4-Tier Neuro-Symbolic + GPU Physics Convergence</div>
+        <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Executive Summary: The 4-Tier Neuro-Symbolic + GPU Physics Convergence</div>
         <ul>
           <li data-i18n="finding1"><strong class="c-blue">Tier 1 — Multimodal Task Graph Synthesis (<code>Plan</code>):</strong> Vision-Language-Action (VLA) models parse overhead/wrist video streams and 3D scene graphs into structured <strong>Directed Acyclic Task Graphs (TaskDAGs)</strong> or <strong>Multi-Modal Temporal Plan Graphs (MM-TPGs)</strong>—never raw joint trajectories.</li>
           <li data-i18n="finding2"><strong class="c-amber">Tier 2 — Deterministic Pre-Flight Safety Gate &amp; Contention Scheduler (<code>Gate</code>):</strong> A deterministic verification layer checks kinematic reachability, 3D AABB swept-volume collisions, joint/torque bounds, and multi-arm mutual exclusion locks before any hardware or MoveIt 2 dispatch.</li>
@@ -555,6 +555,40 @@
           <div class="spec-note">1,000 episodes via HardwareFaultLog repair</div>
         </div>
       </div>
+
+      <section id="omni-wrapup-video" class="media-block">
+        <div class="media-header">
+          <span>TL;DR Video Synthesis — 40s SOTA Survey Wrap-Up: Assembly, Deformables &amp; Self-Driving Labs (<code>gemini-omni-1.1-flash</code>)</span>
+          <a href="/screenshots/videos/blog4-wrapup-omni.mp4" target="_blank" rel="noopener noreferrer">Direct MP4 Stream (blog4-wrapup-omni.mp4) ↗</a>
+        </div>
+        <div class="video-container">
+          <video id="blog4-omni-video" controls autoplay muted loop playsinline poster="/screenshots/blog4-sdl-thumb-nanobanana.png">
+            <source src="/screenshots/videos/blog4-wrapup-omni.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="timestamp-grid">
+          <button class="ts-btn active" onclick="seekOmniVideo('blog4-omni-video', 0, this)">
+            <span class="ts-time">00:00 – 00:10 • Domain 1</span>
+            <span class="ts-title">Cooperative Multi-Robot Assembly (APEX-MR &amp; Factory)</span>
+            <span class="ts-sub">Asynchronous MM-TPG pre-staging and 240 Hz PhysX TGS + SDF contact assembly in Isaac Sim.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 10, this)">
+            <span class="ts-time">00:10 – 00:20 • Domain 2</span>
+            <span class="ts-title">Flexible &amp; Deformable Object Handling (DexGarmentLab &amp; SOI)</span>
+            <span class="ts-sub">PhysX 5 PBD deformable simulation with outward bimanual handle tensioning ||p1 - p2|| = d_nom + 2Δ.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 20, this)">
+            <span class="ts-time">00:20 – 00:30 • Domain 3</span>
+            <span class="ts-title">Self-Driving Laboratories (MATTERIX, ORGANA &amp; A-Lab GPSS)</span>
+            <span class="ts-sub">Multiscale GPU digital twins verifying glassware, liquid transfer, and mutex-locked lab stations in silico.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 30, this)">
+            <span class="ts-time">00:30 – 00:40 • Synthesis</span>
+            <span class="ts-title">Project STAMP (v1.0.0-stamp) Unified Architecture</span>
+            <span class="ts-sub">Dual-view perception, 4-layer deterministic safety gating (610/610), and closed-loop write_limit_back repair.</span>
+          </button>
+        </div>
+      </section>
 
       <div class="pipeline-flow-grid" id="executive-pipeline">
         <div class="pipeline-step-card">
@@ -728,41 +762,6 @@
         </figcaption>
       </figure>
 
-
-      <section id="omni-wrapup-video" class="media-block">
-        <div class="media-header">
-          <span>40s SOTA Survey Wrap-Up Sequence: Assembly, Deformables &amp; Self-Driving Labs (<code>gemini-omni-1.1-flash</code>)</span>
-          <a href="/screenshots/videos/blog4-wrapup-omni.mp4" target="_blank" rel="noopener noreferrer">Direct MP4 Stream (blog4-wrapup-omni.mp4) ↗</a>
-        </div>
-        <div class="video-container">
-          <video id="blog4-omni-video" controls autoplay muted loop playsinline poster="/screenshots/sdl-survey-architecture.svg">
-            <source src="/screenshots/videos/blog4-wrapup-omni.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <div class="timestamp-grid">
-          <button class="ts-btn active" onclick="seekOmniVideo('blog4-omni-video', 0, this)">
-            <span class="ts-time">00:00 – 00:10 • Domain 1</span>
-            <span class="ts-title">Cooperative Multi-Robot Assembly (APEX-MR &amp; Factory)</span>
-            <span class="ts-sub">Asynchronous MM-TPG pre-staging and 240 Hz PhysX TGS + SDF contact assembly in Isaac Sim.</span>
-          </button>
-          <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 10, this)">
-            <span class="ts-time">00:10 – 00:20 • Domain 2</span>
-            <span class="ts-title">Flexible &amp; Deformable Object Handling (DexGarmentLab &amp; SOI)</span>
-            <span class="ts-sub">PhysX 5 PBD deformable simulation with outward bimanual handle tensioning ||p1 - p2|| = d_nom + 2Δ.</span>
-          </button>
-          <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 20, this)">
-            <span class="ts-time">00:20 – 00:30 • Domain 3</span>
-            <span class="ts-title">Self-Driving Laboratories (MATTERIX, ORGANA &amp; A-Lab GPSS)</span>
-            <span class="ts-sub">Multiscale GPU digital twins verifying glassware, liquid transfer, and mutex-locked lab stations in silico.</span>
-          </button>
-          <button class="ts-btn" onclick="seekOmniVideo('blog4-omni-video', 30, this)">
-            <span class="ts-time">00:30 – 00:40 • Synthesis</span>
-            <span class="ts-title">Project STAMP (v1.0.0-stamp) Unified Architecture</span>
-            <span class="ts-sub">Dual-view perception, 4-layer deterministic safety gating (610/610), and closed-loop write_limit_back repair.</span>
-          </button>
-        </div>
-      </section>
-
       <h2 id="references" data-i18n="sec5Title">5. References &amp; Primary Literature (2022–2026)</h2>
       <ol class="ref-list" style="font-size:13.5px; line-height:1.62;">
         <li><strong>Isaac Lab</strong>: <em>Isaac Lab: A GPU-Accelerated Simulation Framework for Multi-Modal Robot Learning</em>, <a href="https://arxiv.org/abs/2511.04831" target="_blank" rel="noopener">arXiv:2511.04831</a> · <a href="https://github.com/isaac-sim/IsaacLab" target="_blank" rel="noopener">GitHub</a></li>
@@ -786,7 +785,7 @@
         <p style="font-size:13px; margin-bottom:8px;" data-i18n="provBody">
           This technical survey and architectural synthesis (<strong>M9G-TR-2026-04</strong>) connects 2025–2026 multi-robot manipulation, deformable object handling, and Self-Driving Laboratory (SDL) digital twin literature with <strong>Project STAMP (<code>v1.0.0-stamp</code>)</strong> by <strong>Minsu Chang, Ph.D. (장민수 / M9G)</strong>.
         </p>
-        <div class="citation-pre">Minsu Chang, Ph.D. (M9G), "SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling &amp; Self-Driving Labs," M9G Technical Research Blog (M9G-TR-2026-04), Nov. 1, 2026. URL: https://mincasurong.github.io/blog/sota-isaacsim-multi-robot-sdl-survey/ | Reference Repo: https://github.com/mincasurong/IsaacSim_GeminiRobotics</div>
+        <div class="citation-pre">Minsu Chang, Ph.D. (M9G), "SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling &amp; Self-Driving Labs," M9G Technical Research Blog (M9G-TR-2026-04), Nov. 1, 2026. URL: https://mincasurong.github.io/blog/sdl-survey/ | Reference Repo: https://github.com/mincasurong/IsaacSim_GeminiRobotics</div>
       </section>
     </article>
 
@@ -794,6 +793,7 @@
       <div class="side-panel">
         <h3 class="side-heading" data-i18n="sideContents">Article Sections</h3>
         <ul class="side-links">
+          <li><a href="#omni-wrapup-video">TL;DR &amp; 40s Video Synthesis</a></li>
           <li><a href="#executive-pipeline">4-Tier Neuro-Symbolic Pipeline</a></li>
           <li><a href="#cooperative-assembly">1. Multi-Robot Assembly</a></li>
           <li><a href="#deformable-handling">2. Deformable Object Handling</a></li>
@@ -855,7 +855,7 @@
         articleTag: "M9G-TR-2026-04 • SOTA Survey & Architectural Synthesis",
         articleTitle: "SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling & Self-Driving Labs",
         articleLede: "Across industrial assembly, deformable object manipulation, and autonomous Self-Driving Laboratories (SDLs), state-of-the-art robotics architectures in 2025–2026 have converged away from direct end-to-end LLM-to-actuator dispatch. Instead, frontier systems adopt a 4-Tier Neuro-Symbolic + GPU Physics Pipeline: (1) Multimodal Task Graph Synthesis into Directed Acyclic Task Graphs (TaskDAGs) or Multi-Modal Temporal Plan Graphs (MM-TPGs), (2) Deterministic Pre-Flight Safety Gates & Contention Schedulers, (3) 50–120 Hz GPU-Accelerated Skill & Motion Control, and (4) Closed-Loop Context Repair via structured fault write-back. We synthesize 14 frontier frameworks—including MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, and A-Lab GPSS—and demonstrate how Project STAMP (v1.0.0-stamp) unifies these paradigms in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy.",
-        takeawaysHeader: "Executive Summary: The 4-Tier Neuro-Symbolic + GPU Physics Convergence",
+        takeawaysHeader: "TL;DR — Executive Summary: The 4-Tier Neuro-Symbolic + GPU Physics Convergence",
         sec1Title: "1. Multi-Robot Collaboration & Contact-Rich Assembly",
         sec2Title: "2. Flexible & Deformable Object Handling in Isaac Sim",
         sec3Title: "3. Self-Driving Laboratories (SDLs) & Isaac Sim Digital Twins",
@@ -868,7 +868,7 @@
         articleTag: "M9G-TR-2026-04 • 최신 기술 서베이 및 아키텍처 종합",
         articleTitle: "SOTA 서베이 (2025–2026): NVIDIA Isaac Sim 기반 에이전틱 다중 로봇 조작 — 정밀 조립, 유연체 핸들링 및 자율 실험실(SDL)",
         articleLede: "산업용 다중 로봇 조립, 유연/변형 물체 조작, 자율 실험실(Self-Driving Laboratories, SDL) 전반에서 2025–2026년 최신 로보틱스 아키텍처는 LLM이 제어기를 직접 구동하는 종단간(end-to-end) 방식에서 벗어나 4계층 뉴로-심볼릭 + GPU 물리 파이프라인으로 수렴하고 있습니다: (1) 멀티모달 태스크 그래프 합성(TaskDAG / MM-TPG), (2) 결정론적 사전 안전 검증 게이트 및 공간/도구 뮤텍스 스케줄러, (3) 50–120 Hz GPU 가속 역기구학/MPC 및 양팔 장력 제어, (4) 구조화된 결함 로그 피드백(write_limit_back) 기반 폐루프 컨텍스트 복구. 본 리포트는 MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, A-Lab GPSS 등 14개 선도 프레임워크를 비교 분석하고 Project STAMP(v1.0.0-stamp)가 이를 어떻게 통합하는지 제시합니다.",
-        takeawaysHeader: "핵심 요약: 4계층 뉴로-심볼릭 + GPU 물리 시뮬레이션 수렴",
+        takeawaysHeader: "TL;DR — 핵심 요약: 4계층 뉴로-심볼릭 + GPU 물리 시뮬레이션 수렴",
         sec1Title: "1. 다중 로봇 협업 및 접촉 풍부(Contact-Rich) 정밀 조립",
         sec2Title: "2. NVIDIA Isaac Sim 기반 유연체 및 변형 물체(Deformable) 조작",
         sec3Title: "3. 자율 실험실(Self-Driving Labs) 및 Isaac Sim 디지털 트윈",
@@ -881,7 +881,7 @@
         articleTag: "M9G-TR-2026-04 • SOTAサーベイ＆アーキテクチャ統合",
         articleTitle: "SOTAサーベイ (2025–2026): NVIDIA Isaac Simにおけるエージェンティック・マルチロボットマニピュレーション — 組立・柔軟物操作・自律実験室(SDL)",
         articleLede: "産業用組立、柔軟物操作、自律駆動実験室 (Self-Driving Laboratories, SDL) の各領域において、2025〜2026年の最先端ロボティクスはLLMからアクチュエータへの直接ディスパッチを脱却し、4層ニューロシンボリック＋GPU物理パイプラインへと収束しています：(1) TaskDAG / MM-TPG によるマルチモーダル計画、(2) 決定論的プリフライト安全ゲートと競合スケジューラ、(3) 50–120 Hz GPU加速IK/MPCと両腕張力制御、(4) 構造化フォルト書き戻し (write_limit_back) による閉ループ修復。MATTERIX、APEX-MR、RoboFactory、DexGarmentLab、ORGANAなど14の主要フレームワークを体系化し、Project STAMP (v1.0.0-stamp) による統合設計を示します。",
-        takeawaysHeader: "エグゼクティブサマリー：4層ニューロシンボリック＋GPU物理への収束",
+        takeawaysHeader: "TL;DR — エグゼクティブサマリー：4層ニューロシンボリック＋GPU物理への収束",
         sec1Title: "1. マルチロボット協調と接触リッチ組立 (Cooperative Assembly)",
         sec2Title: "2. Isaac Simにおける柔軟・変形物体 (Deformable) ハンドリング",
         sec3Title: "3. 自律実験室 (Self-Driving Labs) と Isaac Sim デジタルツイン",
@@ -894,7 +894,7 @@
         articleTag: "M9G-TR-2026-04 • 前沿综述与架构综合",
         articleTitle: "前沿综述 (2025–2026)：NVIDIA Isaac Sim 中的智能体多机器人操控 — 协同装配、柔性物体操作与自动驾驶实验室 (SDL)",
         articleLede: "在工业协同装配、柔性可变形物体操控以及自动驾驶实验室 (Self-Driving Laboratories, SDL) 领域，2025–2026 年的前沿机器人架构已不再由大模型直接向底层执行器下发指令，而是收敛至四层神经符号 + GPU 物理流水线：(1) 多模态任务图合成 (TaskDAG / MM-TPG)，(2) 确定性预检安全门控与资源互斥调度，(3) 50–120 Hz GPU 加速运动控制与双臂张力保持，(4) 基于结构化故障写回 (write_limit_back) 的闭环上下文修复。本文系统梳理 MATTERIX、APEX-MR、RoboFactory、DexGarmentLab、ORGANA 等 14 项代表性工作，并展示 Project STAMP (v1.0.0-stamp) 如何将其统一。",
-        takeawaysHeader: "核心摘要：四层神经符号 + GPU 物理架构收敛",
+        takeawaysHeader: "TL;DR — 核心摘要：四层神经符号 + GPU 物理架构收敛",
         sec1Title: "1. 多机器人协同与富接触装配 (Contact-Rich Assembly)",
         sec2Title: "2. Isaac Sim 中的柔性及可变形物体操控",
         sec3Title: "3. 自动驾驶实验室 (SDL) 与 Isaac Sim 数字孪生",
@@ -907,7 +907,7 @@
         articleTag: "M9G-TR-2026-04 • Revisión SOTA y Síntesis Arquitectónica",
         articleTitle: "Revisión SOTA (2025–2026): Manipulación Multirrobot Agéntica en NVIDIA Isaac Sim — Ensamblaje, Objetos Deformables y Laboratorios Autónomos (SDL)",
         articleLede: "En el ensamblaje industrial, la manipulación de objetos deformables y los Laboratorios Autónomos (Self-Driving Laboratories, SDLs), las arquitecturas robóticas de vanguardia en 2025–2026 han convergido en un pipeline neuro-simbólico + física GPU de 4 niveles: (1) Síntesis multimodal de grafos de tareas (TaskDAG / MM-TPG), (2) Compuertas deterministas de seguridad pre-vuelo y planificación de contención, (3) Control cinemático y dinámico a 50–120 Hz con tensión bimanual, y (4) Reparación de contexto en lazo cerrado (write_limit_back). Sintetizamos 14 marcos líderes—incluidos MATTERIX, APEX-MR, RoboFactory, DexGarmentLab y ORGANA—y mostramos cómo Project STAMP (v1.0.0-stamp) los unifica.",
-        takeawaysHeader: "Resumen Ejecutivo: La Convergencia Neuro-Simbólica + Física GPU en 4 Niveles",
+        takeawaysHeader: "TL;DR — Resumen Ejecutivo: La Convergencia Neuro-Simbólica + Física GPU en 4 Niveles",
         sec1Title: "1. Colaboración Multirrobot y Ensamblaje Rico en Contacto",
         sec2Title: "2. Manipulación de Objetos Flexibles y Deformables en Isaac Sim",
         sec3Title: "3. Laboratorios Autónomos (SDLs) y Gemelos Digitales en Isaac Sim",

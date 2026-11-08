@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://mincasurong.github.io/blog/m9g-agent/" />
   <meta property="og:title" content="Building a Coding Harness from Scratch and Why It Failed: m9g-agent-corps vs. OmO, OpenCode, Claude Code & Antigravity" />
   <meta property="og:description" content="What we investigated across 28 Python modules and 169 tests while building m9g-agent-corps, why custom multi-agent wrappers fail against pre-existing harnesses, and how we salvaged the core substrates via MCP." />
-  <meta property="og:image" content="https://mincasurong.github.io/screenshots/m9g-agent-corps-architecture.png" />
+  <meta property="og:image" content="https://mincasurong.github.io/screenshots/blog2-agent-thumb-nanobanana.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -622,7 +622,7 @@
   <div class="layout">
     <article>
       <div class="dm-takeaways">
-        <div class="dm-takeaways-title" data-i18n="takeawaysHeader">Research Highlights &amp; Post-Mortem Summary</div>
+        <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Research Highlights &amp; Post-Mortem Summary</div>
         <ul>
           <li data-i18n="takeaway1"><strong class="c-blue">Six Core Subsystems Investigated in <code>src/ag_harness/</code>:</strong> While building <code>m9g-agent-corps</code>, we engineered and tested (1) <code>ImmutablePrefixBuilder</code> for 95% Gemini implicit cache retention (<code>$0.10/1M</code> vs. <code>$2.00/1M</code>), (2) <code>HashlineEditor</code> (4-char SHA-256 line hashes with ±25-line drift relocation and &lt;1ms AST compile checks) + <code>skeletonize_python_code()</code> (75–90% AST token compression), (3) non-destructive <code>GIT_INDEX_FILE</code> shadow Git snapshots (<code>WorkspaceCheckpointManager</code>) + SQLite WAL turn journaling (<code>SessionStore</code>), (4) a 5-tier self-healing hook pipeline (<code>FiveTierHookPipeline</code>, <code>IntentGate</code>, <code>repair_json_arguments</code>, and <code>GitMemoryFaultSidecar</code>), (5) topological multi-wave DAG orchestration (<code>DAGEngine</code>, <code>TodoManager</code>, <code>BoulderEngine</code>, and <code>Harness2</code> <code>c1..c8</code> surface validation), and (6) Windows↔WSL2 path/process bridging plus a Galois Field <code>GF(2^8)</code> terminal QR remote PWA.</li>
           <li data-i18n="takeaway2"><strong class="c-red">Why Our Standalone Harness Failed Against OmO, OpenCode, Claude Code, and Antigravity:</strong> A coding harness is governed by its tightest inner-loop coupling. Our custom orchestrator failed because (1) our best substrates in <code>argon_omo_substrate.py</code> were unwired from the live <code>stream_turn()</code> and worker loops, (2) subagents reported state via lossy prose-regex scraping (<code>parse_from_markdown</code> defaulting missing headers to <code>SUCCESS</code>), (3) CLI subagents ran inside 300s blocking <code>subprocess.run</code> black boxes without live PTY streaming or mid-turn steering, (4) mandatory delegation ("Rule 1") imposed an 80s multi-hop latency tax on trivial 1–3 file edits, and (5) 12,000-character middle-out string slicing excised critical lines from source files and tracebacks.</li>
@@ -652,6 +652,40 @@
           <div class="spec-note" data-i18n="kpi4Note">m9g-mcp stdio server for OmO/Claude/OpenCode</div>
         </div>
       </div>
+
+      <section id="omni-wrapup-video" class="media-block" style="margin-top:8px; margin-bottom:32px;">
+        <div class="media-header">
+          <span>TL;DR Video Synthesis — 40s Architectural Wrap-Up Sequence (<code>gemini-omni-1.1-flash</code>)</span>
+          <a href="/screenshots/videos/blog2-wrapup-omni.mp4" target="_blank" rel="noopener noreferrer">Direct MP4 Stream (blog2-wrapup-omni.mp4) ↗</a>
+        </div>
+        <div class="video-container">
+          <video id="blog2-omni-video" controls autoplay muted loop playsinline poster="/screenshots/blog2-agent-thumb-nanobanana.png">
+            <source src="/screenshots/videos/blog2-wrapup-omni.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="timestamp-grid">
+          <button class="ts-btn active" onclick="seekOmniVideo('blog2-omni-video', 0, this)">
+            <span class="ts-time">00:00 – 00:10 • Scene 1</span>
+            <span class="ts-title">28-Module m9g-agent-corps vs. Production Harnesses</span>
+            <span class="ts-sub">3-tier Gemini orchestration, 169 unit tests, and benchmark matrix against OmO, OpenCode &amp; Claude Code.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 10, this)">
+            <span class="ts-time">00:10 – 00:20 • Scene 2</span>
+            <span class="ts-title">Diagnosing the 6 Standalone Failure Modes</span>
+            <span class="ts-sub">Visualizing unwired gates, lossy prose-regex handoffs, and blocking CLI subprocess bottlenecks.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 20, this)">
+            <span class="ts-time">00:20 – 00:30 • Scene 3</span>
+            <span class="ts-title">Extracting the Winning Deterministic Substrates</span>
+            <span class="ts-sub">Isolating AST skeletonization, SHA-256 hashline editing, shadow Git checkpoints, and token budget control.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 30, this)">
+            <span class="ts-time">00:30 – 00:40 • Scene 4</span>
+            <span class="ts-title">The Pivot to the m9g-mcp Power-Tool Server</span>
+            <span class="ts-sub">Mounting 7 deterministic JSON-RPC 2.0 stdio tools natively inside OmO, OpenCode, and Claude Code.</span>
+          </button>
+        </div>
+      </section>
 
 <h2 id="motivation" data-i18n="sec1Title">The Hypothesis: Why We Tried to Build a New Multi-Agent Coding Harness</h2>
       <p data-i18n="sec1P1">
@@ -967,41 +1001,6 @@
         <li><strong><code>m9g_gemini_media</code> (`gemini_api_cli_bridge.py`):</strong> Stateless multimodal generation (`tts`, `image`, `video`) writing binary outputs directly to disk (`output_path`) so base64 payloads never enter the LLM context window.</li>
       </ol>
 
-
-      <section id="omni-wrapup-video" class="media-block" style="margin-top:32px;">
-        <div class="media-header">
-          <span>40s Architectural Wrap-Up Sequence (Generated with <code>gemini-omni-1.1-flash</code>)</span>
-          <a href="/screenshots/videos/blog2-wrapup-omni.mp4" target="_blank" rel="noopener noreferrer">Direct MP4 Stream (blog2-wrapup-omni.mp4) ↗</a>
-        </div>
-        <div class="video-container">
-          <video id="blog2-omni-video" controls autoplay muted loop playsinline poster="/screenshots/m9g-agent-corps-architecture.png">
-            <source src="/screenshots/videos/blog2-wrapup-omni.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <div class="timestamp-grid">
-          <button class="ts-btn active" onclick="seekOmniVideo('blog2-omni-video', 0, this)">
-            <span class="ts-time">00:00 – 00:10 • Scene 1</span>
-            <span class="ts-title">28-Module m9g-agent-corps vs. Production Harnesses</span>
-            <span class="ts-sub">3-tier Gemini orchestration, 169 unit tests, and benchmark matrix against OmO, OpenCode &amp; Claude Code.</span>
-          </button>
-          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 10, this)">
-            <span class="ts-time">00:10 – 00:20 • Scene 2</span>
-            <span class="ts-title">Diagnosing the 6 Standalone Failure Modes</span>
-            <span class="ts-sub">Visualizing unwired gates, lossy prose-regex handoffs, and blocking CLI subprocess bottlenecks.</span>
-          </button>
-          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 20, this)">
-            <span class="ts-time">00:20 – 00:30 • Scene 3</span>
-            <span class="ts-title">Extracting the Winning Deterministic Substrates</span>
-            <span class="ts-sub">Isolating AST skeletonization, SHA-256 hashline editing, shadow Git checkpoints, and token budget control.</span>
-          </button>
-          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 30, this)">
-            <span class="ts-time">00:30 – 00:40 • Scene 4</span>
-            <span class="ts-title">The Pivot to the m9g-mcp Power-Tool Server</span>
-            <span class="ts-sub">Mounting 7 deterministic JSON-RPC 2.0 stdio tools natively inside OmO, OpenCode, and Claude Code.</span>
-          </button>
-        </div>
-      </section>
-
       <section id="provenance" class="citation-card">
         <div class="citation-title" data-i18n="provHeader">Research Provenance, Prior Art Disclosure &amp; Anti-Scraping Notice</div>
         <p style="font-size:13px; margin-bottom:8px;" data-i18n="provBody">
@@ -1079,7 +1078,7 @@
         articleTag: "M9G-TR-2026-02 • Agentic Systems & Harness Engineering",
         articleTitle: "Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity",
         articleLede: "We set out to engineer our own standalone multi-agent coding harness—m9g-agent-corps (28 Python modules, ~640 KB of source in src/ag_harness/, 17 test suites with 169 unit tests)—combining a 3-tier Gemini model router, SHA-256 hashline editing, AST structural skeletonization, shadow Git index checkpointing, and a 5-tier self-healing hook pipeline. Despite every subsystem passing unit verification in isolation, running m9g-agent-corps as a primary daily coding harness failed to match the reliability and speed of pre-existing harnesses: Oh-My-OpenAgent (OmO), OpenCode, Claude Code, and Google Antigravity. This technical disclosure documents what we investigated while building the harness, why our standalone orchestrator failed under real engineering load, and why we ultimately extracted its deterministic substrates into an open-source MCP power-tool server (m9g-mcp).",
-        takeawaysHeader: "Research Highlights & Post-Mortem Summary",
+        takeawaysHeader: "TL;DR — Research Highlights & Post-Mortem Summary",
         kpi1Label: "Engineered Scope", kpi1Note: "src/ag_harness/ (~640 KB, 169 unit tests)",
         kpi2Label: "Subsystems Built", kpi2Note: "Hashline, AST Skel, Shadow Git, WAL, DAG",
         kpi3Label: "Root Failure Modes", kpi3Note: "Unwired gates, regex handoff, blocking CLI",
@@ -1100,7 +1099,7 @@
         articleTag: "M9G-TR-2026-02 • 에이전트 시스템 & 하네스 엔지니어링",
         articleTitle: "새로운 멀티에이전트 코딩 하네스 자체 구축 시도와 실패 분석: m9g-agent-corps 제작기 및 OmO, OpenCode, Claude Code, Antigravity와의 비교",
         articleLede: "우리는 3계층 Gemini 모델 라우터, SHA-256 해시라인(Hashline) 편집기, AST 코드 스켈레톤 압축기, 임시 GIT_INDEX_FILE 섀도우 체크포인트, 5단계 자가 치유 훅 파이프라인을 결합한 독자적인 멀티에이전트 코딩 하네스 m9g-agent-corps(28개 파이썬 모듈, 약 640KB, 17개 테스트 스위트·169개 단위 테스트)를 바닥부터 직접 설계·구현했습니다. 그러나 개별 서브시스템이 모든 단위 테스트를 통과했음에도 불구하고, 실제 엔지니어링 작업에서 주력 코딩 하네스로 구동했을 때 기존 상용 하네스인 OmO(Oh-My-OpenAgent), OpenCode, Claude Code, Google Antigravity의 속도와 신뢰성을 넘어서는 데 실패했습니다. 본 리포트는 새 하네스를 구축하며 탐구한 6대 핵심 기술과 자체 오케스트레이터가 실패한 구조적 원인, 그리고 최종적으로 핵심 기질(substrate)들을 오픈소스 MCP 파워툴 서버(m9g-mcp)로 피벗한 과정을 코드 레벨에서 기록합니다.",
-        takeawaysHeader: "핵심 연구 결과 및 실패 분석(Post-Mortem) 요약",
+        takeawaysHeader: "TL;DR — 핵심 연구 결과 및 실패 분석(Post-Mortem) 요약",
         kpi1Label: "자체 구현 규모", kpi1Note: "src/ag_harness/ (28개 모듈, 169개 단위 테스트)",
         kpi2Label: "탐구한 서브시스템", kpi2Note: "해시라인, AST 압축, 섀도우 Git, WAL, DAG",
         kpi3Label: "핵심 실패 원인", kpi3Note: "기질 미연결, 정규식 핸드오프, 블로킹 CLI",
@@ -1121,7 +1120,7 @@
         articleTag: "M9G-TR-2026-02 • エージェントシステム & ハーネス工学",
         articleTitle: "マルチエージェント・コーディングハーネスの独自構築と失敗の記録：m9g-agent-corps の内部調査と OmO・OpenCode・Claude Code・Antigravity との比較",
         articleLede: "我々は3階層Geminiモデルルーター、SHA-256ハッシュライン編集器、AST構造スケルトナイザ、シャドウGitインデックス・チェックポイント、5段階自己修復フックパイプラインを統合した独自のコーディングハーネス m9g-agent-corps（28 Pythonモジュール、約640KB、17テストスイート・169単体テスト）をゼロから構築しました。各サブシステムは単体検証をすべて通過したにもかかわらず、実務のメインハーネスとしては OmO (Oh-My-OpenAgent)、OpenCode、Claude Code、Google Antigravity の信頼性と速度に及びませんでした。本稿では、新ハーネス構築の過程で調査・実装した6つの技術領域、独自オーケストレータが失敗した6つの構造的原因、そして最終的に決定論的サブストレートをオープンソースMCPサーバー (m9g-mcp) へとピボットした経緯を詳述します。",
-        takeawaysHeader: "リサーチハイライト & ポストモーテム要約",
+        takeawaysHeader: "TL;DR — リサーチハイライト & ポストモーテム要約",
         kpi1Label: "実装コード規模", kpi1Note: "src/ag_harness/ (28モジュール、169テスト)",
         kpi2Label: "調査サブシステム", kpi2Note: "Hashline, AST圧縮, Shadow Git, WAL, DAG",
         kpi3Label: "主要な失敗要因", kpi3Note: "検証未接続、正規表現ハンドオフ、同期CLI",
@@ -1142,7 +1141,7 @@
         articleTag: "M9G-TR-2026-02 • 智能体系统与编码框架工程",
         articleTitle: "从零构建多智能体编码框架及其失败复盘：深入 m9g-agent-corps 并对比 OmO、OpenCode、Claude Code 与 Antigravity",
         articleLede: "我们曾尝试从零构建一套独立的多智能体编码框架 m9g-agent-corps（包含 28 个 Python 模块、约 640 KB 源码、17 个测试套件共 169 项单元测试），集成了三层 Gemini 路由、SHA-256 哈希行编辑器、AST 结构化骨架压缩、影子 Git 索引检查点以及五层自愈钩子流水线。然而尽管所有子系统在独立单元测试中全部通过，将其作为日常主力编码框架时却未能匹敌现有成熟框架——Oh-My-OpenAgent (OmO)、OpenCode、Claude Code 与 Google Antigravity。本文完整记录了我们在构建新框架过程中深入探索的六大核心机制、独立编排器在真实工程负载下失败的六个根源，以及我们如何将核心底层能力重构为开源 MCP 工具服务器 (m9g-mcp)。",
-        takeawaysHeader: "核心研究亮点与失败复盘摘要",
+        takeawaysHeader: "TL;DR — 核心研究亮点与失败复盘摘要",
         kpi1Label: "自研工程规模", kpi1Note: "src/ag_harness/ (28 个模块, 169 项单元测试)",
         kpi2Label: "探索的子系统", kpi2Note: "哈希行编辑、AST 骨架、影子 Git、WAL、DAG",
         kpi3Label: "核心失败根源", kpi3Note: "底层未挂载、正则交接假阳性、阻塞 CLI",
@@ -1163,7 +1162,7 @@
         articleTag: "M9G-TR-2026-02 • Sistemas Agénticos e Ingeniería de Harnesses",
         articleTitle: "Construyendo un Harness de Codificación Multi-Agente desde Cero y Por Qué Fracasó: m9g-agent-corps frente a OmO, OpenCode, Claude Code y Antigravity",
         articleLede: "Nos propusimos construir desde cero nuestro propio harness de codificación multi-agente—m9g-agent-corps (28 módulos Python, ~640 KB en src/ag_harness/, 17 suites con 169 pruebas unitarias)—combinando enrutamiento Gemini de 3 niveles, edición por hash de línea SHA-256, esqueletización AST, puntos de control Git en índice sombra y un pipeline de hooks de 5 niveles. Aunque cada subsistema superó las pruebas unitarias de forma aislada, al operarlo como harness principal no logró igualar la velocidad ni la fiabilidad de los harnesses preexistentes: Oh-My-OpenAgent (OmO), OpenCode, Claude Code y Google Antigravity. Este artículo documenta lo que investigamos al construirlo, por qué fracasó como orquestador independiente y cómo extrajimos sus mejores sustratos hacia un servidor MCP abierto (m9g-mcp).",
-        takeawaysHeader: "Aspectos Destacados de la Investigación y Resumen Post-Mortem",
+        takeawaysHeader: "TL;DR — Aspectos Destacados de la Investigación y Resumen Post-Mortem",
         kpi1Label: "Alcance Construido", kpi1Note: "src/ag_harness/ (28 módulos, 169 pruebas)",
         kpi2Label: "Subsistemas Creados", kpi2Note: "Hashline, AST Skel, Shadow Git, WAL, DAG",
         kpi3Label: "Causas del Fallo", kpi3Note: "Sustratos desconectados, regex, CLI bloqueante",

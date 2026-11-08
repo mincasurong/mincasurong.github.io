@@ -54,7 +54,7 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
   <tr>
     <td width="42%" valign="middle">
       <a href="https://mincasurong.github.io/blog/lazy-dash/">
-        <img src="https://mincasurong.github.io/screenshots/lazy-dash-architecture-nanobanana.png" width="100%" alt="Lazy-DaSH Multi-Model VLA Orchestration in IsaacSim_Gemini" style="border-radius: 8px;" />
+        <img src="https://mincasurong.github.io/screenshots/blog5-lazydash-thumb-nanobanana.png" width="100%" alt="Lazy-DaSH Multi-Model VLA Orchestration in IsaacSim_Gemini" style="border-radius: 8px;" />
       </a>
     </td>
     <td width="58%" valign="middle">
@@ -67,7 +67,7 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
   <tr>
     <td width="42%" valign="middle">
       <a href="https://mincasurong.github.io/blog/sdl-survey/">
-        <img src="https://mincasurong.github.io/screenshots/sdl-survey-architecture.svg" width="100%" alt="SOTA Survey: Multi-Robot Assembly, Deformables & Self-Driving Labs in Isaac Sim" style="border-radius: 8px;" />
+        <img src="https://mincasurong.github.io/screenshots/blog4-sdl-thumb-nanobanana.png" width="100%" alt="SOTA Survey: Multi-Robot Assembly, Deformables & Self-Driving Labs in Isaac Sim" style="border-radius: 8px;" />
       </a>
     </td>
     <td width="58%" valign="middle">
@@ -80,7 +80,7 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
   <tr>
     <td width="42%" valign="middle">
       <a href="https://mincasurong.github.io/blog/stamp/">
-        <img src="https://mincasurong.github.io/screenshots/stamp-architecture-nanobanana.png" width="100%" alt="Project STAMP 4-Stage Deterministic Pre-Dispatch Gating Architecture" style="border-radius: 8px;" />
+        <img src="https://mincasurong.github.io/screenshots/blog3-stamp-thumb-nanobanana.png" width="100%" alt="Project STAMP 4-Stage Deterministic Pre-Dispatch Gating Architecture" style="border-radius: 8px;" />
       </a>
     </td>
     <td width="58%" valign="middle">
@@ -93,7 +93,7 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
   <tr>
     <td width="42%" valign="middle">
       <a href="https://mincasurong.github.io/blog/VLA/">
-        <img src="https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png" width="100%" alt="3-Stage VLA Task Planner Architecture" style="border-radius: 8px;" />
+        <img src="https://mincasurong.github.io/screenshots/blog1-vla-thumb-nanobanana.png" width="100%" alt="3-Stage VLA Task Planner Architecture" style="border-radius: 8px;" />
       </a>
     </td>
     <td width="58%" valign="middle">
@@ -230,7 +230,7 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
   <tr>
     <td width="42%" valign="middle">
       <a href="https://mincasurong.github.io/blog/m9g-agent-corps/">
-        <img src="https://mincasurong.github.io/screenshots/m9g-agent-corps-architecture.png" width="100%" alt="m9g-agent-corps vs. Production Coding Harnesses Architecture" style="border-radius: 8px;" />
+        <img src="https://mincasurong.github.io/screenshots/blog2-agent-thumb-nanobanana.png" width="100%" alt="m9g-agent-corps vs. Production Coding Harnesses Architecture" style="border-radius: 8px;" />
       </a>
     </td>
     <td width="58%" valign="middle">

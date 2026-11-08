@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://mincasurong.github.io/blog/VLA/" />
   <meta property="og:title" content="Symbolic 3D Grounding and Software-Pipelined VLA Task Planning — M9G Research" />
   <meta property="og:description" content="Software-pipelined multi-arm scheduling and hybrid model routing reduce per-trial API cost from $0.08437 to $0.01972 (-76.6%) across a 9-block assembly task in Isaac Sim 6.0." />
-  <meta property="og:image" content="https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png" />
+  <meta property="og:image" content="https://mincasurong.github.io/screenshots/blog1-vla-thumb-nanobanana.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -586,7 +586,7 @@
   <div class="layout">
     <article>
       <div class="dm-takeaways">
-        <div class="dm-takeaways-title" data-i18n="takeawaysHeader">Research Highlights &amp; Systems Summary</div>
+        <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Research Highlights &amp; Systems Summary</div>
         <ul>
           <li data-i18n="finding1"><strong class="c-blue">Zero-RGB Symbolic 3D /tf Grounding:</strong> Disabling Isaac Sim Replicator RGB camera capture (<code>latest_rgb = None</code>, <code>0</code> image tokens) and feeding 50 Hz 3D <code>/tf</code> poses into <code>RuleBasedTaskGenerator</code> and <code>RuleBasedTaskVerifier</code> achieved 100% (9/9) multi-robot tower assembly with zero collisions across all three stages.</li>
           <li data-i18n="finding2"><strong class="c-green">Hybrid Brain-Executor Routing (-76.6% API Cost):</strong> Invoking <code>gemini-4-argon</code> once on Turn 0 (<code>thinking_budget=256</code>) to synthesize the global schedule and delegating Turns 1–10 to <code>gemini-3.5-flash-lite</code> (<code>thinking_budget=0</code>) reduced trial cost from <code>$0.08437</code> to <code>$0.01972</code> and lowered early-turn step latency from <code>13.31 s</code> to <code>4.17 s</code> (-68.7%).</li>
@@ -916,7 +916,7 @@
         articleTag: "M9G-TR-2026-01 • Embodied Physical AI",
         articleTitle: "Symbolic 3D Grounding and Software-Pipelined VLA Task Planning for Multi-Arm Manipulation",
         articleLede: "When orchestrating multiple 7-DoF robotic manipulators in a shared physical workspace, streaming overhead RGB camera frames on every planning turn inflates token budgets and GPU rendering latency. In our three-arm Franka Emika FR3 station in NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) bridged over FastDDS unicast to ROS 2 Jazzy (50 Hz damped least-squares inverse kinematics), we demonstrate that symbolic 3D /tf coordinate grounding paired with a hybrid Brain-Executor routing topology discovers a conflict-free 10-turn software-pipelined schedule—cutting per-trial API cost by 76.6% ($0.01972 vs. $0.08437) with zero RGB image tokens.",
-        takeawaysHeader: "Research Highlights & Systems Summary",
+        takeawaysHeader: "TL;DR — Research Highlights & Systems Summary",
         finding1: "Zero-RGB Symbolic 3D /tf Grounding: Disabling Isaac Sim Replicator RGB camera capture (latest_rgb = None, 0 image tokens) and feeding 50 Hz 3D /tf poses into RuleBasedTaskGenerator and RuleBasedTaskVerifier achieved 100% (9/9) multi-robot tower assembly with zero collisions across all three stages.",
         finding2: "Hybrid Brain-Executor Routing (-76.6% API Cost): Invoking gemini-4-argon once on Turn 0 (thinking_budget=256) to synthesize the global schedule and delegating Turns 1–10 to gemini-3.5-flash-lite (thinking_budget=0) reduced trial cost from $0.08437 to $0.01972 and lowered early-turn step latency from 13.31 s to 4.17 s (-68.7%).",
         finding3: "Software-Pipelined Multi-Arm Interleaving (10 vs. 13 Turns): Whereas gemini-robotics-er-2-preview stalled at wave-locked barriers (13 turns, 50,190 tokens), gemini-4-argon overlapped outer-table pick and go_home actions with central-tower place motions from Turn 3 onward, finishing in 10 turns and avoiding 10,929 quadratic history tokens.",
@@ -948,7 +948,7 @@
         articleTag: "M9G-TR-2026-01 • 피지컬 AI & 다중 로봇 제어",
         articleTitle: "다중 로봇 팔 매니퓰레이션을 위한 3D 심볼릭 그라운딩 및 소프트웨어 파이프라인 VLA 태스크 플래닝",
         articleLede: "공유 작업 공간에서 다수의 7자유도(7-DoF) 로봇 팔을 동시에 제어할 때, 매 플래닝 턴마다 상단 RGB 카메라 이미지를 전송하면 토큰 비용과 GPU 렌더링 지연이 급증합니다. 본 연구는 NVIDIA Isaac Sim 6.0(240 Hz PhysX TGS)과 ROS 2 Jazzy(50 Hz DLS 역기구학 제어기)를 FastDDS 유니캐스트로 연결한 3대 Franka Emika FR3 스테이션에서, 순수 3D /tf 좌표 그라운딩과 하이브리드 Brain-Executor 라우팅만으로 무충돌 10턴 소프트웨어 파이프라인 스케줄을 도출하여 API 비용을 76.6%($0.08437 → $0.01972) 절감함을 실증합니다.",
-        takeawaysHeader: "핵심 연구 결과 및 시스템 요약",
+        takeawaysHeader: "TL;DR — 핵심 연구 결과 및 시스템 요약",
         finding1: "RGB 이미지 없는 3D /tf 심볼릭 그라운딩: Isaac Sim Replicator 카메라 캡처를 비활성화(latest_rgb = None, 이미지 토큰 0개)하고 50 Hz 3D /tf 좌표와 RuleBasedTaskVerifier 안전 검증기만으로 전 단계 9/9 블록 무충돌 조립(100% 성공)을 달성했습니다.",
         finding2: "하이브리드 Brain-Executor 라우팅 (-76.6% API 비용): Turn 0에서 gemini-4-argon(thinking_budget=256)을 단 1회 호출해 전역 스케줄을 수립하고, Turn 1~10 실행은 gemini-3.5-flash-lite(thinking_budget=0)에 위임하여 비용을 $0.01972로 낮추고 초기 스텝 지연을 13.31초에서 4.17초(-68.7%)로 단축했습니다.",
         finding3: "소프트웨어 파이프라인 다중 로봇 인터리빙 (10턴 vs. 13턴): gemini-robotics-er-2-preview가 웨이브 배리어 대기(13턴, 50,190 토큰)에 머문 반면, gemini-4-argon은 3턴부터 외곽 테이블 파지(pick)와 중앙 적재(place)를 중첩 실행하여 10턴 만에 완료하고 누적 히스토리 토큰 10,929개를 절약했습니다.",
@@ -980,7 +980,7 @@
         articleTag: "M9G-TR-2026-01 • 身体性フィジカルAI",
         articleTitle: "マルチアーム操作における3DシンボリックグラウンディングとソフトウェアパイプラインVLAタスク計画",
         articleLede: "共有作業空間内で複数の7自由度ロボットアームを協調制御する際、毎ターンRGBカメラ画像を送信するとトークン予算とGPU描画遅延が増大します。NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) と ROS 2 Jazzy (50 Hz DLS逆運動学制御) を接続した3台Franka Emika FR3ステーションにおいて、3D /tf座標グラウンディングとハイブリッドBrain-Executorルーティングにより10ターンのパイプラインスケジュールを導出し、APIコストを76.6% ($0.08437 → $0.01972) 削減できることを実証しました。",
-        takeawaysHeader: "リサーチハイライト & システム要約",
+        takeawaysHeader: "TL;DR — リサーチハイライト & システム要約",
         finding1: "画像トークンゼロの3D /tfシンボリックグラウンディング: RGB描画を無効化し、50 Hzの3D /tf座標と事前安全検証器のみで全3ステージとも9/9ブロックを無衝突で組立完了。",
         finding2: "ハイブリッド Brain-Executor ルーティング (-76.6% APIコスト): Turn 0で gemini-4-argon (thinking_budget=256) を1回呼び出し、Turn 1〜10を gemini-3.5-flash-lite (thinking_budget=0) に委譲することで、総コストを$0.01972、初期ステップ遅延を4.17秒 (-68.7%) に短縮。",
         finding3: "ソフトウェアパイプライン並列スケジュール (10 vs. 13ターン): ER-2の13ターン・バリア待機に対し、Argonはターン3以降で外側テーブルのpickと中央のplaceを並列化し、10ターンで完了して10,929入力トークンを削減。",
@@ -1012,7 +1012,7 @@
         articleTag: "M9G-TR-2026-01 • 具身物理 AI",
         articleTitle: "面向多机械臂操作的 3D 符号空间接地与软件流水线 VLA 任务规划",
         articleLede: "在共享工作空间中协同控制多台 7 自由度机械臂时，若每轮规划均传输顶部 RGB 相机图像，将显著推高 Token 消耗与 GPU 渲染延迟。在 NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) 与 ROS 2 Jazzy (50 Hz 阻尼最小二乘逆运动学) 组成的 3 台 Franka Emika FR3 工站上，我们证明纯 3D /tf 坐标接地配合混合 Brain-Executor 路由可生成无冲突的 10 轮软件流水线调度，在零图像 Token 下将单次实验 API 成本从 $0.08437 降至 $0.01972 (-76.6%)。",
-        takeawaysHeader: "核心研究亮点与系统摘要",
+        takeawaysHeader: "TL;DR — 核心研究亮点与系统摘要",
         finding1: "零 RGB 图像的 3D /tf 符号接地：禁用 Isaac Sim Replicator 相机渲染（latest_rgb = None，0 图像 Token），仅凭 50 Hz 3D /tf 坐标反馈与前置安全校验器即实现了 9/9 积木零碰撞装配（100% 通过）。",
         finding2: "混合 Brain-Executor 路由 (-76.6% API 成本)：在 Turn 0 调用 1 次 gemini-4-argon (thinking_budget=256) 生成全局 10 轮流水线策略，并将 Turn 1–10 交由 gemini-3.5-flash-lite (thinking_budget=0) 执行，将总成本降至 $0.01972，前两轮步进延迟从 13.31 秒降至 4.17 秒 (-68.7%)。",
         finding3: "软件流水线多臂交错调度 (10 轮 vs. 13 轮)：gemini-robotics-er-2-preview 采用波次屏障批处理（13 轮），而 gemini-4-argon 从第 3 轮起将外侧桌面抓取与中心放置交错并行，10 轮完成任务并节省 10,929 个二次方历史输入 Token。",
@@ -1044,7 +1044,7 @@
         articleTag: "M9G-TR-2026-01 • IA Física Corporizada",
         articleTitle: "Anclaje Simbólico 3D y Planificación de Tareas VLA Segmentada para Manipulación Multi-Brazo",
         articleLede: "Al coordinar múltiples manipuladores robóticos de 7-DoF en un espacio de trabajo compartido, transmitir imágenes RGB en cada turno infla el presupuesto de tokens y la latencia GPU. En nuestra estación de tres brazos Franka Emika FR3 en NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) y ROS 2 Jazzy (cinemática inversa DLS a 50 Hz), demostramos que el anclaje simbólico 3D /tf combinado con un enrutamiento híbrido Cerebro-Ejecutor descubre un cronograma segmentado de 10 turnos libre de conflictos, reduciendo el costo API por prueba en un 76.6% ($0.01972 vs. $0.08437) con cero tokens de imagen RGB.",
-        takeawaysHeader: "Aspectos Destacados de la Investigación y Resumen de Sistemas",
+        takeawaysHeader: "TL;DR — Aspectos Destacados de la Investigación y Resumen de Sistemas",
         finding1: "Anclaje Simbólico 3D /tf sin Cámaras RGB: Desactivar la captura RGB (0 tokens de imagen) y alimentar poses 3D /tf a 50 Hz logró el ensamblaje del 100% (9/9 bloques) sin colisiones en las tres etapas.",
         finding2: "Enrutamiento Híbrido Cerebro-Ejecutor (-76.6% Costo API): Ejecutar gemini-4-argon una sola vez en el Turno 0 (thinking_budget=256) y delegar los Turnos 1–10 a gemini-3.5-flash-lite (thinking_budget=0) redujo el costo total a $0.01972 y la latencia inicial de 13.31 s a 4.17 s (-68.7%).",
         finding3: "Intercalado Multi-Brazo Segmentado (10 vs. 13 Turnos): Mientras gemini-robotics-er-2-preview operó con barreras por oleada (13 turnos), gemini-4-argon intercaló recolecciones externas con colocaciones centrales desde el Turno 3, terminando en 10 turnos y ahorrando 10,929 tokens.",
