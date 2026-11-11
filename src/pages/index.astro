@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import { DEFAULT_LOCALE, UI_I18N, t } from '../i18n/ui';
+
+const blogs = await getCollection('blogs');
+const publications = await getCollection('publications');
+const patents = await getCollection('patents');
+const redirects = await getCollection('redirects');
+
+const heading = t(DEFAULT_LOCALE, 'hubTitle');
+---
+
+<!doctype html>
+<html lang={DEFAULT_LOCALE}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{heading}</title>
+  </head>
+  <body>
+    <main>
+      <h1>{UI_I18N.en.hubTitle}</h1>
+      <p>
+        Blogs: {blogs.length} | Publications: {publications.length} | Patents: {patents.length} | Redirects: {redirects.length}
+      </p>
+    </main>
+  </body>
+</html>
