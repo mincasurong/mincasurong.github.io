@@ -725,16 +725,16 @@
 
 <h2 id="motivation" data-i18n="sec1Title">The Hypothesis: Why We Tried to Build a New Multi-Agent Coding Harness</h2>
       <p data-i18n="sec1P1">
-        During our 1-billion-token weekend engineering sprint with <code>gemini-4-argon</code> and <code>gemini-3.8-flash</code>, we observed three recurring failure modes in standard LLM coding workflows: (1) <strong>context window bloat</strong> from reading entire source files into the frontier model's prompt history, (2) <strong>fragile file mutations</strong> where line-number drift across sequential edits corrupted source files, and (3) <strong>destructive workspace state</strong> where unverified agent edits polluted the developer's staged <code>.git/index</code>.
+        During our 1-billion-token weekend engineering sprint with <code>gemini-4-carbon</code> and <code>gemini-3.8-flash</code>, we observed three recurring failure modes in standard LLM coding workflows: (1) <strong>context window bloat</strong> from reading entire source files into the frontier model's prompt history, (2) <strong>fragile file mutations</strong> where line-number drift across sequential edits corrupted source files, and (3) <strong>destructive workspace state</strong> where unverified agent edits polluted the developer's staged <code>.git/index</code>.
       </p>
       <p data-i18n="sec1P2">
-        Our hypothesis was ambitious: if we constructed a dedicated 3-tier multi-agent coding harness from scratch—<strong><code>m9g-agent-corps</code></strong> (aliased as <code>m9g-code</code> and <code>m9g</code>)—that kept a frontier <strong>Higher Brain (<code>APEX</code>: <code>gemini-4-argon</code> / <code>gemini-2.5-pro</code>)</strong> strictly "above the weeds" while dispatching isolated <strong>Tier 2 (<code>MIDDLE</code>: <code>gemini-2.5-pro-preview</code>)</strong> and <strong>Tier 3 (<code>WORKHORSE/SCOUT</code>: <code>gemini-3.8-flash</code> / <code>gemini-3.5-flash-lite</code>)</strong> workers, we could achieve both 95% implicit cache savings and cleaner context isolation than general-purpose harnesses. Over several intensive iterations, we built 28 Python modules (~640 KB) in <code>src/ag_harness/</code> and 17 test suites containing 169 unit and integration tests.
+        Our hypothesis was ambitious: if we constructed a dedicated 3-tier multi-agent coding harness from scratch—<strong><code>m9g-agent-corps</code></strong> (aliased as <code>m9g-code</code> and <code>m9g</code>)—that kept a frontier <strong>Higher Brain (<code>APEX</code>: <code>gemini-4-carbon</code> / <code>gemini-2.5-pro</code>)</strong> strictly "above the weeds" while dispatching isolated <strong>Tier 2 (<code>MIDDLE</code>: <code>gemini-2.5-pro-preview</code>)</strong> and <strong>Tier 3 (<code>WORKHORSE/SCOUT</code>: <code>gemini-3.8-flash</code> / <code>gemini-3.5-flash-lite</code>)</strong> workers, we could achieve both 95% implicit cache savings and cleaner context isolation than general-purpose harnesses. Over several intensive iterations, we built 28 Python modules (~640 KB) in <code>src/ag_harness/</code> and 17 test suites containing 169 unit and integration tests.
       </p>
 
       <div class="figure-box">
         <img src="/screenshots/m9g-agent-corps-architecture.png" alt="M9G-TR-2026-02: m9g-agent-corps 3-Tier Architecture vs. Pre-Existing Coding Harnesses" loading="lazy" decoding="async" />
         <div class="figure-caption" data-i18n="fig1Caption">
-          <strong>Figure 1 (M9G-TR-2026-02).</strong> Architectural schematic of <code>m9g-agent-corps</code> (<code>src/ag_harness/</code>): Left — Tier 1 Executive Orchestrator (<code>gemini-4-argon</code> / <code>APEX</code>) with immutable prefix caching, 2-tier skill disclosure, and AST skeletonization; Center — Tier 2 (<code>MIDDLE</code>) and Tier 3 (<code>WORKHORSE</code> / <code>SCOUT</code>) workers; Right — the six structural failure modes that caused the standalone harness to underperform pre-existing harnesses (<code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>, and <code>Antigravity</code>).
+          <strong>Figure 1 (M9G-TR-2026-02).</strong> Architectural schematic of <code>m9g-agent-corps</code> (<code>src/ag_harness/</code>): Left — Tier 1 Executive Orchestrator (<code>gemini-4-carbon</code> / <code>APEX</code>) with immutable prefix caching, 2-tier skill disclosure, and AST skeletonization; Center — Tier 2 (<code>MIDDLE</code>) and Tier 3 (<code>WORKHORSE</code> / <code>SCOUT</code>) workers; Right — the six structural failure modes that caused the standalone harness to underperform pre-existing harnesses (<code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>, and <code>Antigravity</code>).
         </div>
       </div>
 
@@ -748,7 +748,7 @@
           <span class="inv-tag">Investigation 01 • Token &amp; Cache Economics</span>
           <h4>Immutable Prefix Caching &amp; Tail-Only Dynamic Injection</h4>
           <p>
-            In <code>ImmutablePrefixBuilder</code> (<code>argon_omo_substrate.py:766</code>) and <code>corps.jsonc</code>, we investigated why Gemini 2.5 Pro / 4 Argon's 95% implicit cache discount (<code>$0.10/1M</code> cached vs. <code>$2.00/1M</code> uncached) breaks in naive harnesses. We stripped dynamic regex patterns (<code><strong>Generated:</strong></code>, <code><strong>Timestamp:</strong></code>, <code>Current git status:</code>) from index 0, froze <code>&lt;immutable_system_prompt&gt;</code>, <code>&lt;immutable_agents_md&gt;</code>, sorted <code>&lt;immutable_tool_schemas&gt;</code>, and <code>&lt;immutable_repo_map&gt;</code> under a verified SHA-256 <code>prefix_hash</code>, and pushed all turn-varying state (<code>&lt;memory_sidecar_constraints&gt;</code>, <code>&lt;intent_gate_status&gt;</code>) to the user message tail while capping always-on text at <code>28,000</code> chars.
+            In <code>ImmutablePrefixBuilder</code> (<code>argon_omo_substrate.py:766</code>) and <code>corps.jsonc</code>, we investigated why Gemini 2.5 Pro / 4 Carbon's 95% implicit cache discount (<code>$0.10/1M</code> cached vs. <code>$2.00/1M</code> uncached) breaks in naive harnesses. We stripped dynamic regex patterns (<code><strong>Generated:</strong></code>, <code><strong>Timestamp:</strong></code>, <code>Current git status:</code>) from index 0, froze <code>&lt;immutable_system_prompt&gt;</code>, <code>&lt;immutable_agents_md&gt;</code>, sorted <code>&lt;immutable_tool_schemas&gt;</code>, and <code>&lt;immutable_repo_map&gt;</code> under a verified SHA-256 <code>prefix_hash</code>, and pushed all turn-varying state (<code>&lt;memory_sidecar_constraints&gt;</code>, <code>&lt;intent_gate_status&gt;</code>) to the user message tail while capping always-on text at <code>28,000</code> chars.
           </p>
         </div>
 
@@ -1078,7 +1078,7 @@
         kpi2Label: "Subsystems Built", kpi2Note: "Hashline, AST Skel, Shadow Git, WAL, DAG",
         kpi3Label: "Root Failure Modes", kpi3Note: "Unwired gates, regex handoff, blocking CLI",
         kpi4Label: "Architectural Pivot", kpi4Note: "m9g-mcp stdio server for OmO/Claude/OpenCode",
-        videoHeader: "Empirical Stress-Test Context — Gemini 4 Argon Weekend Sprint: 1B Tokens & Building m9g-code",
+        videoHeader: "Empirical Stress-Test Context — Gemini 4 Carbon Weekend Sprint: 1B Tokens & Building m9g-code",
         sec1Title: "The Hypothesis: Why We Tried to Build a New Multi-Agent Coding Harness",
         sec2Title: "What We Investigated and Engineered Inside m9g-agent-corps",
         sec3Title: "Why Building a New Standalone Harness Failed in Practice: Six Root Causes",
@@ -1099,7 +1099,7 @@
         kpi2Label: "탐구한 서브시스템", kpi2Note: "해시라인, AST 압축, 섀도우 Git, WAL, DAG",
         kpi3Label: "핵심 실패 원인", kpi3Note: "기질 미연결, 정규식 핸드오프, 블로킹 CLI",
         kpi4Label: "아키텍처 피벗", kpi4Note: "OmO/Claude/OpenCode용 m9g-mcp 서버 전환",
-        videoHeader: "실증 스트레스 테스트 배경 — Gemini 4 Argon 주말 스프린트: 10억 토큰과 m9g-code 구축",
+        videoHeader: "실증 스트레스 테스트 배경 — Gemini 4 Carbon 주말 스프린트: 10억 토큰과 m9g-code 구축",
         sec1Title: "연구 가설: 왜 우리는 새로운 멀티에이전트 코딩 하네스를 바닥부터 만들려 했는가",
         sec2Title: "m9g-agent-corps를 구축하며 탐구·구현한 6대 핵심 엔지니어링 기질",
         sec3Title: "독자 코딩 하네스 구축이 실전에서 실패한 이유: 6가지 근본 원인",
@@ -1120,7 +1120,7 @@
         kpi2Label: "調査サブシステム", kpi2Note: "Hashline, AST圧縮, Shadow Git, WAL, DAG",
         kpi3Label: "主要な失敗要因", kpi3Note: "検証未接続、正規表現ハンドオフ、同期CLI",
         kpi4Label: "アーキテクチャ転換", kpi4Note: "OmO/Claude/OpenCode向け m9g-mcp サーバー",
-        videoHeader: "実証ストレステスト映像 — Gemini 4 Argon 週末スプリント：10億トークンと m9g-code 開発",
+        videoHeader: "実証ストレステスト映像 — Gemini 4 Carbon 週末スプリント：10億トークンと m9g-code 開発",
         sec1Title: "仮説：なぜ新しいマルチエージェント・コーディングハーネスを自作しようとしたのか",
         sec2Title: "m9g-agent-corps の構築過程で調査・実装した6つのコア技術",
         sec3Title: "独自スタンドアロン・ハーネスが実戦で失敗した6つの根本原因",
@@ -1141,7 +1141,7 @@
         kpi2Label: "探索的子系统", kpi2Note: "哈希行编辑、AST 骨架、影子 Git、WAL、DAG",
         kpi3Label: "核心失败根源", kpi3Note: "底层未挂载、正则交接假阳性、阻塞 CLI",
         kpi4Label: "架构转型", kpi4Note: "面向 OmO/Claude/OpenCode 的 m9g-mcp 服务",
-        videoHeader: "实证压力测试背景 — Gemini 4 Argon 周末冲刺：10 亿 Token 与 m9g-code 构建",
+        videoHeader: "实证压力测试背景 — Gemini 4 Carbon 周末冲刺：10 亿 Token 与 m9g-code 构建",
         sec1Title: "研究假设：为什么我们试图从零构建新的多智能体编码框架",
         sec2Title: "我们在构建 m9g-agent-corps 过程中深入探索与实现的六大核心子系统",
         sec3Title: "为什么独立编码框架在实战中失败了：六个结构性根源",
@@ -1162,7 +1162,7 @@
         kpi2Label: "Subsistemas Creados", kpi2Note: "Hashline, AST Skel, Shadow Git, WAL, DAG",
         kpi3Label: "Causas del Fallo", kpi3Note: "Sustratos desconectados, regex, CLI bloqueante",
         kpi4Label: "Pivote Arquitectónico", kpi4Note: "Servidor stdio m9g-mcp para OmO/Claude/OpenCode",
-        videoHeader: "Contexto Empírico — Sprint de 1B Tokens con Gemini 4 Argon y Construcción de m9g-code",
+        videoHeader: "Contexto Empírico — Sprint de 1B Tokens con Gemini 4 Carbon y Construcción de m9g-code",
         sec1Title: "La Hipótesis: Por Qué Intentamos Construir un Nuevo Harness Multi-Agente",
         sec2Title: "Lo Que Investigamos y Construimos Dentro de m9g-agent-corps",
         sec3Title: "Por Qué Fracasó Nuestro Harness Independiente en la Práctica: Seis Causas Raíz",
@@ -1195,6 +1195,13 @@
       if (popup) popup.classList.remove('open');
       const dict = BLOG_I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(el => {
+        if (!el.hasAttribute('data-orig-html') && el.children.length > 0) {
+          el.setAttribute('data-orig-html', el.innerHTML);
+        }
+        if (lang === 'en') {
+          if (el.hasAttribute('data-orig-html')) { el.innerHTML = el.getAttribute('data-orig-html'); return; }
+          if (el.children.length > 0) return;
+        }
         const key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
       });

@@ -5,14 +5,14 @@
     <link>https://mincasurong.github.io/</link>
     <description>Official portfolio and engineering blog of Minsu Chang, Ph.D. (장민수, mincasurong, M9G): 1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026, Multi-Robot VLA Benchmarks in NVIDIA Isaac Sim 6.0 &amp; ROS 2, ROS/MoveIt/Jetson Nano Tutorials, 21 Peer-Reviewed Publications (IEEE ICRA, IEEE/RSJ IROS, IEEE TNSRE), and 14+ US/KR Patents.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://mincasurong.github.io/rss.xml" rel="self" type="application/rss+xml" />
 
     <item>
       <title>Building a Browser-Native 3D Multi-Robot &amp; Smart Factory Lite-Sim (tamp.mincasurong.com): Why Real-Time WebGL TAMP Is Hard and How We Overcame It</title>
       <link>https://mincasurong.github.io/blog/tamp-fast-sim/</link>
       <guid>https://mincasurong.github.io/blog/tamp-fast-sim/</guid>
-      <pubDate>Sun, 15 Nov 2026 12:00:00 GMT</pubDate>
+      <pubDate>Mon, 09 Nov 2026 00:00:00 GMT</pubDate>
       <description>M9G-TR-2026-06 by Minsu Chang, Ph.D. (M9G): Engineering tamp.mincasurong.com — how we overcame 5 core browser TAMP bottlenecks using a 134 KB binary STL mesh pack, pure TypeScript 7-DoF DLS IK (&lt;25 ms), 128 Hz swept capsule safety gate with 3D red ghost debugging, elevated AMR turret docking, and a 6-cell (18 FR3 + 4 AMR) smart factory at 720/h throughput.</description>
     </item>
 
@@ -21,7 +21,7 @@
       <link>https://mincasurong.github.io/blog/lazy-dash/</link>
       <guid>https://mincasurong.github.io/blog/lazy-dash/</guid>
       <pubDate>Sun, 08 Nov 2026 12:00:00 GMT</pubDate>
-      <description>M9G-TR-2026-05 by Minsu Chang, Ph.D. (M9G): Summarizing Seongwon "Scott" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab, IEEE T-RO, arXiv:2504.05552) and mapping its 4-layer lazy hypergraph &amp; branch-scoped constraint feedback onto Gemini 4 Argon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite in IsaacSim_Gemini with 7 continuous KPIs.</description>
+      <description>M9G-TR-2026-05 by Minsu Chang, Ph.D. (M9G): Summarizing Seongwon "Scott" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab, IEEE T-RO, arXiv:2504.05552) and mapping its 4-layer lazy hypergraph &amp; branch-scoped constraint feedback onto Gemini 4 Carbon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite in IsaacSim_Gemini with 7 continuous KPIs.</description>
     </item>
 
     <item>
@@ -49,11 +49,11 @@
     </item>
 
     <item>
-      <title>Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Argon</title>
+      <title>Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Carbon</title>
       <link>https://mincasurong.github.io/blog/VLA/</link>
       <guid>https://mincasurong.github.io/blog/VLA/</guid>
       <pubDate>Sun, 18 Oct 2026 09:00:00 GMT</pubDate>
-      <description>M9G-TR-2026-01 by Minsu Chang, Ph.D. (M9G): Benchmarking Gemini Robotics-ER 2, Gemini 4 Argon, and hybrid Argon + Flash-Lite task planners on 3 Franka Emika FR3 robotic arms in Isaac Sim 6.0 (-76.6% API cost at $0.01972).</description>
+      <description>M9G-TR-2026-01 by Minsu Chang, Ph.D. (M9G): Benchmarking Gemini Robotics-ER 2, Gemini 4 Carbon, and hybrid Carbon + Flash-Lite task planners on 3 Franka Emika FR3 robotic arms in Isaac Sim 6.0 (-76.6% API cost at $0.01972).</description>
     </item>
 
     <item>

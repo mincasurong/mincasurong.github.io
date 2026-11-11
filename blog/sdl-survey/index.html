@@ -935,6 +935,13 @@
       if (popup) popup.classList.remove('open');
       var dict = BLOG_I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        if (!el.hasAttribute('data-orig-html') && el.children.length > 0) {
+          el.setAttribute('data-orig-html', el.innerHTML);
+        }
+        if (lang === 'en') {
+          if (el.hasAttribute('data-orig-html')) { el.innerHTML = el.getAttribute('data-orig-html'); return; }
+          if (el.children.length > 0) return;
+        }
         var key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
       });

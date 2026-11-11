@@ -40,6 +40,8 @@
       --accent-indigo: #174ea6;
       --accent-amber: #1a73e8;
       --accent-rose: #1a73e8;
+      --gold: #1a73e8;
+      --gold-dim: #e8f0fe;
       --shadow: 0 4px 20px rgba(32, 33, 36, 0.05);
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -63,6 +65,8 @@
       --accent-indigo: #fbbf24;
       --accent-amber: #fbbf24;
       --accent-rose: #fbbf24;
+      --gold: #fbbf24;
+      --gold-dim: rgba(251, 191, 36, 0.14);
       --shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
     }
     *, *::before, *::after { box-sizing: border-box; }
@@ -1083,7 +1087,19 @@
       
       
       <div class="archive-section" data-cat="hackathon">
-        
+        <article class="section-card" id="hackathon-epilogue">
+          <span class="section-badge amber">1ST-PLACE WINNER · GOOGLE GEMINI 3 SEOUL HACKATHON 2026 (GEMINISPACE)</span>
+          <h2>Google Gemini 3 Seoul Hackathon 2026 — 1st-Place Winner Epilogue (GeminiSpace)</h2>
+          <p>
+            Claimed <strong>1st Place</strong> among 111 finalist teams and 1,500+ applicants at the <strong>Google Gemini 3 Seoul Hackathon 2026</strong> with <strong>GeminiSpace</strong>, a spatial AI navigation system transforming indoor room photos into interactive 2D/3D semantic maps.
+          </p>
+          <div class="resource-row">
+            <a class="resource-chip" href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener">🌐 Launch GeminiSpace Live App ↗</a>
+            <a class="resource-chip emerald" href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/" target="_blank" rel="noopener">📰 Google Korea Official Blog Interview ↗</a>
+            <a class="resource-chip amber" href="https://cerebralvalley.ai/e/gemini-3-seoul-hackathon/hackathon/gallery?project=27" target="_blank" rel="noopener">🏆 Cerebral Valley Winners Gallery ↗</a>
+          </div>
+        </article>
+
         <article class="section-card" id="cloud-onboard">
           <span class="section-badge">TECHNICAL RECAP · GOOGLE CLOUD ONBOARD: GOOGLE SKILLS EDITION (WESTIN JOSUN PARNAS)</span>
           <h2>Architecting Enterprise-Grade Agentic Services on Vertex AI</h2>
@@ -1121,7 +1137,7 @@
       
       
       
-      <div class="archive-section" data-cat="beyond">
+      <div class="archive-section" data-cat="beyond" id="app-dev">
         <article class="section-card" id="teaching-assistant">
           <span class="section-badge emerald">TEACHING ASSISTANT · SOGANG UNIVERSITY MECHANICAL ENGINEERING (2016 – 2020)</span>
           <h2>Control Theory &amp; Robotics Teaching Assistant Lectures (LQR &amp; MATLAB)</h2>
@@ -1241,10 +1257,12 @@
       </ul>
       <div class="toc-group-title">3. Agentic Era (2026)</div>
       <ul class="toc-list">
+        <li><a href="#hackathon-epilogue">Gemini 3 Seoul Hackathon 1st-Place Epilogue</a></li>
         <li><a href="#cloud-onboard">Google Cloud OnBoard Recap (ADK/MCP/A2A)</a></li>
       </ul>
       <div class="toc-group-title">4. Beyond Research</div>
       <ul class="toc-list">
+        <li><a href="#app-dev">Live Apps, TA Lectures &amp; Beyond Research</a></li>
         <li><a href="#teaching-assistant">Sogang TA &amp; 7 MATLAB/LQR Control Videos</a></li>
         <li><a href="#aiesec">AIESEC Exchange Teacher in Hungary</a></li>
       </ul>
@@ -1343,7 +1361,7 @@
         navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
         nav_archive: "Patentes, Investigación y Archivo",
         hero_eyebrow: "ARCHIVO COMPLETO · MINCASURONG.COM × GITHUB.IO",
-        hero_title_1: "14 Patentes, 20 Publicaciones, Robótica Médica",
+        hero_title_1: "14 Patentes, 21 Publicaciones, Robótica Médica",
         hero_title_2: "e Hitos de IA Agéntica",
         hero_sub: "Repositorio unificado con las 14+ patentes (EE.UU./Corea), 21 artículos científicos, 14 videos clínicos de exoesqueletos SUBAR y AI Therapist, epílogo del Gemini 3 Seoul Hackathon, Google Cloud OnBoard y 7 clases de control LQR/MATLAB.",
         tab_all: "Todas las Secciones (5)",
@@ -1356,11 +1374,11 @@
         navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
         nav_archive: "专利、论文与研究档案",
         hero_eyebrow: "完整知识档案库 · MINCASURONG.COM × GITHUB.IO",
-        hero_title_1: "14项专利、20篇论文、医疗康复外骨骼机器人",
+        hero_title_1: "14项专利、21篇论文、医疗康复外骨骼机器人",
         hero_title_2: "与智能体 AI 里程碑",
         hero_sub: "完整收录 mincasurong.com 的 14 项美韩专利、21 篇学术论文、KFDA 认证下肢康复外骨骼 SUBAR 与 AI 治疗师 14 部演示视频、Gemini 3 首尔黑客松夺冠后记、Google Cloud OnBoard 技术总结及西江大学 LQR/MATLAB 控制讲座。",
         tab_all: "全部档案板块 (5)",
-        tab_patents: "14项专利 & 20篇论文",
+        tab_patents: "14项专利 & 21篇论文",
         tab_rehab: "早期研究(~2022): KFDA 医疗外骨骼 (14部视频)",
         tab_hackathon: "Google Cloud OnBoard 技术总结",
         tab_beyond: "控制工程助教讲座(7部) & AIESEC"
@@ -1388,6 +1406,13 @@
       if (popup) popup.classList.remove('open');
       var dict = I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        if (!el.hasAttribute('data-orig-html') && el.children.length > 0) {
+          el.setAttribute('data-orig-html', el.innerHTML);
+        }
+        if (lang === 'en') {
+          if (el.hasAttribute('data-orig-html')) { el.innerHTML = el.getAttribute('data-orig-html'); return; }
+          if (el.children.length > 0) return;
+        }
         var key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
       });

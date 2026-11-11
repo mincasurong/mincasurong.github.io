@@ -22,8 +22,8 @@
     "@type": "TechArticle",
     "headline": "Engineering a Browser-Native 3D Multi-Robot TAMP & Smart Factory Lite-Sim (tamp.mincasurong.com): Overcoming 5 Core WebGL, Kinematics & Spatial Clearance Bottlenecks",
     "identifier": "M9G-TR-2026-06",
-    "datePublished": "2026-11-15",
-    "dateModified": "2026-11-15",
+    "datePublished": "2026-11-09",
+    "dateModified": "2026-11-09",
     "inLanguage": ["en", "ko", "ja", "zh", "es"],
     "image": "https://mincasurong.github.io/screenshots/fastsim-architecture-nanobanana.png",
     "author": {
@@ -530,7 +530,7 @@
 
       <div class="dm-kicker-row">
         <span class="dm-badge" data-i18n="articleTag">M9G-TR-2026-06 • Browser-Native 3D Multi-Robot TAMP &amp; Smart Factory Engineering</span>
-        <span>Published November 15, 2026</span>
+        <span>Published November 9, 2026</span>
         <span>•</span>
         <span>Live WebGL Deployment: <a href="https://tamp.mincasurong.com" target="_blank" rel="noopener" style="color:var(--dm-blue);font-weight:700;">https://tamp.mincasurong.com ↗</a></span>
       </div>
@@ -887,7 +887,7 @@
         <li><strong>Lazy-DaSH (M9G-TR-2026-05 &amp; IEEE T-RO)</strong>: Seongwon Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato (UIUC Parasol Lab), <em>"Lazy-DaSH: Lazy Approach for Hypergraph-based Multi-Robot Task and Motion Planning,"</em> <em>IEEE Transactions on Robotics (T-RO)</em>, <a href="https://arxiv.org/abs/2504.05552" target="_blank" rel="noopener">arXiv:2504.05552</a>; see also <a href="/blog/lazy-dash/">M9G-TR-2026-05</a>.</li>
         <li><strong>Project STAMP (M9G-TR-2026-03)</strong>: Minsu Chang, Ph.D., <em>"Project STAMP: Decoupling Multimodal VLA Reasoning from Robot Execution via Deterministic Pre-Dispatch Gating and Fault Write-Back,"</em> <a href="/blog/stamp/">M9G-TR-2026-03</a> (2026).</li>
         <li><strong>Multi-Robot Assembly, Deformables &amp; Self-Driving Labs (M9G-TR-2026-04)</strong>: Minsu Chang, Ph.D., <em>"SOTA Survey: Multi-Robot Cooperative Assembly, Deformable Object Manipulation &amp; Self-Driving Labs in Isaac Sim,"</em> <a href="/blog/sdl-survey/">M9G-TR-2026-04</a> (2026).</li>
-        <li><strong>Symbolic 3D Grounding &amp; Software-Pipelined VLA Task Planning (M9G-TR-2026-01)</strong>: Minsu Chang, Ph.D., <em>"Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Argon,"</em> <a href="/blog/VLA/">M9G-TR-2026-01</a> (2026).</li>
+        <li><strong>Symbolic 3D Grounding &amp; Software-Pipelined VLA Task Planning (M9G-TR-2026-01)</strong>: Minsu Chang, Ph.D., <em>"Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Carbon,"</em> <a href="/blog/VLA/">M9G-TR-2026-01</a> (2026).</li>
         <li><strong>Franka Emika FR3 Kinematics &amp; Craig Modified DH Convention</strong>: J. J. Craig, <em>Introduction to Robotics: Mechanics and Control</em>, 4th ed., Pearson, 2017; Franka Robotics FR3 URDF &amp; DH Specification.</li>
       </ol>
 
@@ -1025,6 +1025,13 @@
       if (popup) popup.classList.remove('open');
       var dict = BLOG_I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        if (!el.hasAttribute('data-orig-html') && el.children.length > 0) {
+          el.setAttribute('data-orig-html', el.innerHTML);
+        }
+        if (lang === 'en') {
+          if (el.hasAttribute('data-orig-html')) { el.innerHTML = el.getAttribute('data-orig-html'); return; }
+          if (el.children.length > 0) return;
+        }
         var key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
       });

@@ -7,7 +7,7 @@
   <link rel="canonical" href="https://mincasurong.github.io/blog/VLA/" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Minsu Chang, Ph.D. (M9G / mincasurong)" />
-  <meta name="description" content="M9G-TR-2026-01 by Minsu Chang, Ph.D.: Empirical systems analysis of Gemini Robotics-ER 2, Gemini 4 Argon, and hybrid Brain-Executor routing on a 3-arm Franka FR3 9-block tower task in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy." />
+  <meta name="description" content="M9G-TR-2026-01 by Minsu Chang, Ph.D.: Empirical systems analysis of Gemini Robotics-ER 2, Gemini 4 Carbon, and hybrid Brain-Executor routing on a 3-arm Franka FR3 9-block tower task in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mincasurong.github.io/blog/VLA/" />
   <meta property="og:title" content="Symbolic 3D Grounding and Software-Pipelined VLA Task Planning — M9G Research" />
@@ -636,8 +636,8 @@
         <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Research Highlights &amp; Systems Summary</div>
         <ul>
           <li data-i18n="finding1"><strong class="c-blue">Zero-RGB Symbolic 3D /tf Grounding:</strong> Disabling Isaac Sim Replicator RGB camera capture (<code>latest_rgb = None</code>, <code>0</code> image tokens) and feeding 50 Hz 3D <code>/tf</code> poses into <code>RuleBasedTaskGenerator</code> and <code>RuleBasedTaskVerifier</code> achieved 100% (9/9) multi-robot tower assembly with zero collisions across all three stages.</li>
-          <li data-i18n="finding2"><strong class="c-green">Hybrid Brain-Executor Routing (-76.6% API Cost):</strong> Invoking <code>gemini-4-argon</code> once on Turn 0 (<code>thinking_budget=256</code>) to synthesize the global schedule and delegating Turns 1–10 to <code>gemini-3.5-flash-lite</code> (<code>thinking_budget=0</code>) reduced trial cost from <code>$0.08437</code> to <code>$0.01972</code> and lowered early-turn step latency from <code>13.31 s</code> to <code>4.17 s</code> (-68.7%).</li>
-          <li data-i18n="finding3"><strong class="c-amber">Software-Pipelined Multi-Arm Interleaving (10 vs. 13 Turns):</strong> Whereas <code>gemini-robotics-er-2-preview</code> stalled at wave-locked barriers (13 turns, 50,190 tokens), <code>gemini-4-argon</code> overlapped outer-table <code>pick</code> and <code>go_home</code> actions with central-tower <code>place</code> motions from Turn 3 onward, finishing in 10 turns and avoiding 10,929 quadratic history tokens.</li>
+          <li data-i18n="finding2"><strong class="c-green">Hybrid Brain-Executor Routing (-76.6% API Cost):</strong> Invoking <code>gemini-4-carbon</code> once on Turn 0 (<code>thinking_budget=256</code>) to synthesize the global schedule and delegating Turns 1–10 to <code>gemini-3.5-flash-lite</code> (<code>thinking_budget=0</code>) reduced trial cost from <code>$0.08437</code> to <code>$0.01972</code> and lowered early-turn step latency from <code>13.31 s</code> to <code>4.17 s</code> (-68.7%).</li>
+          <li data-i18n="finding3"><strong class="c-amber">Software-Pipelined Multi-Arm Interleaving (10 vs. 13 Turns):</strong> Whereas <code>gemini-robotics-er-2-preview</code> stalled at wave-locked barriers (13 turns, 50,190 tokens), <code>gemini-4-carbon</code> overlapped outer-table <code>pick</code> and <code>go_home</code> actions with central-tower <code>place</code> motions from Turn 3 onward, finishing in 10 turns and avoiding 10,929 quadratic history tokens.</li>
         </ul>
       </div>
 
@@ -666,11 +666,11 @@
 
       <section id="video-walkthrough" class="media-block">
         <div class="media-header">
-          <span data-i18n="videoHeader">Synchronized Simulation Proof: Gemini Robotics-ER 2 (Left) vs. Gemini 4 Argon (Right)</span>
+          <span data-i18n="videoHeader">Synchronized Simulation Proof: Gemini Robotics-ER 2 (Left) vs. Gemini 4 Carbon (Right)</span>
           <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer">YouTube Verification (PPZ4vgVZlyA) ↗</a>
         </div>
         <div class="video-container">
-          <iframe id="yt-player" src="https://www.youtube.com/embed/PPZ4vgVZlyA?rel=0" title="Gemini Robotics ER-2 vs. Gemini 4 Argon: Multi-Robot Task Planner Benchmark" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe id="yt-player" src="https://www.youtube.com/embed/PPZ4vgVZlyA?rel=0" title="Gemini Robotics ER-2 vs. Gemini 4 Carbon: Multi-Robot Task Planner Benchmark" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
         <div class="timestamp-grid">
           <button class="ts-btn active" onclick="seekVideo(0, this)">
@@ -681,7 +681,7 @@
           <button class="ts-btn" onclick="seekVideo(6, this)">
             <span class="ts-time">0:06 — Turn 3 Divergence</span>
             <span class="ts-title" data-i18n="ts2Title">Wave Barrier vs. Pipelined Interleaving</span>
-            <span class="ts-sub" data-i18n="ts2Sub">ER-2 drains placements serially while Argon overlaps pick(R1,B2) on Table 1 with place(R2) at center.</span>
+            <span class="ts-sub" data-i18n="ts2Sub">ER-2 drains placements serially while Carbon overlaps pick(R1,B2) on Table 1 with place(R2) at center.</span>
           </button>
           <button class="ts-btn" onclick="seekVideo(23, this)">
             <span class="ts-time">0:23 — Turn 13 (ER-2 Terminal)</span>
@@ -689,8 +689,8 @@
             <span class="ts-sub" data-i18n="ts3Sub">Requires 13 turns (50,190 tokens, $0.07860) and terminates without homing the manipulators.</span>
           </button>
           <button class="ts-btn" onclick="seekVideo(31, this)">
-            <span class="ts-time">0:31 — Turn 10 (Argon Terminal)</span>
-            <span class="ts-title" data-i18n="ts4Title">Argon Completes Layer 9 + Homing</span>
+            <span class="ts-time">0:31 — Turn 10 (Carbon Terminal)</span>
+            <span class="ts-title" data-i18n="ts4Title">Carbon Completes Layer 9 + Homing</span>
             <span class="ts-sub" data-i18n="ts4Sub">Overlaps go_home(R1, R2) during Layers 8–9, completing all 9 blocks in 10 turns (38,277 tokens).</span>
           </button>
         </div>
@@ -710,14 +710,14 @@
       </p>
       <ul>
         <li data-i18n="stage1Desc"><strong>Stage 1 — Legacy Homogeneous VLA Loop (<code>gemini-robotics-er-2-preview</code>):</strong> Uses <code>gemini-robotics-er-2-preview</code> for both Turn-0 strategy generation (<code>thinking_budget=256</code>) and every subsequent tool-dispatch turn (<code>thinking_budget=512</code>).</li>
-        <li data-i18n="stage2Desc"><strong>Stage 2 — Pure Frontier Reasoning Loop (<code>gemini-4-argon</code>):</strong> Runs <code>gemini-4-argon</code> on Turn 0 (<code>thinking_budget=256</code>) and across all step turns (<code>thinking_budget=512</code>) to measure the scheduling gain of frontier reasoning and its raw step-latency cost.</li>
-        <li data-i18n="stage3Desc"><strong>Stage 3 — Hybrid Brain-Executor Routing (<code>1x gemini-4-argon</code> + <code>10x gemini-3.5-flash-lite</code>):</strong> Invokes <code>gemini-4-argon</code> strictly once on Turn 0 (<code>thinking_budget=256</code>) to synthesize the 10-turn software-pipelined schedule, then delegates Turns 1–10 to <code>gemini-3.5-flash-lite</code> with <code>thinking_budget=0</code>, escalating back to Argon only if a pick fault or <code>RuleBasedTaskVerifier</code> rejection occurs.</li>
+        <li data-i18n="stage2Desc"><strong>Stage 2 — Pure Frontier Reasoning Loop (<code>gemini-4-carbon</code>):</strong> Runs <code>gemini-4-carbon</code> on Turn 0 (<code>thinking_budget=256</code>) and across all step turns (<code>thinking_budget=512</code>) to measure the scheduling gain of frontier reasoning and its raw step-latency cost.</li>
+        <li data-i18n="stage3Desc"><strong>Stage 3 — Hybrid Brain-Executor Routing (<code>1x gemini-4-carbon</code> + <code>10x gemini-3.5-flash-lite</code>):</strong> Invokes <code>gemini-4-carbon</code> strictly once on Turn 0 (<code>thinking_budget=256</code>) to synthesize the 10-turn software-pipelined schedule, then delegates Turns 1–10 to <code>gemini-3.5-flash-lite</code> with <code>thinking_budget=0</code>, escalating back to Carbon only if a pick fault or <code>RuleBasedTaskVerifier</code> rejection occurs.</li>
       </ul>
 
       <figure class="figure-box">
         <img src="/screenshots/vla-architecture-nanobanana.png" alt="M9G 3-Stage VLA Task Planner Architecture in Isaac Sim 6.0 and ROS 2 Jazzy" />
         <figcaption class="figure-caption" data-i18n="fig1Caption">
-          Figure 1 (M9G-TR-2026-01). Three-stage hardware-in-the-loop evaluation architecture in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy comparing Legacy ER-2 (Stage 1), Pure Gemini 4 Argon (Stage 2), and M9G Hybrid Argon Brain + Flash-Lite Executor routing (Stage 3).
+          Figure 1 (M9G-TR-2026-01). Three-stage hardware-in-the-loop evaluation architecture in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy comparing Legacy ER-2 (Stage 1), Pure Gemini 4 Carbon (Stage 2), and M9G Hybrid Carbon Brain + Flash-Lite Executor routing (Stage 3).
         </figcaption>
       </figure>
 
@@ -737,11 +737,11 @@
             <div class="bar-track"><div class="bar-fill" style="width:93.1%; background:var(--dm-amber);"></div></div>
           </div>
           <div class="bar-metric-row">
-            <div class="bar-metric-top"><span class="bar-metric-name">Stage 2: Pure Gemini 4 Argon (11 calls)</span><span class="bar-metric-val"><strong>$0.08437</strong> ($0.0757 in + $0.0087 out)</span></div>
+            <div class="bar-metric-top"><span class="bar-metric-name">Stage 2: Pure Gemini 4 Carbon (11 calls)</span><span class="bar-metric-val"><strong>$0.08437</strong> ($0.0757 in + $0.0087 out)</span></div>
             <div class="bar-track"><div class="bar-fill" style="width:100%; background:var(--dm-blue);"></div></div>
           </div>
           <div class="bar-metric-row">
-            <div class="bar-metric-top"><span class="bar-metric-name">Stage 3: M9G Hybrid (1x Argon Brain + 10x Flash-Lite)</span><span class="bar-metric-val"><strong style="color:var(--dm-green-dark);">$0.01972</strong> (-76.6% vs. Stage 2)</span></div>
+            <div class="bar-metric-top"><span class="bar-metric-name">Stage 3: M9G Hybrid (1x Carbon Brain + 10x Flash-Lite)</span><span class="bar-metric-val"><strong style="color:var(--dm-green-dark);">$0.01972</strong> (-76.6% vs. Stage 2)</span></div>
             <div class="bar-track"><div class="bar-fill" style="width:23.4%; background:var(--dm-green);"></div></div>
           </div>
         </div>
@@ -756,11 +756,11 @@
             <div class="bar-track"><div class="bar-fill" style="width:96.4%; background:#5f6368;"></div><div class="bar-fill" style="width:2.2%; background:var(--dm-red);"></div><div class="bar-fill" style="width:1.4%; background:var(--dm-amber);"></div></div>
           </div>
           <div class="bar-metric-row">
-            <div class="bar-metric-top"><span class="bar-metric-name">Stage 2: Pure Gemini 4 Argon (10 turns)</span><span class="bar-metric-val"><strong>38,713 tok</strong> (37,845 in / 868 out) • 13.31 s</span></div>
+            <div class="bar-metric-top"><span class="bar-metric-name">Stage 2: Pure Gemini 4 Carbon (10 turns)</span><span class="bar-metric-val"><strong>38,713 tok</strong> (37,845 in / 868 out) • 13.31 s</span></div>
             <div class="bar-track"><div class="bar-fill" style="width:75.4%; background:var(--dm-blue);"></div><div class="bar-fill" style="width:1.7%; background:var(--dm-amber);"></div></div>
           </div>
           <div class="bar-metric-row">
-            <div class="bar-metric-top"><span class="bar-metric-name">Stage 3: M9G Hybrid Argon + Flash-Lite (10 turns)</span><span class="bar-metric-val"><strong style="color:var(--dm-green-dark);">38,277 tok</strong> (37,448 in / 829 out) • <strong style="color:var(--dm-green-dark);">4.17 s (-68.7%)</strong></span></div>
+            <div class="bar-metric-top"><span class="bar-metric-name">Stage 3: M9G Hybrid Carbon + Flash-Lite (10 turns)</span><span class="bar-metric-val"><strong style="color:var(--dm-green-dark);">38,277 tok</strong> (37,448 in / 829 out) • <strong style="color:var(--dm-green-dark);">4.17 s (-68.7%)</strong></span></div>
             <div class="bar-track"><div class="bar-fill" style="width:74.6%; background:var(--dm-green);"></div><div class="bar-fill" style="width:1.6%; background:var(--dm-blue);"></div></div>
           </div>
         </div>
@@ -807,12 +807,12 @@
         </div>
         <table>
           <thead>
-            <tr><th>System Telemetry Metric</th><th class="num">Stage 1: Legacy ER-2</th><th class="num">Stage 2: Pure Argon</th><th class="num">Stage 3: M9G Hybrid (1A + 10F)</th></tr>
+            <tr><th>System Telemetry Metric</th><th class="num">Stage 1: Legacy ER-2</th><th class="num">Stage 2: Pure Carbon</th><th class="num">Stage 3: M9G Hybrid (1C + 10F)</th></tr>
           </thead>
           <tbody>
             <tr><td>Visual Input Modality</td><td class="num">0 RGB tok (3D <code>/tf</code>)</td><td class="num">0 RGB tok (3D <code>/tf</code>)</td><td class="num"><strong>0 RGB tok (3D <code>/tf</code>)</strong></td></tr>
-            <tr><td>Turn-0 Strategic Brain Model</td><td class="num"><code>gemini-robotics-er-2-preview</code></td><td class="num"><code>gemini-4-argon</code></td><td class="num"><code>gemini-4-argon</code> (1 call)</td></tr>
-            <tr><td>Turns 1..N Step Executor Model</td><td class="num"><code>gemini-robotics-er-2-preview</code></td><td class="num"><code>gemini-4-argon</code></td><td class="num"><code>gemini-3.5-flash-lite</code> (10 calls)</td></tr>
+            <tr><td>Turn-0 Strategic Brain Model</td><td class="num"><code>gemini-robotics-er-2-preview</code></td><td class="num"><code>gemini-4-carbon</code></td><td class="num"><code>gemini-4-carbon</code> (1 call)</td></tr>
+            <tr><td>Turns 1..N Step Executor Model</td><td class="num"><code>gemini-robotics-er-2-preview</code></td><td class="num"><code>gemini-4-carbon</code></td><td class="num"><code>gemini-3.5-flash-lite</code> (10 calls)</td></tr>
             <tr><td>Turn-0 / Step Thinking Budget</td><td class="num">256 / 512 tok</td><td class="num">256 / 512 tok</td><td class="num"><strong>256 / 0 tok (Disabled on steps)</strong></td></tr>
             <tr><td>Execution Horizon &amp; API Calls</td><td class="num">13 turns (14 calls)</td><td class="num">10 turns (11 calls)</td><td class="num"><strong>10 turns (11 calls)</strong></td></tr>
             <tr><td>Cumulative Input Tokens</td><td class="num">48,377</td><td class="num">37,845 (-21.8%)</td><td class="num"><strong>37,448 (-22.6%)</strong></td></tr>
@@ -839,21 +839,21 @@
         <strong>Cumulative Input Tokens (for <em>T</em> turns)</strong> = (<em>T</em> &times; 2,800 Base Context Tokens) + [ <em>T</em> &times; (<em>T</em> &minus; 1) / 2 ] &times; (250 to 380 Per-Turn History Tokens)
       </div>
       <p data-i18n="sec3P2">
-        Compressing the schedule from 13 turns (Stage 1) to 10 turns (Stages 2 and 3) eliminates the three largest context turns at the end of the episode (where each call exceeds 4,500 input tokens), saving 10,929 input tokens automatically. Furthermore, in Stage 1, <code>gemini-robotics-er-2-preview</code> consumed 1,086 internal thinking tokens billed at the $10.00/1M output rate ($0.01086, or 13.8% of Stage 1's entire cost), whereas in Stage 2, allowing <code>thinking_budget=512</code> on routine step turns inflated mean step latency on Turns 1–2 to 13.31 seconds. By restricting reasoning to Turn 0 on <code>gemini-4-argon</code> ($2.00/1M in, $10.00/1M out) and executing Turns 1–10 on <code>gemini-3.5-flash-lite</code> ($0.30/1M in, $2.50/1M out, <code>thinking_budget=0</code>), Stage 3 decomposes trial cost as follows:
+        Compressing the schedule from 13 turns (Stage 1) to 10 turns (Stages 2 and 3) eliminates the three largest context turns at the end of the episode (where each call exceeds 4,500 input tokens), saving 10,929 input tokens automatically. Furthermore, in Stage 1, <code>gemini-robotics-er-2-preview</code> consumed 1,086 internal thinking tokens billed at the $10.00/1M output rate ($0.01086, or 13.8% of Stage 1's entire cost), whereas in Stage 2, allowing <code>thinking_budget=512</code> on routine step turns inflated mean step latency on Turns 1–2 to 13.31 seconds. By restricting reasoning to Turn 0 on <code>gemini-4-carbon</code> ($2.00/1M in, $10.00/1M out) and executing Turns 1–10 on <code>gemini-3.5-flash-lite</code> ($0.30/1M in, $2.50/1M out, <code>thinking_budget=0</code>), Stage 3 decomposes trial cost as follows:
       </p>
       <div class="telemetry-formula-box">
         <div class="telemetry-formula-header">
           <span>M9G Stage 3 Hybrid Cost Breakdown (CUSTOM_trial01_20261018_174106.jsonl)</span>
           <span>Total: $0.01972 (-76.6%)</span>
         </div>
-        <div><strong class="c-blue">1. Turn 0 Global Brain (Gemini 4 Argon, 1 Call):</strong> 2,800 input tokens (&times; $2.00 / 1M) + 220 output tokens (&times; $10.00 / 1M) = <strong>$0.00780</strong></div>
+        <div><strong class="c-blue">1. Turn 0 Global Brain (Gemini 4 Carbon, 1 Call):</strong> 2,800 input tokens (&times; $2.00 / 1M) + 220 output tokens (&times; $10.00 / 1M) = <strong>$0.00780</strong></div>
         <div><strong class="c-green">2. Turns 1 to 10 Step Executor (Gemini 3.5 Flash-Lite, 10 Calls):</strong> 34,648 input tokens (&times; $0.30 / 1M) + 609 output tokens (&times; $2.50 / 1M) = <strong>$0.01192</strong></div>
-        <div><strong>Total Stage 3 Episode Cost:</strong> $0.00780 + $0.01192 = <strong class="c-green">$0.01972 (&minus;76.6% vs. Stage 2 Pure Argon)</strong></div>
+        <div><strong>Total Stage 3 Episode Cost:</strong> $0.00780 + $0.01192 = <strong class="c-green">$0.01972 (&minus;76.6% vs. Stage 2 Pure Carbon)</strong></div>
       </div>
 
       <h2 id="schedule-trace" data-i18n="sec4Title">Inside the 10-Turn Software-Pipelined Schedule</h2>
       <p data-i18n="sec4Intro">
-        In the shared 3-arm station, the central stacking zone at <code>[0.0, 0.0]</code> is governed by a spatial mutex (<code>center_occupied_by</code>): only one manipulator may execute a central <code>place</code> motion on any given turn, whereas outer-table <code>pick</code> and <code>go_home</code> motions execute in kinematically disjoint zones. Inspecting the raw JSONL trace reveals how <code>gemini-4-argon</code> exploits this spatial decoupling compared to <code>gemini-robotics-er-2-preview</code>:
+        In the shared 3-arm station, the central stacking zone at <code>[0.0, 0.0]</code> is governed by a spatial mutex (<code>center_occupied_by</code>): only one manipulator may execute a central <code>place</code> motion on any given turn, whereas outer-table <code>pick</code> and <code>go_home</code> motions execute in kinematically disjoint zones. Inspecting the raw JSONL trace reveals how <code>gemini-4-carbon</code> exploits this spatial decoupling compared to <code>gemini-robotics-er-2-preview</code>:
       </p>
 
       <div class="table-scroll">
@@ -862,7 +862,7 @@
           <span>Source: <code>CUSTOM_trial01_20261018_174106.jsonl</code></span>
         </div>
         <table>
-          <thead><tr><th>Turn</th><th>Stage 1: Legacy ER-2 (13 Turns, Wave-Locked Barrier)</th><th>Stages 2 &amp; 3: M9G Argon Schedule (10 Turns, Pipelined)</th></tr></thead>
+          <thead><tr><th>Turn</th><th>Stage 1: Legacy ER-2 (13 Turns, Wave-Locked Barrier)</th><th>Stages 2 &amp; 3: M9G Carbon Schedule (10 Turns, Pipelined)</th></tr></thead>
           <tbody>
             <tr><td><strong>T1</strong></td><td><code>pick(R1,B1) || pick(R2,B4) || pick(R3,B7)</code></td><td><code>pick(R1,B1) || pick(R2,B4) || pick(R3,B7)</code></td></tr>
             <tr><td><strong>T2</strong></td><td><code>place(R1)</code> (Layer 1)</td><td><code>place(R1)</code> (Layer 1)</td></tr>
@@ -882,7 +882,7 @@
       </div>
 
       <p data-i18n="sec4P2">
-        Because only one arm can occupy <code>[0.0, 0.0]</code> per turn, overlapping one central <code>place</code> with one outer-table <code>pick</code> or <code>go_home</code> on every turn after Turn 2 is the shortest conflict-free schedule for a 3-arm shared-center station. Moreover, on Turns 9 and 10, the Argon schedule proactively overlaps <code>go_home(FR3_1)</code> and <code>go_home(FR3_2)</code> while Layers 8 and 9 are being placed, achieving complete workspace clearance in 20 verified tool calls (workload Gini coefficient <code>0.0339</code> across <code>7, 7, 6</code> actions).
+        Because only one arm can occupy <code>[0.0, 0.0]</code> per turn, overlapping one central <code>place</code> with one outer-table <code>pick</code> or <code>go_home</code> on every turn after Turn 2 is the shortest conflict-free schedule for a 3-arm shared-center station. Moreover, on Turns 9 and 10, the Carbon schedule proactively overlaps <code>go_home(FR3_1)</code> and <code>go_home(FR3_2)</code> while Layers 8 and 9 are being placed, achieving complete workspace clearance in 20 verified tool calls (workload Gini coefficient <code>0.0339</code> across <code>7, 7, 6</code> actions).
       </p>
 
       <section id="provenance" class="citation-card">
@@ -929,21 +929,21 @@
         articleLede: "When orchestrating multiple 7-DoF robotic manipulators in a shared physical workspace, streaming overhead RGB camera frames on every planning turn inflates token budgets and GPU rendering latency. In our three-arm Franka Emika FR3 station in NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) bridged over FastDDS unicast to ROS 2 Jazzy (50 Hz damped least-squares inverse kinematics), we demonstrate that symbolic 3D /tf coordinate grounding paired with a hybrid Brain-Executor routing topology discovers a conflict-free 10-turn software-pipelined schedule—cutting per-trial API cost by 76.6% ($0.01972 vs. $0.08437) with zero RGB image tokens.",
         takeawaysHeader: "TL;DR — Research Highlights & Systems Summary",
         finding1: "Zero-RGB Symbolic 3D /tf Grounding: Disabling Isaac Sim Replicator RGB camera capture (latest_rgb = None, 0 image tokens) and feeding 50 Hz 3D /tf poses into RuleBasedTaskGenerator and RuleBasedTaskVerifier achieved 100% (9/9) multi-robot tower assembly with zero collisions across all three stages.",
-        finding2: "Hybrid Brain-Executor Routing (-76.6% API Cost): Invoking gemini-4-argon once on Turn 0 (thinking_budget=256) to synthesize the global schedule and delegating Turns 1–10 to gemini-3.5-flash-lite (thinking_budget=0) reduced trial cost from $0.08437 to $0.01972 and lowered early-turn step latency from 13.31 s to 4.17 s (-68.7%).",
-        finding3: "Software-Pipelined Multi-Arm Interleaving (10 vs. 13 Turns): Whereas gemini-robotics-er-2-preview stalled at wave-locked barriers (13 turns, 50,190 tokens), gemini-4-argon overlapped outer-table pick and go_home actions with central-tower place motions from Turn 3 onward, finishing in 10 turns and avoiding 10,929 quadratic history tokens.",
+        finding2: "Hybrid Brain-Executor Routing (-76.6% API Cost): Invoking gemini-4-carbon once on Turn 0 (thinking_budget=256) to synthesize the global schedule and delegating Turns 1–10 to gemini-3.5-flash-lite (thinking_budget=0) reduced trial cost from $0.08437 to $0.01972 and lowered early-turn step latency from 13.31 s to 4.17 s (-68.7%).",
+        finding3: "Software-Pipelined Multi-Arm Interleaving (10 vs. 13 Turns): Whereas gemini-robotics-er-2-preview stalled at wave-locked barriers (13 turns, 50,190 tokens), gemini-4-carbon overlapped outer-table pick and go_home actions with central-tower place motions from Turn 3 onward, finishing in 10 turns and avoiding 10,929 quadratic history tokens.",
         kpi1Label: "Stage 3 Trial Cost", kpi1Note: "-76.6% vs. Stage 2 ($0.08437)",
         kpi2Label: "Execution Horizon", kpi2Note: "vs. 13 turns in ER-2 (-22.6% in tok)",
         kpi3Label: "Visual Input", kpi3Note: "Symbolic 3D /tf grounding only",
         kpi4Label: "Task Completion", kpi4Note: "20 / 20 verifier checks passed",
-        videoHeader: "Synchronized Simulation Proof: Gemini Robotics-ER 2 (Left) vs. Gemini 4 Argon (Right)",
+        videoHeader: "Synchronized Simulation Proof: Gemini Robotics-ER 2 (Left) vs. Gemini 4 Carbon (Right)",
         ts1Title: "Spatial Blueprint & Parallel Picks", ts1Sub: "Both planners ingest 3D /tf block poses and dispatch 3 concurrent picks (B1, B4, B7) on Turn 1.",
-        ts2Title: "Wave Barrier vs. Pipelined Interleaving", ts2Sub: "ER-2 drains placements serially while Argon overlaps pick(R1,B2) on Table 1 with place(R2) at center.",
+        ts2Title: "Wave Barrier vs. Pipelined Interleaving", ts2Sub: "ER-2 drains placements serially while Carbon overlaps pick(R1,B2) on Table 1 with place(R2) at center.",
         ts3Title: "ER-2 Completes Layer 9", ts3Sub: "Requires 13 turns (50,190 tokens, $0.07860) and terminates without homing the manipulators.",
-        ts4Title: "Argon Completes Layer 9 + Homing", ts4Sub: "Overlaps go_home(R1, R2) during Layers 8–9, completing all 9 blocks in 10 turns (38,277 tokens).",
+        ts4Title: "Carbon Completes Layer 9 + Homing", ts4Sub: "Overlaps go_home(R1, R2) during Layers 8–9, completing all 9 blocks in 10 turns (38,277 tokens).",
         sec1Title: "Rethinking Visual Tokens in Closed-Loop Multi-Arm Manipulation",
         sec2Title: "Decoupling Strategic Synthesis from Deterministic Step Execution",
         sec2Intro: "To isolate the impact of frontier reasoning versus step-execution latency, GeminiRoboticsNode._run_automated_comparison_workflow() executes a continuous three-stage hardware-in-the-loop protocol inside a single simulation process. Between stages, the node publishes Empty() to /reset_simulation, restoring all nine blocks to Tables 1–3 and homing FR3_1..3 across a 4.0-second mechanical settle window:",
-        fig1Caption: "Figure 1 (M9G-TR-2026-01). Three-stage hardware-in-the-loop evaluation architecture in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy comparing Legacy ER-2 (Stage 1), Pure Gemini 4 Argon (Stage 2), and M9G Hybrid Argon Brain + Flash-Lite Executor routing (Stage 3).",
+        fig1Caption: "Figure 1 (M9G-TR-2026-01). Three-stage hardware-in-the-loop evaluation architecture in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy comparing Legacy ER-2 (Stage 1), Pure Gemini 4 Carbon (Stage 2), and M9G Hybrid Carbon Brain + Flash-Lite Executor routing (Stage 3).",
         sec3Title: "Empirical Telemetry Across the Three-Stage Evaluation",
         fig2aTitle: "Figure 2A. API Cost per 9-Block Trial (M9G Telemetry)",
         fig2bTitle: "Figure 2B. Token Volume & Early-Turn Step Latency",
@@ -961,21 +961,21 @@
         articleLede: "공유 작업 공간에서 다수의 7자유도(7-DoF) 로봇 팔을 동시에 제어할 때, 매 플래닝 턴마다 상단 RGB 카메라 이미지를 전송하면 토큰 비용과 GPU 렌더링 지연이 급증합니다. 본 연구는 NVIDIA Isaac Sim 6.0(240 Hz PhysX TGS)과 ROS 2 Jazzy(50 Hz DLS 역기구학 제어기)를 FastDDS 유니캐스트로 연결한 3대 Franka Emika FR3 스테이션에서, 순수 3D /tf 좌표 그라운딩과 하이브리드 Brain-Executor 라우팅만으로 무충돌 10턴 소프트웨어 파이프라인 스케줄을 도출하여 API 비용을 76.6%($0.08437 → $0.01972) 절감함을 실증합니다.",
         takeawaysHeader: "TL;DR — 핵심 연구 결과 및 시스템 요약",
         finding1: "RGB 이미지 없는 3D /tf 심볼릭 그라운딩: Isaac Sim Replicator 카메라 캡처를 비활성화(latest_rgb = None, 이미지 토큰 0개)하고 50 Hz 3D /tf 좌표와 RuleBasedTaskVerifier 안전 검증기만으로 전 단계 9/9 블록 무충돌 조립(100% 성공)을 달성했습니다.",
-        finding2: "하이브리드 Brain-Executor 라우팅 (-76.6% API 비용): Turn 0에서 gemini-4-argon(thinking_budget=256)을 단 1회 호출해 전역 스케줄을 수립하고, Turn 1~10 실행은 gemini-3.5-flash-lite(thinking_budget=0)에 위임하여 비용을 $0.01972로 낮추고 초기 스텝 지연을 13.31초에서 4.17초(-68.7%)로 단축했습니다.",
-        finding3: "소프트웨어 파이프라인 다중 로봇 인터리빙 (10턴 vs. 13턴): gemini-robotics-er-2-preview가 웨이브 배리어 대기(13턴, 50,190 토큰)에 머문 반면, gemini-4-argon은 3턴부터 외곽 테이블 파지(pick)와 중앙 적재(place)를 중첩 실행하여 10턴 만에 완료하고 누적 히스토리 토큰 10,929개를 절약했습니다.",
+        finding2: "하이브리드 Brain-Executor 라우팅 (-76.6% API 비용): Turn 0에서 gemini-4-carbon(thinking_budget=256)을 단 1회 호출해 전역 스케줄을 수립하고, Turn 1~10 실행은 gemini-3.5-flash-lite(thinking_budget=0)에 위임하여 비용을 $0.01972로 낮추고 초기 스텝 지연을 13.31초에서 4.17초(-68.7%)로 단축했습니다.",
+        finding3: "소프트웨어 파이프라인 다중 로봇 인터리빙 (10턴 vs. 13턴): gemini-robotics-er-2-preview가 웨이브 배리어 대기(13턴, 50,190 토큰)에 머문 반면, gemini-4-carbon은 3턴부터 외곽 테이블 파지(pick)와 중앙 적재(place)를 중첩 실행하여 10턴 만에 완료하고 누적 히스토리 토큰 10,929개를 절약했습니다.",
         kpi1Label: "Stage 3 실행 비용", kpi1Note: "Stage 2($0.08437) 대비 -76.6%",
         kpi2Label: "실행 호라이즌", kpi2Note: "ER-2 13턴 대비 10턴 (-22.6% 토큰)",
         kpi3Label: "비전 입력 모달리티", kpi3Note: "순수 3D /tf 심볼릭 그라운딩 (0 RGB)",
         kpi4Label: "조립 완수 및 안전 검증", kpi4Note: "20 / 20 검증기 체크 100% 통과",
-        videoHeader: "동기화 시뮬레이션 검증 영상: Gemini Robotics-ER 2 (좌측) vs. Gemini 4 Argon (우측)",
+        videoHeader: "동기화 시뮬레이션 검증 영상: Gemini Robotics-ER 2 (좌측) vs. Gemini 4 Carbon (우측)",
         ts1Title: "Turn-0 공간 블루프린트 및 Wave-1 병렬 파지", ts1Sub: "두 플래너 모두 3D /tf 블록 좌표를 읽고 1턴에 3대 로봇 팔의 동시 파지(B1, B4, B7)를 수행합니다.",
-        ts2Title: "턴 3 스케줄 분기: 배리어 대기 vs. 파이프라인 인터리빙", ts2Sub: "ER-2는 순차 적재 중 대기하는 반면, Argon은 테이블 1의 pick(R1,B2)과 중앙 타워 place(R2)를 같은 턴에 중첩 실행합니다.",
+        ts2Title: "턴 3 스케줄 분기: 배리어 대기 vs. 파이프라인 인터리빙", ts2Sub: "ER-2는 순차 적재 중 대기하는 반면, Carbon은 테이블 1의 pick(R1,B2)과 중앙 타워 place(R2)를 같은 턴에 중첩 실행합니다.",
         ts3Title: "ER-2 9층 적재 완료 (13턴)", ts3Sub: "총 13턴(50,190 토큰, $0.07860)이 소요되며 로봇 팔 홈 복귀(go_home) 없이 종료됩니다.",
-        ts4Title: "Argon 9층 적재 및 선제적 홈 복귀 완료 (10턴)", ts4Sub: "8~9층 적재와 동시에 go_home(R1, R2)을 중첩 수행하여 10턴(38,277 토큰) 만에 9블록 조립을 완수합니다.",
+        ts4Title: "Carbon 9층 적재 및 선제적 홈 복귀 완료 (10턴)", ts4Sub: "8~9층 적재와 동시에 go_home(R1, R2)을 중첩 수행하여 10턴(38,277 토큰) 만에 9블록 조립을 완수합니다.",
         sec1Title: "폐루프 다중 로봇 매니퓰레이션에서의 비전 토큰 재고찰",
         sec2Title: "전략적 스케줄 합성(Brain)과 결정론적 스텝 실행(Executor)의 분리",
         sec2Intro: "프론티어 모델의 추론 능력과 스텝 실행 지연시간을 분리 평가하기 위해, GeminiRoboticsNode._run_automated_comparison_workflow()는 단일 시뮬레이션 프로세스 내에서 3단계 프로토콜을 연속 실행합니다:",
-        fig1Caption: "그림 1 (M9G-TR-2026-01). Legacy ER-2 (Stage 1), 순수 Gemini 4 Argon (Stage 2), M9G 하이브리드 Argon Brain + Flash-Lite Executor (Stage 3) 비교 아키텍처.",
+        fig1Caption: "그림 1 (M9G-TR-2026-01). Legacy ER-2 (Stage 1), 순수 Gemini 4 Carbon (Stage 2), M9G 하이브리드 Carbon Brain + Flash-Lite Executor (Stage 3) 비교 아키텍처.",
         sec3Title: "3단계 하드웨어-인-더-루프 실증 텔레메트리 분석",
         fig2aTitle: "그림 2A. 9블록 타워 조립 당 API 비용 비교 (M9G 텔레메트리)",
         fig2bTitle: "그림 2B. 단계별 토큰 소비량 및 초기 스텝 지연시간",
@@ -993,21 +993,21 @@
         articleLede: "共有作業空間内で複数の7自由度ロボットアームを協調制御する際、毎ターンRGBカメラ画像を送信するとトークン予算とGPU描画遅延が増大します。NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) と ROS 2 Jazzy (50 Hz DLS逆運動学制御) を接続した3台Franka Emika FR3ステーションにおいて、3D /tf座標グラウンディングとハイブリッドBrain-Executorルーティングにより10ターンのパイプラインスケジュールを導出し、APIコストを76.6% ($0.08437 → $0.01972) 削減できることを実証しました。",
         takeawaysHeader: "TL;DR — リサーチハイライト & システム要約",
         finding1: "画像トークンゼロの3D /tfシンボリックグラウンディング: RGB描画を無効化し、50 Hzの3D /tf座標と事前安全検証器のみで全3ステージとも9/9ブロックを無衝突で組立完了。",
-        finding2: "ハイブリッド Brain-Executor ルーティング (-76.6% APIコスト): Turn 0で gemini-4-argon (thinking_budget=256) を1回呼び出し、Turn 1〜10を gemini-3.5-flash-lite (thinking_budget=0) に委譲することで、総コストを$0.01972、初期ステップ遅延を4.17秒 (-68.7%) に短縮。",
-        finding3: "ソフトウェアパイプライン並列スケジュール (10 vs. 13ターン): ER-2の13ターン・バリア待機に対し、Argonはターン3以降で外側テーブルのpickと中央のplaceを並列化し、10ターンで完了して10,929入力トークンを削減。",
+        finding2: "ハイブリッド Brain-Executor ルーティング (-76.6% APIコスト): Turn 0で gemini-4-carbon (thinking_budget=256) を1回呼び出し、Turn 1〜10を gemini-3.5-flash-lite (thinking_budget=0) に委譲することで、総コストを$0.01972、初期ステップ遅延を4.17秒 (-68.7%) に短縮。",
+        finding3: "ソフトウェアパイプライン並列スケジュール (10 vs. 13ターン): ER-2の13ターン・バリア待機に対し、Carbonはターン3以降で外側テーブルのpickと中央のplaceを並列化し、10ターンで完了して10,929入力トークンを削減。",
         kpi1Label: "Stage 3 APIコスト", kpi1Note: "Stage 2 ($0.08437) 比 -76.6%",
         kpi2Label: "実行ターン数", kpi2Note: "ER-2の13ターンに対し10ターン",
         kpi3Label: "視覚入力トークン", kpi3Note: "3D /tf シンボリック座標のみ",
         kpi4Label: "組立完了・安全検証", kpi4Note: "20 / 20 検証パス (100%)",
-        videoHeader: "同期シミュレーション検証映像: Gemini Robotics-ER 2 (左) vs. Gemini 4 Argon (右)",
+        videoHeader: "同期シミュレーション検証映像: Gemini Robotics-ER 2 (左) vs. Gemini 4 Carbon (右)",
         ts1Title: "Turn-0 空間ブループリントと第1波並列ピック", ts1Sub: "両プランナーとも3D /tf座標を取得し、ターン1で3台同時にブロック(B1, B4, B7)を把持します。",
-        ts2Title: "ターン3の分岐: バリア待機 vs. パイプライン並列実行", ts2Sub: "ER-2は直列配置で待機が発生する一方、Argonはテーブル1でのpick(R1,B2)と中央タワーへのplace(R2)を並列実行します。",
+        ts2Title: "ターン3の分岐: バリア待機 vs. パイプライン並列実行", ts2Sub: "ER-2は直列配置で待機が発生する一方、Carbonはテーブル1でのpick(R1,B2)と中央タワーへのplace(R2)を並列実行します。",
         ts3Title: "ER-2がレイヤー9を完了 (13ターン)", ts3Sub: "13ターン(50,190トークン、$0.07860)を要し、アームのホーム復帰なしで終了します。",
-        ts4Title: "Argonがレイヤー9完了 + ホーム復帰 (10ターン)", ts4Sub: "レイヤー8〜9配置中にgo_home(R1, R2)を並列実行し、10ターン(38,277トークン)で完了します。",
+        ts4Title: "Carbonがレイヤー9完了 + ホーム復帰 (10ターン)", ts4Sub: "レイヤー8〜9配置中にgo_home(R1, R2)を並列実行し、10ターン(38,277トークン)で完了します。",
         sec1Title: "閉ループ・マルチアーム操作における視覚トークンの再考",
         sec2Title: "戦略的スケジュール合成と決定論的ステップ実行の分離",
         sec2Intro: "各試行では9個のブロックを初期テーブルにリセットし、FR3_1..3をホーム復帰させた上で3つのステージを順次実行します:",
-        fig1Caption: "図1 (M9G-TR-2026-01). Legacy ER-2 (Stage 1)、Pure Gemini 4 Argon (Stage 2)、M9G Hybrid Argon Brain + Flash-Lite Executor (Stage 3) の比較アーキテクチャ。",
+        fig1Caption: "図1 (M9G-TR-2026-01). Legacy ER-2 (Stage 1)、Pure Gemini 4 Carbon (Stage 2)、M9G Hybrid Carbon Brain + Flash-Lite Executor (Stage 3) の比較アーキテクチャ。",
         sec3Title: "3ステージ評価における実証テレメトリ",
         fig2aTitle: "図2A. 9ブロック組立あたりのAPIコスト ($ USD)",
         fig2bTitle: "図2B. トークン消費量と初期ステップ遅延時間",
@@ -1025,21 +1025,21 @@
         articleLede: "在共享工作空间中协同控制多台 7 自由度机械臂时，若每轮规划均传输顶部 RGB 相机图像，将显著推高 Token 消耗与 GPU 渲染延迟。在 NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) 与 ROS 2 Jazzy (50 Hz 阻尼最小二乘逆运动学) 组成的 3 台 Franka Emika FR3 工站上，我们证明纯 3D /tf 坐标接地配合混合 Brain-Executor 路由可生成无冲突的 10 轮软件流水线调度，在零图像 Token 下将单次实验 API 成本从 $0.08437 降至 $0.01972 (-76.6%)。",
         takeawaysHeader: "TL;DR — 核心研究亮点与系统摘要",
         finding1: "零 RGB 图像的 3D /tf 符号接地：禁用 Isaac Sim Replicator 相机渲染（latest_rgb = None，0 图像 Token），仅凭 50 Hz 3D /tf 坐标反馈与前置安全校验器即实现了 9/9 积木零碰撞装配（100% 通过）。",
-        finding2: "混合 Brain-Executor 路由 (-76.6% API 成本)：在 Turn 0 调用 1 次 gemini-4-argon (thinking_budget=256) 生成全局 10 轮流水线策略，并将 Turn 1–10 交由 gemini-3.5-flash-lite (thinking_budget=0) 执行，将总成本降至 $0.01972，前两轮步进延迟从 13.31 秒降至 4.17 秒 (-68.7%)。",
-        finding3: "软件流水线多臂交错调度 (10 轮 vs. 13 轮)：gemini-robotics-er-2-preview 采用波次屏障批处理（13 轮），而 gemini-4-argon 从第 3 轮起将外侧桌面抓取与中心放置交错并行，10 轮完成任务并节省 10,929 个二次方历史输入 Token。",
+        finding2: "混合 Brain-Executor 路由 (-76.6% API 成本)：在 Turn 0 调用 1 次 gemini-4-carbon (thinking_budget=256) 生成全局 10 轮流水线策略，并将 Turn 1–10 交由 gemini-3.5-flash-lite (thinking_budget=0) 执行，将总成本降至 $0.01972，前两轮步进延迟从 13.31 秒降至 4.17 秒 (-68.7%)。",
+        finding3: "软件流水线多臂交错调度 (10 轮 vs. 13 轮)：gemini-robotics-er-2-preview 采用波次屏障批处理（13 轮），而 gemini-4-carbon 从第 3 轮起将外侧桌面抓取与中心放置交错并行，10 轮完成任务并节省 10,929 个二次方历史输入 Token。",
         kpi1Label: "Stage 3 单次成本", kpi1Note: "较 Stage 2 ($0.08437) 降低 76.6%",
         kpi2Label: "执行轮数", kpi2Note: "10 轮 vs. ER-2 13 轮 (-22.6% 输入 Token)",
         kpi3Label: "视觉输入模态", kpi3Note: "纯 3D /tf 符号坐标接地",
         kpi4Label: "装配与安全校验", kpi4Note: "20 / 20 校验 100% 通过",
-        videoHeader: "同步仿真验证视频：Gemini Robotics-ER 2 (左) vs. Gemini 4 Argon (右)",
+        videoHeader: "同步仿真验证视频：Gemini Robotics-ER 2 (左) vs. Gemini 4 Carbon (右)",
         ts1Title: "Turn-0 空间蓝图与第一波并行抓取", ts1Sub: "两个规划器均读取 3D /tf 积木位姿，并在第 1 轮同时派发 3 台机械臂抓取 (B1, B4, B7)。",
-        ts2Title: "第 3 轮调度分叉：屏障等待 vs. 流水线交错", ts2Sub: "ER-2 串行放置导致等待，而 Argon 在第 3 轮将外侧桌面的 pick(R1,B2) 与中央塔台的 place(R2) 并行重叠。",
+        ts2Title: "第 3 轮调度分叉：屏障等待 vs. 流水线交错", ts2Sub: "ER-2 串行放置导致等待，而 Carbon 在第 3 轮将外侧桌面的 pick(R1,B2) 与中央塔台的 place(R2) 并行重叠。",
         ts3Title: "ER-2 完成第 9 层装配 (13 轮)", ts3Sub: "共耗时 13 轮 (50,190 Token, $0.07860)，且结束时机械臂未执行归位 (go_home)。",
-        ts4Title: "Argon 完成第 9 层装配并主动归位 (10 轮)", ts4Sub: "在第 8–9 层放置期间并行重叠 go_home(R1, R2)，仅用 10 轮 (38,277 Token) 完成全部 9 块积木装配。",
+        ts4Title: "Carbon 完成第 9 层装配并主动归位 (10 轮)", ts4Sub: "在第 8–9 层放置期间并行重叠 go_home(R1, R2)，仅用 10 轮 (38,277 Token) 完成全部 9 块积木装配。",
         sec1Title: "重新审视闭环多机械臂操作中的视觉 Token 开销",
         sec2Title: "将全局策略合成与确定性步进执行解耦",
         sec2Intro: "每次实验在同一仿真进程内依次运行三个阶段，阶段之间自动将 9 块积木重置回源桌面并将 FR3_1..3 归位：",
-        fig1Caption: "图 1 (M9G-TR-2026-01). Legacy ER-2 (Stage 1)、纯 Gemini 4 Argon (Stage 2) 与 M9G 混合 Argon Brain + Flash-Lite Executor (Stage 3) 评估架构对比。",
+        fig1Caption: "图 1 (M9G-TR-2026-01). Legacy ER-2 (Stage 1)、纯 Gemini 4 Carbon (Stage 2) 与 M9G 混合 Carbon Brain + Flash-Lite Executor (Stage 3) 评估架构对比。",
         sec3Title: "三阶段硬件在环实证遥测分析",
         fig2aTitle: "图 2A. 9 积木塔单次实验 API 成本 ($ USD)",
         fig2bTitle: "图 2B. Token 消耗量与前两轮步进延迟对比",
@@ -1057,21 +1057,21 @@
         articleLede: "Al coordinar múltiples manipuladores robóticos de 7-DoF en un espacio de trabajo compartido, transmitir imágenes RGB en cada turno infla el presupuesto de tokens y la latencia GPU. En nuestra estación de tres brazos Franka Emika FR3 en NVIDIA Isaac Sim 6.0 (240 Hz PhysX TGS) y ROS 2 Jazzy (cinemática inversa DLS a 50 Hz), demostramos que el anclaje simbólico 3D /tf combinado con un enrutamiento híbrido Cerebro-Ejecutor descubre un cronograma segmentado de 10 turnos libre de conflictos, reduciendo el costo API por prueba en un 76.6% ($0.01972 vs. $0.08437) con cero tokens de imagen RGB.",
         takeawaysHeader: "TL;DR — Aspectos Destacados de la Investigación y Resumen de Sistemas",
         finding1: "Anclaje Simbólico 3D /tf sin Cámaras RGB: Desactivar la captura RGB (0 tokens de imagen) y alimentar poses 3D /tf a 50 Hz logró el ensamblaje del 100% (9/9 bloques) sin colisiones en las tres etapas.",
-        finding2: "Enrutamiento Híbrido Cerebro-Ejecutor (-76.6% Costo API): Ejecutar gemini-4-argon una sola vez en el Turno 0 (thinking_budget=256) y delegar los Turnos 1–10 a gemini-3.5-flash-lite (thinking_budget=0) redujo el costo total a $0.01972 y la latencia inicial de 13.31 s a 4.17 s (-68.7%).",
-        finding3: "Intercalado Multi-Brazo Segmentado (10 vs. 13 Turnos): Mientras gemini-robotics-er-2-preview operó con barreras por oleada (13 turnos), gemini-4-argon intercaló recolecciones externas con colocaciones centrales desde el Turno 3, terminando en 10 turnos y ahorrando 10,929 tokens.",
+        finding2: "Enrutamiento Híbrido Cerebro-Ejecutor (-76.6% Costo API): Ejecutar gemini-4-carbon una sola vez en el Turno 0 (thinking_budget=256) y delegar los Turnos 1–10 a gemini-3.5-flash-lite (thinking_budget=0) redujo el costo total a $0.01972 y la latencia inicial de 13.31 s a 4.17 s (-68.7%).",
+        finding3: "Intercalado Multi-Brazo Segmentado (10 vs. 13 Turnos): Mientras gemini-robotics-er-2-preview operó con barreras por oleada (13 turnos), gemini-4-carbon intercaló recolecciones externas con colocaciones centrales desde el Turno 3, terminando en 10 turnos y ahorrando 10,929 tokens.",
         kpi1Label: "Costo Etapa 3", kpi1Note: "-76.6% vs. Etapa 2 ($0.08437)",
         kpi2Label: "Horizonte de Turnos", kpi2Note: "10 turnos vs. 13 en ER-2 (-22.6% tok)",
         kpi3Label: "Entrada Visual", kpi3Note: "Coordenadas simbólicas 3D /tf (0 RGB)",
         kpi4Label: "Bloques Apilados", kpi4Note: "20 / 20 verificaciones superadas",
-        videoHeader: "Prueba de Simulación Sincronizada: Gemini Robotics-ER 2 (Izquierda) vs. Gemini 4 Argon (Derecha)",
+        videoHeader: "Prueba de Simulación Sincronizada: Gemini Robotics-ER 2 (Izquierda) vs. Gemini 4 Carbon (Derecha)",
         ts1Title: "Plano Espacial Turno 0 y Picks Paralelos", ts1Sub: "Ambos planificadores leen poses 3D /tf y ejecutan 3 picks simultáneos (B1, B4, B7) en el Turno 1.",
-        ts2Title: "Divergencia en Turno 3: Barrera vs. Intercalado", ts2Sub: "ER-2 coloca en serie mientras Argon solapa pick(R1,B2) en la Mesa 1 con place(R2) en la torre central.",
+        ts2Title: "Divergencia en Turno 3: Barrera vs. Intercalado", ts2Sub: "ER-2 coloca en serie mientras Carbon solapa pick(R1,B2) en la Mesa 1 con place(R2) en la torre central.",
         ts3Title: "ER-2 Completa la Capa 9 (13 Turnos)", ts3Sub: "Requiere 13 turnos (50,190 tokens, $0.07860) y termina sin enviar los brazos a casa (go_home).",
-        ts4Title: "Argon Completa la Capa 9 + Homing (10 Turnos)", ts4Sub: "Solapa go_home(R1, R2) durante las capas 8–9, completando los 9 bloques en 10 turnos (38,277 tokens).",
+        ts4Title: "Carbon Completa la Capa 9 + Homing (10 Turnos)", ts4Sub: "Solapa go_home(R1, R2) durante las capas 8–9, completando los 9 bloques en 10 turnos (38,277 tokens).",
         sec1Title: "Repensando los Tokens Visuales en Manipulación Multi-Brazo en Lazo Cerrado",
         sec2Title: "Desacoplando la Síntesis Estratégica de la Ejecución Determinista por Pasos",
         sec2Intro: "Cada prueba ejecuta tres etapas secuenciales dentro del mismo proceso de simulación, reiniciando los nueve bloques y enviando FR3_1..3 a su posición inicial entre etapas:",
-        fig1Caption: "Figura 1 (M9G-TR-2026-01). Arquitectura de evaluación comparando Legacy ER-2 (Etapa 1), Gemini 4 Argon Puro (Etapa 2) y el Híbrido M9G Argon + Flash-Lite (Etapa 3).",
+        fig1Caption: "Figura 1 (M9G-TR-2026-01). Arquitectura de evaluación comparando Legacy ER-2 (Etapa 1), Gemini 4 Carbon Puro (Etapa 2) y el Híbrido M9G Carbon + Flash-Lite (Etapa 3).",
         sec3Title: "Telemetría Empírica en la Evaluación de Tres Etapas",
         fig2aTitle: "Figura 2A. Costo API por Prueba de 9 Bloques ($ USD)",
         fig2bTitle: "Figura 2B. Volumen de Tokens y Latencia Inicial por Paso",
@@ -1105,6 +1105,13 @@
       if (popup) popup.classList.remove('open');
       const dict = BLOG_I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(el => {
+        if (!el.hasAttribute('data-orig-html') && el.children.length > 0) {
+          el.setAttribute('data-orig-html', el.innerHTML);
+        }
+        if (lang === 'en') {
+          if (el.hasAttribute('data-orig-html')) { el.innerHTML = el.getAttribute('data-orig-html'); return; }
+          if (el.children.length > 0) return;
+        }
         const key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
       });

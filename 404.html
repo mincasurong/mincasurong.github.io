@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>We're M9G — Redirecting...</title>
+    <script>
+      (function () {
+        var path = window.location.pathname.toLowerCase().replace(/\/+$/, "");
+        var map = {
+          "/home": "/",
+          "/research2022": "/archive/#research-2022",
+          "/gemini3-hackathon-epilogue": "/archive/#hackathon-epilogue",
+          "/out-of-research": "/tutorials/",
+          "/out-of-research/basic-robotics": "/tutorials/#track-ros",
+          "/out-of-research/basic-robotics/ros2-on-win10": "/tutorials/#ros2-windows10",
+          "/out-of-research/basic-robotics/moveit2-on-win10": "/tutorials/#moveit2-windows10",
+          "/out-of-research/basic-robotics/ros1-on-win10-with-wsl2": "/tutorials/#ros1-moveit1-wsl2",
+          "/out-of-research/basic-robotics/mobile-robot": "/tutorials/#mobile-robot-nav",
+          "/out-of-research/jetson-nano-camera-vision": "/tutorials/#track-jetson",
+          "/out-of-research/jetson-nano-camera-vision/1-os-install-settings": "/tutorials/#jetson-1-prep",
+          "/out-of-research/jetson-nano-camera-vision/2-1-ros-install-basic-nodes": "/tutorials/#jetson-intro",
+          "/out-of-research/jetson-nano-camera-vision/2-2-useful-site-before-studying": "/tutorials/#jetson-intro",
+          "/out-of-research/jetson-nano-camera-vision/2-3-making-custom-ros-package": "/tutorials/#jetson-intro",
+          "/out-of-research/jetson-nano-camera-vision/3-0-docker-for-object-detection": "/tutorials/#jetson-2-docker",
+          "/out-of-research/jetson-nano-camera-vision/3-1-camera-interface": "/tutorials/#jetson-1-prep",
+          "/out-of-research/jetson-nano-camera-vision/3-2-object-detection": "/tutorials/#jetson-3-detectnet",
+          "/out-of-research/jetson-nano-camera-vision/4-making-custom-object-model": "/tutorials/#jetson-4-1-tl-prep",
+          "/out-of-research/google-cloud-onboard-google-skills-edition": "/archive/#cloud-onboard",
+          "/out-of-research/teaching-assistant": "/archive/#teaching-assistant",
+          "/out-of-research/app-dev": "/archive/#app-dev",
+          "/out-of-research/aiesec-exchange": "/archive/#aiesec"
+        };
+        if (map[path]) {
+          window.location.replace(map[path]);
+          return;
+        }
+        if (path.indexOf("jetson-nano") !== -1 || path.indexOf("basic-robotics") !== -1 || path.indexOf("ros") !== -1 || path.indexOf("moveit") !== -1) {
+          window.location.replace("/tutorials/");
+          return;
+        }
+        if (path.indexOf("research2022") !== -1 || path.indexOf("hackathon") !== -1 || path.indexOf("out-of-research") !== -1) {
+          window.location.replace("/archive/");
+          return;
+        }
+      })();
+    </script>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0d0d0d;
+        color: #f5f5f3;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        padding: 1.5rem;
+      }
+      .card {
+        max-width: 34rem;
+        width: 100%;
+        border: 1px solid #262626;
+        border-radius: 1rem;
+        background: #141414;
+        padding: 2rem;
+        text-align: center;
+      }
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.7rem;
+        font-family: monospace;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #d4af37;
+        background: rgba(212, 175, 55, 0.12);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        margin-bottom: 1rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+        margin: 0 0 0.75rem;
+      }
+      p {
+        color: #9ca3af;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        margin: 0 0 1.5rem;
+      }
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        justify-content: center;
+      }
+      a {
+        text-decoration: none;
+        padding: 0.6rem 1.1rem;
+        border-radius: 0.6rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        border: 1px solid #333;
+        color: #f5f5f3;
+        background: #1c1c1c;
+        transition: all 0.15s ease;
+      }
+      a.primary {
+        background: #d4af37;
+        color: #000;
+        border-color: #d4af37;
+      }
+      a:hover {
+        border-color: #d4af37;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="badge">We're M9G • Navigation Hub</div>
+      <h1>Looking for a page from mincasurong.com?</h1>
+      <p>All content from <strong>mincasurong.com</strong> and <strong>mincasurong.github.io</strong> is now unified under the M9G portal.</p>
+      <div class="links">
+        <a href="/" class="primary">M9G Main Portal</a>
+        <a href="/tutorials/">ROS / MoveIt / Jetson Tutorials</a>
+        <a href="/archive/">Patents, Research &amp; Archive</a>
+        <a href="/blog/">VLA Benchmark Blog</a>
+        <a href="/blog/m9g-agent/">Agent Corps Blog</a>
+      </div>
+    </div>
+  </body>
+</html>

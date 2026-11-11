@@ -53,9 +53,9 @@ def fix_vla_blog(html: str) -> str:
           <span>M9G Stage 3 Hybrid Cost Breakdown (CUSTOM_trial01_20261018_174106.jsonl)</span>
           <span>Total: $0.01972 (-76.6%)</span>
         </div>
-        <div><strong class="c-blue">1. Turn 0 Global Brain (Gemini 4 Argon, 1 Call):</strong> 2,800 input tokens (&times; $2.00 / 1M) + 220 output tokens (&times; $10.00 / 1M) = <strong>$0.00780</strong></div>
+        <div><strong class="c-blue">1. Turn 0 Global Brain (Gemini 4 Carbon, 1 Call):</strong> 2,800 input tokens (&times; $2.00 / 1M) + 220 output tokens (&times; $10.00 / 1M) = <strong>$0.00780</strong></div>
         <div><strong class="c-green">2. Turns 1 to 10 Step Executor (Gemini 3.5 Flash-Lite, 10 Calls):</strong> 34,648 input tokens (&times; $0.30 / 1M) + 609 output tokens (&times; $2.50 / 1M) = <strong>$0.01192</strong></div>
-        <div><strong>Total Stage 3 Episode Cost:</strong> $0.00780 + $0.01192 = <strong class="c-green">$0.01972 (&minus;76.6% vs. Stage 2 Pure Argon)</strong></div>
+        <div><strong>Total Stage 3 Episode Cost:</strong> $0.00780 + $0.01192 = <strong class="c-green">$0.01972 (&minus;76.6% vs. Stage 2 Pure Carbon)</strong></div>
       </div>"""
 
     html = html.replace(old_box1, new_box1).replace(old_box2, new_box2)
@@ -321,13 +321,9 @@ def process_all() -> None:
     sdl_fixed = sync_switcher_tab(fix_sdl_blog(_read_nonempty("blog/sdl-survey/index.html")))
     with open("blog/sdl-survey/index.html", "w", encoding="utf-8") as f:
         f.write(sdl_fixed)
-    with open("blog/sota-isaacsim-multi-robot-sdl-survey/index.html", "w", encoding="utf-8") as f:
-        f.write(sdl_fixed)
 
     agent_fixed = sync_switcher_tab(fix_agent_blog(_read_nonempty("blog/m9g-agent/index.html")))
     with open("blog/m9g-agent/index.html", "w", encoding="utf-8") as f:
-        f.write(agent_fixed)
-    with open("blog/m9g-agent-corps/index.html", "w", encoding="utf-8") as f:
         f.write(agent_fixed)
 
     lazydash_path = "blog/lazy-dash/index.html"
@@ -352,6 +348,8 @@ def verify_all() -> None:
     for p in sorted(glob.glob("blog/**/index.html", recursive=True)):
         txt = open(p, encoding="utf-8").read()
         if len(txt.strip()) < 1000:
+            if 'http-equiv="refresh"' in txt or "window.location.replace" in txt:
+                continue
             errors.append(f"{p}: File is empty or truncated ({len(txt)} bytes)")
         # 1. Verify JSON-LD parses cleanly
         for m in re.finditer(r'<script type="application/ld\+json">(.*?)</script>', txt, flags=re.S):

@@ -89,9 +89,9 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
       </a>
     </td>
     <td width="58%" valign="middle">
-      <p><code>mincasurong.github.io/blog/lazy-dash</code> • <b>M9G-TR-2026-05 • UIUC Lazy-DaSH (IEEE T-RO) • Argon + ER-2 + Flash-Lite</b></p>
+      <p><code>mincasurong.github.io/blog/lazy-dash</code> • <b>M9G-TR-2026-05 • UIUC Lazy-DaSH (IEEE T-RO) • Carbon + ER-2 + Flash-Lite</b></p>
       <h3><a href="https://mincasurong.github.io/blog/lazy-dash/">Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph TAMP &amp; Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini</a></h3>
-      <p>Summarizing Seongwon "Scott" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab, arXiv:2504.05552) and mapping its 4-layer lazy hypergraph &amp; scoped constraint feedback onto Gemini 4 Argon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite with 7 continuous KPIs.</p>
+      <p>Summarizing Seongwon "Scott" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab, arXiv:2504.05552) and mapping its 4-layer lazy hypergraph &amp; scoped constraint feedback onto Gemini 4 Carbon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite with 7 continuous KPIs.</p>
       <p><a href="https://mincasurong.github.io/blog/lazy-dash/"><b>Read Lazy-DaSH Blog ↗</b></a></p>
     </td>
   </tr>
@@ -129,7 +129,7 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
     </td>
     <td width="58%" valign="middle">
       <p><code>mincasurong.github.io/blog/VLA</code> • <b>M9G-TR-2026-01 • 3-Arm FR3 Tower • -76.6% API Cost ($0.01972)</b></p>
-      <h3><a href="https://mincasurong.github.io/blog/VLA/">Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Argon</a></h3>
+      <h3><a href="https://mincasurong.github.io/blog/VLA/">Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Carbon</a></h3>
       <p>3-Stage hardware-in-the-loop benchmark in Isaac Sim 6.0 & ROS 2 Jazzy with Nano Banana Pro architecture and token/latency charts.</p>
       <p><a href="https://mincasurong.github.io/blog/VLA/"><b>Read VLA Blog ↗</b></a> &nbsp;•&nbsp; <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA"><b>Watch Side-by-Side Video ↗</b></a></p>
     </td>
@@ -142,10 +142,10 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
   <tr>
     <td width="50%" valign="top">
       <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank">
-        <img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" width="100%" alt="Gemini Robotics ER-2 vs. Gemini 4 Argon: Multi-Robot Task Planner Benchmark" style="border-radius: 8px;" />
+        <img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" width="100%" alt="Gemini Robotics ER-2 vs. Gemini 4 Carbon: Multi-Robot Task Planner Benchmark" style="border-radius: 8px;" />
       </a>
-      <h4><a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA">Gemini Robotics ER-2 vs. Gemini 4 Argon: Multi-Robot Task Planner Benchmark (Isaac Sim 6.0 & ROS 2)</a></h4>
-      <p>Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid Gemini 4 Argon + Flash-Lite cutting API cost by 76.6% ($0.01972) with 0 RGB tokens.</p>
+      <h4><a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA">Gemini Robotics ER-2 vs. Gemini 4 Carbon: Multi-Robot Task Planner Benchmark (Isaac Sim 6.0 & ROS 2)</a></h4>
+      <p>Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid Gemini 4 Carbon + Flash-Lite cutting API cost by 76.6% ($0.01972) with 0 RGB tokens.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank">
@@ -260,7 +260,7 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
 <table>
   <tr>
     <td width="42%" valign="middle">
-      <a href="https://mincasurong.github.io/blog/m9g-agent-corps/">
+      <a href="https://mincasurong.github.io/blog/m9g-agent/">
         <img src="https://mincasurong.github.io/screenshots/blog2-agent-thumb-nanobanana.png" width="100%" alt="m9g-agent-corps vs. Production Coding Harnesses Architecture" style="border-radius: 8px;" />
       </a>
     </td>
@@ -277,10 +277,10 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
   <tr>
     <td width="100%" valign="top">
       <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank">
-        <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" width="55%" alt="Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects" style="border-radius: 8px;" />
+        <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" width="55%" alt="Gemini 4 Carbon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects" style="border-radius: 8px;" />
       </a>
-      <h4><a href="https://www.youtube.com/watch?v=sdE7r72gJsU">Gemini 4 Argon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS & GCP)</a></h4>
-      <p>Weekend stress-test across 1B tokens shipping 6 full-stack and Physical AI systems with Gemini 4 Argon, Isaac Sim, ROS 2, and Google Cloud Run.</p>
+      <h4><a href="https://www.youtube.com/watch?v=sdE7r72gJsU">Gemini 4 Carbon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS & GCP)</a></h4>
+      <p>Weekend stress-test across 1B tokens shipping 6 full-stack and Physical AI systems with Gemini 4 Carbon, Isaac Sim, ROS 2, and Google Cloud Run.</p>
     </td>
   </tr>
 </table>

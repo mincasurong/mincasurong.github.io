@@ -7,11 +7,11 @@
   <link rel="canonical" href="https://mincasurong.github.io/blog/stamp/" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Minsu Chang, Ph.D. (M9G / mincasurong)" />
-  <meta name="description" content="M9G-TR-2026-03 by Minsu Chang, Ph.D.: Empirical systems analysis of Project STAMP (Spatial, Task & Motion Planning), a 4-stage Plan-Gate-Execute-WriteBack framework decoupling Gemini 4 Argon from ROS 2 Jazzy & MoveIt 2 across 1,000 multi-arm Franka FR3 fault-injection episodes." />
+  <meta name="description" content="M9G-TR-2026-03 by Minsu Chang, Ph.D.: Empirical systems analysis of Project STAMP (Spatial, Task & Motion Planning), a 4-stage Plan-Gate-Execute-WriteBack framework decoupling Gemini 4 Carbon from ROS 2 Jazzy & MoveIt 2 across 1,000 multi-arm Franka FR3 fault-injection episodes." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mincasurong.github.io/blog/stamp/" />
   <meta property="og:title" content="Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Planning — M9G Research" />
-  <meta property="og:description" content="Decoupling Gemini 4 Argon from ROS 2 / MoveIt 2 via FrankaFR3DeterministicGate and write_limit_back context repair intercepts 100.0% of hardware faults (610/610) and boosts task completion from 39.0% to 100.0% across 1,000 STAMP-Bench-V1 episodes." />
+  <meta property="og:description" content="Decoupling Gemini 4 Carbon from ROS 2 / MoveIt 2 via FrankaFR3DeterministicGate and write_limit_back context repair intercepts 100.0% of hardware faults (610/610) and boosts task completion from 39.0% to 100.0% across 1,000 STAMP-Bench-V1 episodes." />
   <meta property="og:image" content="https://mincasurong.github.io/screenshots/blog3-stamp-thumb-nanobanana.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -598,13 +598,13 @@
         <span class="dm-badge" data-i18n="articleTag">M9G-TR-2026-03 • Spatial, Task &amp; Motion Planning</span>
         <span>Published October 25, 2026</span>
         <span>•</span>
-        <span>Gemini 4 Argon + ROS 2 Jazzy / MoveIt 2 / Isaac Sim 6.0</span>
+        <span>Gemini 4 Carbon + ROS 2 Jazzy / MoveIt 2 / Isaac Sim 6.0</span>
       </div>
 
       <h1 data-i18n="articleTitle">Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning</h1>
 
       <p class="lede" data-i18n="articleLede">
-        Allowing a Vision-Language-Action (VLA) planner to stream unverified Cartesian poses or joint commands directly to low-level robotic controllers exposes multi-manipulator workcells to unreachable inverse-kinematics targets, 3D workspace collisions, joint torque spikes, and concurrent zone mutex deadlocks. In Project STAMP (v1.0.0-stamp), we decouple high-level multimodal reasoning (Gemini 4 Argon / Gemini 3.5 Flash-Lite) from ROS 2 Jazzy and MoveIt 2 actuation through a strict four-stage closed-loop architecture: Plan (TaskDAG) → Gate (Deterministic Shield) → Execute (MoveIt 2 / ROS 2) → Write-Back (Context Repair). Evaluated across 1,000 multi-arm Franka Emika FR3 episodes in STAMP-Bench-V1 under 60% synthetic fault injection, Project STAMP intercepts 100.0% of unsafe dispatches (610/610) and elevates episode task completion from 39.0% (single-shot VLA) to 100.0% via two-turn geometric and temporal write-back recovery.
+        Allowing a Vision-Language-Action (VLA) planner to stream unverified Cartesian poses or joint commands directly to low-level robotic controllers exposes multi-manipulator workcells to unreachable inverse-kinematics targets, 3D workspace collisions, joint torque spikes, and concurrent zone mutex deadlocks. In Project STAMP (v1.0.0-stamp), we decouple high-level multimodal reasoning (Gemini 4 Carbon / Gemini 3.5 Flash-Lite) from ROS 2 Jazzy and MoveIt 2 actuation through a strict four-stage closed-loop architecture: Plan (TaskDAG) → Gate (Deterministic Shield) → Execute (MoveIt 2 / ROS 2) → Write-Back (Context Repair). Evaluated across 1,000 multi-arm Franka Emika FR3 episodes in STAMP-Bench-V1 under 60% synthetic fault injection, Project STAMP intercepts 100.0% of unsafe dispatches (610/610) and elevates episode task completion from 39.0% (single-shot VLA) to 100.0% via two-turn geometric and temporal write-back recovery.
       </p>
 
       <div class="byline-bar">
@@ -701,7 +701,7 @@
 
       <h2 id="decoupling-rationale" data-i18n="sec1Title">Why Direct VLA-to-Controller Execution Fails in Multi-Arm Workcells</h2>
       <p data-i18n="sec1P1">
-        When foundation models act as high-level task and motion planners for multi-manipulator cells, a recurring architectural anti-pattern is coupling the model's tool-call output directly to ROS 2 action servers or MoveIt 2 trajectory controllers. Even when a frontier model such as <code>gemini-4-argon</code> correctly decomposes a long-horizon task semantically, single-shot coordinate generation remains vulnerable to four physical failure modes: targets placed outside the manipulator's spherical reach envelope, end-effector bounding boxes that clip workbench obstacles, posture seeds that exceed distal wrist torque limits under payload, and overlapping time windows where two arms contend for the same shared workspace zone or fixture.
+        When foundation models act as high-level task and motion planners for multi-manipulator cells, a recurring architectural anti-pattern is coupling the model's tool-call output directly to ROS 2 action servers or MoveIt 2 trajectory controllers. Even when a frontier model such as <code>gemini-4-carbon</code> correctly decomposes a long-horizon task semantically, single-shot coordinate generation remains vulnerable to four physical failure modes: targets placed outside the manipulator's spherical reach envelope, end-effector bounding boxes that clip workbench obstacles, posture seeds that exceed distal wrist torque limits under payload, and overlapping time windows where two arms contend for the same shared workspace zone or fixture.
       </p>
       <p data-i18n="sec1P2">
         <strong>Project STAMP</strong> (<em>Spatial, Task &amp; Motion Planning</em>, <code>v1.0.0-stamp</code>) resolves this vulnerability by introducing a deterministic verification air-gap between multimodal planning and physical execution. Instead of emitting raw controller commands, the planner is restricted to producing a declarative <code>TaskDAG</code> evaluated against a real-time 3D scene snapshot (<code>SpatialState</code>). No command can reach <code>DecoupledROS2Executor</code> or <code>MoveItPreDispatchGuard</code> unless every node in the directed acyclic graph passes <code>FrankaFR3DeterministicGate</code> with <code>GateVerdict.passed == True</code>.
@@ -721,7 +721,7 @@
       <figure class="figure-box">
         <img src="/screenshots/stamp-architecture-nanobanana.png" alt="Project STAMP 4-Stage Closed-Loop Architecture Diagram (M9G-TR-2026-03)" />
         <figcaption class="figure-caption" data-i18n="fig1Caption">
-          Figure 1 (M9G-TR-2026-03). Project STAMP four-stage architecture: (1) Multimodal Video &amp; 3D Scene Graph Grounding, (2) Decoupled Gemini 4 Argon TaskDAG Planner, (3) Four-Layer FrankaFR3DeterministicGate &amp; MoveItPreDispatchGuard, and (4) Verified ROS 2 Execution with closed-loop write_limit_back context repair.
+          Figure 1 (M9G-TR-2026-03). Project STAMP four-stage architecture: (1) Multimodal Video &amp; 3D Scene Graph Grounding, (2) Decoupled Gemini 4 Carbon TaskDAG Planner, (3) Four-Layer FrankaFR3DeterministicGate &amp; MoveItPreDispatchGuard, and (4) Verified ROS 2 Execution with closed-loop write_limit_back context repair.
         </figcaption>
       </figure>
 
@@ -1110,7 +1110,7 @@
         blogHeaderBrand: "Technical Research Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
         articleTag: "M9G-TR-2026-03 • Spatial, Task & Motion Planning",
         articleTitle: "Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning",
-        articleLede: "Allowing a Vision-Language-Action (VLA) planner to stream unverified Cartesian poses or joint commands directly to low-level robotic controllers exposes multi-manipulator workcells to unreachable inverse-kinematics targets, 3D workspace collisions, joint torque spikes, and concurrent zone mutex deadlocks. In Project STAMP (v1.0.0-stamp), we decouple high-level multimodal reasoning (Gemini 4 Argon / Gemini 3.5 Flash-Lite) from ROS 2 Jazzy and MoveIt 2 actuation through a strict four-stage closed-loop architecture: Plan (TaskDAG) → Gate (Deterministic Shield) → Execute (MoveIt 2 / ROS 2) → Write-Back (Context Repair). Evaluated across 1,000 multi-arm Franka Emika FR3 episodes in STAMP-Bench-V1 under 60% synthetic fault injection, Project STAMP intercepts 100.0% of unsafe dispatches (610/610) and elevates episode task completion from 39.0% (single-shot VLA) to 100.0% via two-turn geometric and temporal write-back recovery.",
+        articleLede: "Allowing a Vision-Language-Action (VLA) planner to stream unverified Cartesian poses or joint commands directly to low-level robotic controllers exposes multi-manipulator workcells to unreachable inverse-kinematics targets, 3D workspace collisions, joint torque spikes, and concurrent zone mutex deadlocks. In Project STAMP (v1.0.0-stamp), we decouple high-level multimodal reasoning (Gemini 4 Carbon / Gemini 3.5 Flash-Lite) from ROS 2 Jazzy and MoveIt 2 actuation through a strict four-stage closed-loop architecture: Plan (TaskDAG) → Gate (Deterministic Shield) → Execute (MoveIt 2 / ROS 2) → Write-Back (Context Repair). Evaluated across 1,000 multi-arm Franka Emika FR3 episodes in STAMP-Bench-V1 under 60% synthetic fault injection, Project STAMP intercepts 100.0% of unsafe dispatches (610/610) and elevates episode task completion from 39.0% (single-shot VLA) to 100.0% via two-turn geometric and temporal write-back recovery.",
         takeawaysHeader: "TL;DR — Research Highlights & Systems Summary",
         finding1: "Strict Architectural Decoupling via Canonical Schemas: GeminiArgonPlanner never publishes to ROS 2 topics directly; instead, it emits a Pydantic v2 / JSON Schema Draft 2020-12 TaskDAG verified against a 3D SpatialState before DecoupledROS2Executor or MoveItPreDispatchGuard can dispatch a single motion primitive.",
         finding2: "100.0% Deterministic Fault Interception Across Four Physical Layers: FrankaFR3DeterministicGate checks every candidate TaskNode against 7-DoF Damped Least Squares (DLS) IK reachability ([0.15m, 0.85m], residual <= 15.0 mm), 3D AABB collision volumes and table clearance (Z >= 0.20m), URDF joint/torque envelopes ([87..12] Nm), and multi-arm zone/tool time-window locks—blocking 610 / 610 injected faults in STAMP-Bench-V1.",
@@ -1130,7 +1130,7 @@
         sec3Title: "Inside the Four-Layer Deterministic Shield & Closed-Loop Write-Back",
         sec4Title: "Empirical Evaluation: STAMP-Bench-V1 (1,000 Fault-Injected Episodes)",
         sec5Title: "Decoupled Deployment: Standalone REST & Model Context Protocol (MCP) Server",
-        fig1Caption: "Figure 1 (M9G-TR-2026-03). Project STAMP four-stage architecture: (1) Multimodal Video & 3D Scene Graph Grounding, (2) Decoupled Gemini 4 Argon TaskDAG Planner, (3) Four-Layer FrankaFR3DeterministicGate & MoveItPreDispatchGuard, and (4) Verified ROS 2 Execution with closed-loop write_limit_back context repair.",
+        fig1Caption: "Figure 1 (M9G-TR-2026-03). Project STAMP four-stage architecture: (1) Multimodal Video & 3D Scene Graph Grounding, (2) Decoupled Gemini 4 Carbon TaskDAG Planner, (3) Four-Layer FrankaFR3DeterministicGate & MoveItPreDispatchGuard, and (4) Verified ROS 2 Execution with closed-loop write_limit_back context repair.",
         fig2aTitle: "Figure 2A. Episode Task Completion & Fault Interception (1,000 Episodes)",
         fig2bTitle: "Figure 2B. Node-Level Hardware Fault Breakdown Intercepted by Gate (1,076 Total Faults)",
         fig2cTitle: "Figure 2C. Cumulative Episode Convergence Across Planning Attempts (1,000 Episodes)",
@@ -1142,7 +1142,7 @@
         blogHeaderBrand: "기술 리서치 블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
         articleTag: "M9G-TR-2026-03 • 시공간 태스크 및 모션 플래닝 (STAMP)",
         articleTitle: "Project STAMP: 다중 로봇 팔 VLA 태스크 및 모션 플래닝을 위한 결정론적 검증 게이트와 폐루프 컨텍스트 복구",
-        articleLede: "비전-언어-액션(VLA) 플래너가 검증되지 않은 3D 목표 좌표나 관절 명령을 하위 로봇 제어기에 직접 발행하도록 허용하면, 역기구학(IK) 도달 불가 영역 진입, 3D 작업 공간 충돌, 관절 토크 스파이크, 공유 작업 구역 뮤텍스 데드락 위험에 노출됩니다. Project STAMP(v1.0.0-stamp)는 상위 멀티모달 추론(Gemini 4 Argon / 3.5 Flash-Lite)과 ROS 2 Jazzy 및 MoveIt 2 하드웨어 실행을 Plan(TaskDAG) → Gate(결정론적 안전 실드) → Execute(MoveIt 2 / ROS 2) → Write-Back(컨텍스트 복구)의 4단계 폐루프 파이프라인으로 엄격히 분리합니다. 60% 합성 결함이 주입된 1,000개 다중 로봇 에피소드(STAMP-Bench-V1) 평가 결과, STAMP는 위험 명령을 100.0%(610/610) 사전 차단하고 단일 호출 VLA 대비 태스크 완수율을 39.0%에서 100.0%(+61.0%p)로 끌어올렸습니다.",
+        articleLede: "비전-언어-액션(VLA) 플래너가 검증되지 않은 3D 목표 좌표나 관절 명령을 하위 로봇 제어기에 직접 발행하도록 허용하면, 역기구학(IK) 도달 불가 영역 진입, 3D 작업 공간 충돌, 관절 토크 스파이크, 공유 작업 구역 뮤텍스 데드락 위험에 노출됩니다. Project STAMP(v1.0.0-stamp)는 상위 멀티모달 추론(Gemini 4 Carbon / 3.5 Flash-Lite)과 ROS 2 Jazzy 및 MoveIt 2 하드웨어 실행을 Plan(TaskDAG) → Gate(결정론적 안전 실드) → Execute(MoveIt 2 / ROS 2) → Write-Back(컨텍스트 복구)의 4단계 폐루프 파이프라인으로 엄격히 분리합니다. 60% 합성 결함이 주입된 1,000개 다중 로봇 에피소드(STAMP-Bench-V1) 평가 결과, STAMP는 위험 명령을 100.0%(610/610) 사전 차단하고 단일 호출 VLA 대비 태스크 완수율을 39.0%에서 100.0%(+61.0%p)로 끌어올렸습니다.",
         takeawaysHeader: "TL;DR — 핵심 연구 결과 및 시스템 요약",
         finding1: "표준 스키마 계약을 통한 플래너-제어기 완전 분리: GeminiArgonPlanner는 ROS 2 토픽에 직접 명령을 발행하지 않고 Pydantic v2 / JSON Schema Draft 2020-12 기반의 TaskDAG만 생성하며, GateVerdict.passed == True가 검증된 노드만 DecoupledROS2Executor 및 MoveItPreDispatchGuard로 전달됩니다.",
         finding2: "4계층 물리 검증 게이트를 통한 100.0% 결함 사전 차단: FrankaFR3DeterministicGate는 모든 TaskNode에 대해 7자유도 감쇠 최소제곱법(DLS) 역기구학 도달성([0.15m, 0.85m], 오차 <= 15.0mm), 3D AABB 충돌 박스 및 테이블 바닥 클리어런스(Z >= 0.20m), URDF 관절 각도 및 토크 한계([87..12] Nm), 다중 로봇 구역/도구 시간창(time_window) 잠금을 검사하여 610개 결함 에피소드를 100% 차단했습니다.",
@@ -1162,7 +1162,7 @@
         sec3Title: "4계층 결정론적 안전 실드와 폐루프 Write-Back 복구 메커니즘",
         sec4Title: "실증 벤치마크: STAMP-Bench-V1 (1,000개 결함 주입 에피소드 평가)",
         sec5Title: "디커플링 배포: 독립형 REST 및 Model Context Protocol (MCP) 서버",
-        fig1Caption: "그림 1 (M9G-TR-2026-03). Project STAMP 4단계 폐루프 아키텍처: (1) 멀티모달 비디오 및 3D SpatialState 그라운딩, (2) 디커플링된 Gemini 4 Argon TaskDAG 플래너, (3) 4계층 FrankaFR3DeterministicGate 및 MoveItPreDispatchGuard, (4) 검증된 ROS 2 실행 및 write_limit_back 컨텍스트 복구.",
+        fig1Caption: "그림 1 (M9G-TR-2026-03). Project STAMP 4단계 폐루프 아키텍처: (1) 멀티모달 비디오 및 3D SpatialState 그라운딩, (2) 디커플링된 Gemini 4 Carbon TaskDAG 플래너, (3) 4계층 FrankaFR3DeterministicGate 및 MoveItPreDispatchGuard, (4) 검증된 ROS 2 실행 및 write_limit_back 컨텍스트 복구.",
         fig2aTitle: "그림 2A. 에피소드 태스크 완수율 및 결함 차단율 비교 (1,000 에피소드)",
         fig2bTitle: "그림 2B. 결정론적 게이트가 차단한 노드 레벨 하드웨어 결함 분포 (총 1,076건)",
         fig2cTitle: "그림 2C. 플래닝 시도 횟수에 따른 누적 에피소드 수렴 곡선 (1,000 에피소드)",
@@ -1174,7 +1174,7 @@
         blogHeaderBrand: "技術リサーチブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
         articleTag: "M9G-TR-2026-03 • 時空間タスク＆モーション計画 (STAMP)",
         articleTitle: "Project STAMP: マルチアームVLAタスク＆モーション計画のための決定論的検証ゲートと閉ループ文脈修復",
-        articleLede: "Vision-Language-Action (VLA) プランナーが未検証の3D目標姿勢や関節コマンドを低レベル制御器へ直接送信すると、逆運動学(IK)の到達不能領域、3D作業空間での衝突、関節トルクスパイク、共有ゾーンのミューテックス競合が発生します。Project STAMP (v1.0.0-stamp) は、上位マルチモーダル推論 (Gemini 4 Argon / 3.5 Flash-Lite) と ROS 2 Jazzy / MoveIt 2 実行を、Plan (TaskDAG) → Gate (決定論的シールド) → Execute (MoveIt 2 / ROS 2) → Write-Back (文脈修復) の4段階閉ループパイプラインで厳密に分離します。60%の合成フォルト注入を含む1,000エピソード (STAMP-Bench-V1) において、STAMPは危険なディスパッチを100.0% (610/610) 遮断し、タスク完了率を単発VLAの39.0%から100.0% (+61.0%) へと引き上げました。",
+        articleLede: "Vision-Language-Action (VLA) プランナーが未検証の3D目標姿勢や関節コマンドを低レベル制御器へ直接送信すると、逆運動学(IK)の到達不能領域、3D作業空間での衝突、関節トルクスパイク、共有ゾーンのミューテックス競合が発生します。Project STAMP (v1.0.0-stamp) は、上位マルチモーダル推論 (Gemini 4 Carbon / 3.5 Flash-Lite) と ROS 2 Jazzy / MoveIt 2 実行を、Plan (TaskDAG) → Gate (決定論的シールド) → Execute (MoveIt 2 / ROS 2) → Write-Back (文脈修復) の4段階閉ループパイプラインで厳密に分離します。60%の合成フォルト注入を含む1,000エピソード (STAMP-Bench-V1) において、STAMPは危険なディスパッチを100.0% (610/610) 遮断し、タスク完了率を単発VLAの39.0%から100.0% (+61.0%) へと引き上げました。",
         takeawaysHeader: "TL;DR — リサーチハイライト & システム要約",
         finding1: "標準スキーマ契約によるプランナーと制御器の完全分離: GeminiArgonPlannerはROS 2トピックへ直接パブリッシュせず、Pydantic v2 / JSON Schema Draft 2020-12準拠のTaskDAGを生成し、GateVerdict.passed == Trueが検証されたノードのみがDecoupledROS2ExecutorとMoveItPreDispatchGuardへ渡されます。",
         finding2: "4層物理検証ゲートによる100.0%フォルト遮断: FrankaFR3DeterministicGateは全TaskNodeに対して7自由度DLS逆運動学の到達可能性 ([0.15m, 0.85m]、残差 <= 15.0mm)、3D AABB衝突ボックスとテーブル高さ (Z >= 0.20m)、URDF関節・トルク制限 ([87..12] Nm)、マルチアーム共有ゾーン・ツールの時間窓ロックを検査し、610件のフォルトを100%阻止しました。",
@@ -1194,7 +1194,7 @@
         sec3Title: "4層決定論的シールドと閉ループ Write-Back 修復の内部機構",
         sec4Title: "実証評価: STAMP-Bench-V1 (1,000フォルト注入エピソード)",
         sec5Title: "分離デプロイメント: スタンドアロンREST & Model Context Protocol (MCP) サーバー",
-        fig1Caption: "図1 (M9G-TR-2026-03). Project STAMPの4段階閉ループアーキテクチャ: (1) マルチモーダル映像＆3D SpatialState接地、(2) 分離されたGemini 4 Argon TaskDAGプランナー、(3) 4層FrankaFR3DeterministicGate＆MoveItPreDispatchGuard、(4) 検証済みROS 2実行とwrite_limit_back修復。",
+        fig1Caption: "図1 (M9G-TR-2026-03). Project STAMPの4段階閉ループアーキテクチャ: (1) マルチモーダル映像＆3D SpatialState接地、(2) 分離されたGemini 4 Carbon TaskDAGプランナー、(3) 4層FrankaFR3DeterministicGate＆MoveItPreDispatchGuard、(4) 検証済みROS 2実行とwrite_limit_back修復。",
         fig2aTitle: "図2A. エピソード完了率とフォルト遮断率の比較 (1,000エピソード)",
         fig2bTitle: "図2B. 決定論的ゲートが遮断したノードレベル・ハードウェアフォルト内訳 (計1,076件)",
         fig2cTitle: "図2C. 計画試行回数に対する累積エピソード収束曲線 (1,000エピソード)",
@@ -1206,7 +1206,7 @@
         blogHeaderBrand: "技术研究博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
         articleTag: "M9G-TR-2026-03 • 时空任务与运动规划 (STAMP)",
         articleTitle: "Project STAMP：面向多机械臂 VLA 任务与运动规划的确定性安全校验门控与闭环上下文修复",
-        articleLede: "若允许视觉-语言-动作 (VLA) 规划器将未校验的 3D 目标位姿或关节指令直接发送至底层机器人控制器，多机械臂工作站将面临逆运动学 (IK) 不可达、3D 工作空间碰撞、关节力矩尖峰以及共享区域互斥死锁等硬件风险。在 Project STAMP (v1.0.0-stamp) 中，我们通过严格的四阶段闭环架构——Plan (TaskDAG) → Gate (确定性安全护盾) → Execute (MoveIt 2 / ROS 2) → Write-Back (上下文修复)——将高层多模态推理 (Gemini 4 Argon / 3.5 Flash-Lite) 与 ROS 2 Jazzy 及 MoveIt 2 底层执行彻底解耦。在包含 60% 合成故障注入的 1,000 场多机械臂实验 (STAMP-Bench-V1) 中，Project STAMP 实现了 100.0% 的危险指令拦截率 (610/610)，并通过两轮几何与时间窗口写回修复将任务完成率从单次 VLA 规划的 39.0% 提升至 100.0% (+61.0%)。",
+        articleLede: "若允许视觉-语言-动作 (VLA) 规划器将未校验的 3D 目标位姿或关节指令直接发送至底层机器人控制器，多机械臂工作站将面临逆运动学 (IK) 不可达、3D 工作空间碰撞、关节力矩尖峰以及共享区域互斥死锁等硬件风险。在 Project STAMP (v1.0.0-stamp) 中，我们通过严格的四阶段闭环架构——Plan (TaskDAG) → Gate (确定性安全护盾) → Execute (MoveIt 2 / ROS 2) → Write-Back (上下文修复)——将高层多模态推理 (Gemini 4 Carbon / 3.5 Flash-Lite) 与 ROS 2 Jazzy 及 MoveIt 2 底层执行彻底解耦。在包含 60% 合成故障注入的 1,000 场多机械臂实验 (STAMP-Bench-V1) 中，Project STAMP 实现了 100.0% 的危险指令拦截率 (610/610)，并通过两轮几何与时间窗口写回修复将任务完成率从单次 VLA 规划的 39.0% 提升至 100.0% (+61.0%)。",
         takeawaysHeader: "TL;DR — 核心研究亮点与系统摘要",
         finding1: "基于规范 Schema 契约的规划与控制彻底解耦：GeminiArgonPlanner 绝不直接向 ROS 2 话题发布指令，而是输出符合 Pydantic v2 / JSON Schema Draft 2020-12 规范的 TaskDAG；仅当 GateVerdict.passed == True 时，DecoupledROS2Executor 与 MoveItPreDispatchGuard 才会下发运动原语。",
         finding2: "四层物理校验门控实现 100.0% 故障拦截：FrankaFR3DeterministicGate 对每个候选 TaskNode 依次执行 7 自由度阻尼最小二乘 (DLS) 逆运动学可达性校验 ([0.15m, 0.85m]，残差 <= 15.0 mm)、3D AABB 碰撞盒与桌面高度校验 (Z >= 0.20m)、URDF 关节角与力矩包络校验 ([87..12] Nm) 以及多臂共享区域/工具时间窗互斥锁校验，成功拦截 STAMP-Bench-V1 中全部 610 场注入故障。",
@@ -1226,7 +1226,7 @@
         sec3Title: "四层确定性安全护盾与闭环 Write-Back 修复机制详解",
         sec4Title: "实证基准评估：STAMP-Bench-V1 (1,000 场故障注入实验)",
         sec5Title: "解耦部署架构：独立 HTTP REST 与模型上下文协议 (MCP) 服务器",
-        fig1Caption: "图 1 (M9G-TR-2026-03). Project STAMP 四阶段闭环架构：(1) 多模态视频与 3D SpatialState 场景图接地，(2) 解耦的 Gemini 4 Argon TaskDAG 规划器，(3) 四层 FrankaFR3DeterministicGate 与 MoveItPreDispatchGuard，(4) 经校验的 ROS 2 执行与 write_limit_back 闭环修复。",
+        fig1Caption: "图 1 (M9G-TR-2026-03). Project STAMP 四阶段闭环架构：(1) 多模态视频与 3D SpatialState 场景图接地，(2) 解耦的 Gemini 4 Carbon TaskDAG 规划器，(3) 四层 FrankaFR3DeterministicGate 与 MoveItPreDispatchGuard，(4) 经校验的 ROS 2 执行与 write_limit_back 闭环修复。",
         fig2aTitle: "图 2A. 实验任务完成率与门控故障拦截率对比 (1,000 场实验)",
         fig2bTitle: "图 2B. 确定性门控拦截的节点级硬件故障分类统计 (共 1,076 次故障)",
         fig2cTitle: "图 2C. 随规划轮次演进的累计任务收敛曲线 (1,000 场实验)",
@@ -1238,7 +1238,7 @@
         blogHeaderBrand: "Blog de Investigación Técnica", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
         articleTag: "M9G-TR-2026-03 • Planificación Espaciotemporal de Tareas y Movimiento (STAMP)",
         articleTitle: "Project STAMP: Compuertas de Verificación Determinista y Reparación de Contexto en Lazo Cerrado para Planificación VLA Multi-Brazo",
-        articleLede: "Permitir que un planificador Visión-Lenguaje-Acción (VLA) transmita poses cartesianas o comandos articulares no verificados directamente a los controladores robóticos de bajo nivel expone las celdas multi-manipulador a objetivos cinemáticos inalcanzables, colisiones 3D, picos de par articular e interbloqueos en zonas compartidas. En Project STAMP (v1.0.0-stamp), desacoplamos el razonamiento multimodal de alto nivel (Gemini 4 Argon / Gemini 3.5 Flash-Lite) de la actuación en ROS 2 Jazzy y MoveIt 2 mediante una arquitectura en lazo cerrado de cuatro etapas: Plan (TaskDAG) → Gate (Escudo Determinista) → Execute (MoveIt 2 / ROS 2) → Write-Back (Reparación de Contexto). Evaluado en 1,000 episodios con tres brazos Franka Emika FR3 en STAMP-Bench-V1 bajo un 60% de inyección sintética de fallos, Project STAMP intercepta el 100.0% de los despachos inseguros (610/610) y eleva la tasa de finalización de tareas del 39.0% (VLA de disparo único) al 100.0% mediante recuperación write-back en dos turnos.",
+        articleLede: "Permitir que un planificador Visión-Lenguaje-Acción (VLA) transmita poses cartesianas o comandos articulares no verificados directamente a los controladores robóticos de bajo nivel expone las celdas multi-manipulador a objetivos cinemáticos inalcanzables, colisiones 3D, picos de par articular e interbloqueos en zonas compartidas. En Project STAMP (v1.0.0-stamp), desacoplamos el razonamiento multimodal de alto nivel (Gemini 4 Carbon / Gemini 3.5 Flash-Lite) de la actuación en ROS 2 Jazzy y MoveIt 2 mediante una arquitectura en lazo cerrado de cuatro etapas: Plan (TaskDAG) → Gate (Escudo Determinista) → Execute (MoveIt 2 / ROS 2) → Write-Back (Reparación de Contexto). Evaluado en 1,000 episodios con tres brazos Franka Emika FR3 en STAMP-Bench-V1 bajo un 60% de inyección sintética de fallos, Project STAMP intercepta el 100.0% de los despachos inseguros (610/610) y eleva la tasa de finalización de tareas del 39.0% (VLA de disparo único) al 100.0% mediante recuperación write-back en dos turnos.",
         takeawaysHeader: "TL;DR — Aspectos Destacados de la Investigación y Resumen de Sistemas",
         finding1: "Desacoplamiento Arquitectónico Estricto mediante Esquemas Canónicos: GeminiArgonPlanner nunca publica directamente en tópicos de ROS 2; emite un TaskDAG en Pydantic v2 / JSON Schema Draft 2020-12 verificado frente a un SpatialState 3D antes de que DecoupledROS2Executor o MoveItPreDispatchGuard despachen cualquier primitiva.",
         finding2: "100.0% de Intercepción Determinista de Fallos en Cuatro Capas Físicas: FrankaFR3DeterministicGate verifica cada TaskNode frente a alcanzabilidad IK DLS de 7-DoF ([0.15m, 0.85m], residual <= 15.0 mm), cajas de colisión AABB 3D y altura de mesa (Z >= 0.20m), límites articulares y de par URDF ([87..12] Nm), y bloqueos temporales de zona/herramienta—bloqueando 610 / 610 episodios con fallos en STAMP-Bench-V1.",
@@ -1258,7 +1258,7 @@
         sec3Title: "Dentro del Escudo Determinista de Cuatro Capas y la Reparación Write-Back",
         sec4Title: "Evaluación Empírica: STAMP-Bench-V1 (1,000 Episodios con Inyección de Fallos)",
         sec5Title: "Despliegue Desacoplado: Servidor Independiente REST y Model Context Protocol (MCP)",
-        fig1Caption: "Figura 1 (M9G-TR-2026-03). Arquitectura de cuatro etapas de Project STAMP: (1) Anclaje Multimodal de Video y SpatialState 3D, (2) Planificador TaskDAG Desacoplado con Gemini 4 Argon, (3) FrankaFR3DeterministicGate de 4 Capas y MoveItPreDispatchGuard, y (4) Ejecución Verificada en ROS 2 con reparación write_limit_back.",
+        fig1Caption: "Figura 1 (M9G-TR-2026-03). Arquitectura de cuatro etapas de Project STAMP: (1) Anclaje Multimodal de Video y SpatialState 3D, (2) Planificador TaskDAG Desacoplado con Gemini 4 Carbon, (3) FrankaFR3DeterministicGate de 4 Capas y MoveItPreDispatchGuard, y (4) Ejecución Verificada en ROS 2 con reparación write_limit_back.",
         fig2aTitle: "Figura 2A. Tasa de Finalización de Tareas e Intercepción de Fallos (1,000 Episodios)",
         fig2bTitle: "Figura 2B. Desglose de Fallos de Hardware Interceptados por la Compuerta (1,076 Fallos)",
         fig2cTitle: "Figura 2C. Convergencia Acumulada de Episodios por Intento de Planificación (1,000 Episodios)",
@@ -1289,6 +1289,13 @@
       if (popup) popup.classList.remove('open');
       const dict = BLOG_I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(el => {
+        if (!el.hasAttribute('data-orig-html') && el.children.length > 0) {
+          el.setAttribute('data-orig-html', el.innerHTML);
+        }
+        if (lang === 'en') {
+          if (el.hasAttribute('data-orig-html')) { el.innerHTML = el.getAttribute('data-orig-html'); return; }
+          if (el.children.length > 0) return;
+        }
         const key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
       });

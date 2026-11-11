@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lazy-DaSH (IEEE T-RO) &amp; Upgrading IsaacSim_Gemini: Hierarchical Hypergraph Multi-Robot Orchestration with Gemini 4 Argon, Robotics-ER 2 &amp; Flash-Lite — M9G Technical Research Blog</title>
+  <title>Lazy-DaSH (IEEE T-RO) &amp; Upgrading IsaacSim_Gemini: Hierarchical Hypergraph Multi-Robot Orchestration with Gemini 4 Carbon, Robotics-ER 2 &amp; Flash-Lite — M9G Technical Research Blog</title>
   <link rel="canonical" href="https://mincasurong.github.io/blog/lazy-dash/" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Minsu Chang, Ph.D. (M9G / mincasurong)" />
-  <meta name="description" content="M9G-TR-2026-05 by Minsu Chang, Ph.D.: Deep technical analysis of UIUC Parasol Lab's Lazy-DaSH (Seongwon 'Scott' Lee et al., IEEE T-RO, arXiv:2504.05552) and how we upgrade IsaacSim_Gemini to orchestrate Gemini 4 Argon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite with continuous multi-robot KPIs." />
+  <meta name="description" content="M9G-TR-2026-05 by Minsu Chang, Ph.D.: Deep technical analysis of UIUC Parasol Lab's Lazy-DaSH (Seongwon 'Scott' Lee et al., IEEE T-RO, arXiv:2504.05552) and how we upgrade IsaacSim_Gemini to orchestrate Gemini 4 Carbon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite with continuous multi-robot KPIs." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mincasurong.github.io/blog/lazy-dash/" />
-  <meta property="og:title" content="Lazy-DaSH (IEEE T-RO) &amp; Upgrading IsaacSim_Gemini: Hierarchical Hypergraph Multi-Robot Orchestration with Gemini 4 Argon, Robotics-ER 2 &amp; Flash-Lite" />
-  <meta property="og:description" content="How UIUC's Lazy-DaSH (Scott Lee et al., IEEE T-RO) scales multi-manipulator TAMP to 16 robots &amp; 60+ objects via lazy motion validation and scoped constraint feedback—and how we map its 4-layer hierarchy onto Gemini 4 Argon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite in IsaacSim_Gemini." />
+  <meta property="og:title" content="Lazy-DaSH (IEEE T-RO) &amp; Upgrading IsaacSim_Gemini: Hierarchical Hypergraph Multi-Robot Orchestration with Gemini 4 Carbon, Robotics-ER 2 &amp; Flash-Lite" />
+  <meta property="og:description" content="How UIUC's Lazy-DaSH (Scott Lee et al., IEEE T-RO) scales multi-manipulator TAMP to 16 robots &amp; 60+ objects via lazy motion validation and scoped constraint feedback—and how we map its 4-layer hierarchy onto Gemini 4 Carbon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite in IsaacSim_Gemini." />
   <meta property="og:image" content="https://mincasurong.github.io/screenshots/blog5-lazydash-thumb-nanobanana.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,7 +20,7 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "Lazy-DaSH (IEEE T-RO) & Upgrading IsaacSim_Gemini: Hierarchical Hypergraph Multi-Robot Orchestration with Gemini 4 Argon, Robotics-ER 2 & Flash-Lite",
+    "headline": "Lazy-DaSH (IEEE T-RO) & Upgrading IsaacSim_Gemini: Hierarchical Hypergraph Multi-Robot Orchestration with Gemini 4 Carbon, Robotics-ER 2 & Flash-Lite",
     "identifier": "M9G-TR-2026-05",
     "datePublished": "2026-11-08",
     "dateModified": "2026-11-08",
@@ -524,13 +524,13 @@
         <span class="dm-badge" data-i18n="articleTag">M9G-TR-2026-05 • IEEE T-RO Paper Synthesis &amp; Multi-Model VLA Upgrade Plan</span>
         <span>Published November 8, 2026</span>
         <span>•</span>
-        <span>UIUC Parasol Lab (Lazy-DaSH) · Gemini 4 Argon + Robotics-ER 2 + Flash-Lite · IsaacSim_Gemini</span>
+        <span>UIUC Parasol Lab (Lazy-DaSH) · Gemini 4 Carbon + Robotics-ER 2 + Flash-Lite · IsaacSim_Gemini</span>
       </div>
 
       <h1 data-i18n="articleTitle">Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph Task &amp; Motion Planning and Our Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini</h1>
 
       <p class="lede" data-i18n="articleLede">
-        Why do multi-robot Task and Motion Planning (MR-TMP) systems hit an exponential wall as the number of manipulators and objects grows? In their landmark IEEE Transactions on Robotics (T-RO) paper, <em>"Lazy-DaSH: Lazy Approach for Hypergraph-based Multi-robot Task and Motion Planning"</em> (arXiv:2504.05552), Seongwon "Scott" Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato (UIUC Parasol Lab) show that the culprit in prior hybrid planners like DaSH is <strong>eager motion-space precomputation</strong>: validating collision-free roadmaps for every possible robot–object transition before knowing which transitions the task plan actually needs. By introducing a 4-layer hierarchy with <strong>lazy motion evaluation</strong> and <strong>branch-scoped constraint feedback (Task &amp; Motion Conflict Feedback)</strong>, Lazy-DaSH scales to <strong>16 manipulators and 60+ objects</strong> while cutting representation construction and query times by <strong>100x to 1,000x</strong>. In this technical report, we distill the exact algorithmic mechanics of Lazy-DaSH and detail our continuous upgrade roadmap and KPIs for <code>IsaacSim_Gemini</code>—mapping Lazy-DaSH's 4 layers onto <strong>Gemini 4 Argon</strong>, <strong>Gemini Robotics-ER 2</strong>, and <strong>Gemini 3.5 Flash-Lite</strong> across NVIDIA Isaac Sim 6.0 and WSL2 MuJoCo 3.x.
+        Why do multi-robot Task and Motion Planning (MR-TMP) systems hit an exponential wall as the number of manipulators and objects grows? In their landmark IEEE Transactions on Robotics (T-RO) paper, <em>"Lazy-DaSH: Lazy Approach for Hypergraph-based Multi-robot Task and Motion Planning"</em> (arXiv:2504.05552), Seongwon "Scott" Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato (UIUC Parasol Lab) show that the culprit in prior hybrid planners like DaSH is <strong>eager motion-space precomputation</strong>: validating collision-free roadmaps for every possible robot–object transition before knowing which transitions the task plan actually needs. By introducing a 4-layer hierarchy with <strong>lazy motion evaluation</strong> and <strong>branch-scoped constraint feedback (Task &amp; Motion Conflict Feedback)</strong>, Lazy-DaSH scales to <strong>16 manipulators and 60+ objects</strong> while cutting representation construction and query times by <strong>100x to 1,000x</strong>. In this technical report, we distill the exact algorithmic mechanics of Lazy-DaSH and detail our continuous upgrade roadmap and KPIs for <code>IsaacSim_Gemini</code>—mapping Lazy-DaSH's 4 layers onto <strong>Gemini 4 Carbon</strong>, <strong>Gemini Robotics-ER 2</strong>, and <strong>Gemini 3.5 Flash-Lite</strong> across NVIDIA Isaac Sim 6.0 and WSL2 MuJoCo 3.x.
       </p>
 
       <div class="byline-bar">
@@ -544,7 +544,7 @@
         </div>
         <div class="byline-cell">
           <div class="byline-label">Target System &amp; Models</div>
-          <div class="byline-val"><a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener" style="color:var(--dm-blue);font-weight:700;">IsaacSim_Gemini ↗</a> (Argon · ER-2 · Flash-Lite)</div>
+          <div class="byline-val"><a href="https://github.com/mincasurong/IsaacSim_GeminiRobotics" target="_blank" rel="noopener" style="color:var(--dm-blue);font-weight:700;">IsaacSim_Gemini ↗</a> (Carbon · ER-2 · Flash-Lite)</div>
         </div>
         <div class="byline-cell">
           <div class="byline-label">Disclosure ID</div>
@@ -558,13 +558,13 @@
     <article>
       <div class="dm-takeaways">
                 <div class="tldr-thumb-wrap">
-          <img src="/screenshots/blog5-lazydash-thumb-nanobanana.png" alt="M9G-TR-2026-05 • UIUC Lazy-DaSH (IEEE T-RO) Two-Level Hypergraph (Task-to-Motion Hypergraphs) Mapped to Gemini 4 Argon, Robotics-ER 2 & Flash-Lite in IsaacSim_Gemini" loading="eager" decoding="async" />
+          <img src="/screenshots/blog5-lazydash-thumb-nanobanana.png" alt="M9G-TR-2026-05 • UIUC Lazy-DaSH (IEEE T-RO) Two-Level Hypergraph (Task-to-Motion Hypergraphs) Mapped to Gemini 4 Carbon, Robotics-ER 2 & Flash-Lite in IsaacSim_Gemini" loading="eager" decoding="async" />
         </div>
         <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR — Executive Summary: How Lazy-DaSH Transforms Multi-Robot VLA Orchestration</div>
         <ul>
           <li data-i18n="finding1"><strong class="c-blue">1. The Core Insight of UIUC's Lazy-DaSH (Scott Lee et al., IEEE T-RO):</strong> Original DaSH (T-RO 2023) suffers from quadratic robot-by-object upfront motion-hypergraph construction because it pre-validates every possible pick, place, and handover edge. Lazy-DaSH separates the <strong>Task Space Hypergraph (Task Space Hypergraph)</strong> from the <strong>Motion Hypergraph (Lazy Motion Hypergraph)</strong>, greedily starting with only start/goal object states (start and goal poses) and evaluating Lazy-PRM motion edges <em>only</em> along the candidate task schedule.</li>
           <li data-i18n="finding2"><strong class="c-amber">2. Hierarchical Conflict Detection &amp; Scoped Constraint Feedback (Task &amp; Motion Conflict Feedback):</strong> Before invoking expensive trajectory planning, a millisecond-scale <strong>Task Conflict Detection Layer</strong> checks grasp/placement vertices against static and frontier obstacles (frontier collisions) and transition histories (history conflicts). When a geometric block or non-monotonic occlusion occurs (e.g., <em>Shelf-Wall</em> or <em>Stocking</em>), Lazy-DaSH injects branch-scoped constraints (along the active search branch) and selectively samples intermediate buffer poses.</li>
-          <li data-i18n="finding3"><strong class="c-green">3. Mapping Lazy-DaSH onto Multi-Model Gemini Orchestration in <code>IsaacSim_Gemini</code>:</strong> Rather than using a single monolithic VLM on every control step, we map Lazy-DaSH's 4 layers to three specialized Gemini models: <strong>Gemini 4 Argon</strong> (<code>1x</code> call, <code>thinking_budget=256</code>) builds and queries the high-level Task Space Hypergraph the Task Space Hypergraph; <strong>Gemini Robotics-ER 2</strong> + deterministic <code>RuleBasedTaskVerifier</code> handle spatial grounding, non-monotonic intermediate buffer sampling, and mid-air handover pose resampling; and <strong>Gemini 3.5 Flash-Lite</strong> (<code>thinking_budget=0</code>) drives high-frequency lazy step dispatch over 50 Hz DLS IK / <code>cuRobo</code>.</li>
+          <li data-i18n="finding3"><strong class="c-green">3. Mapping Lazy-DaSH onto Multi-Model Gemini Orchestration in <code>IsaacSim_Gemini</code>:</strong> Rather than using a single monolithic VLM on every control step, we map Lazy-DaSH's 4 layers to three specialized Gemini models: <strong>Gemini 4 Carbon</strong> (<code>1x</code> call, <code>thinking_budget=256</code>) builds and queries the high-level Task Space Hypergraph the Task Space Hypergraph; <strong>Gemini Robotics-ER 2</strong> + deterministic <code>RuleBasedTaskVerifier</code> handle spatial grounding, non-monotonic intermediate buffer sampling, and mid-air handover pose resampling; and <strong>Gemini 3.5 Flash-Lite</strong> (<code>thinking_budget=0</code>) drives high-frequency lazy step dispatch over 50 Hz DLS IK / <code>cuRobo</code>.</li>
           <li data-i18n="finding4"><strong class="c-red">4. Continuous Project Goals &amp; Quantitative KPIs (2026–2027):</strong> Cut API cost per multi-arm episode by <strong>at least 76.6% (<code>$0.01972</code>)</strong>, reduce motion representation collision checks by <strong>at least 90% (100x reduction)</strong>, maintain <strong>100.0% pre-dispatch fault interception</strong>, and scale from 3 Franka FR3 arms (<code>9–18</code> objects, non-monotonic rearrangement &amp; handovers) in Isaac Sim 6.0 to <strong>4–8+ cooperative arms (<code>32–60+</code> objects)</strong> in WSL2-native MuJoCo 3.x.</li>
         </ul>
       </div>
@@ -583,7 +583,7 @@
         <div class="spec-cell">
           <div class="spec-label">Multi-Model VLA Cost</div>
           <div class="spec-val green">$0.01972 (-76.6%)</div>
-          <div class="spec-note">1× Argon + ER-2 Gate + 10× Flash-Lite</div>
+          <div class="spec-note">1× Carbon + ER-2 Gate + 10× Flash-Lite</div>
         </div>
         <div class="spec-cell">
           <div class="spec-label">Non-Monotonic &amp; Lab</div>
@@ -610,8 +610,8 @@
           </button>
           <button class="ts-btn" onclick="seekOmniVideo('blog5-omni-video', 10, this)">
             <span class="ts-time">00:10 – 00:20 • Part 2</span>
-            <span class="ts-title">Layer 1 &amp; Layer 2: Gemini 4 Argon + Robotics-ER 2 Conflict Gate</span>
-            <span class="ts-sub">Single-call task hypergraph synthesis by Argon paired with millisecond frontier/history frontier and history conflict detection and ER-2 handover pose resampling.</span>
+            <span class="ts-title">Layer 1 &amp; Layer 2: Gemini 4 Carbon + Robotics-ER 2 Conflict Gate</span>
+            <span class="ts-sub">Single-call task hypergraph synthesis by Carbon paired with millisecond frontier/history frontier and history conflict detection and ER-2 handover pose resampling.</span>
           </button>
           <button class="ts-btn" onclick="seekOmniVideo('blog5-omni-video', 20, this)">
             <span class="ts-time">00:20 – 00:30 • Part 3</span>
@@ -629,7 +629,7 @@
       <div class="pipeline-flow-grid" id="executive-pipeline">
         <div class="pipeline-step-card">
           <div class="pipeline-step-kicker">Layer 1 • Task Space Hypergraph</div>
-          <div class="pipeline-step-title">Gemini 4 Argon (Global Symbolic Architect)</div>
+          <div class="pipeline-step-title">Gemini 4 Carbon (Global Symbolic Architect)</div>
           <p class="pipeline-step-desc">Constructs minimal the Task Space Hypergraph over start/goal object states (start and goal poses) and robot-object composites (robot-object composites) with <code>thinking_budget=256</code>.</p>
         </div>
         <div class="pipeline-step-card step-gate">
@@ -735,23 +735,23 @@
       </p>
       <ul>
         <li>In <strong>computational TAMP (DaSH)</strong>, the bottleneck was <em>eagerly computing and collision-checking all motion roadmaps upfront</em>.</li>
-        <li>In <strong>foundation-model VLA TAMP</strong>, the bottleneck is <em>eagerly invoking a frontier reasoning model (<code>gemini-4-argon</code> with high <code>thinking_budget</code> and dense visual tokens) on every low-level step and every unvalidated candidate trajectory</em>.</li>
+        <li>In <strong>foundation-model VLA TAMP</strong>, the bottleneck is <em>eagerly invoking a frontier reasoning model (<code>gemini-4-carbon</code> with high <code>thinking_budget</code> and dense visual tokens) on every low-level step and every unvalidated candidate trajectory</em>.</li>
       </ul>
       <p>
-        Further, in the conclusion of their IEEE T-RO paper, Lee et al. explicitly highlight that: (1) Lazy-DaSH's motion conflict resolution layer can be paired with specialized schedulers, and (2) <em>"adapting online execution into the Lazy-DaSH framework to enhance robustness in dynamic environments represents a promising research direction."</em> Upgrading <code>IsaacSim_Gemini</code> with Lazy-DaSH's hierarchical decomposition and branch-scoped constraint feedback allows us to orchestrate <strong>Gemini 4 Argon</strong>, <strong>Gemini Robotics-ER 2</strong>, and <strong>Gemini 3.5 Flash-Lite</strong> as a closed-loop, online Lazy-DaSH engine across <strong>NVIDIA Isaac Sim 6.0</strong> and <strong>WSL2 MuJoCo 3.x</strong>:
+        Further, in the conclusion of their IEEE T-RO paper, Lee et al. explicitly highlight that: (1) Lazy-DaSH's motion conflict resolution layer can be paired with specialized schedulers, and (2) <em>"adapting online execution into the Lazy-DaSH framework to enhance robustness in dynamic environments represents a promising research direction."</em> Upgrading <code>IsaacSim_Gemini</code> with Lazy-DaSH's hierarchical decomposition and branch-scoped constraint feedback allows us to orchestrate <strong>Gemini 4 Carbon</strong>, <strong>Gemini Robotics-ER 2</strong>, and <strong>Gemini 3.5 Flash-Lite</strong> as a closed-loop, online Lazy-DaSH engine across <strong>NVIDIA Isaac Sim 6.0</strong> and <strong>WSL2 MuJoCo 3.x</strong>:
       </p>
 
       <figure class="figure-box">
         <img src="/screenshots/lazy-dash-architecture-nanobanana.png" alt="Lazy-DaSH 4-Layer Multi-Model VLA Orchestration in IsaacSim_Gemini" />
         <figcaption class="figure-caption" data-i18n="fig1Caption">
-          Figure 1 (M9G-TR-2026-05). Upgrading IsaacSim_Gemini with Lazy-DaSH's 4-layer hierarchy: Layer 1 Task Space Hypergraph (Gemini 4 Argon, 1x call), Layer 2 Millisecond Task Conflict Detection &amp; Spatial Grounding (Gemini Robotics-ER 2 + RuleBasedTaskVerifier), Layer 3 Lazy Motion Hypergraph &amp; 50 Hz Execution (Gemini 3.5 Flash-Lite + DLS IK / cuRobo), and Layer 4 Scoped Constraint Write-Back.
+          Figure 1 (M9G-TR-2026-05). Upgrading IsaacSim_Gemini with Lazy-DaSH's 4-layer hierarchy: Layer 1 Task Space Hypergraph (Gemini 4 Carbon, 1x call), Layer 2 Millisecond Task Conflict Detection &amp; Spatial Grounding (Gemini Robotics-ER 2 + RuleBasedTaskVerifier), Layer 3 Lazy Motion Hypergraph &amp; 50 Hz Execution (Gemini 3.5 Flash-Lite + DLS IK / cuRobo), and Layer 4 Scoped Constraint Write-Back.
         </figcaption>
       </figure>
 
-      <h3>Role Allocation Across Gemini 4 Argon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite</h3>
+      <h3>Role Allocation Across Gemini 4 Carbon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite</h3>
       <div class="table-scroll">
         <div class="table-provenance-bar">
-          <span>Table 2 • Lazy-DaSH Layer-to-Model Mapping in IsaacSim_Gemini (Argon · ER-2 · Flash-Lite)</span>
+          <span>Table 2 • Lazy-DaSH Layer-to-Model Mapping in IsaacSim_Gemini (Carbon · ER-2 · Flash-Lite)</span>
           <span>M9G-TR-2026-05 Architecture</span>
         </div>
         <table>
@@ -766,7 +766,7 @@
           <tbody>
             <tr class="highlight-row">
               <td><strong>Layer 1: Task Space Hypergraph (Task Space &amp; Extended Query Graph)</strong></td>
-              <td><strong>Gemini 4 Argon</strong><br/>(<code>gemini-4-argon</code> in <code>gemini_robotics_node.py</code>)</td>
+              <td><strong>Gemini 4 Carbon</strong><br/>(<code>gemini-4-carbon</code> in <code>gemini_robotics_node.py</code>)</td>
               <td>Symbolic 3D <code>/tf</code> state (start and goal poses) + task-conflict history · <code>thinking_budget=256</code> · <strong>1× Call per Episode / Expansion</strong></td>
               <td>Synthesizes the minimal Task Space Hypergraph the Task Space Hypergraph using only start/goal object states and software-pipelined <code>pick</code> / <code>place</code> / <code>handover</code> hyperarcs task hyperarcs. Expands the Task Space Hypergraph with intermediate buffer vertices <em>only</em> when triggered by Layer 2 task-conflict feedback.</td>
             </tr>
@@ -832,13 +832,13 @@
             </tr>
             <tr class="highlight-row">
               <td><strong>KPI-4: VLA Token &amp; API Cost per Episode</strong></td>
-              <td>50,190 tok (<code>$0.07860</code> on ER-2) / 38,713 tok (<code>$0.08437</code> on Pure Argon)</td>
-              <td><strong>38,277 tok (<code>$0.01972</code>, <code>-76.6%</code> cost)</strong> on 9-block tower (<code>1A + 10F</code>)</td>
-              <td><strong>under $0.025 per 18-object non-monotonic episode</strong> (<code>1×</code> Argon the Task Space Hypergraph + up to 2x ER-2 buffer resamples + <code>0-think</code> Flash-Lite steps)</td>
+              <td>50,190 tok (<code>$0.07860</code> on ER-2) / 38,713 tok (<code>$0.08437</code> on Pure Carbon)</td>
+              <td><strong>38,277 tok (<code>$0.01972</code>, <code>-76.6%</code> cost)</strong> on 9-block tower (<code>1C + 10F</code>)</td>
+              <td><strong>under $0.025 per 18-object non-monotonic episode</strong> (<code>1×</code> Carbon the Task Space Hypergraph + up to 2x ER-2 buffer resamples + <code>0-think</code> Flash-Lite steps)</td>
             </tr>
             <tr>
               <td><strong>KPI-5: Turn-0 &amp; Replanning Latency</strong></td>
-              <td>8,870 ms Turn-0 plan + 13.31 s/turn step latency (Pure Argon)</td>
+              <td>8,870 ms Turn-0 plan + 13.31 s/turn step latency (Pure Carbon)</td>
               <td>4,670 ms Turn-0 plan + 4.17 s/turn step latency (<code>-68.7%</code>)</td>
               <td><strong>under 5.0 ms Layer-2 Task Conflict Detection</strong> + <strong>under 1.5 s scoped branch replanning</strong> on task-conflict trigger</td>
             </tr>
@@ -861,7 +861,7 @@
       <h3>4-Phase Engineering Implementation Plan in <code>D:/git/IsaacSim_Gemini</code></h3>
       <ol>
         <li><strong>Phase 1 — Declarative Task Space Hypergraph (Task Space Hypergraph) &amp; Location-Specific Object Vertices (Nov–Dec 2026):</strong>
-          Upgrade <code>RuleBasedTaskGenerator</code> and <code>stamp_schemas</code> so every movable object in <code>WorkcellSpec</code> (<code>ChamferedPeg_M12</code>, <code>SiliconeSampleBag_DualHandle</code>, <code>ReagentVial_20mL</code>, <code>HexagonalStock_Prism</code>) is represented as a location-specific vertex start and goal poses connected by typed <code>pick</code>, <code>place</code>, <code>handover</code>, and <code>uncap_lid</code> hyperarcs task hyperarcs. <strong>Gemini 4 Argon</strong> queries this compact hypergraph in a single Turn-0 call (<code>thinking_budget=256</code>).</li>
+          Upgrade <code>RuleBasedTaskGenerator</code> and <code>stamp_schemas</code> so every movable object in <code>WorkcellSpec</code> (<code>ChamferedPeg_M12</code>, <code>SiliconeSampleBag_DualHandle</code>, <code>ReagentVial_20mL</code>, <code>HexagonalStock_Prism</code>) is represented as a location-specific vertex start and goal poses connected by typed <code>pick</code>, <code>place</code>, <code>handover</code>, and <code>uncap_lid</code> hyperarcs task hyperarcs. <strong>Gemini 4 Carbon</strong> queries this compact hypergraph in a single Turn-0 call (<code>thinking_budget=256</code>).</li>
         <li><strong>Phase 2 — Millisecond Task Conflict Detector (Frontier &amp; History Conflict Sets) &amp; ER-2 Buffer Sampler (Jan–Feb 2027):</strong>
           Extend <code>RuleBasedTaskVerifier</code> (<code>rule_based_verifier.py</code>) with Lazy-DaSH's <code>TaskConflictDetection</code> algorithm. When a candidate schedule attempts to place or grasp an object occluded by a front blocker (non-monotonic <em>Stocking</em> or <em>Shelf-Wall</em>) or places two SDL container lids in overlapping sanitization slots (<em>Lab</em> vertex–vertex conflict), the verifier emits a branch-scoped frontier and history conflict constraint and calls <strong>Gemini Robotics-ER 2</strong> to sample a valid intermediate buffer pose intermediate buffer pose or mid-air handover configuration.</li>
         <li><strong>Phase 3 — Lazy Motion Hypergraph (Lazy Motion Hypergraph) with <code>Gemini 3.5 Flash-Lite</code> + 50 Hz DLS IK / <code>cuRobo</code> (Mar–May 2027):</strong>
@@ -878,7 +878,7 @@
         <li><strong>Adaptive Robot Coordination (ARC)</strong>: I. Solis, J. Motes, M. Qin, M. Morales, and N. M. Amato, <em>"Adaptive Robot Coordination: A Subproblem-Based Approach for Hybrid Multi-Robot Motion Planning,"</em> <em>IEEE Robotics and Automation Letters (RA-L)</em>, vol. 9, no. 8, pp. 7238–7245, 2024.</li>
         <li><strong>APEX-MR</strong>: P. Huang, R. Liu, C. Liu, and J. Li, <em>"APEX-MR: Multi-Robot Asynchronous Planning and Execution for Cooperative Assembly,"</em> <em>Robotics: Science and Systems (RSS)</em>, <a href="https://arxiv.org/abs/2503.15836" target="_blank" rel="noopener">arXiv:2503.15836</a>, 2025.</li>
         <li><strong>Project STAMP (M9G-TR-2026-03)</strong>: Minsu Chang, Ph.D., <em>"Project STAMP: Decoupling Multimodal VLA Reasoning from Robot Execution via Deterministic Pre-Dispatch Gating and Fault Write-Back,"</em> <a href="https://mincasurong.github.io/blog/stamp/">https://mincasurong.github.io/blog/stamp/</a>, 2026.</li>
-        <li><strong>Symbolic 3D Grounding &amp; VLA Task Planning (M9G-TR-2026-01)</strong>: Minsu Chang, Ph.D., <em>"Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Argon,"</em> <a href="https://mincasurong.github.io/blog/VLA/">https://mincasurong.github.io/blog/VLA/</a>, 2026.</li>
+        <li><strong>Symbolic 3D Grounding &amp; VLA Task Planning (M9G-TR-2026-01)</strong>: Minsu Chang, Ph.D., <em>"Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Carbon,"</em> <a href="https://mincasurong.github.io/blog/VLA/">https://mincasurong.github.io/blog/VLA/</a>, 2026.</li>
       </ol>
 
       <section id="provenance" class="citation-card">
@@ -916,7 +916,7 @@
         blogHeaderBrand: "Technical Research Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
         articleTag: "M9G-TR-2026-05 • IEEE T-RO Paper Synthesis & Multi-Model VLA Upgrade Plan",
         articleTitle: "Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph Task & Motion Planning and Our Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini",
-        articleLede: "Why do multi-robot Task and Motion Planning (MR-TMP) systems hit an exponential wall as the number of manipulators and objects grows? In their landmark IEEE Transactions on Robotics (T-RO) paper, 'Lazy-DaSH: Lazy Approach for Hypergraph-based Multi-robot Task and Motion Planning' (arXiv:2504.05552), Seongwon 'Scott' Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato (UIUC Parasol Lab) show that the culprit in prior hybrid planners like DaSH is eager motion-space precomputation. By introducing a 4-layer hierarchy with lazy motion evaluation and branch-scoped constraint feedback (Scoped Conflict Feedback), Lazy-DaSH scales to 16 manipulators and 60+ objects while cutting representation construction and query times by 100x to 1000x. Here we distill Lazy-DaSH and detail our continuous upgrade roadmap and KPIs for IsaacSim_Gemini across Gemini 4 Argon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite.",
+        articleLede: "Why do multi-robot Task and Motion Planning (MR-TMP) systems hit an exponential wall as the number of manipulators and objects grows? In their landmark IEEE Transactions on Robotics (T-RO) paper, 'Lazy-DaSH: Lazy Approach for Hypergraph-based Multi-robot Task and Motion Planning' (arXiv:2504.05552), Seongwon 'Scott' Lee, James Motes, Isaac Ngui, Marco Morales, and Nancy M. Amato (UIUC Parasol Lab) show that the culprit in prior hybrid planners like DaSH is eager motion-space precomputation. By introducing a 4-layer hierarchy with lazy motion evaluation and branch-scoped constraint feedback (Scoped Conflict Feedback), Lazy-DaSH scales to 16 manipulators and 60+ objects while cutting representation construction and query times by 100x to 1000x. Here we distill Lazy-DaSH and detail our continuous upgrade roadmap and KPIs for IsaacSim_Gemini across Gemini 4 Carbon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite.",
         takeawaysHeader: "TL;DR — Executive Summary: How Lazy-DaSH Transforms Multi-Robot VLA Orchestration",
         sec1Title: "1. Paper Deep-Dive: UIUC's Lazy-DaSH (Seongwon \"Scott\" Lee et al., IEEE T-RO)",
         sec2Title: "2. Bridging Lazy-DaSH to IsaacSim_Gemini: Multi-Model VLA Orchestration",
@@ -927,8 +927,8 @@
       ko: {
         blogHeaderBrand: "기술 리서치 블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
         articleTag: "M9G-TR-2026-05 • IEEE T-RO 논문 심층 분석 및 멀티모델 VLA 업그레이드 로드맵",
-        articleTitle: "UIUC Lazy-DaSH (IEEE T-RO) 심층 분석: 계층적 하이퍼그래프 다중 로봇 TAMP와 IsaacSim_Gemini 멀티모델(Argon · ER-2 · Flash-Lite) 오케스트레이션 및 KPI 로드맵",
-        articleLede: "다중 로봇 태스크 및 모션 플래닝(MR-TMP)에서 로봇 팔과 물체 수가 늘어날수록 계산량이 기하급수적으로 폭발하는 근본 원인은 무엇일까요? UIUC Parasol Lab의 Seongwon 'Scott' Lee, James Motes, Isaac Ngui, Marco Morales, Nancy M. Amato 연구팀은 최신 IEEE Transactions on Robotics (T-RO) 논문 'Lazy-DaSH'(arXiv:2504.05552)를 통해 기존 DaSH의 한계가 '모든 가능한 행동의 모션 가능성을 사전에 전수 계산(eager precomputation)'하는 데 있음을 규명했습니다. Lazy-DaSH는 태스크 공간 하이퍼그래프(Task Hypergraph)와 지연 모션 검증(Lazy Motion Validation, H_M), 그리고 분기 범위 제약 피드백(Scoped Conflict Feedback)의 4계층 구조를 통해 16대 매니퓰레이터·60개 이상의 물체까지 확장하며 플래닝 시간을 100~1,000배 단축했습니다. 본 리포트에서는 Lazy-DaSH의 핵심 원리를 분석하고, 이를 IsaacSim_Gemini의 Gemini 4 Argon, Gemini Robotics-ER 2, Gemini 3.5 Flash-Lite 멀티모델 아키텍처와 지속적 KPI 목표에 결합하는 업그레이드 계획을 제시합니다.",
+        articleTitle: "UIUC Lazy-DaSH (IEEE T-RO) 심층 분석: 계층적 하이퍼그래프 다중 로봇 TAMP와 IsaacSim_Gemini 멀티모델(Carbon · ER-2 · Flash-Lite) 오케스트레이션 및 KPI 로드맵",
+        articleLede: "다중 로봇 태스크 및 모션 플래닝(MR-TMP)에서 로봇 팔과 물체 수가 늘어날수록 계산량이 기하급수적으로 폭발하는 근본 원인은 무엇일까요? UIUC Parasol Lab의 Seongwon 'Scott' Lee, James Motes, Isaac Ngui, Marco Morales, Nancy M. Amato 연구팀은 최신 IEEE Transactions on Robotics (T-RO) 논문 'Lazy-DaSH'(arXiv:2504.05552)를 통해 기존 DaSH의 한계가 '모든 가능한 행동의 모션 가능성을 사전에 전수 계산(eager precomputation)'하는 데 있음을 규명했습니다. Lazy-DaSH는 태스크 공간 하이퍼그래프(Task Hypergraph)와 지연 모션 검증(Lazy Motion Validation, H_M), 그리고 분기 범위 제약 피드백(Scoped Conflict Feedback)의 4계층 구조를 통해 16대 매니퓰레이터·60개 이상의 물체까지 확장하며 플래닝 시간을 100~1,000배 단축했습니다. 본 리포트에서는 Lazy-DaSH의 핵심 원리를 분석하고, 이를 IsaacSim_Gemini의 Gemini 4 Carbon, Gemini Robotics-ER 2, Gemini 3.5 Flash-Lite 멀티모델 아키텍처와 지속적 KPI 목표에 결합하는 업그레이드 계획을 제시합니다.",
         takeawaysHeader: "TL;DR — 핵심 요약: Lazy-DaSH와 멀티모델 VLA 오케스트레이션의 결합",
         sec1Title: "1. 논문 심층 분석: UIUC Lazy-DaSH (Seongwon \"Scott\" Lee 외, IEEE T-RO)",
         sec2Title: "2. Lazy-DaSH를 IsaacSim_Gemini로 이식하기: 3종 Gemini 멀티모델 역할 분담",
@@ -939,8 +939,8 @@
       ja: {
         blogHeaderBrand: "技術リサーチブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
         articleTag: "M9G-TR-2026-05 • IEEE T-RO論文解説＆マルチモデルVLAアップグレード計画",
-        articleTitle: "UIUC Lazy-DaSH (IEEE T-RO) に学ぶ：階層型ハイパーグラフTAMPと IsaacSim_Gemini マルチモデル (Argon・ER-2・Flash-Lite) 協調KPIロードマップ",
-        articleLede: "UIUC Parasol Lab の Seongwon 'Scott' Lee らによる IEEE T-RO 論文『Lazy-DaSH』(arXiv:2504.05552) は、タスク空間ハイパーグラフ (Task Hypergraph)、ミリ秒単位のタスク競合検出、遅延モーション検証 (Motion Hypergraph)、およびスコープ付き制約フィードバック (Scoped Conflict Feedback) によって 16台のアーム・60個以上の物体へのスケーリングと 100〜1000倍の高速化を実現しました。本稿では Lazy-DaSH の数理とアルゴリズムを解説し、IsaacSim_Gemini における Gemini 4 Argon、Gemini Robotics-ER 2、Gemini 3.5 Flash-Lite の階層的オーケストレーション設計と継続的KPI目標を提示します。",
+        articleTitle: "UIUC Lazy-DaSH (IEEE T-RO) に学ぶ：階層型ハイパーグラフTAMPと IsaacSim_Gemini マルチモデル (Carbon・ER-2・Flash-Lite) 協調KPIロードマップ",
+        articleLede: "UIUC Parasol Lab の Seongwon 'Scott' Lee らによる IEEE T-RO 論文『Lazy-DaSH』(arXiv:2504.05552) は、タスク空間ハイパーグラフ (Task Hypergraph)、ミリ秒単位のタスク競合検出、遅延モーション検証 (Motion Hypergraph)、およびスコープ付き制約フィードバック (Scoped Conflict Feedback) によって 16台のアーム・60個以上の物体へのスケーリングと 100〜1000倍の高速化を実現しました。本稿では Lazy-DaSH の数理とアルゴリズムを解説し、IsaacSim_Gemini における Gemini 4 Carbon、Gemini Robotics-ER 2、Gemini 3.5 Flash-Lite の階層的オーケストレーション設計と継続的KPI目標を提示します。",
         takeawaysHeader: "TL;DR — エグゼクティブサマリー：Lazy-DaSH が変革するマルチロボットVLA計画",
         sec1Title: "1. 論文詳解：UIUC Lazy-DaSH (Seongwon \"Scott\" Lee et al., IEEE T-RO)",
         sec2Title: "2. Lazy-DaSH から IsaacSim_Gemini へ：マルチモデルVLAオーケ스트レーション",
@@ -951,8 +951,8 @@
       zh: {
         blogHeaderBrand: "技术研究博客", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
         articleTag: "M9G-TR-2026-05 • IEEE T-RO 论文深度解析与多模型 VLA 升级路线图",
-        articleTitle: "借鉴 UIUC Lazy-DaSH (IEEE T-RO)：分层超图多机器人任务与运动规划及 IsaacSim_Gemini 多模型 (Argon · ER-2 · Flash-Lite) 协同与 KPI 路线图",
-        articleLede: "UIUC Parasol 实验室 Seongwon 'Scott' Lee 等人在 IEEE T-RO 发表的《Lazy-DaSH》(arXiv:2504.05552) 揭示了传统混合规划器 DaSH 的瓶颈在于预先计算所有可能动作的运动可行性。通过引入任务空间超图 (Task Hypergraph)、毫秒级任务冲突检测、惰性运动超图验证 (Motion Hypergraph) 以及分支作用域约束反馈 (Scoped Conflict Feedback)，Lazy-DaSH 成功扩展至 16 台机械臂与 60+ 物体，并将规划速度提升 2 至 3 个数量级。本文深入剖析 Lazy-DaSH 架构，并阐述如何在 IsaacSim_Gemini 中将其映射至 Gemini 4 Argon、Gemini Robotics-ER 2 与 Gemini 3.5 Flash-Lite，确立持续演进的工程目标与 7 项核心 KPI。",
+        articleTitle: "借鉴 UIUC Lazy-DaSH (IEEE T-RO)：分层超图多机器人任务与运动规划及 IsaacSim_Gemini 多模型 (Carbon · ER-2 · Flash-Lite) 协同与 KPI 路线图",
+        articleLede: "UIUC Parasol 实验室 Seongwon 'Scott' Lee 等人在 IEEE T-RO 发表的《Lazy-DaSH》(arXiv:2504.05552) 揭示了传统混合规划器 DaSH 的瓶颈在于预先计算所有可能动作的运动可行性。通过引入任务空间超图 (Task Hypergraph)、毫秒级任务冲突检测、惰性运动超图验证 (Motion Hypergraph) 以及分支作用域约束反馈 (Scoped Conflict Feedback)，Lazy-DaSH 成功扩展至 16 台机械臂与 60+ 物体，并将规划速度提升 2 至 3 个数量级。本文深入剖析 Lazy-DaSH 架构，并阐述如何在 IsaacSim_Gemini 中将其映射至 Gemini 4 Carbon、Gemini Robotics-ER 2 与 Gemini 3.5 Flash-Lite，确立持续演进的工程目标与 7 项核心 KPI。",
         takeawaysHeader: "TL;DR — 核心摘要：Lazy-DaSH 如何赋能多模型 VLA 协同规划",
         sec1Title: "1. 论文深度剖析：UIUC Lazy-DaSH (Seongwon \"Scott\" Lee 等, IEEE T-RO)",
         sec2Title: "2. 将 Lazy-DaSH 映射至 IsaacSim_Gemini：多模型 VLA 协同架构",
@@ -964,7 +964,7 @@
         blogHeaderBrand: "Blog de Investigación Técnica", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
         articleTag: "M9G-TR-2026-05 • Síntesis de IEEE T-RO y Hoja de Ruta VLA Multi-Modelo",
         articleTitle: "Aprendiendo de Lazy-DaSH de UIUC (IEEE T-RO): Planificación Jerárquica con Hipergrafos y Nuestra Hoja de Ruta VLA Multi-Modelo para IsaacSim_Gemini",
-        articleLede: "En su artículo de IEEE Transactions on Robotics (T-RO), 'Lazy-DaSH' (arXiv:2504.05552), Seongwon 'Scott' Lee y el Parasol Lab de UIUC demuestran cómo escalar la planificación de tareas y movimientos multirrobot (MR-TMP) a 16 manipuladores y más de 60 objetos mediante evaluación perezosa de movimiento y retroalimentación de restricciones con alcance de rama (Scoped Conflict Feedback). Analizamos Lazy-DaSH y presentamos nuestra hoja de ruta de actualización y KPIs continuos para IsaacSim_Gemini orquestando Gemini 4 Argon, Gemini Robotics-ER 2 y Gemini 3.5 Flash-Lite.",
+        articleLede: "En su artículo de IEEE Transactions on Robotics (T-RO), 'Lazy-DaSH' (arXiv:2504.05552), Seongwon 'Scott' Lee y el Parasol Lab de UIUC demuestran cómo escalar la planificación de tareas y movimientos multirrobot (MR-TMP) a 16 manipuladores y más de 60 objetos mediante evaluación perezosa de movimiento y retroalimentación de restricciones con alcance de rama (Scoped Conflict Feedback). Analizamos Lazy-DaSH y presentamos nuestra hoja de ruta de actualización y KPIs continuos para IsaacSim_Gemini orquestando Gemini 4 Carbon, Gemini Robotics-ER 2 y Gemini 3.5 Flash-Lite.",
         takeawaysHeader: "TL;DR — Resumen Ejecutivo: Cómo Lazy-DaSH Transforma la Orquestación VLA Multirrobot",
         sec1Title: "1. Análisis del Artículo: Lazy-DaSH de UIUC (Seongwon \"Scott\" Lee et al., IEEE T-RO)",
         sec2Title: "2. De Lazy-DaSH a IsaacSim_Gemini: Orquestación VLA Multi-Modelo",
@@ -995,6 +995,13 @@
       if (popup) popup.classList.remove('open');
       var dict = BLOG_I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        if (!el.hasAttribute('data-orig-html') && el.children.length > 0) {
+          el.setAttribute('data-orig-html', el.innerHTML);
+        }
+        if (lang === 'en') {
+          if (el.hasAttribute('data-orig-html')) { el.innerHTML = el.getAttribute('data-orig-html'); return; }
+          if (el.children.length > 0) return;
+        }
         var key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
       });

@@ -1,8 +1,10 @@
-private/
+/private/
 .env
 .env.*
 *.env
 .senpi/
-404.html
-*REPORT*.md
-*report*.md
+/*REPORT*.md
+/*report*.md
+node_modules/
+dist/
+.astro/
