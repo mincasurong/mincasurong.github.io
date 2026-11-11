@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "verify": "node scripts/verify-build.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

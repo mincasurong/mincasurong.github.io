@@ -3,10 +3,12 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   const redirects = await getCollection('redirects');
-  return redirects.map((entry) => ({
-    params: { redirect: entry.data.source },
-    props: { redirectEntry: entry },
-  }));
+  return redirects
+    .filter((entry) => entry.id !== 'blog/vla')
+    .map((entry) => ({
+      params: { redirect: entry.data.source },
+      props: { redirectEntry: entry },
+    }));
 }
 
 interface Props {
