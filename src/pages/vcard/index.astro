@@ -1,0 +1,1407 @@
+---
+import ThemeHead from '../../components/ThemeHead.astro';
+---
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>M9G | Curriculum Vitae — Minsu (Max) Chang, Ph.D.</title>
+  <link rel="canonical" href="https://mincasurong.github.io/vcard/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Minsu (Max) Chang, Ph.D." />
+  <meta name="description" content="Minsu (Max) Chang, Ph.D. — Staff Robotics Research Engineer at Samsung Electronics (SAIT). Multi-agent orchestration in Spatial Intelligence, Physical AI, and Task & Motion Planning (TAMP) with Gemini Robotics-ER & Gemini 4 Carbon. 1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026, 21 Peer-Reviewed Publications, and 14+ US/KR Patents." />
+  <meta property="og:type" content="profile" />
+  <meta property="og:url" content="https://mincasurong.github.io/vcard/" />
+  <meta property="og:title" content="Minsu (Max) Chang, Ph.D. — Robotics Research Engineer" />
+  <meta property="og:description" content="Robotics Research Engineer (Ph.D.) at Samsung Electronics, SAIT — Spatial Intelligence, Physical AI, and Multi-Agent Task & Motion Planning with Gemini Models." />
+  <meta property="og:image" content="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" />
+  <ThemeHead />
+  <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Minsu (Max) Chang",
+      "honorificSuffix": "Ph.D.",
+      "alternateName": ["Minsu Chang", "Max Chang", "장민수"],
+      "jobTitle": "Robotics Research Engineer (Ph.D.)",
+      "worksFor": { "@type": "Organization", "name": "Samsung Electronics, SAIT" },
+      "alumniOf": { "@type": "CollegeOrUniversity", "name": "Sogang University" },
+      "url": "https://mincasurong.github.io/vcard/",
+      "sameAs": [
+        "https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C",
+        "https://www.linkedin.com/in/mincasurong/",
+        "https://github.com/mincasurong"
+      ]
+    }
+  }
+  </script>
+  <style is:global>
+    :root {
+      --bg-page: #111111; --bg-card: rgba(20, 20, 20, 0.92); --bg-card-elev: #18181c; --bg-icon: rgba(251, 191, 36, 0.14);
+      --border-card: #1f2937; --border-subtle: #262626;
+      --text-primary: #FCFCFB; --text-secondary: #f1f5f9; --text-muted: #cbd5e1;
+      --accent: #fbbf24; --accent-soft: rgba(251, 191, 36, 0.14); --accent-border: rgba(251, 191, 36, 0.38);
+      --gold: #fbbf24; --gold-dim: rgba(251, 191, 36, 0.14);
+      --pill-bg: #1c1c1c; --pill-text: #f8fafc;
+      --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.4); --shadow-float: 0 16px 36px rgba(0, 0, 0, 0.5);
+      --font-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    }
+    html.light {
+      --bg-page: #ffffff; --bg-card: rgba(248, 249, 250, 0.94); --bg-card-elev: #ffffff; --bg-icon: #e8f0fe;
+      --border-card: #dadce0; --border-subtle: #e8eaed;
+      --text-primary: #202124; --text-secondary: #3c4043; --text-muted: #5f6368;
+      --accent: #1a73e8; --accent-soft: #e8f0fe; --accent-border: rgba(26, 115, 232, 0.32);
+      --gold: #1a73e8; --gold-dim: #e8f0fe;
+      --pill-bg: #f1f3f4; --pill-text: #202124;
+      --shadow-card: 0 8px 28px rgba(60, 64, 67, 0.08); --shadow-float: 0 12px 32px rgba(26, 115, 232, 0.14);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; max-width: 100%; overflow-x: clip;
+      background: var(--bg-page); color: var(--text-primary);
+      font-family: var(--font-sans); font-size: 14.8px; line-height: 1.62;
+      -webkit-font-smoothing: antialiased; transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    a { color: inherit; text-decoration: none; }
+    ul, ol { list-style: none; }
+    button { font: inherit; background: none; border: none; color: inherit; cursor: pointer; text-align: left; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 60;
+      background: rgba(17, 17, 17, 0.92); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    html.light .topbar {
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid #dadce0;
+    }
+    .topbar-inner {
+      max-width: 1080px; margin: 0 auto; padding: 4px 14px; min-height: 42px;
+      display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; gap: 8px;
+    }
+    .brand {
+      font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--text-primary);
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    .g-m { color: #4285f4; } .g-9 { color: #ea4335; } .g-g { color: #34a853; }
+    .brand-sep { color: #475569; font-weight: 400; }
+    html.light .brand-sep { color: #dadce0; }
+    .brand-sec { font-size: 13px; font-weight: 600; color: #fbbf24; }
+    html.light .brand-sec { color: #1a73e8; }
+    @media (max-width: 600px) { .brand-sec, .brand-sep { display: none; } }
+
+    .topnav {
+      display: flex; align-items: center; gap: 6px;
+      overflow-x: auto; scrollbar-width: none; white-space: nowrap; min-width: 0;
+    }
+    .topnav::-webkit-scrollbar { display: none; }
+    .hero-pill-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 9999px;
+      font-size: 12px; font-weight: 600; line-height: 1.2;
+      transition: all 0.15s ease;
+    }
+    .hero-pill-btn:hover { transform: translateY(-1px); }
+    .hero-pill-github {
+      background: rgba(255, 255, 255, 0.07); color: #e8eaed;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .hero-pill-github:hover {
+      background: rgba(255, 255, 255, 0.16); color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .hero-pill-linkedin {
+      background: rgba(251, 191, 36, 0.16); color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.42);
+    }
+    .hero-pill-linkedin:hover {
+      background: #fbbf24; color: #111111; border-color: #fbbf24;
+    }
+    html.light .hero-pill-github {
+      background: #f1f3f4; color: #202124; border-color: #dadce0;
+    }
+    html.light .hero-pill-github:hover {
+      background: #e8f0fe; color: #174ea6; border-color: #1a73e8;
+    }
+    html.light .hero-pill-linkedin {
+      background: #e8f0fe; color: #1a73e8; border-color: rgba(26, 115, 232, 0.32);
+    }
+    html.light .hero-pill-linkedin:hover {
+      background: #1a73e8; color: #ffffff;
+    }
+    .topbar-btn {
+      height: 28px; padding: 0 9px; border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.06); color: #e2e8f0;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0;
+    }
+    html.light .topbar-btn {
+      background: #f8f9fa; border-color: #dadce0; color: #202124;
+    }
+    .lang-dropdown-wrap { position: relative; }
+    .lang-popup {
+      position: absolute; top: calc(100% + 6px); right: 0; min-width: 128px;
+      background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 8px;
+      box-shadow: var(--shadow-float); padding: 4px; display: none; z-index: 300;
+    }
+    .lang-popup.open { display: block; }
+    .lang-option {
+      width: 100%; border-radius: 6px; padding: 6px 10px; font-size: 11.5px; font-weight: 600;
+      color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between;
+    }
+    .lang-option:hover { background: var(--accent-soft); color: var(--accent); }
+    .lang-option.active { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+
+    .sidebar-portrait-wrap {
+      width: 100%; max-width: 240px; margin: 0 auto 14px;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border-card); background: #000;
+      box-shadow: var(--shadow-card); position: relative; cursor: pointer;
+    }
+    .sidebar-portrait-wrap img {
+      width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 20%;
+      transition: transform 0.35s ease;
+    }
+    .sidebar-portrait-wrap:hover img { transform: scale(1.03); }
+    .portrait-caption-bar {
+      padding: 6px 10px; background: var(--bg-card-elev);
+      border-top: 1px solid var(--border-card);
+      font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .judy-gallery-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px; margin: 14px 0 24px;
+    }
+    .judy-exo-grid {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px; margin: 14px 0 24px;
+    }
+    .judy-card {
+      background: var(--bg-card-elev); border: 1px solid var(--border-card);
+      border-radius: 14px; overflow: hidden; cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.25s ease;
+    }
+    .judy-card:hover {
+      transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--shadow-float);
+    }
+    .judy-card-img {
+      width: 100%; aspect-ratio: 16 / 10; background: #ffffff; overflow: hidden;
+      border-bottom: 1px solid var(--border-card);
+    }
+    .judy-card-img.contain-bg { background: #ffffff; padding: 6px; }
+    .judy-card-img picture { display: block; width: 100%; height: 100%; }
+    .judy-card-img img {
+      width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease;
+    }
+    .judy-card-img.contain-bg img { object-fit: contain; }
+    .judy-card:hover .judy-card-img img { transform: scale(1.04); }
+    .judy-card-caption { padding: 10px 14px; text-align: center; }
+    .judy-card-title {
+      font-family: var(--font-display); font-size: 13px; font-weight: 800;
+      color: var(--text-primary); line-height: 1.3; margin-bottom: 2px;
+    }
+    .judy-card-venue {
+      font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted);
+    }
+    .journey-banner {
+      margin: 16px 0 8px; border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border-card); background: #ffffff; padding: 10px;
+      cursor: pointer; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .journey-banner:hover { border-color: var(--accent); box-shadow: var(--shadow-float); }
+    .journey-banner img { width: 100%; height: auto; border-radius: 8px; }
+    .journey-caption {
+      font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+      margin-top: 8px; text-align: center;
+    }
+    .lightbox-modal {
+      position: fixed; inset: 0; z-index: 500; background: rgba(0, 0, 0, 0.86);
+      backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center;
+      padding: 20px; cursor: zoom-out;
+    }
+    .lightbox-modal.open { display: flex; }
+    .lightbox-inner {
+      max-width: 1020px; max-height: 90vh; background: var(--bg-card);
+      border: 1px solid var(--border-card); border-radius: 16px; padding: 14px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65); cursor: default;
+    }
+    .lightbox-inner img {
+      max-width: 100%; max-height: 76vh; object-fit: contain; border-radius: 10px; background: #ffffff;
+    }
+    .lightbox-caption {
+      font-family: var(--font-sans); font-size: 13.5px; font-weight: 600; color: var(--text-primary);
+      text-align: center;
+    }
+    @media (max-width: 760px) {
+      .judy-gallery-grid { grid-template-columns: 1fr; }
+      .judy-exo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    .vcard-shell {
+      max-width: 1020px; margin: 28px auto 64px; padding: 0 16px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .vcard-top-socials {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px;
+      padding: 16px 20px; border-radius: 20px;
+      background: var(--bg-card); border: 1px solid var(--border-card);
+      box-shadow: var(--shadow-card); backdrop-filter: blur(12px);
+    }
+    .social-hero-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 24px; border-radius: 9999px;
+      font-family: var(--font-display); font-size: 14px; font-weight: 800;
+      letter-spacing: 0.02em;
+      background: var(--accent); color: #111111;
+      border: 1.5px solid var(--accent);
+      box-shadow: 0 6px 20px rgba(251, 191, 36, 0.25);
+      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    html.light .social-hero-btn {
+      background: #1a73e8; color: #ffffff; border-color: #1a73e8;
+      box-shadow: 0 6px 20px rgba(26, 115, 232, 0.25);
+    }
+    .social-hero-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      background: #ffffff; color: #111111; border-color: #ffffff;
+    }
+    html.light .social-hero-btn:hover {
+      background: #174ea6; color: #ffffff; border-color: #174ea6;
+    }
+    .social-hero-btn svg {
+      width: 20px; height: 20px; flex-shrink: 0;
+    }
+    .sidebar, .main-card {
+      background: var(--bg-card); border: 1px solid var(--border-card);
+      border-radius: 22px; box-shadow: var(--shadow-card);
+    }
+    .sidebar { padding: 24px 20px; position: relative; overflow: hidden; }
+    .sidebar-info { display: flex; align-items: center; gap: 16px; position: relative; }
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 120;
+      background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%);
+    }
+    #fluid-canvas {
+      position: fixed; inset: 0; width: 100vw; height: 100vh;
+      pointer-events: none; z-index: 0; opacity: 0.82;
+    }
+    html.light #fluid-canvas { opacity: 0.55; }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0; width: 32px; height: 32px;
+      border-radius: 9999px; border: 1.5px solid rgba(255, 219, 112, 0.55);
+      pointer-events: none; z-index: 9999;
+      transform: translate3d(-100px, -100px, 0);
+      transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    }
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+      border-radius: 9999px; background: var(--accent);
+      pointer-events: none; z-index: 9999;
+      transform: translate3d(-100px, -100px, 0);
+    }
+    @media (max-width: 768px), (pointer: coarse) {
+      .cursor-ring, .cursor-dot { display: none !important; }
+    }
+    .vcard-shell, footer { position: relative; z-index: 1; }
+    .sidebar, .main-card {
+      background: rgba(21, 21, 25, 0.86);
+      backdrop-filter: blur(12px);
+    }
+    html.light .sidebar, html.light .main-card {
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .identity-kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 11.5px; font-weight: 700;
+      color: var(--text-secondary); letter-spacing: 0.04em; margin-bottom: 6px;
+    }
+    .g-m { color: #4285f4; font-weight: 800; }
+    .g-9 { color: #ea4335; font-weight: 800; }
+    .g-g { color: #34a853; font-weight: 800; }
+    .status-dot {
+      display: inline-block; width: 8px; height: 8px;
+      border-radius: 50%; background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+    }
+    .kpi-card, .service-item, .pub-row, .skill-chip, .project-card {
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease, box-shadow 0.28s ease;
+    }
+    .kpi-card:hover, .service-item:hover, .pub-row:hover {
+      transform: translateY(-4px) translateX(2px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-float);
+    }
+    .skill-chip:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .info-content { min-width: 0; flex: 1; }
+    .info-content .name {
+      font-family: var(--font-display); font-size: 1.26rem; font-weight: 800;
+      color: var(--text-primary); letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 5px;
+    }
+    .info-content .role-badge {
+      display: inline-block; background: var(--bg-card-elev); border: 1px solid var(--border-card);
+      color: var(--accent); font-family: var(--font-mono); font-size: 10.8px; font-weight: 600;
+      padding: 4px 10px; border-radius: 8px; line-height: 1.3;
+    }
+    .info_more-btn {
+      position: absolute; top: -24px; right: -20px; padding: 8px 13px;
+      border-radius: 0 22px 0 14px; font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      color: var(--accent); background: var(--bg-card-elev);
+      border-left: 1px solid var(--border-card); border-bottom: 1px solid var(--border-card);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .sidebar-info_more { display: block !important; padding-top: 4px; }
+    .sidebar.active .sidebar-info_more { display: block; }
+    .separator { width: 100%; height: 1px; background: var(--border-card); margin: 16px 0; }
+    .contacts-list { display: grid; grid-template-columns: 1fr; gap: 13px; }
+    .contact-item { display: flex; align-items: flex-start; gap: 11px; min-width: 0; }
+    .icon-box {
+      width: 36px; height: 36px; border-radius: 10px; background: var(--bg-icon);
+      border: 1px solid var(--accent-border); color: var(--accent);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .contact-info { min-width: 0; flex: 1; }
+    .contact-title {
+      font-family: var(--font-mono); font-size: 9.8px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 1px;
+    }
+    .contact-value { font-size: 12.6px; font-weight: 600; color: var(--text-primary); line-height: 1.35; }
+    .vcard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+    .vcard-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 8px 10px; border-radius: 10px; font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      border: 1px solid var(--border-card); background: var(--bg-card-elev); color: var(--text-primary);
+      transition: all 0.18s ease; text-align: center;
+    }
+    .vcard-btn.primary { background: var(--accent); color: #0a0a0c; border-color: var(--accent); }
+    html.light .vcard-btn.primary { color: #ffffff; }
+    .vcard-btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .social-list { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px; }
+    .social-link {
+      width: 35px; height: 35px; border-radius: 10px; border: 1px solid var(--border-card);
+      background: var(--bg-card-elev); color: var(--text-muted);
+      display: inline-flex; align-items: center; justify-content: center; transition: all 0.18s ease;
+    }
+    .social-link:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+
+    .main-card { position: relative; padding: 28px 24px 36px; min-width: 0; flex: 1; }
+    .navbar {
+      background: var(--bg-card-elev); border: 1px solid var(--border-card);
+      border-radius: 14px; padding: 6px; margin-bottom: 24px;
+    }
+    .navbar-list { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; }
+    .navbar-link {
+      font-family: var(--font-display); font-size: 13px; font-weight: 700;
+      color: var(--text-muted); padding: 7px 14px; border-radius: 10px; transition: all 0.18s ease;
+    }
+    .navbar-link:hover { color: var(--text-primary); }
+    .navbar-link.active { color: #0a0a0c; background: var(--accent); }
+    html.light .navbar-link.active { color: #ffffff; }
+
+    article[data-page] { display: none; }
+    article[data-page].active { display: block; animation: fadePage 0.3s ease; }
+    @keyframes fadePage { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    .article-title {
+      font-family: var(--font-display); font-size: 1.55rem; font-weight: 800; color: var(--text-primary);
+      letter-spacing: -0.02em; position: relative; padding-bottom: 10px; margin-bottom: 16px;
+    }
+    .article-title::after {
+      content: ""; position: absolute; bottom: 0; left: 0; width: 40px; height: 4px;
+      border-radius: 4px; background: var(--accent);
+    }
+    .about-text p { color: var(--text-secondary); margin-bottom: 12px; font-size: 14.6px; line-height: 1.68; }
+    .kpi-bento { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 18px 0 24px; }
+    .kpi-card { background: var(--bg-card-elev); border: 1px solid var(--border-card); border-radius: 12px; padding: 12px 14px; }
+    .kpi-num { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; color: var(--accent); line-height: 1.15; }
+    .kpi-label { font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-primary); margin-top: 3px; }
+    .kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    .section-subtitle {
+      font-family: var(--font-display); font-size: 1.08rem; font-weight: 800;
+      color: var(--text-primary); margin: 22px 0 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .devportfolio-skills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 22px; }
+    .skill-chip {
+      font-family: var(--font-mono); font-size: 11.5px; font-weight: 600;
+      padding: 5px 11px; border-radius: 999px; background: var(--pill-bg);
+      border: 1px solid var(--border-card); color: var(--pill-text);
+    }
+    .service-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .service-item {
+      background: var(--bg-card-elev); border: 1px solid var(--border-card); border-radius: 14px;
+      padding: 15px 16px; display: flex; align-items: flex-start; gap: 12px;
+    }
+    .service-icon-box {
+      width: 38px; height: 38px; border-radius: 10px; background: var(--bg-icon);
+      border: 1px solid var(--accent-border); color: var(--accent);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .service-content-box h4 { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .service-content-box p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    .timeline { margin-bottom: 28px; }
+    .timeline .title-wrapper { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .timeline-list {
+      margin-left: 36px; border-left: 2px solid var(--border-card); padding-left: 22px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .timeline-item { position: relative; }
+    .timeline-item::before {
+      content: ""; position: absolute; left: -29px; top: 5px; width: 11px; height: 11px;
+      border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+    .timeline-header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 3px; }
+    .timeline-item-title { font-family: var(--font-display); font-size: 1.02rem; font-weight: 800; color: var(--text-primary); }
+    .timeline-org { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 5px; }
+    .timeline-date {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--text-muted);
+      background: var(--bg-card-elev); border: 1px solid var(--border-card); padding: 2px 8px; border-radius: 999px;
+    }
+    .timeline-bullets { list-style: disc; padding-left: 18px; color: var(--text-secondary); font-size: 13.4px; }
+    .timeline-bullets li { list-style: disc; margin-bottom: 5px; line-height: 1.52; }
+
+    .skills-card {
+      background: var(--bg-card-elev); border: 1px solid var(--border-card); border-radius: 14px;
+      padding: 16px 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 22px;
+    }
+    .skills-item .title-wrapper { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12.5px; font-weight: 700; }
+    .skills-item data { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent); }
+    .skill-progress-bg { width: 100%; height: 7px; background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 999px; overflow: hidden; }
+    .skill-progress-fill { height: 100%; background: var(--accent); border-radius: 999px; }
+
+    .filter-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .filter-btn {
+      font-family: var(--font-sans); font-size: 12.5px; font-weight: 700; color: var(--text-muted);
+      padding: 6px 13px; border-radius: 9px; background: var(--bg-card-elev); border: 1px solid var(--border-card);
+    }
+    .filter-btn.active { background: var(--accent); color: #0a0a0c; border-color: var(--accent); }
+    html.light .filter-btn.active { color: #ffffff; }
+
+    .project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .project-card {
+      display: none; flex-direction: column; justify-content: space-between;
+      background: var(--bg-card-elev); border: 1px solid var(--border-card);
+      border-radius: 14px; overflow: hidden; transition: all 0.2s ease;
+    }
+    .project-card.active { display: flex; }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-float); }
+    .project-thumb { width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border-bottom: 1px solid var(--border-card); position: relative; }
+    .project-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .project-index {
+      position: absolute; top: 8px; left: 8px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 800;
+      padding: 2px 8px; border-radius: 5px; background: rgba(10, 10, 12, 0.85); color: #ffdb70; border: 1px solid rgba(255, 219, 112, 0.35);
+    }
+    .project-body { padding: 14px 16px; display: flex; flex-direction: column; flex: 1; }
+    .project-cat { font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+    .project-title { font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--text-primary); margin-bottom: 5px; line-height: 1.3; }
+    .project-desc { font-size: 12.6px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; flex: 1; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .project-tag { font-family: var(--font-mono); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 5px; background: var(--bg-card); border: 1px solid var(--border-card); color: var(--text-secondary); }
+
+    .pub-list { display: flex; flex-direction: column; gap: 9px; }
+    .pub-row {
+      background: var(--bg-card-elev); border: 1px solid var(--border-card); border-radius: 12px;
+      padding: 11px 14px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    }
+    .pub-row:hover { border-color: var(--accent); }
+    .pub-row.frontier {
+      border-left: 3.5px solid var(--accent);
+      background: linear-gradient(90deg, var(--accent-soft) 0%, var(--bg-card-elev) 38%);
+    }
+    .frontier-pill {
+      display: inline-block; font-family: var(--font-mono); font-size: 10px; font-weight: 800;
+      padding: 2px 7px; border-radius: 4px; background: var(--accent); color: #0a0a0c;
+      margin-right: 6px; letter-spacing: 0.03em; text-transform: uppercase; vertical-align: middle;
+    }
+    html.light .frontier-pill { color: #ffffff; }
+
+    .pub-code { font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 2px 7px; border-radius: 5px; flex-shrink: 0; min-width: 68px; text-align: center; }
+    .pub-info { flex: 1; min-width: 0; }
+    .pub-title { font-weight: 700; color: var(--text-primary); font-size: 13.4px; margin-bottom: 2px; line-height: 1.35; }
+    .pub-meta { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+    .pub-ext { font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 7px; border: 1px solid var(--border-card); background: var(--bg-card); color: var(--accent); white-space: nowrap; align-self: center; }
+    .pub-ext:hover { background: var(--accent); color: #0a0a0c; }
+    html.light .pub-ext:hover { color: #ffffff; }
+
+    footer { border-top: 1px solid var(--border-card); padding: 22px 16px; text-align: center; font-size: 12px; color: var(--text-muted); }
+    footer a { color: var(--accent); font-weight: 600; }
+
+    @media (min-width: 1080px) {
+      .vcard-shell { flex-direction: column; align-items: stretch; gap: 20px; }
+      .main-card { padding: 36px 38px 42px; width: 100%; }
+      .navbar { position: static; border-radius: 14px; border: 1px solid var(--border-card); padding: 8px 18px; margin-bottom: 26px; }
+    }
+    @media (max-width: 760px) {
+      .kpi-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .service-list, .project-grid, .skills-card { grid-template-columns: 1fr; }
+      .timeline-list { margin-left: 12px; padding-left: 16px; }
+      .pub-row { flex-direction: column; }
+      .pub-ext { align-self: flex-start; }
+      .brand-sec, .brand-sep { display: none; }
+    }
+  
+    .m9g-gotop-bar {
+      display: flex;
+      justify-content: center;
+      padding: 18px 16px 8px;
+      position: relative;
+      z-index: 10;
+    }
+    .m9g-gotop-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 20px;
+      border-radius: 9999px;
+      background: #e8f0fe;
+      color: #1a73e8;
+      border: 1px solid rgba(26, 115, 232, 0.34);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+      box-shadow: 0 2px 10px rgba(26, 115, 232, 0.12);
+    }
+    .m9g-gotop-btn:hover {
+      background: #1a73e8;
+      color: #ffffff;
+      border-color: #1a73e8;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(26, 115, 232, 0.24);
+    }
+    html.dark .m9g-gotop-btn,
+    html:not(.light) .m9g-gotop-btn {
+      background: rgba(212, 175, 55, 0.14);
+      color: #fbbf24;
+      border-color: rgba(212, 175, 55, 0.38);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    }
+    html.dark .m9g-gotop-btn:hover,
+    html:not(.light) .m9g-gotop-btn:hover {
+      background: #fbbf24;
+      color: #111111;
+      border-color: #fbbf24;
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="cursor-ring" class="cursor-ring"></div>
+  <div id="cursor-dot" class="cursor-dot"></div>
+  <canvas id="fluid-canvas"></canvas>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="/" class="brand">
+        <span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span>
+        <span class="brand-sep">|</span>
+        <span class="brand-sec" data-i18n="headerBrand">Curriculum Vitae</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
+        <nav class="topnav">
+          <a href="/vcard/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navVcard">CV</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/archive/" class="hero-pill-btn hero-pill-github"><span data-i18n="navArchive">Archive</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/blog/" class="hero-pill-btn hero-pill-github"><span data-i18n="navBlog">Blog</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/tutorials/" class="hero-pill-btn hero-pill-github"><span data-i18n="navTutorials">Tutorials</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navPortfolio">Main Portal</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+        </nav>
+        <button class="topbar-btn" id="theme-btn" data-theme-toggle="icon-only" onclick="window.__m9gToggleTheme()" title="Toggle Light / Dark Theme">☀</button>
+        <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
+          <button class="topbar-btn" onclick="toggleLangMenu(arguments[0])" aria-label="Select Language">
+            <span id="current-lang-label">EN</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="lang-popup" id="lang-popup">
+            <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span></button>
+            <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span></button>
+            <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span></button>
+            <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span></button>
+            <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="vcard-shell">
+    <div class="vcard-top-socials" aria-label="Primary Academic & Engineering Profiles">
+      <a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="social-hero-btn" title="Google Scholar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <span>Google Scholar</span>
+        <span style="font-size:12px;opacity:0.85;">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/in/mincasurong/" target="_blank" rel="noopener" class="social-hero-btn" title="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        <span>LinkedIn</span>
+        <span style="font-size:12px;opacity:0.85;">↗</span>
+      </a>
+      <a href="https://github.com/mincasurong" target="_blank" rel="noopener" class="social-hero-btn" title="GitHub">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        <span>GitHub</span>
+        <span style="font-size:12px;opacity:0.85;">↗</span>
+      </a>
+    </div>
+
+    <div class="main-card">
+      <nav class="navbar" aria-label="vCard Navigation">
+        <ul class="navbar-list">
+          <li><button class="navbar-link active" data-nav-target="about" onclick="switchTab('about', this)" data-i18n="tabAbout">About</button></li>
+          <li><button class="navbar-link" data-nav-target="resume" onclick="switchTab('resume', this)" data-i18n="tabResume">Resume</button></li>
+          <li><button class="navbar-link" data-nav-target="portfolio" onclick="switchTab('portfolio', this)" data-i18n="tabPortfolio">Portfolio</button></li>
+          <li><button class="navbar-link" data-nav-target="publications" onclick="switchTab('publications', this)" data-i18n="tabPubs">Publications &amp; IP</button></li>
+        </ul>
+      </nav>
+
+      <article class="about active" data-page="about">
+        <header><h2 class="article-title" data-i18n="aboutHeading">About Minsu (Max) Chang, Ph.D.</h2></header>
+        <section class="about-text">
+          <p data-i18n="aboutP1">
+            Robotics Research Engineer (Ph.D.) at <strong>Samsung Electronics, SAIT</strong> — orchestrating multi-agent <strong>Spatial Intelligence, Physical AI, and Task &amp; Motion Planning (TAMP)</strong> with <strong>Gemini Robotics-ER</strong> and <strong>Gemini 4 Carbon</strong>.
+          </p>
+        </section>
+
+        <div class="kpi-bento">
+          <div class="kpi-card"><div class="kpi-num">1st Place</div><div class="kpi-label">Google Gemini 3</div><div class="kpi-sub">Seoul Hackathon 2026</div></div>
+          <div class="kpi-card"><div class="kpi-num">21 Papers</div><div class="kpi-label">Publications</div><div class="kpi-sub">ICRA, IROS, IEEE TNSRE, JKROS</div></div>
+          <div class="kpi-card"><div class="kpi-num">14 Patents</div><div class="kpi-label">10 US + 4 KR</div><div class="kpi-sub">AMR, Lab Auto &amp; Exoskeletons</div></div>
+          <div class="kpi-card"><div class="kpi-num">6 Hospitals</div><div class="kpi-label">KFDA Certified</div><div class="kpi-sub">SUBAR Exoskeleton</div></div>
+        </div>
+
+        <h3 class="section-subtitle">Keynote &amp; International Conference Talks</h3>
+        <div class="judy-gallery-grid">
+          <div class="judy-card" onclick="openLightbox('/screenshots/photos/minsu-profile-2.jpg', 'Minsu (Max) Chang, Ph.D. presenting OPPA: Online Planner\'s Parameter Adaptation at IEEE ICRA 2025 (Atlanta, USA)')">
+            <div class="judy-card-img">
+              <picture><source srcset="/screenshots/photos/minsu-profile-2.webp" type="image/webp" /><img src="/screenshots/photos/minsu-profile-2.jpg" alt="IEEE ICRA 2025 Presentation" loading="lazy" width="1280" height="663" decoding="async" /></picture>
+            </div>
+            <div class="judy-card-caption">
+              <div class="judy-card-title">IEEE ICRA 2025 Oral Session — OPPA Mobile Robot Navigation</div>
+              <div class="judy-card-venue">First Author • Samsung Electronics, SAIT • Atlanta, USA (2025)</div>
+            </div>
+          </div>
+          <div class="judy-card" onclick="openLightbox('/screenshots/photos/minsu-profile-1.jpg', 'Minsu (Max) Chang speaking at Gemma 4 Sprint: Build, Pizza, Repeat — Google for Startups Campus Seoul')">
+            <div class="judy-card-img">
+              <picture><source srcset="/screenshots/photos/minsu-profile-1.webp" type="image/webp" /><img src="/screenshots/photos/minsu-profile-1.jpg" alt="Google for Startups Campus Seoul Talk" loading="lazy" width="719" height="539" decoding="async" /></picture>
+            </div>
+            <div class="judy-card-caption">
+              <div class="judy-card-title">Gemma 4 Sprint Speaker — Google for Startups Campus Seoul</div>
+              <div class="judy-card-venue">1st-Place Gemini 3 Hackathon Winner • Seoul, Korea (2026)</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="section-subtitle">KFDA-Certified Exoskeletons &amp; Clinical Gait Hardware (4 Platforms)</h3>
+        <div class="judy-exo-grid">
+          <div class="judy-card" onclick="openLightbox('/screenshots/photos/exoskeleton-1.jpg', 'SUBAR Overground Mobile Lower-Limb Exoskeleton (Gen-1 & Gen-2 KFDA-Certified Clinical Gait Trainer)')">
+            <div class="judy-card-img contain-bg"><picture><source srcset="/screenshots/photos/exoskeleton-1.webp" type="image/webp" /><img src="/screenshots/photos/exoskeleton-1.jpg" alt="SUBAR Mobile Exoskeleton" loading="lazy" width="904" height="668" decoding="async" /></picture></div>
+            <div class="judy-card-caption">
+              <div class="judy-card-title">SUBAR Mobile Exoskeleton</div>
+              <div class="judy-card-venue">KFDA Certified • 6 Hospitals</div>
+            </div>
+          </div>
+          <div class="judy-card" onclick="openLightbox('/screenshots/photos/exoskeleton-2.jpg', 'Stationary Frame Lower-Limb Rehabilitation Exoskeleton with Adaptive Impedance Control')">
+            <div class="judy-card-img contain-bg"><picture><source srcset="/screenshots/photos/exoskeleton-2.webp" type="image/webp" /><img src="/screenshots/photos/exoskeleton-2.jpg" alt="Stationary Exoskeleton" loading="lazy" width="901" height="668" decoding="async" /></picture></div>
+            <div class="judy-card-caption">
+              <div class="judy-card-title">Treadmill Exoskeleton</div>
+              <div class="judy-card-venue">Adaptive Impedance Control</div>
+            </div>
+          </div>
+          <div class="judy-card" onclick="openLightbox('/screenshots/photos/exoskeleton-3.jpg', 'Sit-to-Stand & Overhead Harness-Assisted Mobile Rehabilitation Exoskeleton')">
+            <div class="judy-card-img contain-bg"><picture><source srcset="/screenshots/photos/exoskeleton-3.webp" type="image/webp" /><img src="/screenshots/photos/exoskeleton-3.jpg" alt="Sit-to-Stand Exoskeleton" loading="lazy" width="1003" height="747" decoding="async" /></picture></div>
+            <div class="judy-card-caption">
+              <div class="judy-card-title">Sit-to-Stand Exoskeleton</div>
+              <div class="judy-card-venue">Body-Weight Support HRI</div>
+            </div>
+          </div>
+          <div class="judy-card" onclick="openLightbox('/screenshots/photos/exoskeleton-4.jpg', 'KFDA-Approved Low-Cost Sliding-Mechanism Gait Rehabilitation Robot')">
+            <div class="judy-card-img contain-bg"><picture><source srcset="/screenshots/photos/exoskeleton-4.webp" type="image/webp" /><img src="/screenshots/photos/exoskeleton-4.jpg" alt="Sliding Gait Trainer" loading="lazy" width="825" height="739" decoding="async" /></picture></div>
+            <div class="judy-card-caption">
+              <div class="judy-card-title">Sliding Gait Trainer</div>
+              <div class="judy-card-venue">KFDA Approved Mechanism</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="section-subtitle" data-i18n="skillsMatrixHeading">Core Research &amp; Engineering Skills</h3>
+        <div class="devportfolio-skills">
+          <span class="skill-chip">Multi-Agent Orchestration (Gemini Robotics-ER &amp; 4 Carbon)</span>
+          <span class="skill-chip">Spatial Intelligence &amp; 3D Semantic Grounding</span>
+          <span class="skill-chip">Physical AI &amp; Task and Motion Planning (TAMP)</span>
+          <span class="skill-chip">NVIDIA Isaac Sim &amp; MuJoCo</span>
+          <span class="skill-chip">ROS 2 / MoveIt 2 &amp; Bidirectional Motion Planning</span>
+          <span class="skill-chip">Autonomous Mobile Robot Navigation (ICRA OPPA)</span>
+          <span class="skill-chip">Nonlinear / Adaptive Impedance Control &amp; HRI</span>
+          <span class="skill-chip">Python • C/C++ • MATLAB/Simulink</span>
+        </div>
+
+        <h3 class="section-subtitle" data-i18n="whatIDoHeading">Research Focus</h3>
+        <ul class="service-list">
+          <li class="service-item">
+            <div class="service-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg></div>
+            <div class="service-content-box">
+              <h4 data-i18n="srv1Title">Multi-Agent TAMP &amp; Physical AI</h4>
+              <p data-i18n="srv1Desc">Multi-arm task &amp; motion planning in Isaac Sim &amp; ROS 2 with Gemini Robotics-ER 2 &amp; 4 Carbon.</p>
+            </div>
+          </li>
+          <li class="service-item">
+            <div class="service-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+            <div class="service-content-box">
+              <h4 data-i18n="srv2Title">Spatial Intelligence &amp; Mobile Navigation</h4>
+              <p data-i18n="srv2Desc">2D/3D semantic mapping (GeminiSpace, 1st Place), adaptive mobile navigation (ICRA 2025 OPPA) &amp; liquid transfer motion generation (IROS 2026 SPLiT).</p>
+            </div>
+          </li>
+          <li class="service-item">
+            <div class="service-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="service-content-box">
+              <h4 data-i18n="srv3Title">Autonomous Lab &amp; Industrial Robotics (SAIT)</h4>
+              <p data-i18n="srv3Desc">Bidirectional motion planning (JKROS 2026) &amp; autonomous lab robotics (10 US Patents).</p>
+            </div>
+          </li>
+          <li class="service-item">
+            <div class="service-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <div class="service-content-box">
+              <h4 data-i18n="srv4Title">Rehabilitation Exoskeletons &amp; Physical HRI</h4>
+              <p data-i18n="srv4Desc">KFDA-certified SUBAR exoskeleton (6 hospitals) &amp; IEEE TNSRE clinical AI Therapist.</p>
+            </div>
+          </li>
+        </ul>
+      </article>
+
+      <article class="resume" data-page="resume">
+        <header><h2 class="article-title" data-i18n="resumeHeading">Curriculum Vitae</h2></header>
+
+        <section class="timeline">
+          <div class="title-wrapper">
+            <div class="icon-box"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+            <h3 class="section-subtitle" style="margin:0;" data-i18n="expHeading">Professional Research Experience</h3>
+          </div>
+          <ol class="timeline-list">
+            <li class="timeline-item">
+              <div class="timeline-header">
+                <h4 class="timeline-item-title">Staff / Senior Robotics Research Engineer</h4>
+                <span class="timeline-date">2022 — Present</span>
+              </div>
+              <div class="timeline-org">Samsung Electronics, SAIT (Samsung Advanced Institute of Technology)</div>
+              <ul class="timeline-bullets">
+                <li><strong>Mobile Navigation &amp; Manipulation Planning:</strong> First author of <strong>IEEE ICRA 2025 (<em>OPPA</em>)</strong> and co-author of <strong>IEEE/RSJ IROS 2026 (<em>SPLiT</em>)</strong> &amp; <strong>JKROS 2026</strong>.</li>
+                <li><strong>Physical AI &amp; Spatial Intelligence:</strong> <strong>1st Place, Google Gemini 3 Seoul Hackathon 2026</strong> (<a href="https://geminispace.mincasurong.com/" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline;">Live GeminiSpace App ↗</a> · <a href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline;">Google Korea Official Blog Interview ↗</a> · <a href="https://cerebralvalley.ai/e/gemini-3-seoul-hackathon/hackathon/gallery?project=27" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline;">Cerebral Valley Winners Gallery ↗</a>); multi-robot TAMP in Isaac Sim &amp; ROS 2 with <strong>Gemini Robotics-ER 2</strong> &amp; <strong>4 Carbon</strong>.</li>
+                <li><strong>Autonomous Lab Robotics (10 US Patents):</strong> Granted <code>US 12,411,092 B2</code> + 9 US patent filings in path planning, safety margins &amp; lab synthesis.</li>
+              </ul>
+            </li>
+
+            <li class="timeline-item">
+              <div class="timeline-header">
+                <h4 class="timeline-item-title">Rehabilitation Robotics Researcher</h4>
+                <span class="timeline-date">2016 — 2022</span>
+              </div>
+              <div class="timeline-org">Sogang University — Robotics &amp; Control Laboratory (Seoul, Korea)</div>
+              <ul class="timeline-bullets">
+                <li><strong>KFDA Exoskeleton (SUBAR):</strong> Adaptive impedance control &amp; hardware deployed across 6 clinical hospitals.</li>
+                <li><strong>Clinical AI &amp; Biomechanics:</strong> First author of two <strong>IEEE TNSRE</strong> papers (2019, 2020), <strong>IEEE BioRob 2020</strong>, and <strong>IEEE ICORR 2017</strong>.</li>
+                <li><strong>4 Registered KR Patents:</strong> <code>10-2262191</code>, <code>10-2218260</code>, <code>10-2132113</code>, and <code>10-1940901</code> in exoskeleton actuation &amp; stabilization.</li>
+              </ul>
+              <div class="journey-banner" onclick="openLightbox('/screenshots/photos/grad-research-journey.jpg', '2015–2020 Sogang University Rehabilitation Robotics Journey: KFDA Certification, 6-Hospital Clinical Trials, AI Therapist (IEEE TNSRE) & 3D-VR Integration')">
+                <picture><source srcset="/screenshots/photos/grad-research-journey.webp" type="image/webp" /><img src="/screenshots/photos/grad-research-journey.jpg" alt="2015-2020 Rehabilitation Robotics Research Journey" loading="lazy" width="936" height="1059" decoding="async" /></picture>
+                <div class="journey-caption">2015–2020 Rehabilitation Robotics Roadmap (KFDA Certification → 6-Hospital Clinical Trials → IEEE TNSRE AI Therapist • Click to Zoom)</div>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <section class="timeline">
+          <div class="title-wrapper">
+            <div class="icon-box"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+            <h3 class="section-subtitle" style="margin:0;" data-i18n="eduHeading">Education</h3>
+          </div>
+          <ol class="timeline-list">
+            <li class="timeline-item">
+              <div class="timeline-header"><h4 class="timeline-item-title">Ph.D. in Mechanical Engineering (Robotics &amp; Control)</h4><span class="timeline-date">2018 — 2022</span></div>
+              <div class="timeline-org">Sogang University, Seoul, Republic of Korea</div>
+              <ul class="timeline-bullets"><li>Research on clinical AI therapists, assist-as-needed impedance control, and human-exoskeleton interaction.</li></ul>
+            </li>
+            <li class="timeline-item">
+              <div class="timeline-header"><h4 class="timeline-item-title">M.S. in Mechanical Engineering</h4><span class="timeline-date">2016 — 2018</span></div>
+              <div class="timeline-org">Sogang University, Seoul, Republic of Korea</div>
+              <ul class="timeline-bullets"><li>Thesis: <em>An assist-as-needed control method of a lower limb exoskeletal robot for active gait training</em> (Best Presentation Award, ICCAS 2017).</li></ul>
+            </li>
+            <li class="timeline-item">
+              <div class="timeline-header"><h4 class="timeline-item-title">B.S. in Mechanical Engineering</h4><span class="timeline-date">2010 — 2016</span></div>
+              <div class="timeline-org">Sogang University, Seoul, Republic of Korea</div>
+            </li>
+          </ol>
+        </section>
+
+        <section class="timeline" id="academic-leadership">
+          <div class="title-wrapper">
+            <div class="icon-box"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+            <h3 class="section-subtitle" style="margin:0;" data-i18n="leadershipHeading">Academic Leadership &amp; Peer-Review Service</h3>
+          </div>
+          <ol class="timeline-list">
+            <li class="timeline-item">
+              <div class="timeline-header"><h4 class="timeline-item-title">Invited Peer Reviewer — Flagship IEEE Robotics Conferences</h4><span class="timeline-date">2025 — 2027</span></div>
+              <ul class="timeline-bullets">
+                <li><em>IEEE International Conference on Robotics and Automation (ICRA)</em> (2026, 2027)</li>
+                <li><em>IEEE International Conference on Rehabilitation Robotics (ICORR)</em> (2025)</li>
+              </ul>
+            </li>
+            <li class="timeline-item">
+              <div class="timeline-header"><h4 class="timeline-item-title">Invited Peer Reviewer — SCIE Journals</h4><span class="timeline-date">2021 — 2023</span></div>
+              <ul class="timeline-bullets">
+                <li><em>IEEE Journal of Biomedical and Health Informatics (JBHI)</em> (2021, 2022, 2023)</li>
+              </ul>
+            </li>
+            <li class="timeline-item">
+              <div class="timeline-header"><h4 class="timeline-item-title">Professional Memberships</h4><span class="timeline-date">Active</span></div>
+              <ul class="timeline-bullets">
+                <li>Member, <em>IEEE</em> &amp; <em>IEEE Robotics and Automation Society (IEEE RAS)</em></li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <section class="timeline" id="nvidia-dli-certifications">
+          <div class="title-wrapper">
+            <div class="icon-box"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h6"/></svg></div>
+            <h3 class="section-subtitle" style="margin:0;" data-i18n="certHeading">NVIDIA Deep Learning Institute (DLI) Certifications</h3>
+          </div>
+          <ol class="timeline-list">
+            <li class="timeline-item">
+              <div class="timeline-header"><h4 class="timeline-item-title"><em>Building AI Agents with Multimodal Models</em></h4><span class="timeline-date">2026</span></div>
+              <div class="timeline-org">NVIDIA Deep Learning Institute</div>
+            </li>
+            <li class="timeline-item">
+              <div class="timeline-header"><h4 class="timeline-item-title"><em>Getting Started with DeepStream for Video Analytics on Jetson Nano</em></h4><span class="timeline-date">2021</span></div>
+              <div class="timeline-org">NVIDIA Deep Learning Institute</div>
+            </li>
+            <li class="timeline-item">
+              <div class="timeline-header"><h4 class="timeline-item-title"><em>Getting Started with AI on Jetson Nano</em></h4><span class="timeline-date">2021</span></div>
+              <div class="timeline-org">NVIDIA Deep Learning Institute</div>
+            </li>
+          </ol>
+        </section>
+
+        <h3 class="section-subtitle" data-i18n="proficiencyHeading">Core Technical Competencies</h3>
+        <div class="skills-card">
+          <div class="skills-item"><div class="title-wrapper"><span>Spatial Intelligence, Physical AI &amp; Multi-Agent TAMP (Gemini)</span><data value="96">96%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:96%;"></div></div></div>
+          <div class="skills-item"><div class="title-wrapper"><span>ROS 2, MoveIt 2, NVIDIA Isaac Sim &amp; Motion Planning</span><data value="95">95%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:95%;"></div></div></div>
+          <div class="skills-item"><div class="title-wrapper"><span>Nonlinear, Adaptive Impedance &amp; Exoskeleton Control</span><data value="96">96%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:96%;"></div></div></div>
+          <div class="skills-item"><div class="title-wrapper"><span>Autonomous Mobile Robot Navigation &amp; Lab Automation</span><data value="95">95%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:95%;"></div></div></div>
+        </div>
+      </article>
+
+      <article class="portfolio" data-page="portfolio">
+        <header><h2 class="article-title" data-i18n="portfolioHeading">Robotics &amp; Spatial AI Portfolio</h2></header>
+        <div class="filter-list" role="tablist">
+          <button class="filter-btn active" onclick="filterProjects('all', this)">All Robotics (10)</button>
+          <button class="filter-btn" onclick="filterProjects('tamp', this)">Physical AI &amp; Multi-Robot TAMP (5)</button>
+          <button class="filter-btn" onclick="filterProjects('spatial', this)">Spatial AI &amp; Mobile Nav (2)</button>
+          <button class="filter-btn" onclick="filterProjects('rehab', this)">Rehabilitation Exoskeletons (3)</button>
+        </div>
+
+        <div class="project-grid">
+          <a href="https://youtu.be/hzUlLTtfd7M" target="_blank" rel="noopener" class="project-card active" data-category="spatial">
+            <div class="project-thumb"><span class="project-index">01 • 1st Place Gemini 3 Hackathon</span><img src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg" alt="GeminiSpace Spatial AI" loading="lazy" /></div>
+            <div class="project-body">
+              <div class="project-cat">Spatial Intelligence • Google Hackathon 1st Place</div>
+              <h3 class="project-title">GeminiSpace: Indoor 2D/3D Semantic Spatial Navigation</h3>
+              <p class="project-desc">1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026 (among 111 finalists / 1,500+ applicants). Transforms indoor photos into an interactive semantic navigation map.</p>
+              <div class="project-tags"><span class="project-tag">Gemini 3</span><span class="project-tag">Spatial Intelligence</span><span class="project-tag">Semantic Map</span></div>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener" class="project-card active" data-category="tamp">
+            <div class="project-thumb"><span class="project-index">02 • 3-Arm FR3 TAMP</span><img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" alt="Gemini Robotics ER-2 vs Gemini 4 Carbon" loading="lazy" /></div>
+            <div class="project-body">
+              <div class="project-cat">Physical AI &amp; Multi-Agent TAMP</div>
+              <h3 class="project-title">Gemini Robotics-ER 2 vs. Gemini 4 Carbon: Multi-Robot Task Planner Benchmark</h3>
+              <p class="project-desc">Side-by-side 3-arm Franka FR3 9-block tower assembly in NVIDIA Isaac Sim 6.0 &amp; ROS 2 Jazzy using software-pipelined 10-turn scheduling and symbolic 3D /tf grounding.</p>
+              <div class="project-tags"><span class="project-tag">Gemini Robotics-ER 2</span><span class="project-tag">Gemini 4 Carbon</span><span class="project-tag">Isaac Sim 6.0</span><span class="project-tag">ROS 2</span></div>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank" rel="noopener" class="project-card active" data-category="tamp">
+            <div class="project-thumb"><span class="project-index">03 • EP 12 Multi-Robot</span><img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" alt="EP 12 Multi Robot Collaboration" loading="lazy" /></div>
+            <div class="project-body">
+              <div class="project-cat">Multi-Robot Manipulation</div>
+              <h3 class="project-title">EP 12. Multi-Robot Collaboration with Gemini Robotics-ER 2 &amp; Isaac Sim</h3>
+              <p class="project-desc">Three Franka FR3 robotic arms cooperatively constructing geometric formations in Isaac Sim with React Flow DAG orchestration and VLA execution.</p>
+              <div class="project-tags"><span class="project-tag">3x Franka FR3</span><span class="project-tag">React Flow DAG</span><span class="project-tag">Isaac Sim</span></div>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y" target="_blank" rel="noopener" class="project-card active" data-category="tamp">
+            <div class="project-thumb"><span class="project-index">04 • EP 11 Digital Twin</span><img src="https://img.youtube.com/vi/stxaWN7Ct8Y/maxresdefault.jpg" alt="EP 11 FR3 React Flow Digital Twin" loading="lazy" /></div>
+            <div class="project-body">
+              <div class="project-cat">Digital Twin &amp; TAMP</div>
+              <h3 class="project-title">EP 11. Cooperative FR3 Manipulation &amp; React Flow Digital Twin</h3>
+              <p class="project-desc">Closed-loop multi-robot task planning and real-time React Flow digital twin synchronization in NVIDIA Isaac Sim and ROS 2.</p>
+              <div class="project-tags"><span class="project-tag">Gemini Robotics-ER 2</span><span class="project-tag">Digital Twin</span><span class="project-tag">ROS 2</span></div>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=MzAGXiZmrdY" target="_blank" rel="noopener" class="project-card active" data-category="tamp">
+            <div class="project-thumb"><span class="project-index">05 • EP 10 VLA Control</span><img src="https://img.youtube.com/vi/MzAGXiZmrdY/maxresdefault.jpg" alt="EP 10 Natural Language VLA" loading="lazy" /></div>
+            <div class="project-body">
+              <div class="project-cat">Vision-Language-Action (VLA)</div>
+              <h3 class="project-title">EP 10. Natural Language to Multi-Robot Execution in Isaac Sim &amp; ROS 2</h3>
+              <p class="project-desc">End-to-end VLA multi-robot control framework translating natural-language commands into collision-free multi-arm trajectories.</p>
+              <div class="project-tags"><span class="project-tag">VLA</span><span class="project-tag">Isaac Sim</span><span class="project-tag">ROS 2</span></div>
+            </div>
+          </a>
+
+          <a href="https://youtu.be/PrO-w9BRhEA" target="_blank" rel="noopener" class="project-card active" data-category="tamp">
+            <div class="project-thumb"><span class="project-index">06 • Imitation Learning</span><img src="https://img.youtube.com/vi/PrO-w9BRhEA/maxresdefault.jpg" alt="MuJoCo robomimic Imitation Learning" loading="lazy" /></div>
+            <div class="project-body">
+              <div class="project-cat">Robot Learning &amp; Manipulation</div>
+              <h3 class="project-title">Imitation Learning Manipulation Policy in MuJoCo &amp; robomimic</h3>
+              <p class="project-desc">Demonstration-driven robotic manipulation policy training and physics evaluation in MuJoCo simulation.</p>
+              <div class="project-tags"><span class="project-tag">MuJoCo</span><span class="project-tag">robomimic</span><span class="project-tag">Imitation Learning</span></div>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=NeVCd3w2vmk" target="_blank" rel="noopener" class="project-card active" data-category="spatial">
+            <div class="project-thumb"><span class="project-index">07 • Autonomous Mobile Nav</span><img src="https://img.youtube.com/vi/NeVCd3w2vmk/maxresdefault.jpg" alt="BARN Benchmark Path Planning" loading="lazy" /></div>
+            <div class="project-body">
+              <div class="project-cat">Mobile Robot Navigation (ICRA OPPA)</div>
+              <h3 class="project-title">BARN Benchmark Autonomous Navigation &amp; Dynamic Obstacle Avoidance</h3>
+              <p class="project-desc">High-speed mobile robot path planning and online parameter adaptation across dense obstacle environments.</p>
+              <div class="project-tags"><span class="project-tag">ICRA 2025 OPPA</span><span class="project-tag">BARN Benchmark</span><span class="project-tag">ROS Nav</span></div>
+            </div>
+          </a>
+
+          <a href="https://youtu.be/lkfVqltgM94" target="_blank" rel="noopener" class="project-card active" data-category="rehab">
+            <div class="project-thumb"><span class="project-index">08 • IEEE TNSRE</span><img src="https://img.youtube.com/vi/lkfVqltgM94/maxresdefault.jpg" alt="AI Therapist IEEE TNSRE" loading="lazy" /></div>
+            <div class="project-body">
+              <div class="project-cat">Clinical Rehabilitation Robotics</div>
+              <h3 class="project-title">AI Therapist: Expert Verbal Cues for Robot-Assisted Gait Training</h3>
+              <p class="project-desc">Clinical gait rehabilitation exoskeleton system emulating expert physical therapist verbal cues and adaptive parameters (IEEE TNSRE 2020).</p>
+              <div class="project-tags"><span class="project-tag">IEEE TNSRE</span><span class="project-tag">AI Therapist</span><span class="project-tag">Physical HRI</span></div>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=XMZuWDLkngs" target="_blank" rel="noopener" class="project-card active" data-category="rehab">
+            <div class="project-thumb"><span class="project-index">09 • KFDA Exoskeleton</span><img src="https://img.youtube.com/vi/XMZuWDLkngs/maxresdefault.jpg" alt="VR Lower Limb Exoskeleton" loading="lazy" /></div>
+            <div class="project-body">
+              <div class="project-cat">Wearable Medical Robotics</div>
+              <h3 class="project-title">VR-Integrated Lower-Limb Exoskeleton (SUBAR)</h3>
+              <p class="project-desc">KFDA-certified lower-limb exoskeleton synchronized with immersive VR biofeedback and deployed across 6 hospitals.</p>
+              <div class="project-tags"><span class="project-tag">KFDA Certified</span><span class="project-tag">SUBAR</span><span class="project-tag">VR Biofeedback</span></div>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/watch?v=OgSCmBr1n7c" target="_blank" rel="noopener" class="project-card active" data-category="rehab">
+            <div class="project-thumb"><span class="project-index">10 • Adaptive Impedance</span><img src="https://img.youtube.com/vi/OgSCmBr1n7c/maxresdefault.jpg" alt="Adaptive Impedance Control Exoskeleton" loading="lazy" /></div>
+            <div class="project-body">
+              <div class="project-cat">Nonlinear &amp; Impedance Control</div>
+              <h3 class="project-title">Assist-as-Needed Adaptive Impedance Exoskeleton Control</h3>
+              <p class="project-desc">Task-oriented lower-limb rehabilitation control using virtual spring-damper tunnels and reinforcement learning impedance adaptation.</p>
+              <div class="project-tags"><span class="project-tag">Impedance Control</span><span class="project-tag">Assist-as-Needed</span><span class="project-tag">Exoskeleton</span></div>
+            </div>
+          </a>
+        </div>
+      </article>
+
+      <article class="publications" data-page="publications">
+        <header><h2 class="article-title" data-i18n="pubsHeading">Research Publications (21) &amp; Patents (14)</h2></header>
+
+        <h3 class="section-subtitle">Frontier Journals &amp; Flagship IEEE Conferences (Highlighted)</h3>
+        <div class="pub-list" style="margin-bottom:26px;">
+          <div class="pub-row frontier"><span class="pub-code">IROS 2026</span><div class="pub-info"><div class="pub-title"><span class="frontier-pill">★ Flagship IEEE/RSJ Conf</span>SPLiT: Spatially Generalizable Phase-Partitioned Motion Generation for Adaptive Liquid Transfer</div><div class="pub-meta">H. Kim, S. Jeon, <strong>M. Chang</strong>, H. Lee, J. Park • <strong>IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)</strong>, pp. 14900–14907, Pittsburgh, PA, USA, Sep. 2026</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">IEEE/RSJ ↗</a></div>
+          <div class="pub-row frontier"><span class="pub-code">ICRA 2025</span><div class="pub-info"><div class="pub-title"><span class="frontier-pill">★ Flagship IEEE Conf · 1st Author</span>OPPA: Online Planner's Parameter Adaptation for Enhanced Mobile Robot Navigation</div><div class="pub-meta"><strong>M. Chang</strong>, J. Jang, D. Han, W. Choi, S. Kim, H. Park, H. Choi • <strong>IEEE International Conference on Robotics and Automation (ICRA)</strong>, pp. 3861–3867, Atlanta, USA, 2025</div></div><a href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener" class="pub-ext">IEEE ↗</a></div>
+          <div class="pub-row frontier"><span class="pub-code">TNSRE 2020</span><div class="pub-info"><div class="pub-title"><span class="frontier-pill">★ Frontier IEEE Journal · 1st Author</span>AI Therapist realizing Expert Verbal Cues for Effective Robot-Assisted Gait Training</div><div class="pub-meta"><strong>M. Chang</strong>, T.W. Kim, J. Beom, S. Won, D. Jeon • <strong>IEEE Transactions on Neural Systems and Rehabilitation Engineering (TNSRE)</strong>, Vol. 28, No. 12, 2020</div></div><a href="https://ieeexplore.ieee.org/document/9260225" target="_blank" rel="noopener" class="pub-ext">IEEE ↗</a></div>
+          <div class="pub-row frontier"><span class="pub-code">TNSRE 2019</span><div class="pub-info"><div class="pub-title"><span class="frontier-pill">★ Frontier IEEE Journal · 1st Author</span>Research on Terrain Identification of the Smart Prosthetic Ankle by Fuzzy Logic</div><div class="pub-meta"><strong>M. Chang</strong>, K. Kim, D. Jeon • <strong>IEEE Transactions on Neural Systems and Rehabilitation Engineering (TNSRE)</strong>, Vol. 27, No. 9, 2019</div></div><a href="https://ieeexplore.ieee.org/document/8792083/" target="_blank" rel="noopener" class="pub-ext">IEEE ↗</a></div>
+          <div class="pub-row frontier"><span class="pub-code">JKROS 2026</span><div class="pub-info"><div class="pub-title"><span class="frontier-pill">★ Robotics Journal · 2026</span>Learning-Based Sampling Strategies Leveraging Bidirectional Motion Planning Characteristics</div><div class="pub-meta">S. Jeon, M. Kim, J. Jang, <strong>M. Chang</strong>, J. Park • <strong>The Journal of Korea Robotics Society (JKROS)</strong>, Vol. 21, No. 2, pp. 164–171, 2026</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row frontier"><span class="pub-code">BioRob 2020</span><div class="pub-info"><div class="pub-title"><span class="frontier-pill">★ Flagship IEEE Conf · 1st Author</span>Development of the AI therapist estimating the Borg scale of stroke patients in robot-assisted gait training</div><div class="pub-meta"><strong>M. Chang</strong>, D. Jeon • <strong>IEEE RAS/EMBS Int. Conf. on Biomedical Robotics and Biomechatronics (BioRob)</strong>, New York, 2020</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row frontier"><span class="pub-code">ICORR 2017</span><div class="pub-info"><div class="pub-title"><span class="frontier-pill">★ Flagship IEEE Conf · 1st Author</span>A research on the postural stability of a person wearing the lower limb exoskeletal robot by the HAT model</div><div class="pub-meta"><strong>M. Chang</strong>, Y. Kim, Y. Lee, D. Jeon • <strong>IEEE International Conference on Rehabilitation Robotics (ICORR)</strong>, pp. 369–374, London, 2017</div></div><a href="https://ieeexplore.ieee.org/document/8009275" target="_blank" rel="noopener" class="pub-ext">IEEE ↗</a></div>
+          <div class="pub-row frontier"><span class="pub-code">SCIE 2019</span><div class="pub-info"><div class="pub-title"><span class="frontier-pill">★ SCIE Journal</span>Precise flowrate control of fluid gear pumps in automated painting systems using a repetitive controller</div><div class="pub-meta">K. Park, <strong>M. Chang</strong>, D. Jeon • <strong>Applied Sciences</strong>, Vol. 9, No. 16, 3413, 2019</div></div><a href="https://www.mdpi.com/2076-3417/9/16/3413" target="_blank" rel="noopener" class="pub-ext">MDPI ↗</a></div>
+        </div>
+
+        <h3 class="section-subtitle">Additional Peer-Reviewed Conferences, Preprints &amp; Thesis (13)</h3>
+        <div class="pub-list" style="margin-bottom:28px;">
+          <div class="pub-row"><span class="pub-code">arXiv 2025</span><div class="pub-info"><div class="pub-title">The Realization of Virtual Environments in the Lower Limb Exoskeletal Robot</div><div class="pub-meta"><strong>M. Chang</strong>, D. Jeon • arXiv preprint arXiv:2503.16459, 2025</div></div><a href="https://arxiv.org/abs/2503.16459" target="_blank" rel="noopener" class="pub-ext">arXiv ↗</a></div>
+          <div class="pub-row"><span class="pub-code">ICCAS 2019</span><div class="pub-info"><div class="pub-title">Intelligent Impedance Control Using Reinforcement Learning for the effective Robot-Assisted Rehabilitation</div><div class="pub-meta"><strong>M. Chang</strong>, D. Jeon • 19th Int. Conf. on Control, Automation and Systems (ICCAS), 2019</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">ICCAS 2019</span><div class="pub-info"><div class="pub-title">AI Therapist realizing the Expert's Verbal Cue for the Effective Robotic Gait Rehabilitation</div><div class="pub-meta"><strong>M. Chang</strong>, D. Jeon • 19th Int. Conf. on Control, Automation and Systems (ICCAS), 2019</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">INRS 2019</span><div class="pub-info"><div class="pub-title">Development of the AI Therapist realizing the Expert's Verbal Cue for the Effective Robotic Gait Rehabilitation</div><div class="pub-meta"><strong>M. Chang</strong>, D. Jeon • RehabWeek, Int. Neurorehabilitation Symposium (INRS), Toronto, 2019</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">ICNR 2018</span><div class="pub-info"><div class="pub-title">The AI supervisor for the effective treadmill training system of rehabilitation and exercise</div><div class="pub-meta">J. Kim, <strong>M. Chang</strong>, D. Jeon • 4th Int. Conf. on NeuroRehabilitation (ICNR), Pisa, 2018</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">ICCAS 2018</span><div class="pub-info"><div class="pub-title">An Expert System for the Effective Treadmill Training System of Rehabilitation and Exercise by using ANFIS</div><div class="pub-meta"><strong>M. Chang</strong>, D. Jeon • 18th Int. Conf. on Control, Automation and Systems (ICCAS), 2018</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">Thesis 2018</span><div class="pub-info"><div class="pub-title">능동보행훈련을 위한 하지외골격로봇의 필요에 따른 보조 제어 방법 (An assist-as-needed control method of a lower limb exoskeletal robot for active gait training)</div><div class="pub-meta"><strong>장민수 (M. Chang)</strong> • Sogang University Graduate School, 2018</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">ICCAS 2017</span><div class="pub-info"><div class="pub-title">The Effective Rehabilitation Method Realizing Various Environments in Robot-assisted Gait Training (Best Presentation Award)</div><div class="pub-meta"><strong>M. Chang</strong>, D. Jeon • 17th Int. Conf. on Control, Automation and Systems (ICCAS), Jeju, 2017</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">ICCAS 2017</span><div class="pub-info"><div class="pub-title">A method of specific muscle group training of lower limb using an exoskeletal robot</div><div class="pub-meta"><strong>M. Chang</strong>, D. Jeon • 17th Int. Conf. on Control, Automation and Systems (ICCAS), Jeju, 2017</div></div><a href="/archive/#publications" class="pub-ext">Archive ↗</a></div>
+          <div class="pub-row"><span class="pub-code">ICCAS 2017</span><div class="pub-info"><div class="pub-title">Realization of Virtual Impedance in the Lower Limb Assistive Robot SUBAR</div><div class="pub-meta">Y. Kim, <strong>M. Chang</strong>, D. Jeon • 17th Int. Conf. on Control, Automation and Systems (ICCAS), Jeju, 2017</div></div><a href="/archive/#publications" class="pub-ext">Archive ↗</a></div>
+          <div class="pub-row"><span class="pub-code">INRS 2017</span><div class="pub-info"><div class="pub-title">Realization of the Effects of Various Environments in Robot-assisted Gait Training</div><div class="pub-meta"><strong>M. Chang</strong>, D. Jeon • RehabWeek, Int. Neurorehabilitation Symposium (INRS), London, 2017</div></div><a href="/archive/#publications" class="pub-ext">Archive ↗</a></div>
+          <div class="pub-row"><span class="pub-code">KSPE 2016</span><div class="pub-info"><div class="pub-title">하지외골격로봇 착용자의 자세 안정성 분석을 위한 HAT Model 의 실험적 검증</div><div class="pub-meta"><strong>장민수 (M. Chang)</strong>, 전도영 (D. Jeon) • 한국정밀공학회 학술발표대회 논문집 (KSPE), 83–84, 2016</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">KROS 2016</span><div class="pub-info"><div class="pub-title">보행재활로봇의 개발 경험과 이슈 (Development Experience and Issues of Gait Rehabilitation Robots)</div><div class="pub-meta"><strong>장민수 (M. Chang)</strong>, 전도영 (D. Jeon) • 로봇과 인간 (Robotics and Human), 13(2), 14–20, 2016</div></div><a href="https://www.dbpia.co.kr/Journal/articleDetail?nodeId=NODE06688056" target="_blank" rel="noopener" class="pub-ext">DBpia ↗</a></div>
+        </div>
+
+        <h3 class="section-subtitle">Patents — 10 US Patents/Applications &amp; 4 KR Registered Patents (14 Total)</h3>
+        <div class="pub-list">
+          <div class="pub-row"><span class="pub-code">P01 • 2026</span><div class="pub-info"><div class="pub-title">Open-close type spatula, powder-dispensing apparatus including the same, and method of controlling powder-dispensing apparatus</div><div class="pub-meta"><strong>M. CHANG</strong>, J. Jun-Won, H. Do CHOI, G. Ki-Won, W.J. CHOI, D. Han • US Patent App. 19/233,597 (2026)</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P02 • 2026</span><div class="pub-info"><div class="pub-title">Electronic device and method of planning moving path of robot</div><div class="pub-meta">J. Jun-Won, J. Park, S. Jeon, M. Kim, <strong>M. CHANG</strong> • US Patent App. 19/249,393 (2026)</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P03 • 2026</span><div class="pub-info"><div class="pub-title">Mobile machine for adjusting safety margin and moving method thereof</div><div class="pub-meta"><strong>M. CHANG</strong>, S.Y. Kim, J. Jun-Won, W.J. CHOI, D. Han, H. Park • US Patent App. 19/305,009 / US20260072439A1 (2026)</div></div><a href="https://patents.google.com/patent/US20260072439A1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P04 • 2026</span><div class="pub-info"><div class="pub-title">Transfer system</div><div class="pub-meta"><strong>M. CHANG</strong>, S.Y. Kim, J. Jun-Won, D. Han, H. Do CHOI, T. Ha • US Patent App. 19/041,483 / US20260028212A1 (2026)</div></div><a href="https://patents.google.com/patent/US20260028212A1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P05 • 2025</span><div class="pub-info"><div class="pub-title">Separation and purification module and automated material reaction system including the same</div><div class="pub-meta">H. Do CHOI, J. Kim, H. Kwon, B. Kim, J.W. Kim, D. Lee, S. Lee, <strong>M. CHANG</strong>, et al. • US Patent App. 19/068,604 (2025)</div></div><a href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener" class="pub-ext">Scholar ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P06 • 2025</span><div class="pub-info"><div class="pub-title">Optical monitoring device</div><div class="pub-meta">W. Hong, H. Kwon, G. Kim, W.S. Oh, H. Jeon, H. Do CHOI, <strong>M. CHANG</strong>, Y. Choi • US Granted Patent 12,411,092 B2 (2025)</div></div><a href="https://patents.google.com/patent/US12411092B2/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P07 • 2025</span><div class="pub-info"><div class="pub-title">Material synthesis device, material synthesis platform, and method of operating material synthesis device</div><div class="pub-meta">S. Lee, D. Lee, <strong>M. CHANG</strong>, J. Chang, J. Jang, T. Ha • US Patent App. 18/989,808 / US20250232845A1 (2025)</div></div><a href="https://patents.google.com/patent/US20250232845A1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P08 • 2025</span><div class="pub-info"><div class="pub-title">Automatic evaporator system</div><div class="pub-meta">H. Do CHOI, B. Kim, S.Y. Kim, S. Seo, <strong>M. CHANG</strong>, J.W. Jang, H. Jeon, W. Hong • US Patent App. 18/968,676 / US20250180449A1 (2025)</div></div><a href="https://patents.google.com/patent/US20250180449A1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P09 • 2025</span><div class="pub-info"><div class="pub-title">Liquid processing apparatus and liquid processing system including the same</div><div class="pub-meta">S.Y. Kim, B. Kim, S. Seo, <strong>M. CHANG</strong>, J.W. Jang, H. Jeon, H. Do CHOI, D. Heo, W. Hong • US Patent App. 18/885,072 / US20250180450A1 (2025)</div></div><a href="https://patents.google.com/patent/US20250180450A1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P10 • 2025</span><div class="pub-info"><div class="pub-title">Platform system</div><div class="pub-meta">D. Han, S.Y. Kim, <strong>M. CHANG</strong>, J.W. Jang, T. Ha • US Patent App. 18/908,258 / US20250122061A1 (2025)</div></div><a href="https://patents.google.com/patent/US20250122061A1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P11 • KR</span><div class="pub-info"><div class="pub-title">Robot of assisting to exercise one's lower body, the production method of it, and the controlling method of it</div><div class="pub-meta">D.Y. Jeon, <strong>M.S. CHANG</strong> • KR Registered Patent No. 10-2262191 (Pub. KR20200142384A)</div></div><a href="https://patents.google.com/patent/KR20200142384A/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P12 • KR</span><div class="pub-info"><div class="pub-title">Robot for assisting muscular strength in walking</div><div class="pub-meta">D.Y. Jeon, <strong>M.S. CHANG</strong> • KR Registered Patent No. 10-2218260 (Pub. KR20200142347A)</div></div><a href="https://patents.google.com/patent/KR20200142347A/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P13 • KR</span><div class="pub-info"><div class="pub-title">Rehabilitation robot for gait assistant driven by a motor</div><div class="pub-meta"><strong>M.S. CHANG</strong>, D.Y. Jeon • KR Registered Patent No. 10-2132113 (KR102132113B1)</div></div><a href="https://patents.google.com/patent/KR102132113B1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+          <div class="pub-row"><span class="pub-code">P14 • KR</span><div class="pub-info"><div class="pub-title">Stabilization control method for exoskeleton robot of legs</div><div class="pub-meta">C.H. Seo, D.Y. Jeon, <strong>M.S. CHANG</strong> • KR Registered Patent No. 10-1940901 (KR101940901B1)</div></div><a href="https://patents.google.com/patent/KR101940901B1/en" target="_blank" rel="noopener" class="pub-ext">Patent ↗</a></div>
+        </div>
+        <h3 class="section-subtitle" style="margin-top:28px;">Academic Leadership &amp; Peer-Review Service</h3>
+        <div class="pub-list">
+          <div class="pub-row"><span class="pub-code">IEEE Conf</span><div class="pub-info"><div class="pub-title">Invited Peer Reviewer — Flagship IEEE Robotics Conferences</div><div class="pub-meta"><em>IEEE International Conference on Robotics and Automation (ICRA)</em> (2026, 2027) • <em>IEEE International Conference on Rehabilitation Robotics (ICORR)</em> (2025)</div></div></div>
+          <div class="pub-row"><span class="pub-code">SCIE Jrnl</span><div class="pub-info"><div class="pub-title">Invited Peer Reviewer — SCIE Journals</div><div class="pub-meta"><em>IEEE Journal of Biomedical and Health Informatics (JBHI)</em> (2021, 2022, 2023)</div></div></div>
+          <div class="pub-row"><span class="pub-code">IEEE RAS</span><div class="pub-info"><div class="pub-title">Professional Memberships</div><div class="pub-meta">Member, <em>IEEE</em> &amp; <em>IEEE Robotics and Automation Society (IEEE RAS)</em></div></div></div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox()">
+    <div class="lightbox-inner">
+      <img id="lightbox-img" src="" alt="Expanded View" />
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+  <div class="m9g-gotop-bar">
+    <button type="button" class="m9g-gotop-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Go to Top">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+      <span>Go to Top</span>
+    </button>
+  </div>
+  <footer style="padding:40px 24px; border-top:1px solid var(--border-card); background:var(--bg-page); position:relative; z-index:1;">
+    <div style="max-width:1080px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px;">
+      <p style="font-size:10.5px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em;">© 2026 M9G • Build in Public</p>
+      <div style="display:inline-flex; align-items:center; gap:10px;">
+        <a href="https://www.linkedin.com/in/mincasurong/" target="_blank" rel="noopener" class="hero-pill-btn hero-pill-linkedin"><span>LinkedIn</span><span>↗</span></a>
+        <a href="https://github.com/mincasurong" target="_blank" rel="noopener" class="hero-pill-btn hero-pill-github"><span>GitHub</span><span>↗</span></a>
+      </div>
+    </div>
+  </footer>
+
+  <script is:inline>
+    function openLightbox(src, caption) {
+      var m = document.getElementById('lightbox-modal');
+      var img = document.getElementById('lightbox-img');
+      var cap = document.getElementById('lightbox-caption');
+      if (m && img && cap) {
+        img.src = src;
+        cap.textContent = caption || '';
+        m.classList.add('open');
+      }
+    }
+    function closeLightbox() {
+      var m = document.getElementById('lightbox-modal');
+      if (m) m.classList.remove('open');
+    }
+    window.toggleSidebar = function() {
+      const sb = document.querySelector('[data-sidebar]');
+      if (sb) sb.classList.toggle('active');
+    }
+    function switchTab(tabId, btnEl) {
+      document.querySelectorAll('article[data-page]').forEach(art => {
+        art.classList.toggle('active', art.getAttribute('data-page') === tabId);
+      });
+      document.querySelectorAll('.navbar-link').forEach(btn => {
+        btn.classList.toggle('active', btn === btnEl || btn.getAttribute('data-nav-target') === tabId);
+      });
+    }
+    function filterProjects(category, btnEl) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      document.querySelectorAll('.project-card').forEach(card => {
+        const cat = card.getAttribute('data-category');
+        card.classList.toggle('active', category === 'all' || cat === category);
+      });
+    }
+    window.downloadVcf = function() {
+      const vcf = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'N:Chang;Minsu;Max;;Ph.D.',
+        'FN:Minsu (Max) Chang, Ph.D.',
+        'ORG:Samsung Electronics, SAIT',
+        'TITLE:Robotics Research Engineer (Ph.D.)',
+        'URL:https://mincasurong.github.io/vcard/',
+        'ITEM1.URL:https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C',
+        'ITEM1.X-ABLabel:Google Scholar',
+        'ITEM2.URL:https://www.linkedin.com/in/mincasurong/',
+        'ITEM2.X-ABLabel:LinkedIn',
+        'NOTE:Robotics Research Engineer (Ph.D.) at Samsung Electronics, SAIT | Spatial Intelligence, Physical AI & Multi-Agent TAMP with Gemini Models',
+        'END:VCARD'
+      ].join('\r\n');
+      const blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Minsu_Max_Chang_PhD.vcf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    window.toggleTheme = function() {
+      if (window.__m9gToggleTheme) window.__m9gToggleTheme();
+    };
+
+    const VCARD_I18N = {
+      en: {
+        headerBrand: "Curriculum Vitae",
+        navVcard: "CV", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
+        profileName: "Minsu (Max) Chang", profileRole: "Ph.D. Robotics Research Engineer",
+        showContactsBtn: "Credentials",
+        sideOrgLabel: "Affiliation", sideOrgVal: "Samsung Electronics, SAIT",
+        sideDegLabel: "Education", sideDegVal: "Ph.D., M.S., B.S. in Mech. Eng. (Sogang Univ.)",
+        sideAwardLabel: "Award", sideAwardVal: "1st Place • Google Gemini 3 Seoul Hackathon",
+        sideIpLabel: "Track Record", sideIpVal: "21 Publications & 14+ US/KR Patents",
+        btnSaveVcf: "Save .vcf",
+        tabAbout: "About", tabResume: "Resume", tabPortfolio: "Portfolio", tabPubs: "Publications & IP",
+        aboutHeading: "About Minsu (Max) Chang, Ph.D.",
+        skillsMatrixHeading: "Core Research & Engineering Skills",
+        whatIDoHeading: "Research Focus",
+        resumeHeading: "Curriculum Vitae",
+        expHeading: "Professional Research Experience",
+        eduHeading: "Education",
+        proficiencyHeading: "Core Technical Competencies",
+        portfolioHeading: "Robotics & Spatial AI Portfolio",
+        pubsHeading: "Publications (21) & Patents (14)"
+      },
+      ko: {
+        headerBrand: "Curriculum Vitae",
+        navVcard: "CV", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
+        profileName: "장민수 (Minsu Max Chang)", profileRole: "로보틱스 리서치 엔지니어 (공학박사)",
+        showContactsBtn: "상세 이력",
+        sideOrgLabel: "소속", sideOrgVal: "삼성전자 SAIT (종합기술원)",
+        sideDegLabel: "학력", sideDegVal: "서강대학교 기계공학 학사·석사·박사 (Ph.D.)",
+        sideAwardLabel: "수상", sideAwardVal: "Google Gemini 3 서울 해커톤 2026 1위 우승",
+        sideIpLabel: "연구 실적", sideIpVal: "학술논문 21편 & 한·미 특허 14건 (미국 10, 한국 4)",
+        btnSaveVcf: ".vcf 저장",
+        tabAbout: "소개", tabResume: "이력서 (CV)", tabPortfolio: "로보틱스 포트폴리오", tabPubs: "논문 & 특허",
+        aboutHeading: "장민수 박사 (Minsu 'Max' Chang, Ph.D.)",
+        skillsMatrixHeading: "핵심 연구 및 엔지니어링 역량",
+        whatIDoHeading: "핵심 연구 분야",
+        resumeHeading: "연구 경력 및 학력 (Curriculum Vitae)",
+        expHeading: "주요 연구 경력",
+        eduHeading: "학력 사항",
+        proficiencyHeading: "핵심 도메인 역량",
+        portfolioHeading: "로보틱스 & 공간 지능 포트폴리오",
+        pubsHeading: "학술논문 (21편) & 특허 (14건)"
+      },
+      ja: {
+        headerBrand: "Curriculum Vitae",
+        navVcard: "CV", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
+        profileName: "Minsu (Max) Chang", profileRole: "ロボティクス研究エンジニア (Ph.D.)",
+        showContactsBtn: "詳細情報",
+        sideOrgLabel: "所属", sideOrgVal: "Samsung Electronics, SAIT",
+        sideDegLabel: "学歴", sideDegVal: "西江大学 機械工学 学士・修士・博士 (Ph.D.)",
+        sideAwardLabel: "受賞", sideAwardVal: "Google Gemini 3 ソウルハッカソン 第1位優勝",
+        sideIpLabel: "研究実績", sideIpVal: "論文 21編 & 特許 14件 (米国10, 韓国4)",
+        btnSaveVcf: ".vcf 保存",
+        tabAbout: "概要", tabResume: "経歴・学歴", tabPortfolio: "ロボティクス実績", tabPubs: "論文 & 特許",
+        aboutHeading: "Minsu (Max) Chang, Ph.D.",
+        skillsMatrixHeading: "コア研究・技術スキル",
+        whatIDoHeading: "主要研究領域",
+        resumeHeading: "職務経歴・学歴 (Curriculum Vitae)",
+        expHeading: "研究キャリア",
+        eduHeading: "学歴",
+        proficiencyHeading: "専門技術コンピテンシー",
+        portfolioHeading: "ロボティクス & 空間知能ポートフォリオ",
+        pubsHeading: "発表論文 (21) & 特許 (14)"
+      },
+      zh: {
+        headerBrand: "Curriculum Vitae",
+        navVcard: "CV", navTutorials: "教程", navBlog: "博客", navArchive: "档案库", navPortfolio: "主门户",
+        profileName: "Minsu (Max) Chang", profileRole: "机器人研究工程师 (工学博士)",
+        showContactsBtn: "详细资历",
+        sideOrgLabel: "任职机构", sideOrgVal: "三星电子 SAIT (综合技术院)",
+        sideDegLabel: "学历", sideDegVal: "西江大学 机械工程 学士、硕士、博士 (Ph.D.)",
+        sideAwardLabel: "奖项", sideAwardVal: "Google Gemini 3 首尔黑客松 2026 第一名",
+        sideIpLabel: "学术成果", sideIpVal: "21 篇学术论文 & 14 项美韩专利 (美国10, 韩国4)",
+        btnSaveVcf: "保存 .vcf",
+        tabAbout: "关于", tabResume: "履历 (CV)", tabPortfolio: "机器人作品集", tabPubs: "论文与专利",
+        aboutHeading: "Minsu (Max) Chang, Ph.D.",
+        skillsMatrixHeading: "核心研究与工程技能",
+        whatIDoHeading: "核心研究方向",
+        resumeHeading: "研发履历与教育背景",
+        expHeading: "专业研究经历",
+        eduHeading: "教育背景",
+        proficiencyHeading: "核心技术专长",
+        portfolioHeading: "机器人与空间智能作品集",
+        pubsHeading: "学术论文 (21) 与专利 (14)"
+      },
+      es: {
+        headerBrand: "Curriculum Vitae",
+        navVcard: "CV", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
+        profileName: "Minsu (Max) Chang", profileRole: "Ingeniero de Investigación en Robótica (Ph.D.)",
+        showContactsBtn: "Credenciales",
+        sideOrgLabel: "Afiliación", sideOrgVal: "Samsung Electronics, SAIT",
+        sideDegLabel: "Educación", sideDegVal: "Ph.D., M.S., B.S. en Ing. Mecánica (Univ. Sogang)",
+        sideAwardLabel: "Premio", sideAwardVal: "1er Lugar • Google Gemini 3 Seoul Hackathon",
+        sideIpLabel: "Trayectoria", sideIpVal: "21 Publicaciones y 14 Patentes (10 EE.UU., 4 Corea)",
+        btnSaveVcf: "Guardar .vcf",
+        tabAbout: "Perfil", tabResume: "Currículum", tabPortfolio: "Portafolio Robótico", tabPubs: "Publicaciones e IP",
+        aboutHeading: "Minsu (Max) Chang, Ph.D.",
+        skillsMatrixHeading: "Habilidades Clave de Investigación",
+        whatIDoHeading: "Áreas de Investigación",
+        resumeHeading: "Curriculum Vitae",
+        expHeading: "Experiencia Profesional en Investigación",
+        eduHeading: "Educación",
+        proficiencyHeading: "Competencias Técnicas",
+        portfolioHeading: "Portafolio de Robótica e IA Espacial",
+        pubsHeading: "Publicaciones (21) y Patentes (14)"
+      }
+    };
+
+    function toggleLangMenu(e) {
+      e.stopPropagation();
+      document.getElementById('lang-popup').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      const wrap = document.getElementById('lang-dropdown-wrap');
+      if (wrap && !wrap.contains(e.target)) document.getElementById('lang-popup').classList.remove('open');
+    });
+    function setLang(lang) {
+      if (!VCARD_I18N[lang]) lang = 'en';
+      try { localStorage.setItem('m9g_portfolio_lang', lang); } catch (e) {}
+      document.documentElement.lang = lang;
+      const lbl = document.getElementById('current-lang-label');
+      if (lbl) lbl.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(function(opt) {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      const popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.remove('open');
+      const dict = VCARD_I18N[lang];
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        if (!el.hasAttribute('data-orig-html') && el.children.length > 0) {
+          el.setAttribute('data-orig-html', el.innerHTML);
+        }
+        if (lang === 'en') {
+          if (el.hasAttribute('data-orig-html')) { el.innerHTML = el.getAttribute('data-orig-html'); return; }
+          if (el.children.length > 0) return;
+        }
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+    setLang((function() { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch (e) { return 'en'; } })());
+
+    window.addEventListener('scroll', function() {
+      var doc = document.documentElement;
+      var top = doc.scrollTop || document.body.scrollTop;
+      var height = doc.scrollHeight - doc.clientHeight;
+      var bar = document.getElementById('progress-bar');
+      if (bar) bar.style.width = (height > 0 ? (top / height) * 100 : 0) + '%';
+    }, { passive: true });
+
+    (function initInteractiveCursor() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var ring = document.getElementById('cursor-ring');
+      var dot = document.getElementById('cursor-dot');
+      if (!ring || !dot || window.matchMedia('(pointer: coarse)').matches) return;
+      var mx = -100, my = -100, rx = -100, ry = -100;
+      window.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = 'translate3d(' + (mx - 3) + 'px,' + (my - 3) + 'px,0)';
+      }, { passive: true });
+      function tickCursor() {
+        if (!document.hidden) {
+          rx += (mx - rx) * 0.18;
+          ry += (my - ry) * 0.18;
+          ring.style.transform = 'translate3d(' + (rx - 16) + 'px,' + (ry - 16) + 'px,0)';
+        }
+        requestAnimationFrame(tickCursor);
+      }
+      requestAnimationFrame(tickCursor);
+    })();
+
+    (function initFluidCanvas() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var canvas = document.getElementById('fluid-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var width = canvas.width = window.innerWidth;
+      var height = canvas.height = window.innerHeight;
+      window.addEventListener('resize', function() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+      var mouse = { x: -1000, y: -1000 };
+      window.addEventListener('mousemove', function(e) {
+        mouse.x = e.clientX; mouse.y = e.clientY;
+      }, { passive: true });
+      var count = Math.min(68, Math.max(30, Math.floor((width * height) / 22000)));
+      var particles = [];
+      for (var i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.55,
+          vy: (Math.random() - 0.5) * 0.55,
+          r: Math.random() * 1.9 + 0.9,
+          gold: i % 3 === 0
+        });
+      }
+      function renderParticles() {
+        if (document.hidden) {
+          requestAnimationFrame(renderParticles);
+          return;
+        }
+        ctx.clearRect(0, 0, width, height);
+        var isLight = document.documentElement.classList.contains('light');
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+          var dxm = p.x - mouse.x, dym = p.y - mouse.y;
+          var distMouse = Math.sqrt(dxm * dxm + dym * dym);
+          if (distMouse < 140 && distMouse > 0) {
+            p.x += (dxm / distMouse) * 1.25;
+            p.y += (dym / distMouse) * 1.25;
+          }
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.gold
+            ? (isLight ? 'rgba(29, 78, 216, 0.55)' : 'rgba(255, 219, 112, 0.65)')
+            : (isLight ? 'rgba(100, 116, 139, 0.38)' : 'rgba(96, 165, 250, 0.45)');
+          ctx.fill();
+          for (var j = i + 1; j < particles.length; j++) {
+            var q = particles[j];
+            var dx = p.x - q.x, dy = p.y - q.y;
+            var d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 130) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              var alpha = (1 - d / 130) * (isLight ? 0.16 : 0.2);
+              ctx.strokeStyle = (p.gold || q.gold)
+                ? (isLight ? 'rgba(29, 78, 216, ' + alpha + ')' : 'rgba(255, 219, 112, ' + alpha + ')')
+                : (isLight ? 'rgba(100, 116, 139, ' + alpha + ')' : 'rgba(148, 163, 184, ' + alpha + ')');
+              ctx.lineWidth = 0.75;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(renderParticles);
+      }
+      requestAnimationFrame(renderParticles);
+    })();
+</script>
+</body>
+</html>

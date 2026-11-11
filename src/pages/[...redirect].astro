@@ -1,0 +1,34 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const redirects = await getCollection('redirects');
+  return redirects.map((entry) => ({
+    params: { redirect: entry.data.source },
+    props: { redirectEntry: entry },
+  }));
+}
+
+interface Props {
+  redirectEntry: CollectionEntry<'redirects'>;
+}
+
+const { redirectEntry } = Astro.props;
+const { target, canonical, title } = redirectEntry.data;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <title>{title}</title>
+    <script is:inline define:vars={{ target }}>
+      window.location.replace(target);
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>{target}</a>...</p>
+  </body>
+</html>

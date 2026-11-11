@@ -1,0 +1,158 @@
+---
+import { getCollection } from 'astro:content';
+import ThemeHead from '../components/ThemeHead.astro';
+import '../styles/tokens.css';
+
+const redirectEntries = await getCollection('redirects');
+const redirectMap: Record<string, string> = {
+  '/home': '/',
+};
+for (const entry of redirectEntries) {
+  const key = entry.data.sourcePath.toLowerCase().replace(/\/+$/, '');
+  redirectMap[key] = entry.data.target;
+}
+---
+
+<!doctype html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>We're M9G — Redirecting...</title>
+    <meta name="robots" content="noindex, follow" />
+    <ThemeHead />
+    <script is:inline define:vars={{ redirectMap }}>
+      (function () {
+        var path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+        if (redirectMap[path]) {
+          window.location.replace(redirectMap[path]);
+          return;
+        }
+        if (
+          path.indexOf('jetson-nano') !== -1 ||
+          path.indexOf('basic-robotics') !== -1 ||
+          path.indexOf('ros') !== -1 ||
+          path.indexOf('moveit') !== -1
+        ) {
+          window.location.replace('/tutorials/');
+          return;
+        }
+        if (
+          path.indexOf('research2022') !== -1 ||
+          path.indexOf('hackathon') !== -1 ||
+          path.indexOf('out-of-research') !== -1
+        ) {
+          window.location.replace('/archive/');
+          return;
+        }
+      })();
+    </script>
+    <style>
+      .notfound-wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: var(--m9g-bg);
+        color: var(--m9g-text);
+      }
+
+      .notfound-card {
+        max-width: 36rem;
+        width: 100%;
+        border: 1px solid var(--m9g-border);
+        border-radius: 1.25rem;
+        background: var(--m9g-bg-card);
+        box-shadow: var(--m9g-shadow-md);
+        padding: 2.25rem 2rem;
+        text-align: center;
+      }
+
+      .notfound-badge {
+        display: inline-block;
+        padding: 0.3rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.72rem;
+        font-family: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--m9g-accent);
+        background: var(--m9g-bg-accent-soft);
+        border: 1px solid var(--m9g-accent-border);
+        margin-bottom: 1rem;
+      }
+
+      .notfound-title {
+        font-family: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 1.55rem;
+        font-weight: 800;
+        margin: 0 0 0.75rem;
+        color: var(--m9g-text);
+      }
+
+      .notfound-desc {
+        color: var(--m9g-text-secondary);
+        font-size: 0.94rem;
+        line-height: 1.6;
+        margin: 0 0 1.5rem;
+      }
+
+      .notfound-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        justify-content: center;
+      }
+
+      .notfound-link {
+        text-decoration: none;
+        padding: 0.6rem 1.1rem;
+        border-radius: 0.65rem;
+        font-size: 0.82rem;
+        font-weight: 700;
+        border: 1px solid var(--m9g-border);
+        color: var(--m9g-text);
+        background: var(--m9g-bg-card-solid);
+        transition: all 0.15s ease;
+      }
+
+      .notfound-link:hover {
+        border-color: var(--m9g-accent);
+        color: var(--m9g-accent);
+      }
+
+      .notfound-link.primary {
+        background: var(--m9g-accent);
+        color: var(--m9g-accent-contrast);
+        border-color: var(--m9g-accent);
+      }
+
+      .notfound-link.primary:hover {
+        background: var(--m9g-accent-hover);
+        border-color: var(--m9g-accent-hover);
+        color: var(--m9g-accent-contrast);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="notfound-wrap">
+      <div class="notfound-card">
+        <div class="notfound-badge">We're M9G • Navigation Hub</div>
+        <h1 class="notfound-title">Looking for a page from mincasurong.com?</h1>
+        <p class="notfound-desc">
+          All content from <strong>mincasurong.com</strong> and <strong>mincasurong.github.io</strong> is now unified under the M9G portal.
+        </p>
+        <div class="notfound-links">
+          <a href="/" class="notfound-link primary">M9G Main Portal</a>
+          <a href="/vcard/" class="notfound-link">Ph.D. CV (/vcard/)</a>
+          <a href="/tutorials/" class="notfound-link">ROS / MoveIt / Jetson Tutorials</a>
+          <a href="/archive/" class="notfound-link">Patents, Research &amp; Archive</a>
+          <a href="/blog/" class="notfound-link">Research Blogs (/blog/)</a>
+          <a href="https://tamp.mincasurong.com" class="notfound-link">3D Fast-Sim ↗</a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

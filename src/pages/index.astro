@@ -1,28 +1,2038 @@
 ---
 import { getCollection } from 'astro:content';
-import { DEFAULT_LOCALE, UI_I18N, t } from '../i18n/ui';
+import ThemeHead from '../components/ThemeHead.astro';
+import '../styles/tokens.css';
+import {
+  COMMON_I18N,
+  DEFAULT_LOCALE,
+  LOCALE_OPTIONS,
+  PORTAL_I18N,
+  SUPPORTED_LOCALES,
+  type Locale,
+} from '../i18n/ui';
 
-const blogs = await getCollection('blogs');
-const publications = await getCollection('publications');
-const patents = await getCollection('patents');
-const redirects = await getCollection('redirects');
+const blogs = (await getCollection('blogs')).sort((a, b) => b.data.order - a.data.order);
+const latestBlog = blogs[0];
+if (!latestBlog) {
+  throw new Error('Expected at least one blog entry in blogs collection');
+}
 
-const heading = t(DEFAULT_LOCALE, 'hubTitle');
+const en = {
+  ...COMMON_I18N[DEFAULT_LOCALE],
+  ...PORTAL_I18N[DEFAULT_LOCALE],
+};
+
+const portalI18nMap = Object.fromEntries(
+  SUPPORTED_LOCALES.map((locale: Locale) => [
+    locale,
+    {
+      ...COMMON_I18N[locale],
+      ...PORTAL_I18N[locale],
+    },
+  ]),
+);
+
+const demoVideos = [
+  {
+    id: 'PPZ4vgVZlyA',
+    title: 'Gemini Robotics ER-2 vs. Gemini 4 Carbon: Multi-Robot Task Planner Benchmark (Isaac Sim 6.0 & ROS 2)',
+    url: 'https://www.youtube.com/watch?v=PPZ4vgVZlyA',
+    thumbnail: 'https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg',
+    descKey: 'vlaBenchDescHtml' as const,
+  },
+  {
+    id: 'q-D9H9anNl8',
+    title: 'EP 12. Multi Robot Collaboration | Gemini Robotics ER2 & NVIDIA IsaacSim & ROS2',
+    url: 'https://www.youtube.com/watch?v=q-D9H9anNl8',
+    thumbnail: 'https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg',
+    descKey: 'ep12DescHtml' as const,
+  },
+  {
+    id: 'stxaWN7Ct8Y',
+    title: 'EP 11. FR3 Robots Cooperating with Gemini Robotics-ER2 & Isaac Sim | React Flow Digital Twin',
+    url: 'https://www.youtube.com/watch?v=stxaWN7Ct8Y',
+    thumbnail: 'https://img.youtube.com/vi/stxaWN7Ct8Y/maxresdefault.jpg',
+    descKey: 'ep11DescHtml' as const,
+  },
+  {
+    id: 'MzAGXiZmrdY',
+    title: 'EP 10. From natural language input - Isaac Sim, ROS 2, and Gemini Robotics-ER 2.',
+    url: 'https://www.youtube.com/watch?v=MzAGXiZmrdY',
+    thumbnail: 'https://img.youtube.com/vi/MzAGXiZmrdY/maxresdefault.jpg',
+    descKey: 'ep10DescHtml' as const,
+  },
+  {
+    id: '5ydQRDwkg34',
+    title: 'EP 7. Random Target Multi-Robots on NVIDIA IsaacSim w/ Antigravity, Gemini, ROS2',
+    url: 'https://youtu.be/5ydQRDwkg34?si=z_TNSfY_MFlpukyS',
+    thumbnail: 'https://img.youtube.com/vi/5ydQRDwkg34/maxresdefault.jpg',
+    descKey: 'v3DescHtml' as const,
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': 'https://mincasurong.github.io/#website',
+      url: 'https://mincasurong.github.io/',
+      name: 'M9G — Minsu Chang, Ph.D. Robotics & Agentic AI Portfolio',
+      alternateName: ["We're M9G", 'mincasurong', 'Minsu Chang Portfolio', '장민수 포트폴리오'],
+      inLanguage: ['en', 'ko', 'ja', 'es', 'zh'],
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://mincasurong.github.io/#person',
+      name: 'Minsu Chang',
+      alternateName: ['장민수', 'mincasurong', 'M9G'],
+      jobTitle: 'Roboticist & Agentic AI System Engineer (Ph.D.)',
+      url: 'https://mincasurong.github.io/',
+      sameAs: [
+        'https://www.linkedin.com/in/mincasurong/',
+        'https://github.com/mincasurong',
+      ],
+      knowsAbout: [
+        'Robotics',
+        'Vision-Language-Action (VLA) Models',
+        'NVIDIA Isaac Sim',
+        'ROS 2 & MoveIt 2',
+        'Human-Robot Interaction (HRI)',
+        'Rehabilitation Exoskeletons',
+        'Agentic AI Systems',
+      ],
+      award: '1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026 (GeminiSpace)',
+    },
+  ],
+};
 ---
 
 <!doctype html>
-<html lang={DEFAULT_LOCALE}>
+<html lang="en" class="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{heading}</title>
+    <meta name="google-site-verification" content="jR2uBrMq04y0mxs-VvLnyGF-Y-FmIxoD1cpXaS_eYFo" />
+    <meta name="naver-site-verification" content="8643cdcaff94efd9e270df35c3750ec6d9fdfd91" />
+    <title>We're M9G (Minsu Chang, Ph.D.) — Robotics, Agentic AI, ROS/MoveIt/Jetson Tutorials &amp; Research</title>
+    <meta
+      name="description"
+      content="Official portfolio and engineering hub of Minsu Chang, Ph.D. (장민수 / M9G / mincasurong) — From Machine to General Intelligence by Agent-enabled System Engineering. 1st-Place Winner at Google Gemini 3 Seoul Hackathon 2026, Multi-Robot VLA Benchmarks in NVIDIA Isaac Sim 6.0 & ROS 2, 12 ROS/MoveIt/Jetson Nano Tutorials, 21 Peer-Reviewed Publications, and 14+ US/KR Patents."
+    />
+    <meta
+      name="keywords"
+      content="Minsu Chang, 장민수, M9G, mincasurong, Robotics, Physical AI, VLA, Vision-Language-Action, NVIDIA Isaac Sim, ROS 2, MoveIt 2, Jetson Nano, Gemini 3 Seoul Hackathon, GeminiSpace, Rehabilitation Exoskeleton, SUBAR, AI Therapist, Agentic AI"
+    />
+    <meta name="author" content="Minsu Chang, Ph.D." />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <link rel="canonical" href="https://mincasurong.github.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mincasurong.github.io/" />
+    <meta property="og:title" content="We're M9G (Minsu Chang, Ph.D.) — Robotics, Agentic AI & Tutorials" />
+    <meta
+      property="og:description"
+      content="Official portfolio of Minsu Chang, Ph.D. (M9G) — 1st-Place Google Gemini 3 Seoul Hackathon, Isaac Sim & ROS 2 VLA Benchmarks, ROS/MoveIt/Jetson Tutorials, 21 Peer-Reviewed Publications, and 14+ US/KR Patents."
+    />
+    <meta property="og:image" content="https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="We're M9G (Minsu Chang, Ph.D.) — Robotics, Agentic AI & Tutorials" />
+    <meta
+      name="twitter:description"
+      content="Official portfolio of Minsu Chang, Ph.D. (M9G) — 1st-Place Google Gemini 3 Seoul Hackathon, Isaac Sim & ROS 2 VLA Benchmarks, ROS/MoveIt/Jetson Tutorials, 21 Peer-Reviewed Publications, and 14+ US/KR Patents."
+    />
+    <meta name="twitter:image" content="https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <ThemeHead />
+    <style>
+      .portal-shell {
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      .particle-canvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.55;
+      }
+
+      .portal-main {
+        position: relative;
+        z-index: 10;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+
+      @media (min-width: 640px) {
+        .portal-main {
+          padding: 0 24px;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .portal-main {
+          padding: 0 32px;
+        }
+      }
+
+      /* Language dropdown */
+      .lang-switcher {
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .lang-menu {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 6px);
+        width: 132px;
+        background: var(--m9g-bg-modal);
+        border: 1px solid var(--m9g-border);
+        border-radius: 10px;
+        box-shadow: var(--m9g-shadow-lg);
+        z-index: 60;
+        overflow: hidden;
+        display: none;
+      }
+
+      .lang-menu.open {
+        display: block;
+      }
+
+      .lang-option {
+        width: 100%;
+        text-align: left;
+        padding: 8px 14px;
+        font-size: 11.5px;
+        font-family: inherit;
+        background: transparent;
+        border: none;
+        color: var(--m9g-text-secondary);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background-color 0.15s ease, color 0.15s ease;
+      }
+
+      .lang-option:hover,
+      .lang-option.active {
+        background: var(--m9g-bg-accent-soft);
+        color: var(--m9g-accent);
+        font-weight: 700;
+      }
+
+      /* Hero section */
+      .hero-section {
+        padding: 4rem 1.5rem 3.5rem;
+        border-bottom: 1px solid var(--m9g-border);
+      }
+
+      .hero-inner {
+        max-width: 1024px;
+        margin: 0 auto;
+      }
+
+      .hero-title {
+        font-family: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: clamp(2rem, 4.5vw, 3.6rem);
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        line-height: 1.12;
+        color: var(--m9g-text);
+        margin: 0 0 1rem;
+      }
+
+      .hero-subrow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 14px;
+      }
+
+      .hero-subtitle {
+        font-size: clamp(1.08rem, 2.2vw, 1.45rem);
+        color: var(--m9g-text-secondary);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .hero-pills {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* Shared section containers */
+      .portal-section {
+        padding: 3.5rem 0;
+      }
+
+      .portal-container-md {
+        max-width: 1024px;
+        margin: 0 auto;
+      }
+
+      .portal-container-lg {
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+
+      .section-header-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--m9g-border);
+      }
+
+      .section-title-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-title-group svg {
+        color: var(--m9g-accent);
+        flex-shrink: 0;
+      }
+
+      .section-kicker-heading {
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--m9g-accent);
+        margin: 0;
+      }
+
+      .section-lead {
+        font-size: 1rem;
+        color: var(--m9g-text-secondary);
+        margin: 0 0 2rem;
+        max-width: 48rem;
+      }
+
+      /* Vault section */
+      .vault-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .vault-heading {
+        font-family: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: clamp(1.25rem, 2.6vw, 1.85rem);
+        font-weight: 800;
+        color: var(--m9g-text);
+        margin: 0.75rem 0 0;
+        line-height: 1.25;
+      }
+
+      .grid-2col {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      @media (min-width: 640px) {
+        .grid-2col {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .photo-frame {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        overflow: hidden;
+        background: #000000;
+      }
+
+      .photo-frame picture,
+      .photo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.45s ease;
+      }
+
+      .gblog-photo-card:hover .photo-frame img {
+        transform: scale(1.04);
+      }
+
+      .photo-cap-kicker {
+        font-family: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--m9g-accent);
+        margin-bottom: 2px;
+      }
+
+      .photo-cap-title {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--m9g-text);
+      }
+
+      .action-card-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+      }
+
+      /* News card */
+      .news-card {
+        padding: 1.5rem;
+        border-radius: 24px;
+        background: var(--m9g-bg-card);
+        border: 1px solid var(--m9g-border);
+        box-shadow: var(--m9g-shadow-md);
+      }
+
+      @media (min-width: 640px) {
+        .news-card {
+          padding: 2.25rem;
+        }
+      }
+
+      .news-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        background: var(--m9g-bg-accent-soft);
+        border: 1px solid var(--m9g-accent-border);
+        color: var(--m9g-accent);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 1rem;
+      }
+
+      .news-title {
+        font-family: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: clamp(1.5rem, 3.4vw, 2.65rem);
+        font-weight: 800;
+        line-height: 1.18;
+        color: var(--m9g-text);
+        margin: 0 0 1.5rem;
+      }
+
+      .video-hero-link {
+        display: block;
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        max-height: 360px;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--m9g-border);
+        background: #000000;
+        margin-bottom: 1.5rem;
+      }
+
+      .video-hero-link img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.45s ease;
+      }
+
+      .video-hero-link:hover img {
+        transform: scale(1.03);
+      }
+
+      .video-play-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      .video-hero-link:hover .video-play-overlay,
+      .video-card:hover .video-play-overlay {
+        opacity: 1;
+      }
+
+      .video-play-circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 9999px;
+        background: var(--m9g-accent);
+        color: var(--m9g-accent-contrast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--m9g-shadow-md);
+      }
+
+      .news-copy {
+        font-size: 1rem;
+        color: var(--m9g-text-secondary);
+        line-height: 1.7;
+        margin: 0 0 1rem;
+      }
+
+      .geminispace-cta-card {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 18px 20px;
+        border-radius: 18px;
+        background: var(--m9g-accent);
+        color: var(--m9g-accent-contrast);
+        border: 1.5px solid var(--m9g-accent);
+        box-shadow: var(--m9g-shadow-lg);
+        text-decoration: none;
+        transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      @media (min-width: 640px) {
+        .geminispace-cta-card {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+
+      .geminispace-cta-card:hover {
+        background: var(--m9g-accent-hover);
+        border-color: var(--m9g-accent-hover);
+        transform: translateY(-2px);
+        box-shadow: var(--m9g-shadow-hover);
+      }
+
+      .geminispace-cta-main {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        min-width: 0;
+      }
+
+      .geminispace-cta-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: var(--m9g-accent-contrast);
+        color: var(--m9g-accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .geminispace-cta-title-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 4px;
+      }
+
+      .geminispace-cta-title {
+        font-size: 1.05rem;
+        font-weight: 800;
+      }
+
+      .geminispace-cta-pill {
+        font-family: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 9999px;
+        border: 1px solid currentColor;
+      }
+
+      .geminispace-cta-sub {
+        font-size: 0.85rem;
+        margin: 0;
+        opacity: 0.92;
+      }
+
+      .news-links-grid {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      @media (min-width: 640px) {
+        .news-links-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      .news-ext-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--m9g-border);
+        background: var(--m9g-bg-card-solid);
+        color: var(--m9g-text);
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+      }
+
+      .news-ext-link:hover {
+        border-color: var(--m9g-accent);
+        background: var(--m9g-bg-accent-soft);
+        color: var(--m9g-accent);
+      }
+
+      /* Subheaders within sections */
+      .subsection-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 1.25rem;
+        padding-left: 12px;
+        border-left: 2px solid var(--m9g-accent);
+      }
+
+      .subsection-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--m9g-text);
+      }
+
+      .subsection-title svg {
+        color: var(--m9g-accent);
+        flex-shrink: 0;
+      }
+
+      .subsection-divider {
+        margin-bottom: 3rem;
+        padding-bottom: 2.25rem;
+        border-bottom: 1px solid var(--m9g-border);
+      }
+
+      /* Demo videos grid */
+      .videos-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 28px 32px;
+      }
+
+      @media (min-width: 640px) {
+        .videos-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .video-card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .video-thumb {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--m9g-border);
+        background: #000000;
+        margin-bottom: 12px;
+      }
+
+      .video-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.45s ease;
+      }
+
+      .video-card:hover .video-thumb img {
+        transform: scale(1.04);
+      }
+
+      .video-card-title {
+        font-family: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--m9g-text);
+        margin: 0 0 6px;
+        line-height: 1.35;
+        transition: color 0.18s ease;
+      }
+
+      .video-card:hover .video-card-title {
+        color: var(--m9g-accent);
+      }
+
+      .video-card-desc {
+        font-size: 0.875rem;
+        color: var(--m9g-text-secondary);
+        margin: 0;
+        line-height: 1.55;
+      }
+
+      /* Live apps list */
+      .apps-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .app-card {
+        padding: 16px 20px;
+        border-radius: 18px;
+        border: 1px solid var(--m9g-border);
+        background: var(--m9g-bg-card);
+        box-shadow: var(--m9g-shadow-sm);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+        transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      @media (min-width: 768px) {
+        .app-card {
+          flex-direction: row;
+          gap: 20px;
+        }
+      }
+
+      .app-card:hover {
+        border-color: var(--m9g-accent);
+        transform: translateY(-3px);
+        box-shadow: var(--m9g-shadow-lg);
+      }
+
+      .app-thumb {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--m9g-border);
+        background: #000000;
+        flex-shrink: 0;
+        display: block;
+      }
+
+      @media (min-width: 768px) {
+        .app-thumb {
+          width: 240px;
+        }
+      }
+
+      .app-thumb picture,
+      .app-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        display: block;
+        transition: transform 0.4s ease;
+      }
+
+      .app-card:hover .app-thumb img {
+        transform: scale(1.04);
+      }
+
+      .app-type-pill {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        padding: 2px 8px;
+        border-radius: 6px;
+        background: rgba(17, 17, 17, 0.85);
+        color: #ffffff;
+        font-family: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .app-body {
+        flex: 1;
+        width: 100%;
+        min-width: 0;
+      }
+
+      .app-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+
+      .app-domain {
+        font-family: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: var(--m9g-text-muted);
+      }
+
+      .app-badge {
+        font-family: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--m9g-accent);
+        background: var(--m9g-bg-accent-soft);
+        border: 1px solid var(--m9g-accent-border);
+        padding: 2px 8px;
+        border-radius: 6px;
+      }
+
+      .app-title {
+        font-family: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 1.15rem;
+        font-weight: 800;
+        margin: 0 0 6px;
+        line-height: 1.3;
+      }
+
+      .app-title a {
+        text-decoration: none;
+        color: var(--m9g-text);
+        transition: color 0.18s ease;
+      }
+
+      .app-card:hover .app-title a {
+        color: var(--m9g-accent);
+      }
+
+      .app-desc {
+        font-size: 0.875rem;
+        color: var(--m9g-text-secondary);
+        margin: 0;
+      }
+
+      .app-cta-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 12px 20px;
+        border-radius: 12px;
+        background: var(--m9g-accent);
+        color: var(--m9g-accent-contrast);
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        white-space: nowrap;
+        flex-shrink: 0;
+        transition: background-color 0.18s ease, transform 0.18s ease;
+      }
+
+      @media (min-width: 768px) {
+        .app-cta-btn {
+          width: auto;
+        }
+      }
+
+      .app-cta-btn:hover {
+        background: var(--m9g-accent-hover);
+        transform: translateY(-1px);
+      }
+
+      .free-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        background: var(--m9g-bg-accent-soft);
+        border: 1px solid var(--m9g-accent-border);
+        color: var(--m9g-accent);
+        font-family: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      /* Intro bottom CTA & Footer */
+      .intro-kicker-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 1.25rem;
+        font-family: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--m9g-accent);
+      }
+
+      .portal-footer {
+        padding: 2.5rem 0;
+        margin-top: 1.5rem;
+        border-top: 1px solid var(--m9g-border);
+        background: var(--m9g-bg-footer);
+        position: relative;
+        z-index: 10;
+      }
+
+      .footer-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        position: relative;
+      }
+
+      @media (min-width: 768px) {
+        .footer-inner {
+          flex-direction: row;
+        }
+      }
+
+      .footer-left {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .footer-copy {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--m9g-text-muted);
+        margin: 0;
+      }
+
+      .why-m9g-btn {
+        font-size: 10.5px;
+        color: var(--m9g-accent);
+        background: transparent;
+        border: 1px solid var(--m9g-accent-border);
+        padding: 3px 9px;
+        border-radius: 6px;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+        transition: background-color 0.15s ease;
+      }
+
+      .why-m9g-btn:hover {
+        background: var(--m9g-bg-accent-soft);
+      }
+
+      .easter-egg-popup {
+        position: absolute;
+        bottom: calc(100% + 14px);
+        left: 24px;
+        max-width: 360px;
+        width: calc(100vw - 48px);
+        background: var(--m9g-bg-modal);
+        border: 1px solid var(--m9g-accent-border);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: var(--m9g-shadow-lg);
+        z-index: 70;
+        font-size: 12.5px;
+        color: var(--m9g-text-secondary);
+        display: none;
+      }
+
+      .easter-egg-popup.open {
+        display: block;
+      }
+
+      .easter-egg-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .easter-egg-title {
+        color: var(--m9g-accent);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 11px;
+      }
+
+      .easter-egg-close {
+        background: transparent;
+        border: none;
+        color: var(--m9g-text-muted);
+        cursor: pointer;
+        font-size: 14px;
+        padding: 2px 6px;
+      }
+
+      .easter-egg-box {
+        background: var(--m9g-bg-code);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--m9g-border);
+        font-family: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+        text-align: center;
+      }
+
+      .easter-egg-and {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--m9g-text-muted);
+        margin: 4px 0;
+      }
+    </style>
   </head>
   <body>
-    <main>
-      <h1>{UI_I18N.en.hubTitle}</h1>
-      <p>
-        Blogs: {blogs.length} | Publications: {publications.length} | Patents: {patents.length} | Redirects: {redirects.length}
-      </p>
-    </main>
+    <div class="portal-shell">
+      <canvas id="m9g-particle-canvas" class="particle-canvas" aria-hidden="true"></canvas>
+
+      <!-- 1. Sticky Topbar -->
+      <header class="topbar">
+        <div class="topbar-inner">
+          <a href="#hero" class="brand">
+            <span>
+              <span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span>
+            </span>
+            <span class="brand-sep">|</span>
+            <span class="brand-sec" data-i18n="portalBrandSec">{en.portalBrandSec}</span>
+          </a>
+
+          <div class="topbar-actions">
+            <nav class="topnav" aria-label="Primary Navigation">
+              <a href="/vcard/" class="hero-pill-btn hero-pill-github">
+                <span data-i18n="navVcard">{en.navVcard}</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <a href="/archive/" class="hero-pill-btn hero-pill-github">
+                <span data-i18n="navArchive">{en.navArchive}</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <a href="/blog/" class="hero-pill-btn hero-pill-github">
+                <span data-i18n="navBlog">{en.navBlog}</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <a
+                href="https://tamp.mincasurong.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hero-pill-btn hero-pill-linkedin"
+              >
+                <span data-i18n="navFastSim">{en.navFastSim}</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <a href="/tutorials/" class="hero-pill-btn hero-pill-github">
+                <span data-i18n="navTutorials">{en.navTutorials}</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </nav>
+
+            <button
+              type="button"
+              class="topbar-btn"
+              data-theme-toggle="icon-only"
+              onclick="window.__m9gToggleTheme()"
+              title="Toggle Light / Dark Theme"
+            >☀</button>
+
+            <div class="lang-switcher" id="lang-switcher">
+              <button
+                type="button"
+                class="topbar-btn"
+                id="lang-switcher-btn"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                title="Select Language"
+              >
+                <span id="lang-switcher-label">EN</span>
+                <span aria-hidden="true">▾</span>
+              </button>
+              <div class="lang-menu" id="lang-switcher-menu" role="listbox">
+                {LOCALE_OPTIONS.map((opt) => (
+                  <button
+                    type="button"
+                    class={`lang-option${opt.code === DEFAULT_LOCALE ? ' active' : ''}`}
+                    data-lang-option={opt.code}
+                    role="option"
+                  >
+                    <span>{opt.label}</span>
+                    <span>{opt.short}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="portal-main">
+        <!-- 2. #hero -->
+        <section id="hero" class="hero-section">
+          <div class="hero-inner">
+            <h1 class="hero-title">
+              <span data-i18n="heroTitleHtml" set:html={en.heroTitleHtml} />
+            </h1>
+            <div class="hero-subrow">
+              <p class="hero-subtitle">
+                <span data-i18n="heroSubtitleHtml" set:html={en.heroSubtitleHtml} />
+              </p>
+              <div class="hero-pills">
+                <a
+                  href="https://www.linkedin.com/in/mincasurong/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hero-pill-btn hero-pill-linkedin"
+                >
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+                  </svg>
+                  <span>LinkedIn</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a
+                  href="https://github.com/mincasurong"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hero-pill-btn hero-pill-github"
+                >
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z" />
+                  </svg>
+                  <span>GitHub</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. #research-archive -->
+        <section id="research-archive" class="portal-section">
+          <div class="portal-container-md">
+            <div class="section-header-bar">
+              <div class="section-title-group">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                <h2 class="section-kicker-heading">
+                  <span data-i18n="vaultSec">{en.vaultSec}</span>
+                </h2>
+              </div>
+            </div>
+
+            <div class="gblog-pane">
+              <div class="vault-header">
+                <div class="gblog-kicker">
+                  <span aria-hidden="true">✦</span>
+                  <span data-i18n="vaultBadge">{en.vaultBadge}</span>
+                </div>
+                <h3 class="vault-heading">
+                  <span data-i18n="vaultTitle">{en.vaultTitle}</span>
+                </h3>
+              </div>
+
+              <!-- 2 Talk Photo Cards -->
+              <div class="grid-2col" style="margin-bottom: 18px;">
+                <a href="/vcard/" class="gblog-photo-card">
+                  <div class="photo-frame">
+                    <picture>
+                      <source srcset="/screenshots/photos/minsu-profile-2.webp" type="image/webp" />
+                      <img
+                        src="/screenshots/photos/minsu-profile-2.jpg"
+                        alt="IEEE ICRA 2025 Presentation"
+                        width="1280"
+                        height="663"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </div>
+                  <div class="gblog-photo-caption">
+                    <div class="photo-cap-kicker">
+                      <span data-i18n="vaultP1Title">{en.vaultP1Title}</span>
+                    </div>
+                    <div class="photo-cap-title">
+                      <span data-i18n="vaultP1Sub">{en.vaultP1Sub}</span>
+                    </div>
+                  </div>
+                </a>
+
+                <a href="/vcard/" class="gblog-photo-card">
+                  <div class="photo-frame">
+                    <picture>
+                      <source srcset="/screenshots/photos/minsu-profile-1.webp" type="image/webp" />
+                      <img
+                        src="/screenshots/photos/minsu-profile-1.jpg"
+                        alt="Google for Startups Campus Seoul Speaker"
+                        width="719"
+                        height="539"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </div>
+                  <div class="gblog-photo-caption">
+                    <div class="photo-cap-kicker">
+                      <span data-i18n="vaultP2Title">{en.vaultP2Title}</span>
+                    </div>
+                    <div class="photo-cap-title">
+                      <span data-i18n="vaultP2Sub">{en.vaultP2Sub}</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <!-- 2 Action CTAs -->
+              <div class="grid-2col">
+                <a href="/vcard/" class="gblog-action-card">
+                  <div class="action-card-left">
+                    <div class="gblog-icon-circle" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="gblog-action-title">
+                        <span data-i18n="vaultCvTitle">{en.vaultCvTitle}</span>
+                      </div>
+                      <p class="gblog-action-sub">
+                        <span data-i18n="vaultCvHook">{en.vaultCvHook}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <span class="gblog-arrow-badge" aria-hidden="true">↗</span>
+                </a>
+
+                <a href="/archive/" class="gblog-action-card">
+                  <div class="action-card-left">
+                    <div class="gblog-icon-circle" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="gblog-action-title">
+                        <span data-i18n="vaultArchTitle">{en.vaultArchTitle}</span>
+                      </div>
+                      <p class="gblog-action-sub">
+                        <span data-i18n="vaultArchHook">{en.vaultArchHook}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <span class="gblog-arrow-badge" aria-hidden="true">↗</span>
+                </a>
+              </div>
+
+              <!-- 4 Sublink Pills -->
+              <div class="gblog-sublinks-row">
+                <a
+                  href="https://tamp.mincasurong.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Reconfigurable Franka FR3 Workcell & Multi-Cell Factory 3D Fast-Sim"
+                  class="gblog-icon-pill"
+                >
+                  <span>3D Fast-Sim</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a href="/blog/" title="Technical Research Blog" class="gblog-icon-pill">
+                  <span data-i18n="vaultBlogLbl">{en.vaultBlogLbl}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a href="/tutorials/" title="Hands-On Robotics Tutorials" class="gblog-icon-pill">
+                  <span data-i18n="vaultTutLbl">{en.vaultTutLbl}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a
+                  href="https://scholar.google.com/citations?hl=en&user=b0gKbzdNH68C&view_op=list_works&sortby=pubdate"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Google Scholar Profile"
+                  class="gblog-icon-pill"
+                >
+                  <span data-i18n="vaultSchLbl">{en.vaultSchLbl}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. #news -->
+        <section id="news" class="portal-section">
+          <div class="portal-container-md">
+            <div class="section-header-bar">
+              <div class="section-title-group">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                  <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                  <path d="M4 22h16" />
+                  <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+                  <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+                  <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+                </svg>
+                <h2 class="section-kicker-heading">
+                  <span data-i18n="newsSectionTitle">{en.newsSectionTitle}</span>
+                </h2>
+              </div>
+              <a
+                href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="section-action-link"
+              >
+                Google Blog Story ↗
+              </a>
+            </div>
+
+            <article class="news-card">
+              <div class="news-badge">
+                <span aria-hidden="true">🏆</span>
+                <span data-i18n="newsBadge">{en.newsBadge}</span>
+              </div>
+
+              <h3 class="news-title">
+                <span data-i18n="newsWinnerTitleHtml" set:html={en.newsWinnerTitleHtml} />
+              </h3>
+
+              <a
+                href="https://youtu.be/hzUlLTtfd7M?si=LCs8NFTN9zpZ4bCm"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="video-hero-link"
+              >
+                <img
+                  src="https://img.youtube.com/vi/hzUlLTtfd7M/maxresdefault.jpg"
+                  alt="Google Gemini 3 Seoul Hackathon 2026 1st-Place Demo (GeminiSpace)"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="video-play-overlay" aria-hidden="true">
+                  <div class="video-play-circle">▶</div>
+                </div>
+              </a>
+
+              <p class="news-copy">
+                <span data-i18n="newsP1Html" set:html={en.newsP1Html} />
+              </p>
+              <p class="news-copy">
+                <span data-i18n="newsP2Html" set:html={en.newsP2Html} />
+              </p>
+
+              <!-- Solid CTA Card to geminispace.mincasurong.com -->
+              <a
+                href="https://geminispace.mincasurong.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="geminispace-cta-card"
+              >
+                <div class="geminispace-cta-main">
+                  <div class="geminispace-cta-icon" aria-hidden="true">✦</div>
+                  <div>
+                    <div class="geminispace-cta-title-row">
+                      <span class="geminispace-cta-title" data-i18n="newsTryAppCta">{en.newsTryAppCta}</span>
+                      <span class="geminispace-cta-pill" data-i18n="newsTryAppBadge">{en.newsTryAppBadge}</span>
+                    </div>
+                    <p class="geminispace-cta-sub">
+                      <span data-i18n="newsTryAppSub">{en.newsTryAppSub}</span>
+                    </p>
+                  </div>
+                </div>
+                <span aria-hidden="true">↗</span>
+              </a>
+
+              <!-- 3 External Links -->
+              <div class="news-links-grid">
+                <a
+                  href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="news-ext-link"
+                >
+                  <span>Google Blog</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a
+                  href="https://cerebralvalley.ai/e/gemini-3-seoul-hackathon/hackathon/gallery?project=27"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="news-ext-link"
+                >
+                  <span>Winners Gallery</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a
+                  href="https://github.com/mincasurong/GeminiSeoulHackathon2026"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="news-ext-link"
+                >
+                  <span>GitHub Repo</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 5. #robotics-series -->
+        <section id="robotics-series" class="portal-section">
+          <div class="portal-container-lg">
+            <div class="section-header-bar">
+              <div class="section-title-group">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" />
+                </svg>
+                <h2 class="section-kicker-heading">
+                  <span data-i18n="roboticsTitle">{en.roboticsTitle}</span>
+                </h2>
+              </div>
+            </div>
+
+            <p class="section-lead">
+              <span data-i18n="roboticsSub">{en.roboticsSub}</span>
+            </p>
+
+            <!-- 5A. Interactive 3D Fast-Sim Web App -->
+            <div class="subsection-divider">
+              <div class="subsection-bar">
+                <div class="subsection-title">
+                  <span aria-hidden="true">⚡</span>
+                  <span data-i18n="fastSimHeader">{en.fastSimHeader}</span>
+                </div>
+                <a
+                  href="https://tamp.mincasurong.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="section-action-link"
+                >
+                  <span data-i18n="fastSimLaunch">{en.fastSimLaunch}</span>
+                </a>
+              </div>
+
+              <a
+                href="https://tamp.mincasurong.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="m9g-cover-blog-card"
+              >
+                <div class="m9g-cover-blog-thumb">
+                  <picture>
+                    <source srcset="/screenshots/blog6-fastsim-thumb-nanobanana.webp" type="image/webp" />
+                    <img
+                      src="/screenshots/blog6-fastsim-thumb-nanobanana.png"
+                      alt="Reconfigurable Franka FR3 Workcell & Multi-Cell Factory 3D Fast-Sim"
+                      width="1376"
+                      height="768"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                  <div class="m9g-cover-blog-pill-tl">Live 3D WebGL • tamp.mincasurong.com</div>
+                  <div class="m9g-cover-blog-pill-br">7-DOF DLS IK • Lazy-DaSH RCPSP</div>
+                </div>
+
+                <div class="m9g-cover-blog-body">
+                  <div class="m9g-cover-blog-meta">
+                    <span class="m9g-cover-blog-badge">Workcell &amp; Multi-Cell Factory • 52 Scenarios • Zero Install</span>
+                    <span class="m9g-cover-blog-icon" aria-hidden="true">↗</span>
+                  </div>
+                  <h3 class="m9g-cover-blog-title">
+                    <span data-i18n="fastSimTitle">{en.fastSimTitle}</span>
+                  </h3>
+                  <p class="m9g-cover-blog-desc">
+                    <span data-i18n="fastSimDesc">{en.fastSimDesc}</span>
+                  </p>
+                  <div>
+                    <span class="m9g-fastsim-cta">
+                      <span data-i18n="fastSimCta">{en.fastSimCta}</span>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- 5B. 5 Demo Videos Grid -->
+            <div class="subsection-divider">
+              <div class="subsection-bar">
+                <div class="subsection-title">
+                  <span aria-hidden="true">▶</span>
+                  <span data-i18n="demoVideosSub">{en.demoVideosSub}</span>
+                </div>
+              </div>
+
+              <div class="videos-grid">
+                {demoVideos.map((video) => (
+                  <a
+                    href={video.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="video-card"
+                  >
+                    <div class="video-thumb">
+                      <img
+                        src={video.thumbnail}
+                        alt={video.title}
+                        width="1280"
+                        height="720"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <div class="video-play-overlay" aria-hidden="true">
+                        <div class="video-play-circle">▶</div>
+                      </div>
+                    </div>
+                    <h3 class="video-card-title">{video.title}</h3>
+                    <p class="video-card-desc">
+                      <span data-i18n={video.descKey} set:html={en[video.descKey]} />
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <!-- 5C. Most Recent Technical Research Blog (driven from latestBlog = Blog 06) -->
+            <div>
+              <div class="subsection-bar">
+                <div class="subsection-title">
+                  <span aria-hidden="true">📄</span>
+                  <span data-i18n="recentBlogHeader">{en.recentBlogHeader}</span>
+                </div>
+                <a href="/blog/" class="section-action-link">
+                  <span data-i18n="viewAllBlogs">{en.viewAllBlogs}</span>
+                </a>
+              </div>
+
+              <a href={`/blog/${latestBlog.data.slug}/`} class="m9g-cover-blog-card">
+                <div class="m9g-cover-blog-thumb">
+                  <picture>
+                    <source srcset={latestBlog.data.thumbWebp} type="image/webp" />
+                    <img
+                      src={latestBlog.data.thumbPng}
+                      alt={latestBlog.data.hubTitle}
+                      width="1376"
+                      height="768"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                  <div class="m9g-cover-blog-pill-tl">Blog 0{latestBlog.data.order} • Latest</div>
+                  <div class="m9g-cover-blog-pill-br">{latestBlog.data.cardDurationBadge}</div>
+                </div>
+
+                <div class="m9g-cover-blog-body">
+                  <div class="m9g-cover-blog-meta">
+                    <span class="m9g-cover-blog-badge">{latestBlog.data.reportId} • {latestBlog.data.cardBadge}</span>
+                    <span class="m9g-cover-blog-icon" aria-hidden="true">↗</span>
+                  </div>
+                  <h3 class="m9g-cover-blog-title">
+                    <span data-i18n="latestBlogTitle">{en.latestBlogTitle}</span>
+                  </h3>
+                  <p class="m9g-cover-blog-desc">
+                    <span data-i18n="latestBlogDesc">{en.latestBlogDesc}</span>
+                  </p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. #build-with-ai -->
+        <section id="build-with-ai" class="portal-section">
+          <div class="portal-container-lg">
+            <div class="section-header-bar">
+              <div class="section-title-group">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+                <h2 class="section-kicker-heading">
+                  <span data-i18n="diariesSectionTitle">{en.diariesSectionTitle}</span>
+                </h2>
+              </div>
+            </div>
+
+            <div class="subsection-bar">
+              <div class="subsection-title">
+                <span aria-hidden="true">🚀</span>
+                <span data-i18n="appsDeployedSub">{en.appsDeployedSub}</span>
+              </div>
+              <div class="free-pill">
+                <span aria-hidden="true">✦</span>
+                <span data-i18n="freeBadge">{en.freeBadge}</span>
+              </div>
+            </div>
+
+            <div class="apps-list">
+              <!-- App 1: UrKuma (clean Google Play URL without trailing &hl) -->
+              <article class="app-card">
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.studio.kumakanji"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="app-thumb"
+                >
+                  <img
+                    src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg"
+                    alt="UrKuma: Korean-Japanese Quiz & learning"
+                    width="480"
+                    height="360"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="app-type-pill">Android App</span>
+                </a>
+                <div class="app-body">
+                  <div class="app-meta">
+                    <span class="app-domain">play.google.com</span>
+                    <span class="app-badge" data-i18n="bearBadge">{en.bearBadge}</span>
+                  </div>
+                  <h3 class="app-title">
+                    <a
+                      href="https://play.google.com/store/apps/details?id=com.studio.kumakanji"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span data-i18n="bearTitle">{en.bearTitle}</span>
+                    </a>
+                  </h3>
+                  <p class="app-desc">
+                    <span data-i18n="bearDesc">{en.bearDesc}</span>
+                  </p>
+                </div>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.studio.kumakanji"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="app-cta-btn"
+                >
+                  <span data-i18n="downloadBear">{en.downloadBear}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </article>
+
+              <!-- App 2: OPIc AI Master Coach -->
+              <article class="app-card">
+                <a
+                  href="https://opic.mincasurong.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="app-thumb"
+                >
+                  <picture>
+                    <source srcset="/screenshots/opic.webp" type="image/webp" />
+                    <img
+                      src="/screenshots/opic.svg"
+                      alt="OPIc AI Master Coach"
+                      width="1200"
+                      height="675"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                  <span class="app-type-pill">Web App</span>
+                </a>
+                <div class="app-body">
+                  <div class="app-meta">
+                    <span class="app-domain">opic.mincasurong.com</span>
+                    <span class="app-badge" data-i18n="opicBadge">{en.opicBadge}</span>
+                  </div>
+                  <h3 class="app-title">
+                    <a
+                      href="https://opic.mincasurong.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span data-i18n="opicTitle">{en.opicTitle}</span>
+                    </a>
+                  </h3>
+                  <p class="app-desc">
+                    <span data-i18n="opicDesc">{en.opicDesc}</span>
+                  </p>
+                </div>
+                <a
+                  href="https://opic.mincasurong.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="app-cta-btn"
+                >
+                  <span data-i18n="launchOpic">{en.launchOpic}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </article>
+
+              <!-- App 3: JLPT N4 Mock Exam & Drill Master -->
+              <article class="app-card">
+                <a
+                  href="https://jplt.mincasurong.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="app-thumb"
+                >
+                  <picture>
+                    <source srcset="/screenshots/jplt.webp" type="image/webp" />
+                    <img
+                      src="/screenshots/jplt.svg"
+                      alt="JLPT N4 Mock Exam & Drill Master"
+                      width="1200"
+                      height="675"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                  <span class="app-type-pill">Web App</span>
+                </a>
+                <div class="app-body">
+                  <div class="app-meta">
+                    <span class="app-domain">jplt.mincasurong.com</span>
+                    <span class="app-badge" data-i18n="jpltBadge">{en.jpltBadge}</span>
+                  </div>
+                  <h3 class="app-title">
+                    <a
+                      href="https://jplt.mincasurong.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span data-i18n="jpltTitle">{en.jpltTitle}</span>
+                    </a>
+                  </h3>
+                  <p class="app-desc">
+                    <span data-i18n="jpltDesc">{en.jpltDesc}</span>
+                  </p>
+                </div>
+                <a
+                  href="https://jplt.mincasurong.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="app-cta-btn"
+                >
+                  <span data-i18n="launchJplt">{en.launchJplt}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. #intro Bottom Dual CTA Cards -->
+        <section id="intro" class="portal-section">
+          <div class="portal-container-md">
+            <div class="intro-kicker-row">
+              <span aria-hidden="true">✦</span>
+              <span data-i18n="introKicker">{en.introKicker}</span>
+            </div>
+
+            <div class="grid-2col">
+              <a href="/vcard/" class="gblog-action-card gblog-bottom-cta">
+                <div class="action-card-left">
+                  <div class="gblog-icon-circle" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="gblog-action-title">
+                      <span data-i18n="vaultCvTitle">{en.vaultCvTitle}</span>
+                    </div>
+                    <p class="gblog-action-sub">
+                      <span data-i18n="vaultCvHook">{en.vaultCvHook}</span>
+                    </p>
+                  </div>
+                </div>
+                <span class="gblog-arrow-badge" aria-hidden="true">↗</span>
+              </a>
+
+              <a href="/archive/" class="gblog-action-card gblog-bottom-cta">
+                <div class="action-card-left">
+                  <div class="gblog-icon-circle" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="gblog-action-title">
+                      <span data-i18n="vaultArchTitle">{en.vaultArchTitle}</span>
+                    </div>
+                    <p class="gblog-action-sub">
+                      <span data-i18n="vaultArchHook">{en.vaultArchHook}</span>
+                    </p>
+                  </div>
+                </div>
+                <span class="gblog-arrow-badge" aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Go to Top Bar -->
+      <div class="m9g-gotop-bar">
+        <button
+          type="button"
+          class="m9g-gotop-btn"
+          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        >
+          <span aria-hidden="true">↑</span>
+          <span data-i18n="goToTop">{en.goToTop}</span>
+        </button>
+      </div>
+
+      <!-- Footer with Why M9G Easter Egg Modal -->
+      <footer class="portal-footer">
+        <div class="footer-inner">
+          <div class="footer-left">
+            <p class="footer-copy">
+              © 2026 <span data-i18n="footerBuildInPublic">{en.footerBuildInPublic}</span>
+            </p>
+            <button
+              type="button"
+              id="why-m9g-btn"
+              class="why-m9g-btn"
+              aria-expanded="false"
+              aria-controls="m9g-easter-egg-popup"
+            >
+              <span data-i18n="whyM9g">{en.whyM9g}</span>
+            </button>
+          </div>
+
+          <div id="m9g-easter-egg-popup" class="easter-egg-popup" role="dialog" aria-label="The M9G Formula">
+            <div class="easter-egg-header">
+              <span class="easter-egg-title" data-i18n="formulaTitle">{en.formulaTitle}</span>
+              <button type="button" id="m9g-easter-egg-close" class="easter-egg-close" aria-label="Close">✕</button>
+            </div>
+            <p style="margin: 0 0 10px;">
+              <strong>M9G</strong> <span data-i18n="formulaDesc">{en.formulaDesc}</span>
+            </p>
+            <div class="easter-egg-box">
+              <div>m<span class="text-amber-400 font-semibold">incasuron</span>g</div>
+              <div class="easter-egg-and" data-i18n="formulaAnd">{en.formulaAnd}</div>
+              <div>m<span class="text-amber-400 font-semibold">insu chan</span>g</div>
+            </div>
+          </div>
+
+          <div class="hero-pills">
+            <a
+              href="https://www.linkedin.com/in/mincasurong/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hero-pill-btn hero-pill-linkedin"
+            >
+              <span>LinkedIn</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              href="https://github.com/mincasurong"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hero-pill-btn hero-pill-github"
+            >
+              <span>GitHub</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script is:inline define:vars={{ PORTAL_I18N: portalI18nMap }}>
+      (function () {
+        var STORAGE_KEY = 'm9g_portfolio_lang';
+        var switcherBtn = document.getElementById('lang-switcher-btn');
+        var switcherLabel = document.getElementById('lang-switcher-label');
+        var switcherMenu = document.getElementById('lang-switcher-menu');
+        var optionBtns = document.querySelectorAll('[data-lang-option]');
+
+        function applyLocale(lang) {
+          var dict = PORTAL_I18N[lang] || PORTAL_I18N.en;
+          var resolved = PORTAL_I18N[lang] ? lang : 'en';
+          document.documentElement.lang = resolved;
+          if (switcherLabel) {
+            switcherLabel.textContent = resolved.toUpperCase();
+          }
+          optionBtns.forEach(function (btn) {
+            btn.classList.toggle('active', btn.getAttribute('data-lang-option') === resolved);
+          });
+          document.querySelectorAll('[data-i18n]').forEach(function (el) {
+            var key = el.getAttribute('data-i18n');
+            if (!key || !(key in dict)) return;
+            var val = dict[key];
+            if (key.slice(-4) === 'Html') {
+              el.innerHTML = val;
+            } else {
+              el.textContent = val;
+            }
+          });
+          try {
+            localStorage.setItem(STORAGE_KEY, resolved);
+          } catch (e) {}
+        }
+
+        var initialLang = 'en';
+        try {
+          var saved = localStorage.getItem(STORAGE_KEY);
+          if (saved && PORTAL_I18N[saved]) initialLang = saved;
+        } catch (e) {}
+        applyLocale(initialLang);
+
+        if (switcherBtn && switcherMenu) {
+          switcherBtn.addEventListener('click', function (ev) {
+            ev.stopPropagation();
+            var isOpen = switcherMenu.classList.toggle('open');
+            switcherBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          });
+          optionBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var code = btn.getAttribute('data-lang-option') || 'en';
+              applyLocale(code);
+              switcherMenu.classList.remove('open');
+              switcherBtn.setAttribute('aria-expanded', 'false');
+            });
+          });
+          document.addEventListener('click', function (ev) {
+            if (!switcherMenu.contains(ev.target) && ev.target !== switcherBtn) {
+              switcherMenu.classList.remove('open');
+              switcherBtn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+
+        // Easter-egg modal toggle
+        var whyBtn = document.getElementById('why-m9g-btn');
+        var popup = document.getElementById('m9g-easter-egg-popup');
+        var closeBtn = document.getElementById('m9g-easter-egg-close');
+        if (whyBtn && popup) {
+          whyBtn.addEventListener('click', function (ev) {
+            ev.stopPropagation();
+            var open = popup.classList.toggle('open');
+            whyBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          });
+          if (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+              popup.classList.remove('open');
+              whyBtn.setAttribute('aria-expanded', 'false');
+            });
+          }
+        }
+
+        // Lightweight 2D particle canvas (prefers-reduced-motion & document.hidden aware)
+        var canvas = document.getElementById('m9g-particle-canvas');
+        var prefersReducedMotion =
+          window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (canvas && !prefersReducedMotion) {
+          var ctx = canvas.getContext('2d');
+          if (ctx) {
+            var palette = [
+              'rgba(66, 133, 244, ',
+              'rgba(212, 175, 55, ',
+              'rgba(30, 142, 62, ',
+              'rgba(234, 67, 53, ',
+            ];
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            var count = w < 768 ? 26 : 52;
+            var particles = [];
+            var rafId = 0;
+
+            function resize() {
+              w = window.innerWidth;
+              h = window.innerHeight;
+              var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+              canvas.width = w * dpr;
+              canvas.height = h * dpr;
+              ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+
+            function initParticles() {
+              particles = [];
+              for (var i = 0; i < count; i++) {
+                particles.push({
+                  x: Math.random() * w,
+                  y: Math.random() * h,
+                  vx: (Math.random() - 0.5) * 0.32,
+                  vy: (Math.random() - 0.5) * 0.32,
+                  r: Math.random() * 1.6 + 1,
+                  alpha: Math.random() * 0.4 + 0.2,
+                  color: palette[i % palette.length],
+                });
+              }
+            }
+
+            function step() {
+              if (document.hidden) {
+                rafId = 0;
+                return;
+              }
+              ctx.clearRect(0, 0, w, h);
+              for (var i = 0; i < particles.length; i++) {
+                var p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0) p.x = w;
+                if (p.x > w) p.x = 0;
+                if (p.y < 0) p.y = h;
+                if (p.y > h) p.y = 0;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + p.alpha + ')';
+                ctx.fill();
+              }
+              rafId = requestAnimationFrame(step);
+            }
+
+            resize();
+            initParticles();
+            step();
+            window.addEventListener('resize', resize, { passive: true });
+            document.addEventListener('visibilitychange', function () {
+              if (!document.hidden && !rafId) {
+                rafId = requestAnimationFrame(step);
+              }
+            });
+          }
+        }
+      })();
+    </script>
   </body>
 </html>
