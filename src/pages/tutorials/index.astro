@@ -130,7 +130,6 @@ import ThemeHead from '../../components/ThemeHead.astro';
       box-shadow: 0 14px 32px rgba(26, 115, 232, 0.1);
     }
 
-    /* Topbar */
     .hero-pill-btn {
       display: inline-flex; align-items: center; gap: 4px;
       padding: 4px 10px; border-radius: 9999px;
@@ -207,7 +206,6 @@ import ThemeHead from '../../components/ThemeHead.astro';
     .lang-option:hover { background: var(--surface-alt); color: var(--text); }
     .lang-option.active { background: var(--accent-bg); color: var(--accent); font-weight: 700; }
 
-    /* Layout */
     .layout {
       position: relative; z-index: 1;
       max-width: 1200px; margin: 0 auto; padding: 32px 16px 80px;
@@ -223,7 +221,6 @@ import ThemeHead from '../../components/ThemeHead.astro';
       .spec-strip { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
     }
 
-    /* Hero & Track Filter */
     .post-meta-top {
       font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px;
       display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
@@ -248,7 +245,6 @@ import ThemeHead from '../../components/ThemeHead.astro';
     .spec-val.green { color: var(--g-green-dark); }
     .spec-note { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; line-height: 1.35; }
 
-    /* Track Tabs */
     .track-tabs {
       display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px;
       padding: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
@@ -265,7 +261,6 @@ import ThemeHead from '../../components/ThemeHead.astro';
     }
     html.dark .track-tab.active { color: #111111; }
 
-    /* Cards & Sections */
     .tutorial-section { margin-bottom: 44px; scroll-margin-top: 72px; }
     .section-banner {
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
@@ -305,7 +300,6 @@ import ThemeHead from '../../components/ThemeHead.astro';
       overflow-wrap: anywhere;
     }
 
-    /* Terminal Code Block */
     .cmd-block {
       background: var(--code-bg); color: var(--code-text);
       border: 1px solid #334155; border-radius: 10px; margin: 12px 0 16px; overflow: hidden;
@@ -328,7 +322,6 @@ import ThemeHead from '../../components/ThemeHead.astro';
       font-family: var(--font-mono); font-size: 12.5px; line-height: 1.6; color: var(--code-text);
     }
 
-    /* Video & Resource Pills */
     .video-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 14px 0;
     }
@@ -361,7 +354,6 @@ import ThemeHead from '../../components/ThemeHead.astro';
       font-size: 13.5px; color: var(--text-body);
     }
 
-    /* Sidebar */
     .sidebar { position: sticky; top: 70px; display: flex; flex-direction: column; gap: 16px; }
     .side-panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
     .side-heading {
@@ -448,10 +440,10 @@ import ThemeHead from '../../components/ThemeHead.astro';
       <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
         <nav class="topnav" style="gap:6px;">
           <a href="/vcard/" class="hero-pill-btn hero-pill-github"><span>CV</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
-          <a href="/archive/" class="hero-pill-btn hero-pill-github"><span data-i18n="nav_archive">Archive</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
-          <a href="/blog/" class="hero-pill-btn hero-pill-github"><span data-i18n="nav_blog">Blog</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
-          <a href="/tutorials/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="nav_tutorials">Tutorials</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
-          <a href="/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="nav_portfolio">Main Portal</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/archive/" class="hero-pill-btn hero-pill-github"><span data-i18n="navArchive">Archive</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/blog/" class="hero-pill-btn hero-pill-github"><span data-i18n="navBlog">Blog</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/tutorials/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navTutorials">Tutorials</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navPortfolio">Main Portal</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
         </nav>
         <button class="topbar-btn" id="theme-btn" data-theme-toggle="icon-only" onclick="window.__m9gToggleTheme()" title="Toggle Light / Dark Theme">☀</button>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
@@ -508,23 +500,18 @@ import ThemeHead from '../../components/ThemeHead.astro';
         </div>
       </div>
 
-      <!-- Track Filter Tabs -->
       <div class="track-tabs" role="tablist">
         <button class="track-tab active" onclick="filterTrack('all', this)" data-i18n="tabAll">All Tutorials (12 Modules)</button>
         <button class="track-tab" onclick="filterTrack('ros', this)" data-i18n="tabRos">Track A: ROS 1/2, MoveIt 1/2 &amp; Mobile Nav (4)</button>
         <button class="track-tab" onclick="filterTrack('jetson', this)" data-i18n="tabJetson">Track B: Jetson Nano + Camera Vision Bootcamp (8)</button>
       </div>
 
-      <!-- ================================================================= -->
-      <!-- TRACK A: BASIC ROBOTICS (ROS 2 / MOVEIT 2 / ROS 1 WSL2 / NAV)     -->
-      <!-- ================================================================= -->
       <section id="track-ros" class="tutorial-section" data-track="ros">
         <div class="section-banner">
           <h2 data-i18n="secRosTitle">Track A. Robotic Manipulation &amp; Mobile Navigation (ROS 1/2 &amp; MoveIt 1/2)</h2>
           <span class="module-badge">Windows 10 Native + WSL2 Ubuntu 18.04</span>
         </div>
 
-        <!-- Module A1: ROS 2 Foxy in Windows 10 -->
         <article id="ros2-windows10" class="module-card">
           <div class="module-header">
             <span class="module-badge">Part 1 • ROS 2 Foxy (Windows 10)</span>
@@ -575,7 +562,6 @@ ros2 run demo_nodes_cpp listener</pre>
           </div>
         </article>
 
-        <!-- Module A2: MoveIt 2 in Windows 10 -->
         <article id="moveit2-windows10" class="module-card">
           <div class="module-header">
             <span class="module-badge">Part 2 • MoveIt 2 on Windows 10</span>
@@ -609,7 +595,6 @@ ros2 launch moveit_resources_panda_moveit_config demo.launch.py</pre>
           </div>
         </article>
 
-        <!-- Module A3: ROS 1 Melodic + MoveIt 1 in WSL2 -->
         <article id="ros1-moveit1-wsl2" class="module-card">
           <div class="module-header">
             <span class="module-badge">Part 3 • ROS 1 Melodic + MoveIt 1 (WSL2)</span>
@@ -650,7 +635,6 @@ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true</pre>
           </div>
         </article>
 
-        <!-- Module A4: Mobile Robot Navigation Stack -->
         <article id="mobile-robot-nav" class="module-card">
           <div class="module-header">
             <span class="module-badge">Part 4 • Mobile Robot &amp; ROS Navigation Stack</span>
@@ -675,16 +659,12 @@ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true</pre>
         </article>
       </section>
 
-      <!-- ================================================================= -->
-      <!-- TRACK B: JETSON NANO + CAMERA VISION BOOTCAMP (8 MODULES)         -->
-      <!-- ================================================================= -->
       <section id="track-jetson" class="tutorial-section" data-track="jetson">
         <div class="section-banner">
           <h2 data-i18n="secJetsonTitle">Track B. NVIDIA Jetson Nano + Camera Vision Bootcamp (8 Modules)</h2>
           <span class="module-badge">Sogang Univ. × Hyundai Mobis SW Camp (2021)</span>
         </div>
 
-        <!-- Module B0: Introduction & Lecture PDFs -->
         <article id="jetson-intro" class="module-card">
           <div class="module-header">
             <span class="module-badge">Module 0 • Course Overview &amp; Lecture Slides</span>
@@ -707,7 +687,6 @@ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true</pre>
           </div>
         </article>
 
-        <!-- Module B1: 1. Jetson Nano Preparation -->
         <article id="jetson-1-prep" class="module-card">
           <div class="module-header">
             <span class="module-badge">Module 1 • Hardware, JetPack 4.5, Headless VNC &amp; CSI Camera</span>
@@ -769,7 +748,6 @@ gst-launch-1.0 nvarguscamerasrc sensor_mode=1 ! 'video/x-raw(memory:NVMM),width=
           </div>
         </article>
 
-        <!-- Module B2: 2. Linux & Docker Container -->
         <article id="jetson-2-docker" class="module-card">
           <div class="module-header">
             <span class="module-badge">Module 2 • Linux CLI &amp; jetson-inference Docker Container</span>
@@ -798,7 +776,6 @@ cd build/aarch64/bin
           </div>
         </article>
 
-        <!-- Module B3: 3. Object Detection -->
         <article id="jetson-3-detectnet" class="module-card">
           <div class="module-header">
             <span class="module-badge">Module 3 • Real-Time Object Detection (SSD-MobileNet-v2)</span>
@@ -855,7 +832,6 @@ while display.IsStreaming():
           </div>
         </article>
 
-        <!-- Module B4-1: 4-1. Transfer Learning Prep -->
         <article id="jetson-4-1-tl-prep" class="module-card">
           <div class="module-header">
             <span class="module-badge">Module 4-1 • Swap Memory, USB Mount &amp; OpenImages Dataset</span>
@@ -895,7 +871,6 @@ python3 open_images_downloader.py --max-images=100 --class-names "Apple" --data=
           </div>
         </article>
 
-        <!-- Module B4-2: 4-2. Transfer Learning Training & ONNX Export -->
         <article id="jetson-4-2-tl-train" class="module-card">
           <div class="module-header">
             <span class="module-badge">Module 4-2 • PyTorch SSD Fine-Tuning &amp; TensorRT ONNX Export</span>
@@ -926,7 +901,6 @@ detectnet.py --model=models/ssd-mobilenet.onnx --labels=models/labels.txt \
           </div>
         </article>
 
-        <!-- Module B5: 5. NVIDIA DLI Certification & Troubleshooting -->
         <article id="jetson-5-dli" class="module-card">
           <div class="module-header">
             <span class="module-badge">Module 5 • NVIDIA DLI Certificates &amp; Docker Disk Recovery</span>
@@ -959,7 +933,6 @@ df -h</pre>
           </div>
         </article>
 
-        <!-- Module B6: 6. NVIDIA TLT / TAO Links -->
         <article id="jetson-6-tlt" class="module-card">
           <div class="module-header">
             <span class="module-badge">Module 6 • NVIDIA Transfer Learning Toolkit (TLT / TAO)</span>
@@ -978,7 +951,6 @@ df -h</pre>
       </section>
     </main>
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="side-panel">
         <h3 class="side-heading" data-i18n="sideToc">Tutorial Modules</h3>
@@ -1083,7 +1055,7 @@ df -h</pre>
       },
       ko: {
         headerBrand: "로보틱스 & 엣지 AI 튜토리얼",
-        navTutorials: "튜토리얼", navArchive: "아카이브 & 특허", navVlaBlog: "VLA 블로그", navAgentBlog: "에이전트 블로그", navPortfolio: "메인 포털",
+        navTutorials: "튜토리얼", navArchive: "아카이브 & 특허", navBlog: "블로그", navPortfolio: "메인 포털",
         heroBadge: "ROS 1/2 • MoveIt 1/2 • 젯슨 나노 부트캠프",
         heroTitle: "로봇 매니퓰레이션(ROS/MoveIt), 모바일 내비게이션 & Jetson Nano 카메라 비전 실습 허브",
         heroLede: "mincasurong.com의 전체 엔지니어링 튜토리얼 및 강의록 통합본: Windows 10 네이티브 ROS 2 Foxy & MoveIt 2 모션 플래닝, WSL2 Ubuntu 18.04 기반 ROS 1 Melodic & MoveIt 1 + 모바일 로봇 내비게이션 스택, 그리고 서강대 × 현대모비스 SW 캠프 NVIDIA Jetson Nano + CSI 카메라 비전 & 전이학습(Transfer Learning) 8단계 부트캠프.",
@@ -1096,7 +1068,7 @@ df -h</pre>
       },
       ja: {
         headerBrand: "ロボティクス & エッジAI チュートリアル",
-        navTutorials: "チュートリアル", navArchive: "アーカイブ & 特許", navVlaBlog: "VLAブログ", navAgentBlog: "エージェントブログ", navPortfolio: "メインポータル",
+        navTutorials: "チュートリアル", navArchive: "アーカイブ & 特許", navBlog: "ブログ", navPortfolio: "メインポータル",
         heroBadge: "ROS 1/2 • MoveIt 1/2 • Jetson Nano ブートキャンプ",
         heroTitle: "ロボットマニピュレーション (ROS/MoveIt)、自律移動 & Jetson Nano カメラビジョン実践",
         heroLede: "mincasurong.com の全技術チュートリアルと講義資料を統合：Windows 10上のネイティブ ROS 2 Foxy & MoveIt 2 モーションプランニング、WSL2 Ubuntu 18.04での ROS 1 Melodic & MoveIt 1 + ROS Navigation Stack、および NVIDIA Jetson Nano + CSIカメラビジョン＆転移学習（8モジュール）ブートキャンプ。",
@@ -1109,7 +1081,7 @@ df -h</pre>
       },
       zh: {
         headerBrand: "机器人与边缘 AI 实战教程",
-        navTutorials: "实战教程", navArchive: "研究档案与专利", navVlaBlog: "VLA 博客", navAgentBlog: "智能体博客", navPortfolio: "返回主页",
+        navTutorials: "实战教程", navArchive: "研究档案与专利", navBlog: "博客", navPortfolio: "返回主页",
         heroBadge: "ROS 1/2 • MoveIt 1/2 • Jetson Nano 训练营",
         heroTitle: "机械臂运动规划 (ROS/MoveIt)、移动导航与 Jetson Nano 视觉实战中心",
         heroLede: "完整整合自 mincasurong.com 的工程教程与讲义：Windows 10 原生 ROS 2 Foxy 与 MoveIt 2 机械臂运动规划、WSL2 Ubuntu 18.04 下的 ROS 1 Melodic 与 MoveIt 1 + 移动机器人导航栈，以及 8 讲 NVIDIA Jetson Nano + CSI 相机视觉与 TensorRT 迁移学习训练营。",
@@ -1122,7 +1094,7 @@ df -h</pre>
       },
       es: {
         headerBrand: "Tutoriales de Robótica e IA en el Borde",
-        navTutorials: "Tutoriales", navArchive: "Archivo y Patentes", navVlaBlog: "Blog VLA", navAgentBlog: "Blog Agentes", navPortfolio: "Portal Principal",
+        navTutorials: "Tutoriales", navArchive: "Archivo y Patentes", navBlog: "Blog", navPortfolio: "Portal Principal",
         heroBadge: "ROS 1/2 • MoveIt 1/2 • Bootcamp Jetson Nano",
         heroTitle: "Manipulación Robótica (ROS/MoveIt), Navegación Móvil y Visión en Jetson Nano",
         heroLede: "Tutoriales prácticos y notas de clase consolidados de mincasurong.com: planificación de movimiento con ROS 2 Foxy y MoveIt 2 en Windows 10, ROS 1 Melodic y MoveIt 1 + ROS Navigation Stack en WSL2 Ubuntu 18.04, y el Bootcamp de 8 módulos en NVIDIA Jetson Nano con cámara CSI y Transfer Learning en TensorRT.",

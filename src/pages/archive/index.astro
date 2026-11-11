@@ -112,7 +112,6 @@ if (patents.length !== 14) {
     a { color: var(--accent-blue); text-decoration: none; }
     img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
 
-    /* Google-Blog Unified Topbar */
     .hero-pill-btn {
       display: inline-flex; align-items: center; gap: 4px;
       padding: 4px 10px; border-radius: 9999px;
@@ -189,7 +188,6 @@ if (patents.length !== 14) {
     .lang-option:hover { background: var(--surface); color: var(--text); }
     .lang-option.active { background: var(--accent-blue-bg); color: var(--accent-blue); font-weight: 700; }
 
-    /* Hero & Spec Strip */
     .hero {
       position: relative; z-index: 1;
       max-width: 1200px; margin: 0 auto; padding: 28px 16px 8px;
@@ -219,7 +217,6 @@ if (patents.length !== 14) {
     .spec-val.amber { color: var(--accent-amber); }
     .spec-note { font-size: 11.5px; color: var(--text-dim); margin-top: 2px; }
 
-    /* Filter Bar */
     .filter-bar {
       display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;
       padding: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
@@ -232,7 +229,6 @@ if (patents.length !== 14) {
     .filter-btn:hover { color: var(--text); background: var(--surface-alt); }
     .filter-btn.active { background: var(--accent-blue); color: #ffffff; }
 
-    /* Two-Column Google-Blog Layout (Article Left, Sticky Sidebar Right) */
     .layout {
       position: relative; z-index: 1;
       max-width: 1200px; margin: 0 auto; padding: 20px 16px 80px;
@@ -256,7 +252,6 @@ if (patents.length !== 14) {
     }
     .toc-list a:hover { color: var(--accent-blue); background: var(--accent-blue-bg); }
 
-    /* Cards & Interactive Motions */
     .archive-section { margin-bottom: 36px; scroll-margin-top: 72px; }
     .section-card {
       background: var(--bg-card); border: 1px solid var(--border);
@@ -441,10 +436,10 @@ if (patents.length !== 14) {
       <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
         <nav class="topnav" style="gap:6px;">
           <a href="/vcard/" class="hero-pill-btn hero-pill-github"><span>CV</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
-          <a href="/archive/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="nav_archive">Archive</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
-          <a href="/blog/" class="hero-pill-btn hero-pill-github"><span data-i18n="nav_blog">Blog</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
-          <a href="/tutorials/" class="hero-pill-btn hero-pill-github"><span data-i18n="nav_tutorials">Tutorials</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
-          <a href="/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="nav_portfolio">Main Portal</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/archive/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navArchive">Archive</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/blog/" class="hero-pill-btn hero-pill-github"><span data-i18n="navBlog">Blog</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/tutorials/" class="hero-pill-btn hero-pill-github"><span data-i18n="navTutorials">Tutorials</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
+          <a href="/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navPortfolio">Main Portal</span><span style="font-size:11px;opacity:0.8;">↗</span></a>
         </nav>
         <button class="topbar-btn" id="theme-btn" data-theme-toggle="icon-only" onclick="window.__m9gToggleTheme()" title="Toggle Light / Dark Theme">☀</button>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">

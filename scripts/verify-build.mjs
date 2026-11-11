@@ -22,7 +22,6 @@ function walkFiles(dir) {
   return results;
 }
 
-// 1. Exact uppercase 'VLA' directory entry in dist/blog and >50 KB size
 const blogDir = path.join(DIST, 'blog');
 if (!fs.existsSync(blogDir)) {
   fail('dist/blog directory does not exist');
@@ -45,7 +44,6 @@ if (!fs.existsSync(blogDir)) {
   }
 }
 
-// 2. All expected routes exist in dist/
 const redirectsData = JSON.parse(fs.readFileSync(path.resolve('src/content/data/redirects.json'), 'utf8'));
 const staticRedirectStubs = redirectsData
   .filter((r) => r.id !== 'blog/vla')
@@ -86,7 +84,6 @@ for (const rel of expectedFiles) {
   }
 }
 
-// Pre-index all HTML files and their id="..." attributes
 const allDistFiles = walkFiles(DIST);
 const htmlFiles = allDistFiles.filter((f) => f.endsWith('.html'));
 const htmlContentByRel = new Map();
@@ -131,7 +128,6 @@ function resolveInternalUrl(rawUrl, sourceRel) {
   }
 }
 
-// 3. Every internal href="/..." and <meta http-equiv="refresh" content="0; url=/..."> resolves
 for (const [rel, content] of htmlContentByRel.entries()) {
   for (const m of content.matchAll(/\bhref=["'](\/[^"']*)["']/g)) {
     const url = m[1];
@@ -143,7 +139,6 @@ for (const [rel, content] of htmlContentByRel.entries()) {
   }
 }
 
-// 4. Valid JSON-LD across dist/**/*.html and 0 raw LaTeX tokens in dist/blog/**/*.html
 for (const [rel, content] of htmlContentByRel.entries()) {
   for (const m of content.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
     try {
@@ -165,7 +160,6 @@ for (const [rel, content] of htmlContentByRel.entries()) {
   }
 }
 
-// 5. Content route checks (11 routes)
 for (const rel of contentRoutes) {
   const content = htmlContentByRel.get(rel);
   if (!content) continue;
@@ -185,13 +179,27 @@ for (const rel of contentRoutes) {
   }
 }
 
-// 6. src/styles/tokens.css contains 0 !important declarations
+for (const rel of ['tutorials/index.html', 'archive/index.html']) {
+  const content = htmlContentByRel.get(rel);
+  if (!content) continue;
+  const topnavMatch = content.match(/<nav\b[^>]*class=["'][^"']*\btopnav\b[^"']*["'][^>]*>([\s\S]*?)<\/nav>/i);
+  if (!topnavMatch) {
+    fail(`Missing .topnav in dist/${rel}`);
+    continue;
+  }
+  const topnavHtml = topnavMatch[1];
+  for (const key of ['navArchive', 'navBlog', 'navTutorials', 'navPortfolio']) {
+    if (!new RegExp(`data-i18n=["']${key}["']`).test(topnavHtml)) {
+      fail(`Missing topbar nav data-i18n="${key}" in dist/${rel}`);
+    }
+  }
+}
+
 const tokensCss = fs.readFileSync(path.resolve('src/styles/tokens.css'), 'utf8');
 if (tokensCss.includes('!important')) {
   fail('src/styles/tokens.css contains forbidden !important declaration');
 }
 
-// 7. Media binary integrity and no .py files in dist/
 function getMp4AtomOffsets(buf) {
   let offset = 0;
   let moov = -1;

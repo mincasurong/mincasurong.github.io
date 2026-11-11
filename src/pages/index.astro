@@ -180,7 +180,6 @@ const jsonLd = {
         }
       }
 
-      /* Language dropdown */
       .lang-switcher {
         position: relative;
         flex-shrink: 0;
@@ -227,7 +226,6 @@ const jsonLd = {
         font-weight: 700;
       }
 
-      /* Hero section */
       .hero-section {
         padding: 4rem 1.5rem 3.5rem;
         border-bottom: 1px solid var(--m9g-border);
@@ -268,7 +266,6 @@ const jsonLd = {
         gap: 8px;
       }
 
-      /* Shared section containers */
       .portal-section {
         padding: 3.5rem 0;
       }
@@ -321,7 +318,6 @@ const jsonLd = {
         max-width: 48rem;
       }
 
-      /* Vault section */
       .vault-header {
         text-align: center;
         margin-bottom: 1.5rem;
@@ -391,7 +387,6 @@ const jsonLd = {
         min-width: 0;
       }
 
-      /* News card */
       .news-card {
         padding: 1.5rem;
         border-radius: 24px;
@@ -603,7 +598,6 @@ const jsonLd = {
         color: var(--m9g-accent);
       }
 
-      /* Subheaders within sections */
       .subsection-bar {
         display: flex;
         flex-wrap: wrap;
@@ -637,7 +631,6 @@ const jsonLd = {
         border-bottom: 1px solid var(--m9g-border);
       }
 
-      /* Demo videos grid */
       .videos-grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -700,7 +693,6 @@ const jsonLd = {
         line-height: 1.55;
       }
 
-      /* Live apps list */
       .apps-list {
         display: flex;
         flex-direction: column;
@@ -881,7 +873,6 @@ const jsonLd = {
         font-weight: 700;
       }
 
-      /* Intro bottom CTA & Footer */
       .intro-kicker-row {
         display: flex;
         align-items: center;
@@ -1023,7 +1014,6 @@ const jsonLd = {
     <div class="portal-shell">
       <canvas id="m9g-particle-canvas" class="particle-canvas" aria-hidden="true"></canvas>
 
-      <!-- 1. Sticky Topbar -->
       <header class="topbar">
         <div class="topbar-inner">
           <a href="#hero" class="brand">
@@ -1102,7 +1092,6 @@ const jsonLd = {
       </header>
 
       <main class="portal-main">
-        <!-- 2. #hero -->
         <section id="hero" class="hero-section">
           <div class="hero-inner">
             <h1 class="hero-title">
@@ -1142,7 +1131,6 @@ const jsonLd = {
           </div>
         </section>
 
-        <!-- 3. #research-archive -->
         <section id="research-archive" class="portal-section">
           <div class="portal-container-md">
             <div class="section-header-bar">
@@ -1170,7 +1158,6 @@ const jsonLd = {
                 </h3>
               </div>
 
-              <!-- 2 Talk Photo Cards -->
               <div class="grid-2col" style="margin-bottom: 18px;">
                 <a href="/vcard/" class="gblog-photo-card">
                   <div class="photo-frame">
@@ -1221,7 +1208,6 @@ const jsonLd = {
                 </a>
               </div>
 
-              <!-- 2 Action CTAs -->
               <div class="grid-2col">
                 <a href="/vcard/" class="gblog-action-card">
                   <div class="action-card-left">
@@ -1263,7 +1249,6 @@ const jsonLd = {
                 </a>
               </div>
 
-              <!-- 4 Sublink Pills -->
               <div class="gblog-sublinks-row">
                 <a
                   href="https://tamp.mincasurong.com"
@@ -1298,7 +1283,6 @@ const jsonLd = {
           </div>
         </section>
 
-        <!-- 4. #news -->
         <section id="news" class="portal-section">
           <div class="portal-container-md">
             <div class="section-header-bar">
@@ -1361,7 +1345,6 @@ const jsonLd = {
                 <span data-i18n="newsP2Html" set:html={en.newsP2Html} />
               </p>
 
-              <!-- Solid CTA Card to geminispace.mincasurong.com -->
               <a
                 href="https://geminispace.mincasurong.com/"
                 target="_blank"
@@ -1383,7 +1366,6 @@ const jsonLd = {
                 <span aria-hidden="true">↗</span>
               </a>
 
-              <!-- 3 External Links -->
               <div class="news-links-grid">
                 <a
                   href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/"
@@ -1417,7 +1399,6 @@ const jsonLd = {
           </div>
         </section>
 
-        <!-- 5. #robotics-series -->
         <section id="robotics-series" class="portal-section">
           <div class="portal-container-lg">
             <div class="section-header-bar">
@@ -1435,7 +1416,6 @@ const jsonLd = {
               <span data-i18n="roboticsSub">{en.roboticsSub}</span>
             </p>
 
-            <!-- 5A. Interactive 3D Fast-Sim Web App -->
             <div class="subsection-divider">
               <div class="subsection-bar">
                 <div class="subsection-title">
@@ -1494,7 +1474,6 @@ const jsonLd = {
               </a>
             </div>
 
-            <!-- 5B. 5 Demo Videos Grid -->
             <div class="subsection-divider">
               <div class="subsection-bar">
                 <div class="subsection-title">
@@ -1533,7 +1512,6 @@ const jsonLd = {
               </div>
             </div>
 
-            <!-- 5C. Most Recent Technical Research Blog (driven from latestBlog = Blog 06) -->
             <div>
               <div class="subsection-bar">
                 <div class="subsection-title">
@@ -1579,7 +1557,6 @@ const jsonLd = {
           </div>
         </section>
 
-        <!-- 6. #build-with-ai -->
         <section id="build-with-ai" class="portal-section">
           <div class="portal-container-lg">
             <div class="section-header-bar">
@@ -1605,7 +1582,6 @@ const jsonLd = {
             </div>
 
             <div class="apps-list">
-              <!-- App 1: UrKuma (clean Google Play URL without trailing &hl) -->
               <article class="app-card">
                 <a
                   href="https://play.google.com/store/apps/details?id=com.studio.kumakanji"
@@ -1652,7 +1628,6 @@ const jsonLd = {
                 </a>
               </article>
 
-              <!-- App 2: OPIc AI Master Coach -->
               <article class="app-card">
                 <a
                   href="https://opic.mincasurong.com/"
@@ -1702,7 +1677,6 @@ const jsonLd = {
                 </a>
               </article>
 
-              <!-- App 3: JLPT N4 Mock Exam & Drill Master -->
               <article class="app-card">
                 <a
                   href="https://jplt.mincasurong.com/"
@@ -1755,7 +1729,6 @@ const jsonLd = {
           </div>
         </section>
 
-        <!-- 7. #intro Bottom Dual CTA Cards -->
         <section id="intro" class="portal-section">
           <div class="portal-container-md">
             <div class="intro-kicker-row">
@@ -1807,7 +1780,6 @@ const jsonLd = {
         </section>
       </main>
 
-      <!-- Go to Top Bar -->
       <div class="m9g-gotop-bar">
         <button
           type="button"
@@ -1819,7 +1791,6 @@ const jsonLd = {
         </button>
       </div>
 
-      <!-- Footer with Why M9G Easter Egg Modal -->
       <footer class="portal-footer">
         <div class="footer-inner">
           <div class="footer-left">
@@ -1938,7 +1909,6 @@ const jsonLd = {
           });
         }
 
-        // Easter-egg modal toggle
         var whyBtn = document.getElementById('why-m9g-btn');
         var popup = document.getElementById('m9g-easter-egg-popup');
         var closeBtn = document.getElementById('m9g-easter-egg-close');
@@ -1956,7 +1926,6 @@ const jsonLd = {
           }
         }
 
-        // Lightweight 2D particle canvas (prefers-reduced-motion & document.hidden aware)
         var canvas = document.getElementById('m9g-particle-canvas');
         var prefersReducedMotion =
           window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
