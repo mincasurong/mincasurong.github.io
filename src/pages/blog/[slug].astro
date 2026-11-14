@@ -519,15 +519,15 @@ const { post, allPosts } = Astro.props;
       </a>
       <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;">
         <nav class="topnav">
-          <a href="/vcard/" class="topnav-pill">CV ↗</a>
+          <a href="/vcard/" class="topnav-pill" data-i18n="navCv">CV ↗</a>
           <a href="/archive/" class="topnav-pill" data-i18n="navArchive">Archive</a>
           <a href="/blog/" class="topnav-pill active" data-i18n="navBlog">Blog</a>
           <a href="/tutorials/" class="topnav-pill" data-i18n="navTutorials">Tutorials</a>
           <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a>
         </nav>
-        <button class="topbar-btn" id="theme-btn" data-theme-toggle="icon-only" onclick="window.__m9gToggleTheme()" title="Toggle Light / Dark Theme">☀</button>
+        <button class="topbar-btn" id="theme-btn" data-theme-toggle="icon-only" onclick="window.__m9gToggleTheme()" title="Toggle light or dark theme" aria-label="Toggle light or dark theme">☀</button>
         <div class="lang-dropdown-wrap" id="lang-dropdown-wrap">
-          <button class="lang-box-btn" onclick="toggleLangMenu(arguments[0])" aria-label="Select Language">
+          <button class="lang-box-btn" id="lang-select-btn" onclick="toggleLangMenu(arguments[0])" aria-label="Select language">
             <span id="current-lang-label">EN</span>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
@@ -545,10 +545,10 @@ const { post, allPosts } = Astro.props;
 
   <section class="article-hero">
     <div class="hero-inner">
-      <nav class="blog-post-switcher" aria-label="Technical Research Blog Navigation">
+      <nav class="blog-post-switcher" id="blog-switcher-nav" aria-label="Technical Research Blog Navigation">
         <a href="/blog/" class="blog-post-tab">
-          <span class="blog-post-tab-kicker">Research Index</span>
-          <span class="blog-post-tab-title">← All M9G Research Articles (/blog)</span>
+          <span class="blog-post-tab-kicker" data-i18n="switcherIndexKicker">Research Index</span>
+          <span class="blog-post-tab-title" data-i18n="switcherIndexTitle">← All M9G Research Reports (/blog)</span>
         </a>
         {allPosts.map((p) => (
           <a
@@ -588,17 +588,95 @@ const { post, allPosts } = Astro.props;
   </div>
 
   <div class="m9g-gotop-bar">
-    <button type="button" class="m9g-gotop-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Go to Top">
+    <button type="button" class="m9g-gotop-btn" id="gotop-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-      <span>Go to Top</span>
+      <span data-i18n="goTopLabel">Back to Top</span>
     </button>
   </div>
 
   <footer>
-    © 2026 M9G (Minsu Chang, Ph.D.) • <a href="https://tamp.mincasurong.com" target="_blank" rel="noopener">tamp.mincasurong.com ↗</a> • <a href="/">mincasurong.github.io</a> • <a href="/blog/">Research Blog Index</a> • <a href="https://github.com/mincasurong">GitHub</a> • <a href="https://www.linkedin.com/in/mincasurong/">LinkedIn</a>
+    © 2026 M9G (Minsu Chang, Ph.D.) • <a href="https://tamp.mincasurong.com" target="_blank" rel="noopener">tamp.mincasurong.com ↗</a> • <a href="/">mincasurong.github.io</a> • <a href="/blog/" data-i18n="footerBlogIndex">Research Blog Index</a> • <a href="https://github.com/mincasurong">GitHub</a> • <a href="https://www.linkedin.com/in/mincasurong/">LinkedIn</a>
   </footer>
 
   <script is:inline define:vars={{ BLOG_I18N: post.data.i18n }}>
+    var CHROME_I18N = {
+      en: {
+        blogHeaderBrand: 'Technical Research Blog',
+        navCv: 'CV ↗',
+        navArchive: 'Archive',
+        navBlog: 'Blog',
+        navTutorials: 'Tutorials',
+        navPortfolio: 'Main Portal',
+        switcherIndexKicker: 'Research Index',
+        switcherIndexTitle: '← All M9G Research Reports (/blog)',
+        goTopLabel: 'Back to Top',
+        footerBlogIndex: 'Research Blog Index',
+        themeToggleLabel: 'Toggle light or dark theme',
+        langSelectLabel: 'Select language',
+        switcherNavLabel: 'Technical Research Blog Navigation'
+      },
+      ko: {
+        blogHeaderBrand: '기술 리서치 블로그',
+        navCv: '이력서 ↗',
+        navArchive: '아카이브',
+        navBlog: '블로그',
+        navTutorials: '튜토리얼',
+        navPortfolio: '메인 포털',
+        switcherIndexKicker: '리서치 인덱스',
+        switcherIndexTitle: '← 전체 M9G 기술 리포트 (/blog)',
+        goTopLabel: '맨 위로 이동',
+        footerBlogIndex: '리서치 블로그 인덱스',
+        themeToggleLabel: '라이트 및 다크 테마 전환',
+        langSelectLabel: '언어 선택',
+        switcherNavLabel: '기술 리서치 블로그 탐색'
+      },
+      ja: {
+        blogHeaderBrand: '技術リサーチブログ',
+        navCv: '経歴書 ↗',
+        navArchive: 'アーカイブ',
+        navBlog: 'ブログ',
+        navTutorials: 'チュートリアル',
+        navPortfolio: 'メインポータル',
+        switcherIndexKicker: 'リサーチ一覧',
+        switcherIndexTitle: '← M9G 技術レポート一覧 (/blog)',
+        goTopLabel: 'ページ上部へ',
+        footerBlogIndex: 'リサーチブログ一覧',
+        themeToggleLabel: 'ライトテーマとダークテーマを切り替え',
+        langSelectLabel: '言語を選択',
+        switcherNavLabel: '技術リサーチブログナビゲーション'
+      },
+      zh: {
+        blogHeaderBrand: '技术研究博客',
+        navCv: '简历 ↗',
+        navArchive: '档案库',
+        navBlog: '博客',
+        navTutorials: '教程',
+        navPortfolio: '主门户',
+        switcherIndexKicker: '研究索引',
+        switcherIndexTitle: '← 全部 M9G 技术报告 (/blog)',
+        goTopLabel: '返回顶部',
+        footerBlogIndex: '研究博客索引',
+        themeToggleLabel: '切换浅色或深色主题',
+        langSelectLabel: '选择语言',
+        switcherNavLabel: '技术研究博客导航'
+      },
+      es: {
+        blogHeaderBrand: 'Blog de Investigación Técnica',
+        navCv: 'CV ↗',
+        navArchive: 'Archivo',
+        navBlog: 'Blog',
+        navTutorials: 'Tutoriales',
+        navPortfolio: 'Portal Principal',
+        switcherIndexKicker: 'Índice de Investigación',
+        switcherIndexTitle: '← Todos los Informes Técnicos de M9G (/blog)',
+        goTopLabel: 'Volver arriba',
+        footerBlogIndex: 'Índice del Blog de Investigación',
+        themeToggleLabel: 'Alternar tema claro u oscuro',
+        langSelectLabel: 'Seleccionar idioma',
+        switcherNavLabel: 'Navegación del Blog de Investigación Técnica'
+      }
+    };
+
     window.addEventListener('scroll', function() {
       var doc = document.documentElement;
       var top = doc.scrollTop || document.body.scrollTop;
@@ -631,16 +709,31 @@ const { post, allPosts } = Astro.props;
       var popup = document.getElementById('lang-popup');
       if (popup) popup.classList.remove('open');
       var dict = BLOG_I18N[lang];
+      var chrome = CHROME_I18N[lang] || CHROME_I18N.en;
+      var themeBtn = document.getElementById('theme-btn');
+      if (themeBtn) {
+        themeBtn.setAttribute('title', chrome.themeToggleLabel);
+        themeBtn.setAttribute('aria-label', chrome.themeToggleLabel);
+      }
+      var langBtn = document.getElementById('lang-select-btn');
+      if (langBtn) langBtn.setAttribute('aria-label', chrome.langSelectLabel);
+      var switcherNav = document.getElementById('blog-switcher-nav');
+      if (switcherNav) switcherNav.setAttribute('aria-label', chrome.switcherNavLabel);
+      var goTopBtn = document.getElementById('gotop-btn');
+      if (goTopBtn) goTopBtn.setAttribute('aria-label', chrome.goTopLabel);
       document.querySelectorAll('[data-i18n]').forEach(function(el) {
-        if (!el.hasAttribute('data-orig-html') && el.children.length > 0) {
-          el.setAttribute('data-orig-html', el.innerHTML);
+        if (el.dataset.origHtml === undefined) {
+          el.dataset.origHtml = el.innerHTML;
         }
         if (lang === 'en') {
-          if (el.hasAttribute('data-orig-html')) { el.innerHTML = el.getAttribute('data-orig-html'); return; }
-          if (el.children.length > 0) return;
+          if (el.innerHTML !== el.dataset.origHtml) {
+            el.innerHTML = el.dataset.origHtml;
+          }
+          return;
         }
         var key = el.getAttribute('data-i18n');
-        if (dict && dict[key]) el.textContent = dict[key];
+        var val = (dict && dict[key]) || chrome[key];
+        if (val) el.textContent = val;
       });
     };
 

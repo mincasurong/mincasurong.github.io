@@ -6,12 +6,12 @@ import ThemeHead from '../../components/ThemeHead.astro';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ROS 2, MoveIt 2 &amp; Jetson Nano Edge AI Tutorials — M9G Engineering Hub</title>
+  <title>ROS 2, MoveIt 2 &amp; Jetson Nano Edge AI Tutorials · M9G Engineering Hub</title>
   <link rel="canonical" href="https://mincasurong.github.io/tutorials/" />
   <meta name="robots" content="index, follow" />
-  <meta name="description" content="Hands-on robotics and Edge AI tutorials by Minsu Chang, PhD (M9G): ROS 2 Foxy & MoveIt 2 on Windows 10, ROS 1 Melodic & MoveIt 1 in WSL2, ROS Navigation Stack, and an 8-module NVIDIA Jetson Nano + CSI Camera Vision & Transfer Learning Bootcamp." />
-  <meta property="og:title" content="ROS / MoveIt / Jetson Nano Tutorials Hub — We're M9G" />
-  <meta property="og:description" content="Complete step-by-step robotics manipulation, mobile navigation, and NVIDIA Jetson Nano SSD-MobileNet / TensorRT transfer learning bootcamp." />
+  <meta name="description" content="Hands-on robotics and Edge AI tutorials by Minsu Chang, Ph.D. (M9G): native ROS 2 Foxy and MoveIt 2 on Windows 10, ROS 1 Melodic, MoveIt 1, and ROS Navigation Stack in WSL2 Ubuntu 18.04, plus an 8-module NVIDIA Jetson Nano CSI Camera Vision and TensorRT SSD Transfer Learning Bootcamp." />
+  <meta property="og:title" content="ROS, MoveIt &amp; Jetson Nano Tutorials Hub · M9G" />
+  <meta property="og:description" content="Step-by-step guides for robotic manipulation, mobile navigation, and NVIDIA Jetson Nano SSD-MobileNet TensorRT transfer learning." />
   <ThemeHead />
   <style is:global>
     :root {
@@ -472,9 +472,9 @@ import ThemeHead from '../../components/ThemeHead.astro';
         <span>12 Hands-On Modules</span>
       </div>
 
-      <h1 data-i18n="heroTitle">Deep Dive into Robotic Manipulation, Mobile Navigation &amp; Jetson Nano Camera Vision</h1>
+      <h1 data-i18n="heroTitle">Robotic Manipulation, Mobile Navigation &amp; Jetson Nano Camera Vision</h1>
       <p class="lede" data-i18n="heroLede">
-        Complete engineering tutorials and lecture notes consolidated from <code>mincasurong.com</code>: native <strong>ROS 2 Foxy &amp; MoveIt 2</strong> motion planning on Windows 10, <strong>ROS 1 Melodic &amp; MoveIt 1 (PR2/Panda)</strong> + <strong>ROS Navigation Stack</strong> in WSL2 Ubuntu 18.04, and the 8-part <strong>NVIDIA Jetson Nano + CSI Camera Vision &amp; PyTorch-to-TensorRT Transfer Learning Bootcamp</strong> (Sogang Univ. × Hyundai Mobis SW Camp).
+        Build and verify two complete robotics software stacks across 12 hands-on modules. Track A sets up native <strong>ROS 2 Foxy</strong> and <strong>MoveIt 2</strong> motion planning on Windows 10 alongside <strong>ROS 1 Melodic</strong>, <strong>MoveIt 1</strong>, and the <strong>ROS Navigation Stack</strong> in WSL2 Ubuntu 18.04. Track B walks through the 8-module <strong>NVIDIA Jetson Nano CSI Camera Vision and PyTorch-to-TensorRT SSD Transfer Learning Bootcamp</strong> developed for the 2021 Sogang University × Hyundai Mobis SW Camp.
       </p>
 
       <div class="spec-strip">
@@ -517,29 +517,29 @@ import ThemeHead from '../../components/ThemeHead.astro';
             <span class="module-badge">Part 1 • ROS 2 Foxy (Windows 10)</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">i9-9900K • 32GB RAM • RTX 2080 Ti</span>
           </div>
-          <h3 class="module-title" data-i18n="modA1Title">1. Deep Dive into Robotic Manipulation: Installing ROS 2 Foxy in Windows 10</h3>
+          <h3 class="module-title" data-i18n="modA1Title">1. Install ROS 2 Foxy on Windows 10</h3>
           <p data-i18n="modA1Intro">
-            While Ph.D. research focused on wearable rehabilitation exoskeletons and AI therapists, modern robotic manipulation combines 6/7-DoF arms with camera vision and motion planning frameworks like <strong>MoveIt</strong>. Before building MoveIt 2, we set up a clean native <strong>ROS 2 Foxy Fitzroy</strong> environment on Windows 10.
+            Install a native <strong>ROS 2 Foxy Fitzroy</strong> workspace on Windows 10 to run 6-DoF and 7-DoF arm manipulation nodes without dual-booting Linux. Verify C++ publisher and subscriber communication in two terminals before compiling MoveIt 2 from source in Module 2.
           </p>
 
           <div class="tip-box">
-            <strong>Windows 10 Binary Installation Pitfalls &amp; Fixes:</strong>
+            <strong>Windows 10 Setup Checklist:</strong>
             <ul style="margin:6px 0 0 0;">
-              <li><strong>Visual Studio Developer Tools:</strong> When installing Visual Studio 2019 Community, ensure <em>Desktop development with C++</em> is checked—missing Windows 10 SDK headers will break <code>colcon build</code>.</li>
-              <li><strong>Python &amp; Qt5 Path Binding:</strong> Install dependencies via elevated Administrator PowerShell/Command Prompt and verify Qt5 environment variables before launching <code>rviz2</code> or <code>rqt</code>.</li>
+              <li><strong>Install C++ build tools:</strong> Select <em>Desktop development with C++</em> in the Visual Studio 2019 Community installer so <code>colcon build</code> locates the Windows 10 SDK headers.</li>
+              <li><strong>Run an elevated shell:</strong> Install Chocolatey and Python dependencies in an Administrator Command Prompt, and confirm Qt5 environment paths before starting <code>rviz2</code> or <code>rqt</code>.</li>
             </ul>
           </div>
 
           <div class="cmd-block">
             <div class="cmd-top">
-              <span>Windows 10 x64 Native Developer Command Prompt — ROS 2 Foxy Verification</span>
+              <span>Windows 10 x64 Native Developer Command Prompt · ROS 2 Foxy Verification</span>
               <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
             </div>
             <pre>call C:\dev\ros2_foxy\local_setup.bat
-:: Terminal 1 — C++ Publisher Node
+:: Terminal 1: C++ Publisher Node
 ros2 run demo_nodes_cpp talker
 
-:: Terminal 2 — C++ Subscriber Node
+:: Terminal 2: C++ Subscriber Node
 call C:\dev\ros2_foxy\local_setup.bat
 ros2 run demo_nodes_cpp listener</pre>
           </div>
@@ -556,9 +556,9 @@ ros2 run demo_nodes_cpp listener</pre>
           </div>
 
           <div class="resource-row">
-            <a class="res-pill" href="https://ms-iot.github.io/ROSOnWindows/GettingStarted/SetupRos2.html" target="_blank" rel="noopener">📘 MS-IoT ROS 2 on Windows Guide ↗</a>
-            <a class="res-pill" href="https://docs.ros.org/en/foxy/Installation/Windows-Install-Binary.html" target="_blank" rel="noopener">📘 Official ROS 2 Foxy Windows Binary Docs ↗</a>
-            <a class="res-pill" href="https://www.youtube.com/watch?v=Jkos2DVSn8g" target="_blank" rel="noopener">🎬 Bin-Picking &amp; Packaging Reference ↗</a>
+            <a class="res-pill" href="https://ms-iot.github.io/ROSOnWindows/GettingStarted/SetupRos2.html" target="_blank" rel="noopener">MS-IoT ROS 2 on Windows Guide ↗</a>
+            <a class="res-pill" href="https://docs.ros.org/en/foxy/Installation/Windows-Install-Binary.html" target="_blank" rel="noopener">Official ROS 2 Foxy Windows Binary Docs ↗</a>
+            <a class="res-pill" href="https://www.youtube.com/watch?v=Jkos2DVSn8g" target="_blank" rel="noopener">Bin-Picking &amp; Packaging Reference ↗</a>
           </div>
         </article>
 
@@ -567,9 +567,9 @@ ros2 run demo_nodes_cpp listener</pre>
             <span class="module-badge">Part 2 • MoveIt 2 on Windows 10</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">Franka Emika Panda • RViz2 MotionPlanning</span>
           </div>
-          <h3 class="module-title" data-i18n="modA2Title">2. MoveIt 2 Source Build &amp; Panda Arm Motion Planning in Windows 10</h3>
+          <h3 class="module-title" data-i18n="modA2Title">2. Build MoveIt 2 &amp; Plan Franka Panda Trajectories on Windows 10</h3>
           <p data-i18n="modA2Intro">
-            After verifying ROS 2 Foxy, we build <strong>MoveIt 2</strong> from source on Windows 10 and run interactive 7-DoF collision-free trajectory planning with the <strong>Franka Emika Panda</strong> manipulator in RViz2. Dragging the 3D interactive marker at the end-effector computes inverse kinematics (IK) and executes smooth joint-space plans.
+            Build <strong>MoveIt 2</strong> from source on Windows 10 and launch interactive 7-DoF collision-free trajectory planning for the <strong>Franka Emika Panda</strong> manipulator in RViz2. Source both workspaces, start the demo launch file, and drag the 3D end-effector marker to solve inverse kinematics (IK) and execute joint-space motion plans.
           </p>
 
           <div class="cmd-block">
@@ -590,8 +590,8 @@ ros2 launch moveit_resources_panda_moveit_config demo.launch.py</pre>
           </div>
 
           <div class="resource-row">
-            <a class="res-pill" href="https://moveit.picknik.ai/foxy/index.html" target="_blank" rel="noopener">📘 MoveIt 2 Foxy Documentation ↗</a>
-            <a class="res-pill" href="https://moveit.ros.org/install-moveit2/source-windows/" target="_blank" rel="noopener">🛠️ MoveIt 2 Windows Source Build Guide ↗</a>
+            <a class="res-pill" href="https://moveit.picknik.ai/foxy/index.html" target="_blank" rel="noopener">MoveIt 2 Foxy Documentation ↗</a>
+            <a class="res-pill" href="https://moveit.ros.org/install-moveit2/source-windows/" target="_blank" rel="noopener">MoveIt 2 Windows Source Build Guide ↗</a>
           </div>
         </article>
 
@@ -600,14 +600,14 @@ ros2 launch moveit_resources_panda_moveit_config demo.launch.py</pre>
             <span class="module-badge">Part 3 • ROS 1 Melodic + MoveIt 1 (WSL2)</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">Ubuntu 18.04 LTS • WSL2 • VcXsrv X11 GUI</span>
           </div>
-          <h3 class="module-title" data-i18n="modA3Title">3. [ROS 1 Melodic + MoveIt 1 + PR2/Panda] in Ubuntu 18.04 (WSL2 on Windows 10)</h3>
+          <h3 class="module-title" data-i18n="modA3Title">3. Run ROS 1 Melodic &amp; MoveIt 1 in WSL2 Ubuntu 18.04</h3>
           <p data-i18n="modA3Intro">
-            Because many legacy industrial manipulation packages and Gazebo plugins target Ubuntu 18.04 + ROS 1 Melodic, running <strong>WSL2 (Windows Subsystem for Linux 2)</strong> with an X-Server (VcXsrv / XLaunch) gives full Linux compatibility without dual-booting.
+            Configure <strong>WSL2 Ubuntu 18.04</strong> with an X11 display server (VcXsrv) on Windows 10 to run ROS 1 Melodic industrial manipulation packages and Gazebo plugins without dual-booting. Install VS Code inside WSL2, export the host <code>DISPLAY</code> address, and launch the Panda MoveIt 1 planning scene in RViz.
           </p>
 
           <div class="cmd-block">
             <div class="cmd-top">
-              <span>WSL2 Ubuntu 18.04 — VS Code + MoveIt 1 Melodic Quickstart</span>
+              <span>WSL2 Ubuntu 18.04 · VS Code + MoveIt 1 Melodic Quickstart</span>
               <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
             </div>
             <pre># Install Visual Studio Code inside Ubuntu 18.04 WSL2
@@ -630,8 +630,8 @@ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true</pre>
           </div>
 
           <div class="resource-row">
-            <a class="res-pill" href="https://docs.ros.org/en/melodic/api/moveit_tutorials/html/index.html" target="_blank" rel="noopener">📘 MoveIt 1 Melodic Official Tutorials ↗</a>
-            <a class="res-pill" href="https://wiki.ros.org/melodic/Installation/Ubuntu" target="_blank" rel="noopener">📘 ROS 1 Melodic Ubuntu Installation ↗</a>
+            <a class="res-pill" href="https://docs.ros.org/en/melodic/api/moveit_tutorials/html/index.html" target="_blank" rel="noopener">MoveIt 1 Melodic Official Tutorials ↗</a>
+            <a class="res-pill" href="https://wiki.ros.org/melodic/Installation/Ubuntu" target="_blank" rel="noopener">ROS 1 Melodic Ubuntu Installation ↗</a>
           </div>
         </article>
 
@@ -640,9 +640,9 @@ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true</pre>
             <span class="module-badge">Part 4 • Mobile Robot &amp; ROS Navigation Stack</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">SLAM • AMCL • Global/Local Costmap Planner</span>
           </div>
-          <h3 class="module-title" data-i18n="modA4Title">4. Deep Dive into Mobile Robots: Probabilistic Robotics &amp; ROS Navigation Stack</h3>
+          <h3 class="module-title" data-i18n="modA4Title">4. Configure Mobile Robot Localization &amp; the ROS Navigation Stack</h3>
           <p data-i18n="modA4Intro">
-            Connecting <em>Probabilistic Robotics</em> fundamentals (Bayes filters, EKF/PF localization, occupancy grid mapping) to the <strong>ROS Navigation Stack</strong> (<code>move_base</code>, <code>amcl</code>, global A*/Dijkstra planner, and local DWA/TEB trajectory planner) inside Windows 10 + WSL2 Linux. This foundation directly led to our ICRA 2025 paper on <strong>OPPA (Online Planner's Parameter Adaptation)</strong>.
+            Deploy occupancy-grid SLAM, Monte Carlo localization (<code>amcl</code>), global A* and Dijkstra search, and local DWA trajectory planning with <code>move_base</code> in WSL2 Linux. Publish a 2D navigation goal in RViz to inspect real-time global and local costmap updates. This baseline navigation pipeline underpins our IEEE ICRA 2025 paper on <strong>OPPA (Online Planner's Parameter Adaptation)</strong>.
           </p>
 
           <div class="video-grid">
@@ -653,8 +653,8 @@ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true</pre>
           </div>
 
           <div class="resource-row">
-            <a class="res-pill" href="https://wiki.ros.org/navigation/Tutorials" target="_blank" rel="noopener">📘 ROS Navigation Stack Tutorials ↗</a>
-            <a class="res-pill" href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener">📄 Related Paper: OPPA (ICRA 2025) ↗</a>
+            <a class="res-pill" href="https://wiki.ros.org/navigation/Tutorials" target="_blank" rel="noopener">ROS Navigation Stack Tutorials ↗</a>
+            <a class="res-pill" href="https://ieeexplore.ieee.org/document/11128768" target="_blank" rel="noopener">Related Paper: OPPA (ICRA 2025) ↗</a>
           </div>
         </article>
       </section>
@@ -670,20 +670,20 @@ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true</pre>
             <span class="module-badge">Module 0 • Course Overview &amp; Lecture Slides</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">Two Days to a Demo (Hello AI World)</span>
           </div>
-          <h3 class="module-title">0. Introduction: Deep Learning &amp; Real-Time Camera Vision on NVIDIA Jetson Nano</h3>
+          <h3 class="module-title">0. Bootcamp Overview &amp; Lecture Slide Decks</h3>
           <p>
-            Designed and lectured for the <strong>2021 Sogang University SW Summer Camp (funded by Hyundai Mobis)</strong>, this 8-part bootcamp guides students with basic Python/C++ knowledge through deploying real-time object detection and custom PyTorch-to-TensorRT transfer learning on the <strong>NVIDIA Jetson Nano</strong> single-board computer (SBC) with a Raspberry Pi CSI Camera Module V2.
+            Developed and taught for the <strong>2021 Sogang University SW Summer Camp (funded by Hyundai Mobis)</strong>, this 8-module bootcamp walks you from bare-metal microSD bring-up to real-time TensorRT object detection and custom SSD transfer learning on the <strong>NVIDIA Jetson Nano</strong> (4 GB) with a Raspberry Pi CSI Camera Module V2. Download the four lecture slide decks below before starting Module 1.
           </p>
           <ul>
-            <li><strong>Primary Upstream Reference:</strong> NVIDIA's <a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener" style="color:var(--accent); font-weight:600;"><code>dusty-nv/jetson-inference</code> (Two Days to a Demo / Hello AI World)</a></li>
-            <li><strong>Download Lecture Slide Decks (Google Drive PDFs):</strong></li>
+            <li><strong>Upstream Reference Repository:</strong> <a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener" style="color:var(--accent); font-weight:600;"><code>dusty-nv/jetson-inference</code> (Two Days to a Demo / Hello AI World)</a></li>
+            <li><strong>Prerequisites:</strong> Working familiarity with Python 3, Linux command-line navigation, and SSH.</li>
           </ul>
           <div class="resource-row">
-            <a class="res-pill" href="https://drive.google.com/file/d/1hRKIFkosVdGZIryZrfJZmboZXb2pbvWW/view?usp=sharing" target="_blank" rel="noopener">📄 Lecture Deck 1 (Intro &amp; Setup PDF) ↗</a>
-            <a class="res-pill" href="https://drive.google.com/file/d/1YgQVt8epuJTxlLZAzZZvvwaDla-v3qE-/view?usp=sharing" target="_blank" rel="noopener">📄 Lecture Deck 2 (Linux &amp; Docker PDF) ↗</a>
-            <a class="res-pill" href="https://drive.google.com/file/d/1Z_7mnC-ubYUkrJxy84TmE4-XdPY9YAaL/view?usp=sharing" target="_blank" rel="noopener">📄 Lecture Deck 3 (Object Detection PDF) ↗</a>
-            <a class="res-pill" href="https://drive.google.com/file/d/1ukS_5bt4VkaJ0Dd5XPxXV3uAqbNckNHZ/view?usp=sharing" target="_blank" rel="noopener">📄 Lecture Deck 4 (Transfer Learning PDF) ↗</a>
-            <a class="res-pill" href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">💻 dusty-nv/jetson-inference Repo ↗</a>
+            <a class="res-pill" href="https://drive.google.com/file/d/1hRKIFkosVdGZIryZrfJZmboZXb2pbvWW/view?usp=sharing" target="_blank" rel="noopener">Lecture Deck 1 (Intro &amp; Setup PDF) ↗</a>
+            <a class="res-pill" href="https://drive.google.com/file/d/1YgQVt8epuJTxlLZAzZZvvwaDla-v3qE-/view?usp=sharing" target="_blank" rel="noopener">Lecture Deck 2 (Linux &amp; Docker PDF) ↗</a>
+            <a class="res-pill" href="https://drive.google.com/file/d/1Z_7mnC-ubYUkrJxy84TmE4-XdPY9YAaL/view?usp=sharing" target="_blank" rel="noopener">Lecture Deck 3 (Object Detection PDF) ↗</a>
+            <a class="res-pill" href="https://drive.google.com/file/d/1ukS_5bt4VkaJ0Dd5XPxXV3uAqbNckNHZ/view?usp=sharing" target="_blank" rel="noopener">Lecture Deck 4 (Transfer Learning PDF) ↗</a>
+            <a class="res-pill" href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">dusty-nv/jetson-inference Repo ↗</a>
           </div>
         </article>
 
@@ -692,12 +692,12 @@ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true</pre>
             <span class="module-badge">Module 1 • Hardware, JetPack 4.5, Headless VNC &amp; CSI Camera</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">Etcher • PuTTY • vino-server • GStreamer</span>
           </div>
-          <h3 class="module-title">1. Jetson Nano Preparation (1. Jetson Nano 준비)</h3>
+          <h3 class="module-title">1. Flash JetPack 4.5, Enable Headless VNC &amp; Test the CSI Camera (1. Jetson Nano 준비)</h3>
           <p>
-            <strong>Step 1 — Flash JetPack 4.5 SD Card:</strong> Download the official JetPack 4.5 microSD image from NVIDIA and flash it onto a 32GB/64GB microSD card using <strong>Balena Etcher</strong> (ignore Windows "Format Disk" popups after flashing).
+            <strong>Step 1 · Flash the JetPack 4.5 microSD image:</strong> Download the official NVIDIA JetPack 4.5 image and write it onto a 32 GB or 64 GB microSD card with <strong>Balena Etcher</strong>. Dismiss any Windows "Format Disk" prompts after verification completes.
           </p>
           <p>
-            <strong>Step 2 — Direct Boot vs. Headless Mode (PuTTY + VNC):</strong> If you do not have a dedicated HDMI monitor, connect the Jetson Nano's Micro-USB port to your Windows PC, open <strong>Device Manager → Ports (COM &amp; LPT)</strong> to find the USB Serial COM port, and connect via <strong>PuTTY</strong> (Serial speed <code>115200</code>) to complete initial Ubuntu setup. Afterwards, connect via SSH to <code>192.168.55.1</code> (Port 22) over USB Ethernet and enable the VNC desktop server (<code>vino-server</code>):
+            <strong>Step 2 · Boot headless over USB Serial and enable VNC:</strong> If you do not attach an HDMI monitor, connect the Jetson Nano Micro-USB port to your Windows PC, locate the USB Serial COM port under <strong>Device Manager → Ports (COM &amp; LPT)</strong>, and open a <code>115200</code>-baud serial session in <strong>PuTTY</strong> to finish first-boot Ubuntu setup. Next, SSH into <code>192.168.55.1</code> (port 22) over USB Ethernet and enable the <code>vino-server</code> desktop service:
           </p>
 
           <div class="cmd-block">
@@ -719,7 +719,7 @@ xrandr --fb 1000x400</pre>
           </div>
 
           <p>
-            <strong>Step 3 — Command-Line Wi-Fi &amp; CSI Camera Hardware Verification:</strong> Connect to Wi-Fi via <code>nmcli</code> and verify the Raspberry Pi CSI Camera V2 using <code>nvarguscamerasrc</code> GStreamer pipelines:
+            <strong>Step 3 · Connect Wi-Fi and test the CSI camera:</strong> Join a Wi-Fi network from the terminal with <code>nmcli</code>, verify that <code>/dev/video0</code> is present, and stream live video from the Raspberry Pi CSI Camera V2 using <code>nvarguscamerasrc</code> GStreamer pipelines:
           </p>
 
           <div class="cmd-block">
@@ -753,9 +753,9 @@ gst-launch-1.0 nvarguscamerasrc sensor_mode=1 ! 'video/x-raw(memory:NVMM),width=
             <span class="module-badge">Module 2 • Linux CLI &amp; jetson-inference Docker Container</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">docker/run.sh • video-viewer csi://0</span>
           </div>
-          <h3 class="module-title">2. Linux Essentials &amp; Docker Container Setup (2. Linux 및 Docker Container)</h3>
+          <h3 class="module-title">2. Clone jetson-inference &amp; Launch the Docker Runtime (2. Linux 및 Docker Container)</h3>
           <p>
-            Rather than compiling TensorRT, CUDA, and PyTorch from scratch on the SD card, we clone <code>jetson-inference</code> and launch its pre-configured container via <code>docker/run.sh</code>, which automatically mounts the CSI camera and host directories.
+            Avoid compiling CUDA, TensorRT, and PyTorch from source on the microSD card by running the prebuilt <code>jetson-inference</code> Docker image. Clone the repository with submodules, run <code>docker/run.sh</code> to mount the CSI camera socket and host directories automatically, and verify live camera rendering inside the container:
           </p>
 
           <div class="cmd-block">
@@ -772,7 +772,7 @@ cd build/aarch64/bin
 ./video-viewer --input-width=400 --input-height=300 csi://0</pre>
           </div>
           <div class="tip-box">
-            <strong>Tip:</strong> If you installed JetPack 4.5, make sure you pull the matching container tag (or pass <code>docker/run.sh -c r32.5.0</code>) so Docker does not accidentally pull the 5GB JetPack 4.4 image! (See Module 5 below for cleanup instructions.)
+            <strong>Match your JetPack tag:</strong> On JetPack 4.5, confirm the L4T container tag or pass <code>docker/run.sh -c r32.5.0</code> so Docker does not pull a mismatched 5 GB JetPack 4.4 image. See Module 5 to remove duplicate images if disk space runs low.
           </div>
         </article>
 
@@ -781,9 +781,9 @@ cd build/aarch64/bin
             <span class="module-badge">Module 3 • Real-Time Object Detection (SSD-MobileNet-v2)</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">91-Class MS COCO • TensorRT FP16</span>
           </div>
-          <h3 class="module-title">3. Pre-Trained Object Detection &amp; Python API Walkthrough (3. Object Detection)</h3>
+          <h3 class="module-title">3. Run SSD-MobileNet-v2 Object Detection with TensorRT (3. Object Detection)</h3>
           <p>
-            We run real-time 91-class MS COCO object detection using <code>ssd-mobilenet-v2</code> accelerated by NVIDIA TensorRT. On first execution, TensorRT optimizes the network graph for the Jetson Nano Maxwell GPU (taking a few minutes) and caches the serialized engine for instant startup on subsequent runs.
+            Run 91-class MS COCO object detection on static images and the live CSI camera feed using <code>ssd-mobilenet-v2</code>. On first launch, TensorRT compiles an FP16 engine optimized for the Jetson Nano Maxwell GPU and caches the serialized engine file on disk so subsequent runs start within seconds:
           </p>
 
           <div class="cmd-block">
@@ -799,6 +799,10 @@ cd build/aarch64/bin
 # 2. Real-time object detection on live CSI camera stream
 ./detectnet.py --network=ssd-mobilenet-v2 --input-width=400 --input-height=300 csi://0</pre>
           </div>
+
+          <p>
+            Implement the same detection loop in a standalone 15-line Python script with <code>jetson.inference</code> and <code>jetson.utils</code>:
+          </p>
 
           <div class="cmd-block">
             <div class="cmd-top">
@@ -827,8 +831,8 @@ while display.IsStreaming():
           </div>
 
           <div class="resource-row">
-            <a class="res-pill" href="https://colab.research.google.com/drive/1G9ecWl7AXFsid4LSholy_I_wgrHkoxAm?usp=sharing" target="_blank" rel="noopener">📓 Open Practice Notebook in Google Colab ↗</a>
-            <a class="res-pill" href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-console-2.md" target="_blank" rel="noopener">📘 detectNet Console Docs ↗</a>
+            <a class="res-pill" href="https://colab.research.google.com/drive/1G9ecWl7AXFsid4LSholy_I_wgrHkoxAm?usp=sharing" target="_blank" rel="noopener">Open Practice Notebook in Google Colab ↗</a>
+            <a class="res-pill" href="https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-console-2.md" target="_blank" rel="noopener">detectNet Console Docs ↗</a>
           </div>
         </article>
 
@@ -837,9 +841,9 @@ while display.IsStreaming():
             <span class="module-badge">Module 4-1 • Swap Memory, USB Mount &amp; OpenImages Dataset</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">4GB Swap • exFAT USB • mobilenet-v1-ssd</span>
           </div>
-          <h3 class="module-title">4-1. Transfer Learning Preparation (4-1. Transfer Learning 준비)</h3>
+          <h3 class="module-title">4-1. Mount Swap Memory, Attach USB Storage &amp; Download OpenImages (4-1. Transfer Learning 준비)</h3>
           <p>
-            Training PyTorch SSD models directly on Jetson Nano's 4GB shared RAM requires mounting additional <strong>Swap Memory</strong> (disabling ZRAM) and storing training datasets on an external exFAT USB drive mounted into the Docker container.
+            PyTorch SSD training exceeds the Jetson Nano's 4 GB shared RAM unless disk swap is enabled. Allocate a 4 GB swap file on the host, install exFAT drivers, mount an external USB drive into the Docker container with <code>--volume</code>, and download the pretrained MobileNet-V1 SSD checkpoint and OpenImages dataset subset:
           </p>
 
           <div class="cmd-block">
@@ -876,9 +880,9 @@ python3 open_images_downloader.py --max-images=100 --class-names "Apple" --data=
             <span class="module-badge">Module 4-2 • PyTorch SSD Fine-Tuning &amp; TensorRT ONNX Export</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">train_ssd.py • onnx_export.py • Live Inference</span>
           </div>
-          <h3 class="module-title">4-2. Transfer Learning Training, ONNX Export &amp; Live Inference (4-2. 실습 학습)</h3>
+          <h3 class="module-title">4-2. Fine-Tune Custom SSD in PyTorch, Export ONNX &amp; Run Live Inference (4-2. 실습 학습)</h3>
           <p>
-            Once the OpenImages subset is downloaded, we fine-tune the MobileNet-V1 SSD detector in PyTorch, export the best checkpoint to <strong>ONNX</strong>, and run real-time TensorRT inference on images, videos, and the live CSI camera.
+            Fine-tune the MobileNet-V1 SSD detector on your USB dataset with <code>train_ssd.py</code>, export the lowest-loss PyTorch <code>.pth</code> checkpoint to <code>ssd-mobilenet.onnx</code> via <code>onnx_export.py</code>, and run real-time TensorRT detection on the live CSI camera feed:
           </p>
 
           <div class="cmd-block">
@@ -906,16 +910,16 @@ detectnet.py --model=models/ssd-mobilenet.onnx --labels=models/labels.txt \
             <span class="module-badge">Module 5 • NVIDIA DLI Certificates &amp; Docker Disk Recovery</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">DLI Free Courses • Reclaim 5GB SD Space</span>
           </div>
-          <h3 class="module-title">5. NVIDIA DLI Certification &amp; Troubleshooting Notes (5. Certification 관련 주의사항)</h3>
+          <h3 class="module-title">5. Complete NVIDIA DLI Certificates &amp; Reclaim Docker Disk Space (5. Certification 관련 주의사항)</h3>
           <p>
-            NVIDIA's Deep Learning Institute (DLI) offers two official free self-paced certificate courses for Jetson Nano:
+            Enroll in NVIDIA Deep Learning Institute's two self-paced Jetson Nano certificate courses:
           </p>
           <ul>
             <li><a href="https://courses.nvidia.com/courses/course-v1:DLI+S-RX-02+V2/about" target="_blank" rel="noopener" style="color:var(--accent); font-weight:600;">Getting Started with AI on Jetson Nano (DLI+S-RX-02+V2) ↗</a></li>
             <li><a href="https://courses.nvidia.com/courses/course-v1:DLI+C-IV-02+V1/" target="_blank" rel="noopener" style="color:var(--accent); font-weight:600;">Building Video AI Applications at the Edge on Jetson Nano (DeepStream) ↗</a></li>
           </ul>
           <p>
-            <strong>Important Troubleshooting — Reclaiming 5GB from Mismatched Docker Images:</strong> Because the DLI course instructions hardcode a JetPack 4.4 Docker tag while your SD card runs JetPack 4.5, running the DLI command downloads a duplicate 5GB image that fails to start. Check and remove the unused Docker image to free SD card space:
+            <strong>Reclaim 5 GB from mismatched DLI Docker tags:</strong> The DLI lab instructions hardcode a JetPack 4.4 container tag. Running that pull command on a JetPack 4.5 microSD card downloads an unusable 5 GB image. List your local Docker images and delete the unused image ID to recover disk space:
           </p>
 
           <div class="cmd-block">
@@ -938,14 +942,14 @@ df -h</pre>
             <span class="module-badge">Module 6 • NVIDIA Transfer Learning Toolkit (TLT / TAO)</span>
             <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">NGC Catalog • DetectNet_v2 • INT8 Calibration</span>
           </div>
-          <h3 class="module-title">6. Production Transfer Learning with NVIDIA TLT / TAO (6. Transfer Learning 방법 &amp; 링크)</h3>
+          <h3 class="module-title">6. Scale Custom Detectors with NVIDIA TAO Toolkit &amp; INT8 Quantization (6. Transfer Learning 방법 &amp; 링크)</h3>
           <p>
-            For production deployment at higher FPS, train on a desktop/cloud GPU using the <strong>NVIDIA Transfer Learning Toolkit (TLT / TAO Toolkit)</strong> and NGC pre-trained backbones, prune and quantize to FP16/INT8, and deploy the resulting TensorRT engine onto the Jetson Nano.
+            To reach higher production frame rates, train and prune custom detectors on a workstation or cloud GPU with the <strong>NVIDIA TAO Toolkit</strong> (formerly Transfer Learning Toolkit) and pretrained NGC backbones. Calibrate weights to FP16 or INT8 precision and deploy the compiled TensorRT engine onto the Jetson Nano.
           </p>
           <div class="resource-row">
-            <a class="res-pill" href="https://developer.nvidia.com/transfer-learning-toolkit" target="_blank" rel="noopener">🚀 NVIDIA TLT / TAO Developer Portal ↗</a>
-            <a class="res-pill" href="https://ngc.nvidia.com/catalog/models/nvidia:tlt_pretrained_object_detection" target="_blank" rel="noopener">📦 NGC: TLT Pre-Trained Object Detection ↗</a>
-            <a class="res-pill" href="https://ngc.nvidia.com/catalog/models/nvidia:tlt_pretrained_detectnet_v2" target="_blank" rel="noopener">📦 NGC: TLT Pre-Trained DetectNet_v2 ↗</a>
+            <a class="res-pill" href="https://developer.nvidia.com/transfer-learning-toolkit" target="_blank" rel="noopener">NVIDIA TLT / TAO Developer Portal ↗</a>
+            <a class="res-pill" href="https://ngc.nvidia.com/catalog/models/nvidia:tlt_pretrained_object_detection" target="_blank" rel="noopener">NGC: TLT Pre-Trained Object Detection ↗</a>
+            <a class="res-pill" href="https://ngc.nvidia.com/catalog/models/nvidia:tlt_pretrained_detectnet_v2" target="_blank" rel="noopener">NGC: TLT Pre-Trained DetectNet_v2 ↗</a>
           </div>
         </article>
       </section>
@@ -1042,67 +1046,127 @@ df -h</pre>
     var TUT_I18N = {
       en: {
         headerBrand: "Robotics & Edge AI Tutorials",
-        navTutorials: "Tutorials", navArchive: "Archive & Patents", navBlog: "Blog", navPortfolio: "Main Portal",
+        navTutorials: "Tutorials", navArchive: "Archive", navBlog: "Blog", navPortfolio: "Main Portal",
         heroBadge: "ROS 1/2 • MoveIt 1/2 • Jetson Nano Bootcamp",
-        heroTitle: "Deep Dive into Robotic Manipulation, Mobile Navigation & Jetson Nano Camera Vision",
-        heroLede: "Complete engineering tutorials and lecture notes consolidated from mincasurong.com: native ROS 2 Foxy & MoveIt 2 motion planning on Windows 10, ROS 1 Melodic & MoveIt 1 (PR2/Panda) + ROS Navigation Stack in WSL2 Ubuntu 18.04, and the 8-part NVIDIA Jetson Nano + CSI Camera Vision & PyTorch-to-TensorRT Transfer Learning Bootcamp.",
+        heroTitle: "Robotic Manipulation, Mobile Navigation & Jetson Nano Camera Vision",
+        heroLede: "Build and verify two complete robotics software stacks across 12 hands-on modules. Track A sets up native ROS 2 Foxy and MoveIt 2 motion planning on Windows 10 alongside ROS 1 Melodic, MoveIt 1, and the ROS Navigation Stack in WSL2 Ubuntu 18.04. Track B walks through the 8-module NVIDIA Jetson Nano CSI Camera Vision and PyTorch-to-TensorRT SSD Transfer Learning Bootcamp developed for the 2021 Sogang University × Hyundai Mobis SW Camp.",
+        kpi1Label: "Manipulation Stack", kpi1Note: "Native Windows 10 & WSL2 ROS 1 Melodic",
+        kpi2Label: "Edge AI Target", kpi2Note: "JetPack 4.5 • Docker • CSI Camera",
+        kpi3Label: "Vision Models", kpi3Note: "MS COCO (91 cls) + OpenImages ONNX",
+        kpi4Label: "Course Materials", kpi4Note: "12 Modules & 9 Demo Videos",
         tabAll: "All Tutorials (12 Modules)",
         tabRos: "Track A: ROS 1/2, MoveIt 1/2 & Mobile Nav (4)",
         tabJetson: "Track B: Jetson Nano + Camera Vision Bootcamp (8)",
         secRosTitle: "Track A. Robotic Manipulation & Mobile Navigation (ROS 1/2 & MoveIt 1/2)",
         secJetsonTitle: "Track B. NVIDIA Jetson Nano + Camera Vision Bootcamp (8 Modules)",
+        modA1Title: "1. Install ROS 2 Foxy on Windows 10",
+        modA1Intro: "Install a native ROS 2 Foxy Fitzroy workspace on Windows 10 to run 6-DoF and 7-DoF arm manipulation nodes without dual-booting Linux. Verify C++ publisher and subscriber communication in two terminals before compiling MoveIt 2 from source in Module 2.",
+        modA2Title: "2. Build MoveIt 2 & Plan Franka Panda Trajectories on Windows 10",
+        modA2Intro: "Build MoveIt 2 from source on Windows 10 and launch interactive 7-DoF collision-free trajectory planning for the Franka Emika Panda manipulator in RViz2. Source both workspaces, start the demo launch file, and drag the 3D end-effector marker to solve inverse kinematics (IK) and execute joint-space motion plans.",
+        modA3Title: "3. Run ROS 1 Melodic & MoveIt 1 in WSL2 Ubuntu 18.04",
+        modA3Intro: "Configure WSL2 Ubuntu 18.04 with an X11 display server (VcXsrv) on Windows 10 to run ROS 1 Melodic industrial manipulation packages and Gazebo plugins without dual-booting. Install VS Code inside WSL2, export the host DISPLAY address, and launch the Panda MoveIt 1 planning scene in RViz.",
+        modA4Title: "4. Configure Mobile Robot Localization & the ROS Navigation Stack",
+        modA4Intro: "Deploy occupancy-grid SLAM, Monte Carlo localization (amcl), global A* and Dijkstra search, and local DWA trajectory planning with move_base in WSL2 Linux. Publish a 2D navigation goal in RViz to inspect real-time global and local costmap updates. This baseline navigation pipeline underpins our IEEE ICRA 2025 paper on OPPA (Online Planner's Parameter Adaptation).",
         sideToc: "Tutorial Modules"
       },
       ko: {
         headerBrand: "로보틱스 & 엣지 AI 튜토리얼",
-        navTutorials: "튜토리얼", navArchive: "아카이브 & 특허", navBlog: "블로그", navPortfolio: "메인 포털",
-        heroBadge: "ROS 1/2 • MoveIt 1/2 • 젯슨 나노 부트캠프",
-        heroTitle: "로봇 매니퓰레이션(ROS/MoveIt), 모바일 내비게이션 & Jetson Nano 카메라 비전 실습 허브",
-        heroLede: "mincasurong.com의 전체 엔지니어링 튜토리얼 및 강의록 통합본: Windows 10 네이티브 ROS 2 Foxy & MoveIt 2 모션 플래닝, WSL2 Ubuntu 18.04 기반 ROS 1 Melodic & MoveIt 1 + 모바일 로봇 내비게이션 스택, 그리고 서강대 × 현대모비스 SW 캠프 NVIDIA Jetson Nano + CSI 카메라 비전 & 전이학습(Transfer Learning) 8단계 부트캠프.",
-        tabAll: "전체 튜토리얼 보기 (12개 모듈)",
-        tabRos: "트랙 A: ROS 1/2, MoveIt 1/2 & 모바일 로봇 (4)",
+        navTutorials: "튜토리얼", navArchive: "아카이브", navBlog: "블로그", navPortfolio: "메인 포털",
+        heroBadge: "ROS 1/2 • MoveIt 1/2 • Jetson Nano 부트캠프",
+        heroTitle: "로봇 매니퓰레이션, 모바일 내비게이션 & Jetson Nano 카메라 비전 실습",
+        heroLede: "총 12개 실습 모듈로 두 가지 핵심 로보틱스 소프트웨어 스택을 구축하고 검증합니다. 트랙 A는 Windows 10 네이티브 ROS 2 Foxy 및 MoveIt 2 모션 플래닝과 WSL2 Ubuntu 18.04 기반 ROS 1 Melodic, MoveIt 1, ROS Navigation Stack을 구성합니다. 트랙 B는 2021 서강대학교 × 현대모비스 SW 캠프용으로 개발한 8단계 NVIDIA Jetson Nano CSI 카메라 비전 및 PyTorch-TensorRT SSD 전이학습 부트캠프를 안내합니다.",
+        kpi1Label: "매니퓰레이션 스택", kpi1Note: "Windows 10 네이티브 & WSL2 ROS 1 Melodic",
+        kpi2Label: "엣지 AI 보드", kpi2Note: "JetPack 4.5 • Docker • CSI 카메라",
+        kpi3Label: "비전 검출 모델", kpi3Note: "MS COCO (91종) + OpenImages ONNX",
+        kpi4Label: "실습 자료", kpi4Note: "12개 모듈 & 9편 데모 영상",
+        tabAll: "전체 튜토리얼 (12개 모듈)",
+        tabRos: "트랙 A: ROS 1/2, MoveIt 1/2 & 모바일 내비게이션 (4)",
         tabJetson: "트랙 B: Jetson Nano + 카메라 비전 부트캠프 (8)",
-        secRosTitle: "트랙 A. 로봇 팔 매니퓰레이션 & 모바일 로봇 내비게이션 (ROS 1/2 & MoveIt 1/2)",
-        secJetsonTitle: "트랙 B. NVIDIA Jetson Nano + 카메라 비전 8단계 부트캠프 (현대모비스 SW 캠프)",
-        sideToc: "튜토리얼 목차"
+        secRosTitle: "트랙 A. 로봇 매니퓰레이션 & 모바일 내비게이션 (ROS 1/2 & MoveIt 1/2)",
+        secJetsonTitle: "트랙 B. NVIDIA Jetson Nano + 카메라 비전 8단계 부트캠프",
+        modA1Title: "1. Windows 10에 네이티브 ROS 2 Foxy 설치하기",
+        modA1Intro: "Linux 듀얼부팅 없이 6자유도 및 7자유도 로봇 팔 노드를 실행할 수 있도록 Windows 10에 네이티브 ROS 2 Foxy Fitzroy 환경을 설치합니다. 두 개의 터미널에서 C++ 퍼블리셔·서브스크라이버 통신을 검증한 뒤 모듈 2의 MoveIt 2 소스 빌드로 진행하세요.",
+        modA2Title: "2. Windows 10에서 MoveIt 2 소스 빌드 및 Franka Panda 궤적 계획 실행",
+        modA2Intro: "Windows 10에서 MoveIt 2를 소스 빌드하고 RViz2에서 7자유도 Franka Emika Panda 로봇 팔의 충돌 회피 모션 플래닝을 실행합니다. 워크스페이스를 소싱한 뒤 데모 런치 파일을 실행하고, 3D 말단 마커를 드래그해 역기구학(IK) 해와 관절 공간 궤적을 확인하세요.",
+        modA3Title: "3. WSL2 Ubuntu 18.04에서 ROS 1 Melodic 및 MoveIt 1 구동하기",
+        modA3Intro: "Windows 10 위에서 WSL2 Ubuntu 18.04와 X11 디스플레이 서버(VcXsrv)를 연동해 ROS 1 Melodic 매니퓰레이션 패키지와 Gazebo 플러그인을 구동합니다. WSL2 내부에 VS Code를 설치하고 호스트 DISPLAY 주소를 설정한 뒤 RViz에서 Panda MoveIt 1 플래닝 씬을 실행하세요.",
+        modA4Title: "4. 모바일 로봇 위치 추정 및 ROS Navigation Stack 구성하기",
+        modA4Intro: "WSL2 Linux에서 격자 지도 기반 SLAM, 몬테카를로 위치 추정(amcl), 전역 A*/Dijkstra 경로 탐색, 지역 DWA 궤적 제어기를 move_base로 구동합니다. RViz에서 2D 주행 목표점을 발행하여 전역·지역 코스트맵 갱신을 확인하세요. 이 파이프라인은 IEEE ICRA 2025 OPPA 논문의 기반이 되었습니다.",
+        sideToc: "튜토리얼 모듈 목차"
       },
       ja: {
         headerBrand: "ロボティクス & エッジAI チュートリアル",
-        navTutorials: "チュートリアル", navArchive: "アーカイブ & 特許", navBlog: "ブログ", navPortfolio: "メインポータル",
+        navTutorials: "チュートリアル", navArchive: "アーカイブ", navBlog: "ブログ", navPortfolio: "メインポータル",
         heroBadge: "ROS 1/2 • MoveIt 1/2 • Jetson Nano ブートキャンプ",
-        heroTitle: "ロボットマニピュレーション (ROS/MoveIt)、自律移動 & Jetson Nano カメラビジョン実践",
-        heroLede: "mincasurong.com の全技術チュートリアルと講義資料を統合：Windows 10上のネイティブ ROS 2 Foxy & MoveIt 2 モーションプランニング、WSL2 Ubuntu 18.04での ROS 1 Melodic & MoveIt 1 + ROS Navigation Stack、および NVIDIA Jetson Nano + CSIカメラビジョン＆転移学習（8モジュール）ブートキャンプ。",
+        heroTitle: "ロボットマニピュレーション、自律移動ナビゲーション & Jetson Nano カメラビジョン",
+        heroLede: "全 12 の実践モジュールで 2 つのロボティクスソフトウェアスタックを構築・検証します。トラック A では Windows 10 ネイティブの ROS 2 Foxy と MoveIt 2 軌道計画、および WSL2 Ubuntu 18.04 上の ROS 1 Melodic、MoveIt 1、ROS Navigation Stack をセットアップします。トラック B では 2021 年西江大学 × 現代モービス SW キャンプ向けに設計した全 8 回の NVIDIA Jetson Nano CSI カメラビジョンと PyTorch-to-TensorRT SSD 転移学習ブートキャンプを解説します。",
+        kpi1Label: "マニピュレーション", kpi1Note: "Windows 10 ネイティブ & WSL2 ROS 1",
+        kpi2Label: "エッジAIボード", kpi2Note: "JetPack 4.5 • Docker • CSIカメラ",
+        kpi3Label: "ビジョンモデル", kpi3Note: "MS COCO (91クラス) + OpenImages ONNX",
+        kpi4Label: "講義教材", kpi4Note: "全12モジュール & デモ動画9本",
         tabAll: "全チュートリアル (12モジュール)",
         tabRos: "トラック A: ROS 1/2・MoveIt 1/2・自律移動 (4)",
         tabJetson: "トラック B: Jetson Nano + カメラビジョン (8)",
         secRosTitle: "トラック A. ロボットマニピュレーション & 自律移動ナビゲーション (ROS 1/2 & MoveIt 1/2)",
         secJetsonTitle: "トラック B. NVIDIA Jetson Nano + カメラビジョン 8段階ブートキャンプ",
+        modA1Title: "1. Windows 10 に ROS 2 Foxy をネイティブインストールする",
+        modA1Intro: "Linux とのデュアルブートなしで 6 自由度・7 自由度アーム制御ノードを実行できるよう、Windows 10 にネイティブ ROS 2 Foxy Fitzroy 環境を構築します。2 つのターミナルで C++ Pub/Sub 通信を確認してからモジュール 2 の MoveIt 2 ビルドに進みます。",
+        modA2Title: "2. Windows 10 で MoveIt 2 をソースビルドし Franka Panda の軌道を計画する",
+        modA2Intro: "Windows 10 上で MoveIt 2 をソースからビルドし、RViz2 で 7 自由度 Franka Emika Panda の衝突回避軌道計画を実行します。両ワークスペースを読み込んでデモを起動し、3D マーカーをドラッグして逆運動学 (IK) と関節軌道を検証します。",
+        modA3Title: "3. WSL2 Ubuntu 18.04 で ROS 1 Melodic と MoveIt 1 を実行する",
+        modA3Intro: "Windows 10 上の WSL2 Ubuntu 18.04 と X11 サーバー (VcXsrv) を連携させ、ROS 1 Melodic のマニピュレーションパッケージと Gazebo プラグインを実行します。WSL2 内に VS Code を導入し、DISPLAY 環境変数を設定して RViz の MoveIt 1 デモを起動します。",
+        modA4Title: "4. 移動ロボット自己位置推定と ROS Navigation Stack を構成する",
+        modA4Intro: "WSL2 Linux 上で占有格子地図 SLAM、モンテカルロ自己位置推定 (amcl)、大域 A*/Dijkstra 経路探索、局所 DWA 軌道制御を move_base で実行します。RViz から 2D 目標姿勢を送信してコストマップ更新を確認します。本構成は IEEE ICRA 2025 採択論文 OPPA の基盤です。",
         sideToc: "モジュール目次"
       },
       zh: {
         headerBrand: "机器人与边缘 AI 实战教程",
-        navTutorials: "实战教程", navArchive: "研究档案与专利", navBlog: "博客", navPortfolio: "返回主页",
+        navTutorials: "教程", navArchive: "档案库", navBlog: "博客", navPortfolio: "主门户",
         heroBadge: "ROS 1/2 • MoveIt 1/2 • Jetson Nano 训练营",
-        heroTitle: "机械臂运动规划 (ROS/MoveIt)、移动导航与 Jetson Nano 视觉实战中心",
-        heroLede: "完整整合自 mincasurong.com 的工程教程与讲义：Windows 10 原生 ROS 2 Foxy 与 MoveIt 2 机械臂运动规划、WSL2 Ubuntu 18.04 下的 ROS 1 Melodic 与 MoveIt 1 + 移动机器人导航栈，以及 8 讲 NVIDIA Jetson Nano + CSI 相机视觉与 TensorRT 迁移学习训练营。",
+        heroTitle: "机械臂运动规划、移动机器人导航与 Jetson Nano 相机视觉实战",
+        heroLede: "通过 12 个实操模块搭建并验证两套完整的机器人软件栈。专题 A 在 Windows 10 上配置原生 ROS 2 Foxy 与 MoveIt 2 运动规划，并在 WSL2 Ubuntu 18.04 中运行 ROS 1 Melodic、MoveIt 1 与 ROS Navigation Stack。专题 B 完整呈现为 2021 西江大学 × 现代摩比斯软件夏令营编写的 8 讲 NVIDIA Jetson Nano CSI 相机视觉与 PyTorch-to-TensorRT SSD 迁移学习训练营。",
+        kpi1Label: "机械臂规划栈", kpi1Note: "Windows 10 原生 & WSL2 ROS 1 Melodic",
+        kpi2Label: "边缘 AI 平台", kpi2Note: "JetPack 4.5 • Docker • CSI 相机",
+        kpi3Label: "视觉检测模型", kpi3Note: "MS COCO (91类) + OpenImages ONNX",
+        kpi4Label: "配套讲义资料", kpi4Note: "12 个模块与 9 部演示视频",
         tabAll: "全部教程 (12 个模块)",
         tabRos: "专题 A: ROS 1/2、MoveIt 1/2 与移动导航 (4)",
         tabJetson: "专题 B: Jetson Nano + 相机视觉训练营 (8)",
-        secRosTitle: "专题 A. 机械臂操控与移动机器人导航 (ROS 1/2 & MoveIt 1/2)",
+        secRosTitle: "专题 A. 机械臂运动规划与移动机器人导航 (ROS 1/2 & MoveIt 1/2)",
         secJetsonTitle: "专题 B. NVIDIA Jetson Nano + 相机视觉 8 讲实战训练营",
+        modA1Title: "1. 在 Windows 10 上安装原生 ROS 2 Foxy",
+        modA1Intro: "在 Windows 10 上配置原生 ROS 2 Foxy Fitzroy 工作空间，无需双系统即可运行 6 自由度与 7 自由度机械臂节点。在编译第 2 讲的 MoveIt 2 源码前，请先在两个终端中验证 C++ 发布与订阅通信。",
+        modA2Title: "2. 在 Windows 10 上源码编译 MoveIt 2 并规划 Franka Panda 轨迹",
+        modA2Intro: "在 Windows 10 上从源码构建 MoveIt 2，并在 RViz2 中运行 7 自由度 Franka Emika Panda 机械臂无碰撞运动规划。加载两个工作空间后启动演示节点，拖动末端 3D 交互标记以求解逆运动学 (IK) 并执行关节轨迹。",
+        modA3Title: "3. 在 WSL2 Ubuntu 18.04 中运行 ROS 1 Melodic 与 MoveIt 1",
+        modA3Intro: "在 Windows 10 中配置 WSL2 Ubuntu 18.04 与 X11 显示服务器 (VcXsrv)，直接运行 ROS 1 Melodic 工业机械臂功能包与 Gazebo 插件。在 WSL2 中安装 VS Code，导出宿主机 DISPLAY 地址，并在 RViz 中启动 Panda MoveIt 1 规划场景。",
+        modA4Title: "4. 配置移动机器人定位与 ROS Navigation Stack 导航栈",
+        modA4Intro: "在 WSL2 Linux 中通过 move_base 部署占据栅格建图、蒙特卡洛定位 (amcl)、全局 A*/Dijkstra 路径搜索与局部 DWA 轨迹控制器。在 RViz 中发送 2D 导航目标以观察全局与局部代价地图实时更新；该基线管线直接支撑了 IEEE ICRA 2025 论文 OPPA。",
         sideToc: "教程目录"
       },
       es: {
         headerBrand: "Tutoriales de Robótica e IA en el Borde",
-        navTutorials: "Tutoriales", navArchive: "Archivo y Patentes", navBlog: "Blog", navPortfolio: "Portal Principal",
+        navTutorials: "Tutoriales", navArchive: "Archivo", navBlog: "Blog", navPortfolio: "Portal Principal",
         heroBadge: "ROS 1/2 • MoveIt 1/2 • Bootcamp Jetson Nano",
-        heroTitle: "Manipulación Robótica (ROS/MoveIt), Navegación Móvil y Visión en Jetson Nano",
-        heroLede: "Tutoriales prácticos y notas de clase consolidados de mincasurong.com: planificación de movimiento con ROS 2 Foxy y MoveIt 2 en Windows 10, ROS 1 Melodic y MoveIt 1 + ROS Navigation Stack en WSL2 Ubuntu 18.04, y el Bootcamp de 8 módulos en NVIDIA Jetson Nano con cámara CSI y Transfer Learning en TensorRT.",
+        heroTitle: "Manipulación Robótica, Navegación Móvil y Visión en Jetson Nano",
+        heroLede: "Construye y verifica dos pilas completas de software robótico en 12 módulos prácticos. La Ruta A configura la planificación de movimiento nativa con ROS 2 Foxy y MoveIt 2 en Windows 10 junto con ROS 1 Melodic, MoveIt 1 y ROS Navigation Stack en WSL2 Ubuntu 18.04. La Ruta B recorre el bootcamp de 8 módulos en NVIDIA Jetson Nano con cámara CSI y aprendizaje por transferencia SSD de PyTorch a TensorRT diseñado para el campamento de software 2021 de Sogang University y Hyundai Mobis.",
+        kpi1Label: "Pila de Manipulación", kpi1Note: "Windows 10 Nativo y WSL2 ROS 1 Melodic",
+        kpi2Label: "Plataforma Edge AI", kpi2Note: "JetPack 4.5 • Docker • Cámara CSI",
+        kpi3Label: "Modelos de Visión", kpi3Note: "MS COCO (91 clases) + OpenImages ONNX",
+        kpi4Label: "Material del Curso", kpi4Note: "12 Módulos y 9 Videos de Demostración",
         tabAll: "Todos los Tutoriales (12 Módulos)",
         tabRos: "Ruta A: ROS 1/2, MoveIt 1/2 y Nav Móvil (4)",
         tabJetson: "Ruta B: Bootcamp Jetson Nano + Visión (8)",
         secRosTitle: "Ruta A. Manipulación Robótica y Navegación Móvil (ROS 1/2 y MoveIt 1/2)",
         secJetsonTitle: "Ruta B. Bootcamp NVIDIA Jetson Nano + Visión por Cámara (8 Módulos)",
+        modA1Title: "1. Instala ROS 2 Foxy de forma nativa en Windows 10",
+        modA1Intro: "Configura un entorno nativo de ROS 2 Foxy Fitzroy en Windows 10 para ejecutar nodos de manipulación de 6 y 7 grados de libertad sin arranque dual con Linux. Verifica la comunicación publicador-suscriptor en C++ antes de compilar MoveIt 2 en el Módulo 2.",
+        modA2Title: "2. Compila MoveIt 2 y planifica trayectorias del brazo Franka Panda en Windows 10",
+        modA2Intro: "Compila MoveIt 2 desde el código fuente en Windows 10 e inicia la planificación de trayectorias libres de colisiones de 7-DoF para el brazo Franka Emika Panda en RViz2. Carga ambos espacios de trabajo, ejecuta el archivo launch y arrastra el marcador 3D para resolver la cinemática inversa (IK).",
+        modA3Title: "3. Ejecuta ROS 1 Melodic y MoveIt 1 en WSL2 Ubuntu 18.04",
+        modA3Intro: "Configura WSL2 Ubuntu 18.04 con un servidor X11 (VcXsrv) en Windows 10 para ejecutar paquetes industriales de ROS 1 Melodic y complementos de Gazebo sin particionar el disco. Instala VS Code en WSL2, exporta la variable DISPLAY e inicia la escena Panda de MoveIt 1 en RViz.",
+        modA4Title: "4. Configura la localización móvil y ROS Navigation Stack",
+        modA4Intro: "Despliega SLAM de rejilla de ocupación, localización Monte Carlo (amcl), búsqueda global A*/Dijkstra y control local DWA mediante move_base en WSL2 Linux. Publica una meta 2D en RViz para inspeccionar los mapas de costos; esta base sustenta nuestro artículo OPPA en IEEE ICRA 2025.",
         sideToc: "Módulos del Tutorial"
       }
     };
@@ -1128,12 +1192,14 @@ df -h</pre>
       if (popup) popup.classList.remove('open');
       var dict = TUT_I18N[lang];
       document.querySelectorAll('[data-i18n]').forEach(function(el) {
-        if (!el.hasAttribute('data-orig-html') && el.children.length > 0) {
-          el.setAttribute('data-orig-html', el.innerHTML);
+        if (el.dataset.origHtml === undefined) {
+          el.dataset.origHtml = el.innerHTML;
         }
         if (lang === 'en') {
-          if (el.hasAttribute('data-orig-html')) { el.innerHTML = el.getAttribute('data-orig-html'); return; }
-          if (el.children.length > 0) return;
+          if (el.innerHTML !== el.dataset.origHtml) {
+            el.innerHTML = el.dataset.origHtml;
+          }
+          return;
         }
         var key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];

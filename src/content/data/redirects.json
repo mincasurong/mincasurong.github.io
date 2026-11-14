@@ -5,7 +5,7 @@
     "sourcePath": "/blog/vla/",
     "target": "/blog/VLA/",
     "canonical": "https://mincasurong.github.io/blog/VLA/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "blog/m9g-agent-corps",
@@ -13,7 +13,7 @@
     "sourcePath": "/blog/m9g-agent-corps/",
     "target": "/blog/m9g-agent/",
     "canonical": "https://mincasurong.github.io/blog/m9g-agent/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "blog/sota-isaacsim-multi-robot-sdl-survey",
@@ -21,7 +21,7 @@
     "sourcePath": "/blog/sota-isaacsim-multi-robot-sdl-survey/",
     "target": "/blog/sdl-survey/",
     "canonical": "https://mincasurong.github.io/blog/sdl-survey/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "fast-sim",
@@ -29,7 +29,7 @@
     "sourcePath": "/fast-sim/",
     "target": "https://tamp.mincasurong.com",
     "canonical": "https://tamp.mincasurong.com",
-    "title": "Redirecting to 3D Fast-Sim (tamp.mincasurong.com) — We're M9G"
+    "title": "Redirecting to 3D Fast-Sim (tamp.mincasurong.com) · We're M9G"
   },
   {
     "id": "research2022",
@@ -37,7 +37,7 @@
     "sourcePath": "/research2022/",
     "target": "/archive/#research-2022",
     "canonical": "https://mincasurong.github.io/archive/",
-    "title": "Research (~2022) KFDA Exoskeletons & AI Therapist — We're M9G"
+    "title": "Research (~2022) KFDA Exoskeletons & AI Therapist · We're M9G"
   },
   {
     "id": "gemini3-hackathon-epilogue",
@@ -45,7 +45,7 @@
     "sourcePath": "/gemini3-hackathon-epilogue/",
     "target": "/archive/#hackathon-epilogue",
     "canonical": "https://mincasurong.github.io/archive/",
-    "title": "Gemini 3 Seoul Hackathon 2026 Epilogue — We're M9G"
+    "title": "Gemini 3 Seoul Hackathon 2026 Epilogue · We're M9G"
   },
   {
     "id": "out-of-research",
@@ -53,7 +53,7 @@
     "sourcePath": "/out-of-research/",
     "target": "/tutorials/",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/basic-robotics",
@@ -61,7 +61,7 @@
     "sourcePath": "/out-of-research/basic-robotics/",
     "target": "/tutorials/#track-ros",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/basic-robotics/ros2-on-win10",
@@ -69,7 +69,7 @@
     "sourcePath": "/out-of-research/basic-robotics/ros2-on-win10/",
     "target": "/tutorials/#ros2-windows10",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/basic-robotics/moveit2-on-win10",
@@ -77,7 +77,7 @@
     "sourcePath": "/out-of-research/basic-robotics/moveit2-on-win10/",
     "target": "/tutorials/#moveit2-windows10",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/basic-robotics/ros1-on-win10-with-wsl2",
@@ -85,7 +85,7 @@
     "sourcePath": "/out-of-research/basic-robotics/ros1-on-win10-with-wsl2/",
     "target": "/tutorials/#ros1-moveit1-wsl2",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/basic-robotics/mobile-robot",
@@ -93,7 +93,7 @@
     "sourcePath": "/out-of-research/basic-robotics/mobile-robot/",
     "target": "/tutorials/#mobile-robot-nav",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/jetson-nano-camera-vision",
@@ -101,7 +101,7 @@
     "sourcePath": "/out-of-research/jetson-nano-camera-vision/",
     "target": "/tutorials/#track-jetson",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/jetson-nano-camera-vision/1-os-install-settings",
@@ -109,7 +109,7 @@
     "sourcePath": "/out-of-research/jetson-nano-camera-vision/1-os-install-settings/",
     "target": "/tutorials/#jetson-1-prep",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/jetson-nano-camera-vision/2-1-ros-install-basic-nodes",
@@ -117,7 +117,7 @@
     "sourcePath": "/out-of-research/jetson-nano-camera-vision/2-1-ros-install-basic-nodes/",
     "target": "/tutorials/#jetson-intro",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/jetson-nano-camera-vision/2-2-useful-site-before-studying",
@@ -125,7 +125,7 @@
     "sourcePath": "/out-of-research/jetson-nano-camera-vision/2-2-useful-site-before-studying/",
     "target": "/tutorials/#jetson-intro",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/jetson-nano-camera-vision/2-3-making-custom-ros-package",
@@ -133,7 +133,7 @@
     "sourcePath": "/out-of-research/jetson-nano-camera-vision/2-3-making-custom-ros-package/",
     "target": "/tutorials/#jetson-intro",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/jetson-nano-camera-vision/3-0-docker-for-object-detection",
@@ -141,7 +141,7 @@
     "sourcePath": "/out-of-research/jetson-nano-camera-vision/3-0-docker-for-object-detection/",
     "target": "/tutorials/#jetson-2-docker",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/jetson-nano-camera-vision/3-1-camera-interface",
@@ -149,7 +149,7 @@
     "sourcePath": "/out-of-research/jetson-nano-camera-vision/3-1-camera-interface/",
     "target": "/tutorials/#jetson-1-prep",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/jetson-nano-camera-vision/3-2-object-detection",
@@ -157,7 +157,7 @@
     "sourcePath": "/out-of-research/jetson-nano-camera-vision/3-2-object-detection/",
     "target": "/tutorials/#jetson-3-detectnet",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/jetson-nano-camera-vision/4-making-custom-object-model",
@@ -165,7 +165,7 @@
     "sourcePath": "/out-of-research/jetson-nano-camera-vision/4-making-custom-object-model/",
     "target": "/tutorials/#jetson-4-1-tl-prep",
     "canonical": "https://mincasurong.github.io/tutorials/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/google-cloud-onboard-google-skills-edition",
@@ -173,7 +173,7 @@
     "sourcePath": "/out-of-research/google-cloud-onboard-google-skills-edition/",
     "target": "/archive/#cloud-onboard",
     "canonical": "https://mincasurong.github.io/archive/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/teaching-assistant",
@@ -181,7 +181,7 @@
     "sourcePath": "/out-of-research/teaching-assistant/",
     "target": "/archive/#teaching-assistant",
     "canonical": "https://mincasurong.github.io/archive/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/app-dev",
@@ -189,7 +189,7 @@
     "sourcePath": "/out-of-research/app-dev/",
     "target": "/archive/#app-dev",
     "canonical": "https://mincasurong.github.io/archive/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   },
   {
     "id": "out-of-research/aiesec-exchange",
@@ -197,6 +197,6 @@
     "sourcePath": "/out-of-research/aiesec-exchange/",
     "target": "/archive/#aiesec",
     "canonical": "https://mincasurong.github.io/archive/",
-    "title": "Redirecting — We're M9G"
+    "title": "Redirecting · We're M9G"
   }
 ]

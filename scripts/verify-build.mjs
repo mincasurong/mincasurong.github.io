@@ -257,6 +257,117 @@ for (const file of allDistFiles) {
   }
 }
 
+const BLOG_LOCALES = ['en', 'ko', 'ja', 'zh', 'es'];
+const BLOG_CHROME_DOM_KEYS = new Set([
+  'blogHeaderBrand',
+  'navCv',
+  'navArchive',
+  'navBlog',
+  'navTutorials',
+  'navPortfolio',
+  'switcherIndexKicker',
+  'switcherIndexTitle',
+  'goTopLabel',
+  'footerBlogIndex',
+]);
+
+const blogHubHtml = htmlContentByRel.get('blog/index.html') || '';
+const blogJsonFiles = fs
+  .readdirSync(path.resolve('src/content/blogs'))
+  .filter((f) => f.endsWith('.json'))
+  .sort();
+
+for (const file of blogJsonFiles) {
+  const relJson = `src/content/blogs/${file}`;
+  const post = JSON.parse(fs.readFileSync(path.resolve(relJson), 'utf8'));
+  const bodyAttrKeys = Array.from(
+    post.bodyHtml.matchAll(/\bdata-i18n=["']([^"']+)["']/g),
+    (m) => m[1]
+  );
+  const expectedPostKeys = new Set(['articleTag', 'articleTitle', 'articleLede', ...bodyAttrKeys]);
+
+  for (const k of expectedPostKeys) {
+    if (BLOG_CHROME_DOM_KEYS.has(k)) {
+      fail(`${relJson}: bodyHtml/hero data-i18n key "${k}" collides with CHROME_I18N`);
+    }
+  }
+
+  for (const loc of BLOG_LOCALES) {
+    const dict = post.i18n?.[loc];
+    if (!dict || typeof dict !== 'object') {
+      fail(`${relJson}: missing i18n.${loc} dictionary`);
+      continue;
+    }
+    const dictKeys = new Set(Object.keys(dict));
+    const missing = [...expectedPostKeys].filter((k) => !dictKeys.has(k) || !String(dict[k]).trim());
+    const orphaned = [...dictKeys].filter((k) => !expectedPostKeys.has(k));
+    if (missing.length > 0) {
+      fail(`${relJson} [${loc}]: missing data-i18n keys: ${missing.join(', ')}`);
+    }
+    if (orphaned.length > 0) {
+      fail(`${relJson} [${loc}]: orphaned i18n keys: ${orphaned.join(', ')}`);
+    }
+  }
+
+  const distPostHtml = htmlContentByRel.get(`blog/${post.slug}/index.html`);
+  if (distPostHtml) {
+    const domI18nKeys = new Set(
+      Array.from(distPostHtml.matchAll(/\bdata-i18n=["']([^"']+)["']/g), (m) => m[1])
+    );
+    const expectedDomKeys = new Set([...BLOG_CHROME_DOM_KEYS, ...expectedPostKeys]);
+    const domMissing = [...domI18nKeys].filter((k) => !expectedDomKeys.has(k));
+    const domUnused = [...expectedDomKeys].filter((k) => !domI18nKeys.has(k));
+    if (domMissing.length > 0) {
+      fail(`dist/blog/${post.slug}/index.html: untranslated DOM data-i18n keys: ${domMissing.join(', ')}`);
+    }
+    if (domUnused.length > 0) {
+      fail(`dist/blog/${post.slug}/index.html: expected data-i18n keys absent from DOM: ${domUnused.join(', ')}`);
+    }
+  }
+
+  if (blogHubHtml) {
+    const titleKey = `b${post.order}Title`;
+    const descKey = `b${post.order}Desc`;
+    const enBlockMatch = blogHubHtml.match(/var\s+HUB_I18N\s*=\s*\{\s*en:\s*\{([\s\S]*?)\}\s*,\s*ko:/);
+    if (enBlockMatch) {
+      const enBlock = enBlockMatch[1];
+      const titleMatch = enBlock.match(new RegExp(`\\b${titleKey}:\\s*"([^"]*)"`));
+      const descMatch = enBlock.match(new RegExp(`\\b${descKey}:\\s*"([^"]*)"`));
+      if (titleMatch && titleMatch[1] !== post.hubTitle) {
+        fail(`${relJson}: hubTitle ("${post.hubTitle}") !== HUB_I18N.en.${titleKey} ("${titleMatch[1]}")`);
+      }
+      if (descMatch && descMatch[1] !== post.hubDesc) {
+        fail(`${relJson}: hubDesc ("${post.hubDesc}") !== HUB_I18N.en.${descKey} ("${descMatch[1]}")`);
+      }
+    }
+  }
+}
+
+const BANNED_SLOP_RE = /\b(?:prestigious|profound|sophisticated|landmark|leveraging|leverage|utilize|seamlessly|rigorously|crucially|striking|isomorphism|substrates|substrate|cheat-code|delve|pivotal|underscore|cutting-edge|meticulously|highly competitive|broad spectrum|transparent breakdown)\b/i;
+
+const proseTargets = [
+  ['README.md', fs.readFileSync(path.resolve('README.md'), 'utf8')],
+  ['dist/rss.xml', fs.existsSync(path.join(DIST, 'rss.xml')) ? fs.readFileSync(path.join(DIST, 'rss.xml'), 'utf8') : ''],
+  ...Array.from(htmlContentByRel.entries()).map(([rel, txt]) => [`dist/${rel}`, txt]),
+];
+
+for (const [label, rawText] of proseTargets) {
+  const withoutStyle = rawText.replace(/<style[\s\S]*?<\/style>/gi, '');
+  if (withoutStyle.includes('\u2014') || /&mdash;/i.test(withoutStyle)) {
+    fail(`Em-dash character found in ${label}`);
+  }
+  const masked = withoutStyle
+    .replaceAll('argon_omo_substrate.py', 'ARGON_OMO_FILE_PY')
+    .replaceAll(
+      'Learning-Based Sampling Strategies Leveraging Bidirectional Motion Planning Characteristics',
+      'JKROS_2026_CITATION_TITLE'
+    );
+  const m = masked.match(BANNED_SLOP_RE);
+  if (m) {
+    fail(`Banned slop word "${m[0]}" found in ${label}`);
+  }
+}
+
 if (failures.length > 0) {
   console.error(`Build verification failed with ${failures.length} error(s):`);
   for (const f of failures) {

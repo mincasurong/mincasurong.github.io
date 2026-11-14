@@ -12,12 +12,12 @@
 
 ## 🏆 Recent News
 
-### **1st**-Place Winner at Google Gemini3 Seoul Hackathon 2026
-**`01 — Highlight` • `1st Place Winner • Google Hackathon`**
+### **1st Place** at Google Gemini 3 Seoul Hackathon 2026
+**`01 · Highlight` • `1st Place • Google Gemini 3 Hackathon`**
 
-Claimed **1st Place** at the prestigious **Google Gemini3 Seoul Hackathon 2026**, standing out among **111 finalist projects** and over **1,500 highly competitive applicants**.
+Won **1st Place** at the **Google Gemini 3 Seoul Hackathon 2026** among **111 finalist teams** and over **1,500 applicants**.
 
-We developed **GeminiSpace**, a Vision-Language-Action (VLA) navigation system that turns standard single-view room photos into an **interactive indoor semantic map**. Simply capture your space and query it naturally, acting as a smart GPS for any indoor environment.
+Built **GeminiSpace**, an indoor spatial navigation web app that converts single-view and 360-degree room photos into **queryable 2D and 3D semantic maps**.
 
 <div align="center">
   <a href="https://youtu.be/hzUlLTtfd7M?si=LCs8NFTN9zpZ4bCm" target="_blank">
@@ -31,7 +31,7 @@ We developed **GeminiSpace**, a Vision-Language-Action (VLA) navigation system t
   <tr>
     <td width="100%" valign="top">
       <h3>🌐 <a href="https://geminispace.mincasurong.com/">Try GeminiSpace Free (Live Web App)</a> &nbsp;<code>Free Live App</code></h3>
-      <p><b>geminispace.mincasurong.com</b> — Turn 360° photos into an interactive indoor spatial map</p>
+      <p><b>geminispace.mincasurong.com</b> • Convert single-view and 360° room photos into queryable 2D and 3D semantic maps</p>
       <p>
         <a href="https://geminispace.mincasurong.com/"><b>Launch geminispace.mincasurong.com ↗</b></a> &nbsp;•&nbsp;
         <a href="https://blog.google/intl/ko-kr/company-news/inside-google/gemini-seoul-hackathon-first/"><b>Google Blog ↗</b></a> &nbsp;•&nbsp;
@@ -46,7 +46,7 @@ We developed **GeminiSpace**, a Vision-Language-Action (VLA) navigation system t
 
 ## 🤖 Gemini × Robotic Arm Series (Isaac Sim & ROS 2)
 
-Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Benchmarks.
+Multi-robot Vision-Language-Action (VLA) manipulation, React Flow execution graphs, and hardware-in-the-loop benchmarks in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy.
 
 ### 🦾 Interactive 3D Fast-Sim Web App (Live in Browser)
 
@@ -60,7 +60,7 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
     <td width="58%" valign="middle">
       <p><code>tamp.mincasurong.com</code> • <b>Live 60 FPS WebGL • 7-DoF DLS IK &lt;25 ms • Zero Install</b></p>
       <h3><a href="https://tamp.mincasurong.com">Reconfigurable Franka FR3 Workcell &amp; Multi-Cell Factory 3D Lite-Sim</a></h3>
-      <p>Interactive browser 3D simulation featuring the <b>Lazy-DaSH RCPSP Scheduler</b>, <b>Real-Time Execution Hypergraph</b>, <b>7-DoF Damped Least-Squares (DLS) IK</b>, and <b>Mobile Manipulator Material Transfer</b> across 8-slot Franka FR3 workcells and 6-cell (18 FR3 + 4 AMR) smart factories.</p>
+      <p>Browser-native 60 FPS WebGL simulator running a <b>Lazy-DaSH RCPSP scheduler</b>, <b>real-time execution hypergraph</b>, <b>7-DoF Damped Least-Squares (DLS) IK</b> (&lt;25 ms), and <b>AMR material transfer</b> across 8-slot Franka FR3 workcells and 6-cell (18 FR3 + 4 AMR, 720.0/h) smart factories.</p>
       <p><a href="https://tamp.mincasurong.com"><b>Launch tamp.mincasurong.com ↗</b></a> &nbsp;•&nbsp; <a href="https://mincasurong.github.io/blog/tamp-fast-sim/"><b>Read Engineering Blog (M9G-TR-2026-06) ↗</b></a></p>
     </td>
   </tr>
@@ -77,8 +77,8 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
     </td>
     <td width="58%" valign="middle">
       <p><code>mincasurong.github.io/blog/tamp-fast-sim</code> • <b>M9G-TR-2026-06 • tamp.mincasurong.com • 60 FPS WebGL TAMP</b></p>
-      <h3><a href="https://mincasurong.github.io/blog/tamp-fast-sim/">Building a Browser-Native 3D Multi-Robot &amp; Smart Factory Lite-Sim (tamp.mincasurong.com): Why Real-Time WebGL TAMP Is Hard &amp; How We Overcame It</a></h3>
-      <p>How we overcame 5 core bottlenecks: 134 KB binary STL meshes, pure TypeScript 7-DoF DLS IK (&lt;25 ms), 128 Hz swept capsule gate with 3D red ghost debugging, elevated AMR turret docking, and a 6-cell (18 FR3 + 4 AMR) smart factory at 720/h throughput.</p>
+      <h3><a href="https://mincasurong.github.io/blog/tamp-fast-sim/">Building a Browser-Native 3D Multi-Robot &amp; Smart Factory Lite-Sim (tamp.mincasurong.com): Real-Time WebGL TAMP Architecture</a></h3>
+      <p>Engineering breakdown of five bottlenecks in browser TAMP: 134 KB binary STL meshes, pure TypeScript 7-DoF DLS IK (&lt;25 ms), a 128 Hz swept-capsule collision gate with 3D ghost inspection, elevated AMR turret docking, and a 6-cell (18 FR3 + 4 AMR) smart factory reaching 720.0/h throughput.</p>
       <p><a href="https://mincasurong.github.io/blog/tamp-fast-sim/"><b>Read 3D Lite-Sim Blog ↗</b></a> &nbsp;•&nbsp; <a href="https://tamp.mincasurong.com"><b>Launch Live App ↗</b></a></p>
     </td>
   </tr>
@@ -90,8 +90,8 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
     </td>
     <td width="58%" valign="middle">
       <p><code>mincasurong.github.io/blog/lazy-dash</code> • <b>M9G-TR-2026-05 • UIUC Lazy-DaSH (IEEE T-RO) • Carbon + ER-2 + Flash-Lite</b></p>
-      <h3><a href="https://mincasurong.github.io/blog/lazy-dash/">Learning from UIUC's Lazy-DaSH (IEEE T-RO): Hierarchical Hypergraph TAMP &amp; Multi-Model VLA Upgrade Roadmap for IsaacSim_Gemini</a></h3>
-      <p>Summarizing Seongwon "Scott" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab, arXiv:2504.05552) and mapping its 4-layer lazy hypergraph &amp; scoped constraint feedback onto Gemini 4 Carbon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite with 7 continuous KPIs.</p>
+      <h3><a href="https://mincasurong.github.io/blog/lazy-dash/">UIUC Lazy-DaSH (IEEE T-RO) Applied to IsaacSim_Gemini: Hierarchical Hypergraph TAMP &amp; Multi-Model VLA Roadmap</a></h3>
+      <p>Technical analysis of Seongwon "Scott" Lee et al.'s Lazy-DaSH (UIUC Parasol Lab, arXiv:2504.05552), mapping its 4-layer lazy hypergraph and scoped constraint feedback onto Gemini 4 Carbon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite across 7 KPIs.</p>
       <p><a href="https://mincasurong.github.io/blog/lazy-dash/"><b>Read Lazy-DaSH Blog ↗</b></a></p>
     </td>
   </tr>
@@ -103,8 +103,8 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
     </td>
     <td width="58%" valign="middle">
       <p><code>mincasurong.github.io/blog/sdl-survey</code> • <b>M9G-TR-2026-04 • 14 SOTA Systems • Assembly, Deformables &amp; SDLs</b></p>
-      <h3><a href="https://mincasurong.github.io/blog/sdl-survey/">SOTA Survey (2025–2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim — Assembly, Deformable Handling &amp; Self-Driving Labs</a></h3>
-      <p>4-tier neuro-symbolic + GPU physics synthesis across MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, and Project STAMP (v1.0.0-stamp).</p>
+      <h3><a href="https://mincasurong.github.io/blog/sdl-survey/">SOTA Survey (2025-2026): Agentic Multi-Robot Manipulation in NVIDIA Isaac Sim for Assembly, Deformable Handling &amp; Self-Driving Labs</a></h3>
+      <p>Four-tier neuro-symbolic and GPU physics synthesis across 14 systems, including MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, and Project STAMP (v1.0.0-stamp).</p>
       <p><a href="https://mincasurong.github.io/blog/sdl-survey/"><b>Read SDL Survey Blog ↗</b></a></p>
     </td>
   </tr>
@@ -116,8 +116,8 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
     </td>
     <td width="58%" valign="middle">
       <p><code>mincasurong.github.io/blog/stamp</code> • <b>M9G-TR-2026-03 • 100% Fault Interception (1,000 Episodes)</b></p>
-      <h3><a href="https://mincasurong.github.io/blog/stamp/">Project STAMP: Decoupling Multimodal VLA Reasoning from Robot Execution via Deterministic Pre-Dispatch Gating & Write-Back</a></h3>
-      <p>4-stage closed-loop spatial, task & motion planning (Plan → Gate → Execute → Write-Back) intercepting 610/610 kinematic, AABB collision, torque, and zone-lock faults in Isaac Sim 6.0 & ROS 2 Jazzy.</p>
+      <h3><a href="https://mincasurong.github.io/blog/stamp/">Project STAMP: Decoupling Multimodal VLA Reasoning from Robot Execution via Deterministic Pre-Dispatch Gating &amp; Write-Back</a></h3>
+      <p>Four-stage closed-loop TAMP pipeline (Plan, Gate, Execute, Write-Back) that intercepts 610/610 kinematic, AABB collision, torque, and zone-lock faults across 1,000 episodes in Isaac Sim 6.0 and ROS 2 Jazzy.</p>
       <p><a href="https://mincasurong.github.io/blog/stamp/"><b>Read STAMP Technical Blog ↗</b></a></p>
     </td>
   </tr>
@@ -130,7 +130,7 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
     <td width="58%" valign="middle">
       <p><code>mincasurong.github.io/blog/VLA</code> • <b>M9G-TR-2026-01 • 3-Arm FR3 Tower • -76.6% API Cost ($0.01972)</b></p>
       <h3><a href="https://mincasurong.github.io/blog/VLA/">Symbolic 3D Grounding and Software-Pipelined VLA Task Planning: ER-2 vs. Gemini 4 Carbon</a></h3>
-      <p>3-Stage hardware-in-the-loop benchmark in Isaac Sim 6.0 & ROS 2 Jazzy with Nano Banana Pro architecture and token/latency charts.</p>
+      <p>Three-stage hardware-in-the-loop benchmark in Isaac Sim 6.0 and ROS 2 Jazzy: symbolic <code>/tf</code> grounding with 0 RGB tokens and a 10-turn pipelined schedule cut API cost to $0.01972 per episode (-76.6%).</p>
       <p><a href="https://mincasurong.github.io/blog/VLA/"><b>Read VLA Blog ↗</b></a> &nbsp;•&nbsp; <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA"><b>Watch Side-by-Side Video ↗</b></a></p>
     </td>
   </tr>
@@ -144,15 +144,15 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
       <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank">
         <img src="https://img.youtube.com/vi/PPZ4vgVZlyA/maxresdefault.jpg" width="100%" alt="Gemini Robotics ER-2 vs. Gemini 4 Carbon: Multi-Robot Task Planner Benchmark" style="border-radius: 8px;" />
       </a>
-      <h4><a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA">Gemini Robotics ER-2 vs. Gemini 4 Carbon: Multi-Robot Task Planner Benchmark (Isaac Sim 6.0 & ROS 2)</a></h4>
-      <p>Side-by-side 3-arm 9-block tower benchmark in Isaac Sim 6.0: software-pipelined 10-turn scheduling and hybrid Gemini 4 Carbon + Flash-Lite cutting API cost by 76.6% ($0.01972) with 0 RGB tokens.</p>
+      <h4><a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA">Gemini Robotics ER-2 vs. Gemini 4 Carbon: Multi-Robot Task Planner Benchmark (Isaac Sim 6.0 &amp; ROS 2)</a></h4>
+      <p>Side-by-side 3-arm, 9-block tower benchmark in Isaac Sim 6.0. Software-pipelined 10-turn scheduling with Gemini 4 Carbon and Flash-Lite reduces API cost to $0.01972 (-76.6%) with 0 RGB tokens.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://www.youtube.com/watch?v=q-D9H9anNl8" target="_blank">
         <img src="https://img.youtube.com/vi/q-D9H9anNl8/hqdefault.jpg" width="100%" alt="EP 12. Multi Robot Collaboration | Gemini Robotics ER2 & NVIDIA IsaacSim & ROS2" style="border-radius: 8px;" />
       </a>
-      <h4><a href="https://www.youtube.com/watch?v=q-D9H9anNl8">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 & NVIDIA IsaacSim & ROS2</a></h4>
-      <p>Three FR3 robotic arms cooperatively constructing geometric formations in Isaac Sim with dual zero-token React Flow DAG and Gemini Robotics-ER 2 VLA execution.</p>
+      <h4><a href="https://www.youtube.com/watch?v=q-D9H9anNl8">EP 12. Multi Robot Collaboration | Gemini Robotics ER2 &amp; NVIDIA IsaacSim &amp; ROS2</a></h4>
+      <p>Three Franka FR3 arms assembling geometric formations in Isaac Sim through a dual execution stack: a zero-token React Flow DAG scheduler and closed-loop Gemini Robotics-ER 2 VLA control.</p>
     </td>
   </tr>
   <tr>
@@ -160,15 +160,15 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
       <a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y" target="_blank">
         <img src="https://img.youtube.com/vi/stxaWN7Ct8Y/maxresdefault.jpg" width="100%" alt="EP 11. FR3 Robots Cooperating with Gemini Robotics-ER2 & Isaac Sim | React Flow Digital Twin" style="border-radius: 8px;" />
       </a>
-      <h4><a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y">EP 11. FR3 Robots Cooperating with Gemini Robotics-ER2 & Isaac Sim | React Flow Digital Twin</a></h4>
-      <p>Cooperative FR3 robotic arms planning and assembling in Isaac Sim via Gemini multi-agent reasoning and React Flow digital twin.</p>
+      <h4><a href="https://www.youtube.com/watch?v=stxaWN7Ct8Y">EP 11. FR3 Robots Cooperating with Gemini Robotics-ER2 &amp; Isaac Sim | React Flow Digital Twin</a></h4>
+      <p>Cooperative Franka FR3 task planning and assembly in Isaac Sim synchronized with a live React Flow digital twin.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://www.youtube.com/watch?v=MzAGXiZmrdY" target="_blank">
-        <img src="https://img.youtube.com/vi/MzAGXiZmrdY/maxresdefault.jpg" width="100%" alt="EP 10. From natural language input - Isaac Sim, ROS 2, and Gemini Robotics-ER 2." style="border-radius: 8px;" />
+        <img src="https://img.youtube.com/vi/MzAGXiZmrdY/maxresdefault.jpg" width="100%" alt="EP 10. Natural Language Multi-Robot Control | Isaac Sim, ROS 2 & Gemini Robotics-ER 2" style="border-radius: 8px;" />
       </a>
-      <h4><a href="https://www.youtube.com/watch?v=MzAGXiZmrdY">EP 10. From natural language input - Isaac Sim, ROS 2, and Gemini Robotics-ER 2.</a></h4>
-      <p>End-to-end VLA multi-robot control framework integrating Gemini Robotics-ER 2, Isaac Sim, ROS 2, and real-time Web GUI.</p>
+      <h4><a href="https://www.youtube.com/watch?v=MzAGXiZmrdY">EP 10. Natural Language Multi-Robot Control | Isaac Sim, ROS 2 &amp; Gemini Robotics-ER 2</a></h4>
+      <p>Natural-language multi-robot control pipeline connecting Gemini Robotics-ER 2, NVIDIA Isaac Sim, ROS 2, and a real-time web telemetry dashboard.</p>
     </td>
   </tr>
   <tr>
@@ -177,7 +177,7 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
         <img src="https://img.youtube.com/vi/5ydQRDwkg34/maxresdefault.jpg" width="100%" alt="EP 7. Random Target Multi-Robots on NVIDIA IsaacSim w/ Antigravity, Gemini, ROS2" style="border-radius: 8px;" />
       </a>
       <h4><a href="https://youtu.be/5ydQRDwkg34?si=z_TNSfY_MFlpukyS">EP 7. Random Target Multi-Robots on NVIDIA IsaacSim w/ Antigravity, Gemini, ROS2</a></h4>
-      <p>Dynamic multi-robot collaboration on NVIDIA IsaacSim via ROS2, orchestrated by Antigravity 2.0 and Gemini.</p>
+      <p>Multi-robot dynamic target allocation in NVIDIA Isaac Sim over ROS 2, coordinated by Antigravity 2.0 and Gemini.</p>
     </td>
     <td width="50%" valign="top"></td>
   </tr>
@@ -219,37 +219,37 @@ Multi-Robot VLA Manipulation, React Flow Digital Twins & Hardware-in-the-Loop Be
 
 ## 📱 Gemini Diaries & Free Live Apps
 
-Documenting our builder journey in spatial intelligence, robotics, agent-driven engineering, and deployed applications using **Google AI Studio**, **Antigravity**, and **Gemini**.
+Production web and Android applications, agentic developer tools, and spatial AI prototypes built with **Google AI Studio**, **Antigravity**, and **Gemini**.
 
-### 🚀 Apps and Deployed (`100% Free`)
+### 🚀 Deployed Applications (`100% Free`)
 
 <table>
   <tr>
     <td width="33%" valign="top">
       <a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl" target="_blank">
-        <img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" width="100%" alt="UrKuma: Korean-Japanese Quiz & learning" style="border-radius: 8px;" />
+        <img src="https://img.youtube.com/vi/WYOJY8WIwBY/hqdefault.jpg" width="100%" alt="UrKuma: Korean-Japanese Kanji & Vocabulary Quiz" style="border-radius: 8px;" />
       </a>
-      <p><code>play.google.com</code> • <b>Google Play • Android Quiz App</b></p>
-      <h4><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl">UrKuma: Korean-Japanese Quiz & learning</a></h4>
-      <p>Can a cute bear really make you master Chinese characters in 3 minutes a day? 🐻✨</p>
+      <p><code>play.google.com</code> • <b>Google Play • Spaced-Repetition Android App</b></p>
+      <h4><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl">UrKuma: Korean-Japanese Kanji &amp; Vocabulary Quiz</a></h4>
+      <p>Spaced-repetition Korean-Japanese Kanji and vocabulary quiz app published on Google Play for daily character retention and reading drills.</p>
       <p><a href="https://play.google.com/store/apps/details?id=com.studio.kumakanji&hl"><b>Download Free on Google Play ↗</b></a></p>
     </td>
     <td width="33%" valign="top">
       <a href="https://opic.mincasurong.com/" target="_blank">
         <img src="https://mincasurong.github.io/screenshots/opic.png" width="100%" alt="OPIc AI Master Coach" style="border-radius: 8px;" />
       </a>
-      <p><code>opic.mincasurong.com</code> • <b>AI Voice Speaking Coach • AL Prep</b></p>
+      <p><code>opic.mincasurong.com</code> • <b>Gemini Voice Sparring • OPIc AL Prep</b></p>
       <h4><a href="https://opic.mincasurong.com/">OPIc AI Master Coach</a></h4>
-      <p>How people score OPIc Advanced Low in 2 weeks without expensive tutors: real-time AI voice sparring. 🎙️🔥</p>
+      <p>Real-time Gemini voice-sparring coach targeting OPIc Advanced Low (AL), with adaptive role-play prompts and rubric-aligned speaking feedback.</p>
       <p><a href="https://opic.mincasurong.com/"><b>Try OPIc Free ↗</b></a></p>
     </td>
     <td width="33%" valign="top">
       <a href="https://jplt.mincasurong.com/" target="_blank">
         <img src="https://mincasurong.github.io/screenshots/jplt.png" width="100%" alt="JLPT N4 Mock Exam & Drill Master" style="border-radius: 8px;" />
       </a>
-      <p><code>jplt.mincasurong.com</code> • <b>Japanese Proficiency • Gemini AI Tutor</b></p>
-      <h4><a href="https://jplt.mincasurong.com/">JLPT N4 Mock Exam & Drill Master</a></h4>
-      <p>The secret JLPT N4 exam cheat-code: Gemini AI tutors your exact weak spots in real-time. 🇯🇵⚡</p>
+      <p><code>jplt.mincasurong.com</code> • <b>Adaptive Assessment • Gemini Tutor</b></p>
+      <h4><a href="https://jplt.mincasurong.com/">JLPT N4 Mock Exam &amp; Drill Master</a></h4>
+      <p>Adaptive JLPT N4 mock exam and grammar/vocabulary drill tutor powered by Gemini that tracks error patterns and generates targeted practice sets.</p>
       <p><a href="https://jplt.mincasurong.com/"><b>Try JLPT Drill Free ↗</b></a></p>
     </td>
   </tr>
@@ -267,7 +267,7 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
     <td width="58%" valign="middle">
       <p><code>mincasurong.github.io/blog/m9g-agent</code> • <b>M9G-TR-2026-02 • 28 Modules / 169 Tests • m9g vs. OmO / OpenCode / Claude Code / agy</b></p>
       <h3><a href="https://mincasurong.github.io/blog/m9g-agent/">Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity</a></h3>
-      <p>Source-level post-mortem of engineering a 28-module coding harness (<code>src/ag_harness/</code>), the 6 subsystems we investigated, why our standalone harness failed against pre-existing harnesses, and how we pivoted its substrates into the <code>m9g-mcp</code> power-tool server.</p>
+      <p>Source-level post-mortem of a 28-module coding harness (<code>src/ag_harness/</code>, 169 tests): the 6 subsystems we built, the 6 failure modes against mature harnesses, and how we extracted 7 deterministic verification and code-navigation tools into the <code>m9g-mcp</code> server.</p>
       <p><a href="https://mincasurong.github.io/blog/m9g-agent/"><b>Read Agent Harness Blog ↗</b></a></p>
     </td>
   </tr>
@@ -279,8 +279,8 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
       <a href="https://www.youtube.com/watch?v=sdE7r72gJsU" target="_blank">
         <img src="https://img.youtube.com/vi/sdE7r72gJsU/hqdefault.jpg" width="55%" alt="Gemini 4 Carbon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects" style="border-radius: 8px;" />
       </a>
-      <h4><a href="https://www.youtube.com/watch?v=sdE7r72gJsU">Gemini 4 Carbon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS & GCP)</a></h4>
-      <p>Weekend stress-test across 1B tokens shipping 6 full-stack and Physical AI systems with Gemini 4 Carbon, Isaac Sim, ROS 2, and Google Cloud Run.</p>
+      <h4><a href="https://www.youtube.com/watch?v=sdE7r72gJsU">Gemini 4 Carbon Weekend Sprint: $350, 1B Tokens, 6 Shipped Projects (Isaac Sim, ROS 2, SaaS &amp; GCP)</a></h4>
+      <p>72-hour engineering sprint across 1B tokens, shipping 6 full-stack and Physical AI systems with Gemini 4 Carbon, NVIDIA Isaac Sim, ROS 2, and Google Cloud Run.</p>
     </td>
   </tr>
 </table>
@@ -289,7 +289,7 @@ Documenting our builder journey in spatial intelligence, robotics, agent-driven 
 
 ## 🎥 Research Archive
 
-Selected research demonstrations across **wearable robotics**, VR gait rehabilitation, and **autonomous manipulation**.
+Experimental demonstrations from clinical **rehabilitation robotics** (KFDA-certified lower-limb exoskeletons) and **autonomous mobile/manipulator planning**.
 
 ### 🦿 Virtual Reality + Wearable Robots for Rehabilitation
 
@@ -351,13 +351,13 @@ Selected research demonstrations across **wearable robotics**, VR gait rehabilit
 
 ## 👥 Who We Are
 
-**`A TEAM OF A HUMAN AND AI AGENTS`**
+**`HUMAN RESEARCHER + AI ENGINEERING AGENTS`**
 
-### Hi, we're M9G
+### M9G (Minsu Chang, Ph.D.)
 
-Our foundation is rooted in a profound passion for **robotics**, complemented by extensive expertise in **human-robot interaction (HRI)**, advanced control theory, and sophisticated machine learning techniques.
+M9G is the research and systems engineering practice of **Minsu (Max) Chang, Ph.D.** (Robotics Research Engineer at Samsung Electronics, SAIT), pairing first-principles robotics with multi-agent software engineering.
 
-Our professional experience encompasses a broad spectrum, ranging from **assistive and rehabilitation robotics** to the development of **agentic systems** for industrial automation.
+Our work covers **multi-robot Task and Motion Planning (TAMP)**, **3D spatial intelligence**, **nonlinear and adaptive control**, **KFDA-certified lower-limb rehabilitation exoskeletons** (21 peer-reviewed papers, 14+ US/KR patents), and **production agentic tooling**.
 
 ---
 
