@@ -1,5 +1,5 @@
 {
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "src/**/*", "astro.config.mjs"],
-  "exclude": ["dist", "node_modules", "assets", "scripts"]
+  "exclude": ["dist", "node_modules", "assets", "scripts", "_astro", "blog", "vcard", "tutorials", "archive", "out-of-research", "research2022", "gemini3-hackathon-epilogue", "fast-sim"]
 }

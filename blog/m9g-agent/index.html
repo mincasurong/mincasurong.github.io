@@ -1,0 +1,613 @@
+<!DOCTYPE html><html lang="en" class="light"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Building a Coding Harness from Scratch and Why It Failed: m9g-agent-corps vs. OmO, OpenCode, Claude Code &amp; Antigravity | M9G Research</title><link rel="canonical" href="https://mincasurong.github.io/blog/m9g-agent/"><meta name="robots" content="index, follow"><meta name="author" content="Minsu Chang, Ph.D. (M9G / mincasurong)"><meta name="description" content="M9G-TR-2026-02 by Minsu Chang, Ph.D.: Source-level post-mortem of m9g-agent-corps (28 Python modules, 169 passing unit tests), the six inner-loop kernel flaws that caused it to lose to OmO, OpenCode, Claude Code, and Antigravity, and why we extracted seven stateless tools into m9g-mcp."><meta name="keywords" content="M9G-TR-2026-02, m9g-agent-corps, m9g-mcp, Coding Agent Harness, Oh-My-OpenAgent, OmO, OpenCode, Claude Code, Google Antigravity, Model Context Protocol, MCP, Hashline Edit, AST Skeletonizer, Minsu Chang, M9G, mincasurong"><meta property="og:type" content="article"><meta property="og:url" content="https://mincasurong.github.io/blog/m9g-agent/"><meta property="og:title" content="Building a Coding Harness from Scratch and Why It Failed: m9g-agent-corps vs. OmO, OpenCode, Claude Code &#38; Antigravity"><meta property="og:description" content="What we built across 28 Python modules and 169 tests in m9g-agent-corps, the six kernel flaws that broke daily reliability against OmO, OpenCode, Claude Code, and Antigravity, and why extracting seven stateless tools into m9g-mcp worked."><meta property="og:image" content="https://mincasurong.github.io/screenshots/blog2-agent-thumb-nanobanana.png"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="alternate" type="application/rss+xml" title="M9G (Minsu Chang / mincasurong) RSS Feed" href="https://mincasurong.github.io/rss.xml"><script>
+  (function() {
+    var t = 'light';
+    try {
+      if (localStorage.getItem('m9g_theme') === 'dark') t = 'dark';
+    } catch (e) {}
+    var root = document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(t);
+    root.dataset.theme = t;
+    root.style.colorScheme = t;
+    window.__m9gToggleTheme = function() {
+      var next = root.classList.contains('dark') ? 'light' : 'dark';
+      root.classList.remove('light', 'dark');
+      root.classList.add(next);
+      root.dataset.theme = next;
+      root.style.colorScheme = next;
+      try { localStorage.setItem('m9g_theme', next); } catch (e) {}
+      document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
+        var mode = btn.getAttribute('data-theme-toggle');
+        if (mode === 'icon-only') {
+          btn.textContent = next === 'light' ? '☀' : '☾';
+        } else {
+          btn.textContent = next === 'light' ? '☀ Light' : '☾ Dark';
+        }
+      });
+    };
+    window.addEventListener('DOMContentLoaded', function() {
+      var cur = root.classList.contains('dark') ? 'dark' : 'light';
+      document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
+        var mode = btn.getAttribute('data-theme-toggle');
+        if (mode === 'icon-only') {
+          btn.textContent = cur === 'light' ? '☀' : '☾';
+        } else {
+          btn.textContent = cur === 'light' ? '☀ Light' : '☾ Dark';
+        }
+      });
+    });
+  })();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity","identifier":"M9G-TR-2026-02","datePublished":"2026-10-20","dateModified":"2026-10-25","inLanguage":["en","ko","ja","zh","es"],"image":"https://mincasurong.github.io/screenshots/m9g-agent-corps-architecture.png","author":{"@type":"Person","name":"Minsu Chang","honorificSuffix":"Ph.D.","alternateName":["장민수","M9G","mincasurong"],"url":"https://mincasurong.github.io/"},"publisher":{"@type":"Organization","name":"M9G Research & Systems Engineering","url":"https://mincasurong.github.io/"}}</script><link rel="stylesheet" href="/_astro/index.e0A4xEyy.css">
+<link rel="stylesheet" href="/_astro/_slug_.BgOG-Bis.css"></head> <body> <div id="progress-bar"></div> <header class="topbar"> <div class="topbar-inner"> <a href="/" class="brand"> <span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span> <span class="brand-sep">|</span> <span class="brand-sec" data-i18n="blogHeaderBrand">Technical Research Blog</span> </a> <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;"> <nav class="topnav"> <a href="/vcard/" class="topnav-pill" data-i18n="navCv">CV ↗</a> <a href="/archive/" class="topnav-pill" data-i18n="navArchive">Archive</a> <a href="/blog/" class="topnav-pill active" data-i18n="navBlog">Blog</a> <a href="/tutorials/" class="topnav-pill" data-i18n="navTutorials">Tutorials</a> <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a> </nav> <button class="topbar-btn" id="theme-btn" data-theme-toggle="icon-only" onclick="window.__m9gToggleTheme()" title="Toggle light or dark theme" aria-label="Toggle light or dark theme">☀</button> <div class="lang-dropdown-wrap" id="lang-dropdown-wrap"> <button class="lang-box-btn" id="lang-select-btn" onclick="toggleLangMenu(arguments[0])" aria-label="Select language"> <span id="current-lang-label">EN</span> <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </button> <div class="lang-popup" id="lang-popup"> <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span><span>EN</span></button> <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span><span>KO</span></button> <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span><span>JA</span></button> <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span><span>ZH</span></button> <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span><span>ES</span></button> </div> </div> </div> </div> </header> <section class="article-hero"> <div class="hero-inner"> <nav class="blog-post-switcher" id="blog-switcher-nav" aria-label="Technical Research Blog Navigation"> <a href="/blog/" class="blog-post-tab"> <span class="blog-post-tab-kicker" data-i18n="switcherIndexKicker">Research Index</span> <span class="blog-post-tab-title" data-i18n="switcherIndexTitle">← All M9G Research Reports (/blog)</span> </a> <a href="/blog/VLA/" class="blog-post-tab"> <span class="blog-post-tab-kicker">M9G-TR-2026-01 • Physical AI</span> <span class="blog-post-tab-title">Symbolic 3D Grounding &amp; VLA Planning</span> </a><a href="/blog/m9g-agent/" class="blog-post-tab active"> <span class="blog-post-tab-kicker">M9G-TR-2026-02 • Agentic Systems</span> <span class="blog-post-tab-title">Building a New Harness &amp; Why It Failed</span> </a><a href="/blog/stamp/" class="blog-post-tab"> <span class="blog-post-tab-kicker">M9G-TR-2026-03 • Project STAMP</span> <span class="blog-post-tab-title">Deterministic Pre-Dispatch Gating &amp; Write-Back</span> </a><a href="/blog/sdl-survey/" class="blog-post-tab"> <span class="blog-post-tab-kicker">M9G-TR-2026-04 • Systems Survey</span> <span class="blog-post-tab-title">Isaac Sim Assembly, Deformables &amp; Self-Driving Labs</span> </a><a href="/blog/lazy-dash/" class="blog-post-tab"> <span class="blog-post-tab-kicker">M9G-TR-2026-05 • Lazy-DaSH × VLA</span> <span class="blog-post-tab-title">UIUC Lazy-DaSH (T-RO) &amp; IsaacSim_Gemini Roadmap</span> </a><a href="/blog/tamp-fast-sim/" class="blog-post-tab"> <span class="blog-post-tab-kicker">M9G-TR-2026-06 • 3D TAMP Lite-Sim</span> <span class="blog-post-tab-title">Browser-Native Multi-Robot &amp; Smart Factory WebGL</span> </a> </nav> <div class="dm-kicker-row"> <span class="dm-badge" data-i18n="articleTag">M9G-TR-2026-02 • Agentic Systems &amp; Harness Engineering</span> <span>Published October 20, 2026 (Updated October 25, 2026)</span>
+        <span>•</span>
+        <span>m9g-agent-corps vs. OmO / OpenCode / Claude Code / Antigravity</span> </div> <h1 data-i18n="articleTitle">Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity</h1> <p class="lede" data-i18n="articleLede">We built <code>m9g-agent-corps</code>, a 28-module Python coding harness in <code>src/ag_harness/</code> with 169 passing unit tests. On daily multi-file tasks, it lost on speed and reliability to Oh-My-OpenAgent, OpenCode, Claude Code, and Google Antigravity. Six inner-loop flaws caused that failure, including unwired edit hooks, regex status parsing, and 300-second buffered subprocesses. We retired the outer loop and extracted seven stateless tools into <code>m9g-mcp</code>.</p> <div class="byline-bar"> <div class="byline-cell"> <div class="byline-label">Author &amp; Principal Researcher</div> <div class="byline-val">Minsu Chang, Ph.D. (장민수 / M9G)</div> </div><div class="byline-cell"> <div class="byline-label">Engineered Repository</div> <div class="byline-val"><code>m9g-agent-corps/src/ag_harness/</code> (28 Modules)</div> </div><div class="byline-cell"> <div class="byline-label">Pre-Existing Baselines</div> <div class="byline-val">OmO • OpenCode • Claude Code • Antigravity</div> </div><div class="byline-cell"> <div class="byline-label">Disclosure Status</div> <div class="byline-val">M9G Web-Native Prior Art (Non-arXiv)</div> </div> </div> </div> </section> <div class="layout"> <article> <div class="dm-takeaways">
+                <div class="tldr-thumb-wrap">
+          <picture><source srcset="/screenshots/blog2-agent-thumb-nanobanana.webp" type="image/webp" /><img src="/screenshots/blog2-agent-thumb-nanobanana.png" alt="M9G-TR-2026-02 • From a 28-Module Standalone Multi-Agent Harness (m9g-agent-corps) to the 7-Tool m9g-mcp JSON-RPC 2.0 Server for OmO, OpenCode & Claude Code" loading="eager" decoding="async" width="1376" height="768" /></picture>
+        </div>
+        <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR: Post-Mortem Summary and Architecture Pivot</div>
+        <ul>
+          <li data-i18n="takeaway1"><strong class="c-blue">28 modules and 169 passing unit tests in <code>src/ag_harness/</code>.</strong> We built and unit-tested six core subsystems: <code>ImmutablePrefixBuilder</code> for 95% Gemini implicit cache hits (<code>$0.10/1M</code> vs. <code>$2.00/1M</code>), <code>HashlineEditor</code> (4-char SHA-256 line hashes, <code>&plusmn;25</code>-line drift relocation, under 1 ms AST compile checks) plus <code>skeletonize_python_code()</code> (75% to 90% AST token compression), shadow <code>GIT_INDEX_FILE</code> checkpoints (<code>WorkspaceCheckpointManager</code>) with SQLite WAL turn logs (<code>SessionStore</code>), <code>FiveTierHookPipeline</code> with <code>IntentGate</code> and <code>GitMemoryFaultSidecar</code>, topological wave execution (<code>DAGEngine</code>, <code>TodoManager</code>, <code>BoulderEngine</code>, and <code>c1..c8</code> component checks), and a Windows-to-WSL2 bridge with a <code>GF(2^8)</code> terminal QR remote PWA.</li>
+          <li data-i18n="takeaway2"><strong class="c-red">Six inner-loop kernel flaws broke daily reliability.</strong> Passing unit tests in isolation did not save the live loop. <code>argon_omo_substrate.py</code> sat unwired from <code>main.py</code> and <code>agy_workers.py</code>; <code>WorkerHandoffReport.parse_from_markdown()</code> defaulted truncated worker turns to <code>SUCCESS</code>; <code>spawn_agy_worker()</code> locked CLI subagents inside 300-second buffered <code>subprocess.run</code> black boxes; Rule-1 mandatory delegation and 19 bound tools added a 78 s to 142 s relay tax on 1-to-3 file edits; <code>cap_tool_output()</code> deleted lines 120 to 380 via middle-out slicing; and <code>StreamLoopMonitor</code> hard-killed workers on three repeated calls.</li>
+          <li data-i18n="takeaway3"><strong class="c-green">Extracting seven stateless tools into <code>m9g-mcp</code> worked.</strong> Instead of maintaining a second outer loop against <code>OmO</code>'s persistent Bun and Python <code>eval</code> kernels, <code>OpenCode</code>'s Go/TS event bus and LSP loop, <code>Claude Code</code>'s single-process exact-edit loop, and <code>Antigravity</code>'s container runtime, we packaged our seven stateless tools into a JSON-RPC 2.0 <code>stdio</code> MCP server (<code>m9g-power-tools</code>) that runs inside those harnesses.</li>
+        </ul>
+      </div>
+
+      <div class="spec-strip">
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi1Label">Engineered Scope</div>
+          <div class="spec-val">28 Modules</div>
+          <div class="spec-note" data-i18n="kpi1Note">src/ag_harness/ (~640 KB, 169 unit tests)</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi2Label">Subsystems Built</div>
+          <div class="spec-val green">8 Components</div>
+          <div class="spec-note" data-i18n="kpi2Note">Hashline, AST Skel, Shadow Git, WAL, DAG</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi3Label">Root Failure Modes</div>
+          <div class="spec-val red">6 Kernel Flaws</div>
+          <div class="spec-note" data-i18n="kpi3Note">Unwired hooks, regex handoff, blocking CLI</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi4Label">Architectural Pivot</div>
+          <div class="spec-val amber">7 MCP Tools</div>
+          <div class="spec-note" data-i18n="kpi4Note">m9g-mcp stdio server for OmO/Claude/OpenCode</div>
+        </div>
+      </div>
+
+      <section id="omni-wrapup-video" class="media-block" style="margin-top:8px; margin-bottom:32px;">
+        <div class="media-header">
+          <span>TL;DR Video Walkthrough: 40s Architectural Post-Mortem (<code>gemini-omni-1.1-flash</code>)</span>
+          <a href="/screenshots/videos/blog2-wrapup-omni.mp4" target="_blank" rel="noopener noreferrer">Direct MP4 Stream (blog2-wrapup-omni.mp4) ↗</a>
+        </div>
+        <div class="video-container">
+          <video id="blog2-omni-video" preload="metadata" muted playsinline controls poster="/screenshots/blog2-agent-thumb-nanobanana.png">
+            <source src="/screenshots/videos/blog2-wrapup-omni.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="timestamp-grid">
+          <button class="ts-btn active" onclick="seekOmniVideo('blog2-omni-video', 0, this)">
+            <span class="ts-time">00:00 to 00:10 • Scene 1</span>
+            <span class="ts-title">28-Module m9g-agent-corps vs. Production Harnesses</span>
+            <span class="ts-sub">3-tier Gemini routing, 169 unit tests, and benchmark matrix against OmO, OpenCode, and Claude Code.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 10, this)">
+            <span class="ts-time">00:10 to 00:20 • Scene 2</span>
+            <span class="ts-title">Diagnosing the 6 Inner-Loop Kernel Flaws</span>
+            <span class="ts-sub">Unwired edit gates, false-positive regex handoffs, and 300-second blocking CLI subprocesses.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 20, this)">
+            <span class="ts-time">00:20 to 00:30 • Scene 3</span>
+            <span class="ts-title">Isolating the Seven Stateless Tools</span>
+            <span class="ts-sub">Keeping AST skeletonization, SHA-256 hashline editing, shadow Git checkpoints, and fault memory.</span>
+          </button>
+          <button class="ts-btn" onclick="seekOmniVideo('blog2-omni-video', 30, this)">
+            <span class="ts-time">00:30 to 00:40 • Scene 4</span>
+            <span class="ts-title">Shipping the m9g-mcp Power-Tool Server</span>
+            <span class="ts-sub">Mounting 7 JSON-RPC 2.0 stdio tools directly inside OmO, OpenCode, Claude Code, and Antigravity.</span>
+          </button>
+        </div>
+      </section>
+
+<h2 id="motivation" data-i18n="sec1Title">Why we tried to build a standalone multi-agent coding harness</h2>
+      <p>
+        During a 1-billion-token weekend engineering sprint on <code>gemini-4-carbon</code> and <code>gemini-3.8-flash</code>, three failure modes kept recurring in standard LLM coding sessions. Reading full source files into the frontier prompt bloated context windows. Line-number drift across sequential edits corrupted files. Failed edits polluted the user's staged <code>.git/index</code> and forced manual cleanup.
+      </p>
+      <p>
+        We bet that a custom three-tier harness named <strong><code>m9g-agent-corps</code></strong> (CLI aliases <code>m9g-code</code> and <code>m9g</code>) could fix all three problems at once. In our design, a Tier-1 Higher Brain (<code>APEX</code>: <code>gemini-4-carbon</code> and <code>gemini-2.5-pro</code>) held cross-file architecture in cached memory while dispatching file-level edits to isolated Tier-2 (<code>MIDDLE</code>: <code>gemini-2.5-pro-preview</code>) and Tier-3 (<code>WORKHORSE/SCOUT</code>: <code>gemini-3.8-flash</code> and <code>gemini-3.5-flash-lite</code>) workers. Across several weeks, we wrote 28 Python modules (<code>~640 KB</code>) in <code>src/ag_harness/</code> and 17 test suites with 169 passing unit and integration tests.
+      </p>
+
+      <div class="figure-box">
+        <picture><source srcset="/screenshots/m9g-agent-corps-architecture.webp" type="image/webp" /><img src="/screenshots/m9g-agent-corps-architecture.png" alt="M9G-TR-2026-02: m9g-agent-corps 3-Tier Architecture vs. Pre-Existing Coding Harnesses" loading="lazy" decoding="async" width="1408" height="768" /></picture>
+        <div class="figure-caption" data-i18n="fig1Caption">
+          <strong>Figure 1 (M9G-TR-2026-02).</strong> Architecture of <code>m9g-agent-corps</code> (<code>src/ag_harness/</code>). Left: Tier 1 orchestrator (<code>gemini-4-carbon</code> / <code>APEX</code>) with immutable prefix caching, two-tier skill loading, and AST skeletonization. Center: Tier 2 (<code>MIDDLE</code>) and Tier 3 (<code>WORKHORSE</code> / <code>SCOUT</code>) workers. Right: the six inner-loop flaws that caused the standalone harness to trail <code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>, and <code>Antigravity</code>.
+        </div>
+      </div>
+
+      <h2 id="investigations" data-i18n="sec2Title">What we built across 28 modules and 169 passing unit tests</h2>
+      <p>
+        <code>D:\git\m9g-agent-corps</code> was not a thin prompt wrapper. We built concrete implementations for all eight components codified in <code>HARNESS2_8_COMPONENTS</code> (<code>argon_omo_substrate.py:617</code>: <code>c1: system_prompt</code>, <code>c2: context_policy</code>, <code>c3: long_term_memory</code>, <code>c4: tool_guidance</code>, <code>c5: sub_agents</code>, <code>c6: skills_and_guardrails</code>, <code>c7: scripts</code>, <code>c8: hooks_and_plugins</code>):
+      </p>
+
+      <div class="investigation-grid">
+        <div class="inv-card">
+          <span class="inv-tag">Investigation 01 • Token &amp; Cache Economics</span>
+          <h4>Immutable Prefix Caching &amp; Tail-Only Dynamic Injection</h4>
+          <p>
+            <code>ImmutablePrefixBuilder</code> (<code>argon_omo_substrate.py:766</code>) and <code>corps.jsonc</code> preserve Gemini 2.5 Pro and Gemini 4 Carbon's 95% implicit cache discount (<code>$0.10/1M</code> cached vs. <code>$2.00/1M</code> uncached). The builder strips dynamic timestamps (<code><strong>Generated:</strong></code>, <code><strong>Timestamp:</strong></code>, <code>Current git status:</code>) from message index 0, locks <code>&lt;immutable_system_prompt&gt;</code>, <code>&lt;immutable_agents_md&gt;</code>, sorted <code>&lt;immutable_tool_schemas&gt;</code>, and <code>&lt;immutable_repo_map&gt;</code> under a verified SHA-256 <code>prefix_hash</code>, caps static prefix text at <code>28,000</code> characters, and appends turn-varying state (<code>&lt;memory_sidecar_constraints&gt;</code>, <code>&lt;intent_gate_status&gt;</code>) only at the user message tail.
+          </p>
+        </div>
+
+        <div class="inv-card">
+          <span class="inv-tag green">Investigation 02 • Drift-Tolerant Code Mutation</span>
+          <h4>SHA-256 Hashline Editing &amp; AST Skeletonization</h4>
+          <p>
+            In <code>hashline_tools.py</code> (508 lines), <code>HashlineEditor.hashline_read()</code> prefixes every line with a 4-character SHA-256 content hash (<code>L{n}:{hash}|</code>) and loads parent-directory <code>AGENTS.md</code> files once per session via <code>_SURFACED_DIR_AGENTS</code>. <code>hashline_edit()</code> relocates drifted spans inside a <code>&plusmn;25</code>-line window (<code>_locate_matching_span</code>), applies hunks bottom-up (<code>reverse=True</code>) so line indices never shift mid-batch, and runs Python <code>compile()</code> AST validation in under 1 ms. In <code>context_controller.py</code>, <code>skeletonize_python_code()</code> reduces Python files to signatures and docstrings, cutting token count by <strong>75% to 90%</strong>.
+          </p>
+        </div>
+
+        <div class="inv-card">
+          <span class="inv-tag">Investigation 03 • Atomic Workspace State</span>
+          <h4>Shadow GIT_INDEX_FILE Checkpoints &amp; SQLite WAL Store</h4>
+          <p>
+            In <code>checkpoint.py</code> (685 lines), <code>WorkspaceCheckpointManager._capture_git_tree_sha()</code> snapshots dirty worktrees and untracked files without touching the user's staged <code>.git/index</code>. It copies <code>.git/index</code> into a <code>tempfile.TemporaryDirectory</code>, sets <code>GIT_INDEX_FILE</code>, runs <code>git add -A</code> and <code>git write-tree</code> to record a 40-character tree SHA, and restores state via <code>git read-tree</code> plus <code>git checkout-index -a -f</code> with a 250-file Copy-on-Write fallback. In <code>session_store.py</code> (1,508 lines), a thread-locked SQLite WAL state machine logs turn transitions from <code>CREATED</code> through <code>STREAMING</code> and <code>TOOL_PENDING</code> to <code>COMMITTED</code> or <code>ROLLED_BACK</code>.
+          </p>
+        </div>
+
+        <div class="inv-card">
+          <span class="inv-tag amber">Investigation 04 • Self-Healing &amp; Continual Memory</span>
+          <h4>5-Tier Hook Pipeline, IntentGate &amp; Git Fault Sidecar</h4>
+          <p>
+            In <code>argon_omo_substrate.py</code>, <code>FiveTierHookPipeline</code> coordinates five stages: Tier 1 loads past fault rules from <code>GitMemoryFaultSidecar</code> (an isolated Git repo at <code>.m9g/fault_memory</code>); Tier 2 (<code>IntentGate</code>) classifies prompts into <code>information</code>, <code>judgment</code>, <code>plan</code>, or <code>build</code> and blocks mutating tools until <code>prove_plan()</code> runs; Tier 3 runs <code>repair_json_arguments()</code> on malformed tool JSON and verifies hashline spans; Tier 4 trims tracebacks via <code>extract_concise_stack_trace()</code>; and Tier 5 commits resolved faults as YAML-frontmatter lessons (<code>cue</code>, <code>lesson</code>, <code>evidence</code>).
+          </p>
+        </div>
+
+        <div class="inv-card">
+          <span class="inv-tag green">Investigation 05 • Multi-Wave Orchestration</span>
+          <h4>11-Agent Roster, 16 Categories, DAGEngine &amp; Boulder</h4>
+          <p>
+            Modeled after <code>OmO</code>'s specialist roles, <code>gemini_roster.py</code> (649 lines) defines 11 agents (<code>sisyphus</code>, <code>oracle</code>, <code>metis</code>, <code>momus</code>, <code>hephaestus</code>, <code>flash-worker</code>, <code>qa-executor</code>, <code>explore</code>, <code>librarian</code>, <code>code-reviewer</code>, <code>gate-reviewer</code>) across 16 task categories. <code>ulw_engine.py</code> pairs <code>TodoManager</code> with persistent <code>BoulderEngine</code> continuation state, and <code>dag_engine.py</code> (450 lines) runs Kahn's topological wave sort with <code>CyclicDependencyError</code> detection, bounded semaphore concurrency, and upstream handoff injection.
+          </p>
+        </div>
+
+        <div class="inv-card">
+          <span class="inv-tag amber">Investigation 06 • Cross-OS &amp; Mobile Control</span>
+          <h4>WSL2 Bridge, GF(2⁸) Terminal QR PWA &amp; System Doctor</h4>
+          <p>
+            In <code>wsl_bridge.py</code> (442 lines), <code>WSLPathTranslator</code> converts Windows and WSL2 paths in both directions, forwards credentials via <code>WSLENV</code>, and reaps POSIX process groups cleanly. In <code>remote_control.py</code> (849 lines), pure-Python Galois Field <code>GF(2^8)</code> Reed-Solomon QR encoding renders pairing codes in Unicode half-blocks (<code>▀▄█</code>) for mobile control, paired with <code>herdr_bridge.py</code> IPC reporting and <code>run_system_doctor()</code> in <code>doctor.py</code>.
+          </p>
+        </div>
+      </div>
+
+      <h2 id="why-we-failed" data-i18n="sec3Title">Six kernel mistakes that broke our standalone harness in daily work</h2>
+      <p>
+        All 169 unit tests across 17 test files passed. Yet on real multi-file refactors and bug fixes, <code>m9g-agent-corps</code> ran slower and broke more often than <code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>, and <code>Antigravity</code>. Auditing our own call graph exposed a hard systems truth: <strong>unit-tested helper modules do not make a reliable coding harness when the inner execution loop is loosely coupled.</strong> Six specific kernel mistakes caused the failure:
+      </p>
+
+      <h3>Failure Cause 1: Leaving <code>argon_omo_substrate.py</code> unwired from <code>main.py</code> and <code>agy_workers.py</code></h3>
+      <p>
+        We implemented <code>FiveTierHookPipeline</code>, <code>IntentGate</code>, <code>HashlineEditor</code>, <code>ImmutablePrefixBuilder</code>, and <code>TmuxSubscriptionWatcher</code> inside <code>argon_omo_substrate.py</code> (1,245 lines) and tested them in <code>run_argon_smoke_benchmarks()</code>. Yet the live REPL loop (<code>stream_turn()</code> in <code>main.py:124</code>) and worker launcher (<code>spawn_agy_worker()</code> in <code>agy_workers.py:427</code>) instantiated <code>google.antigravity.Agent(config=config)</code> directly. Its built-in runtime tools (<code>edit_file</code>, <code>replace_file_content</code>, <code>run_command</code>) bypassed <code>FiveTierHookPipeline</code>, <code>IntentGate</code>, and <code>HashlineEditor</code> on every call. Our prompts asked workers in English prose to check their edits, whereas <strong>OmO</strong>, <strong>OpenCode</strong>, and <strong>Claude Code</strong> enforce edit validation, permission checks, and diagnostics inside the single mandatory tool-dispatch function.
+      </p>
+
+      <h3>Failure Cause 2: Regex status parser defaulting truncated turns to <code>SUCCESS</code> (<code>agy_workers.py:296-305</code>)</h3>
+      <p>
+        When the Tier-1 Higher Brain delegated work to a Tier-2 or Tier-3 subagent, <code>WorkerHandoffReport.parse_from_markdown()</code> never received a typed execution result. Instead, it asked the worker to print a Markdown footer and scraped that text with a regular expression:
+      </p>
+      <div class="telemetry-formula-box">
+        <div class="telemetry-formula-header">
+          <span>Source Post-Mortem: src/ag_harness/agy_workers.py (Lines 296 to 305)</span>
+          <span>Ref: M9G-TR-2026-02</span>
+        </div>
+        status_match = re.search(r"#{1,4}\s*STATUS:\s*([A-Za-z_]+)", raw_text, re.IGNORECASE)<br/>
+        if status_match: status = status_match.group(1).upper()<br/>
+        elif not raw_text.strip() or raw_text.lstrip().startswith(("[Worker Execution Error", "Traceback")): status = "FAILED"<br/>
+        else: <span class="c-red">status = "SUCCESS"</span>
+      </div>
+      <p>
+        <strong class="c-red">How this corrupted multi-wave DAGs:</strong> Whenever a worker hit its output token limit, truncated mid-sentence, exited a CLI subprocess with a non-zero return code (<code>check=False</code> at line 415), or answered without a <code>## STATUS:</code> heading, <code>parse_from_markdown()</code> returned <code>status = "SUCCESS"</code> with <code>files_modified=[]</code>. <code>DAGEngine</code> marked the failed wave complete and scheduled downstream waves onto an unedited worktree.
+      </p>
+
+      <h3>Failure Cause 3: 300-second buffered <code>subprocess.run</code> black boxes (<code>agy_workers.py:409-424</code>)</h3>
+      <p>
+        To invoke external CLI workers (<code>agy.exe -p</code> or <code>omo.exe -p</code>), <code>spawn_agy_worker()</code> called a blocking <code>subprocess.run</code> inside <code>asyncio.to_thread</code>:
+      </p>
+      <div class="telemetry-formula-box">
+        <div class="telemetry-formula-header">
+          <span>Source Post-Mortem: src/ag_harness/agy_workers.py (Lines 409 to 417)</span>
+          <span>Ref: M9G-TR-2026-02</span>
+        </div>
+        proc = await asyncio.to_thread(<br/>
+        &nbsp;&nbsp;subprocess.run, cmd, cwd=abs_ws, <span class="c-red">capture_output=True</span>, text=True, <span class="c-red">timeout=300, check=False</span><br/>
+        )
+      </div>
+      <p>
+        <strong class="c-red">Why buffered subprocesses lose to live kernels:</strong> Setting <code>capture_output=True</code> hid all stdout and stderr for up to five minutes. The orchestrator could not tail live progress (unlike OmO's <code>task_output(mode="tail")</code> or <code>monitor</code>), could not steer a drifting worker mid-turn (unlike OmO's <code>task_send</code> or <code>bash_input</code>), and threw away every intermediate diagnostic if <code>subprocess.TimeoutExpired</code> fired at 300 seconds.
+      </p>
+
+      <h3>Failure Cause 4: Rule-1 mandatory delegation tax and 19-tool prompt bloat (<code>config.py:381-485</code>)</h3>
+      <p>
+        In <code>config.py:457</code>, Rule 1 forbade the Higher Brain from reading 500-line files directly and forced it to call <code>spawn_agy_worker()</code> for every multi-file edit, UI build, reverse-engineering pass, or test run. At the same time, <code>_resolve_agent_tools()</code> bound <strong>19 Higher-Brain tools</strong> and up to <code>28,000</code> characters of static prompt prefix on Turn 1.
+      </p>
+      <p>
+        <strong class="c-amber">Why this tripled latency on 1-to-3 file edits:</strong> On a three-file bug fix, <strong>Claude Code</strong>, <strong>OpenCode</strong>, and <strong>OmO</strong> read the target spans, apply exact edits, and run diagnostics inside one process in 24 to 34 seconds. Rule 1 forced a cold-start relay: the Higher Brain spawned a fresh worker process, the worker re-read files from disk and compressed its findings into a 300-word Markdown summary, and the Higher Brain tried to debug failing tests after that summary had stripped the exact cross-file type signatures it needed.
+      </p>
+
+      <h3>Failure Cause 5: Destructive middle-out string slicing (<code>hooks.py:23-25</code> and <code>subagents.py:34</code>)</h3>
+      <p>
+        To cap token-per-minute burn, <code>cap_tool_output()</code> truncated any tool output longer than <code>12,000</code> characters by keeping the first <code>4,000</code> characters and the last <code>8,000</code> characters, while <code>trim_context_for_tier2()</code> cut the center out of <code>file_context</code>:
+      </p>
+      <div class="telemetry-formula-box">
+        <div class="telemetry-formula-header">
+          <span>Source Post-Mortem: src/ag_harness/hooks.py (Lines 23 to 25) &amp; subagents.py (Lines 35 to 40)</span>
+          <span>Ref: M9G-TR-2026-02</span>
+        </div>
+        DEFAULT_MAX_TOOL_CHARS = 12000 &nbsp;|&nbsp; HEAD_CHARS = 4000, TAIL_CHARS = 8000<br/>
+        file_context[:keep_chars // 2] + "\n...[TRIMMED]...\n" + file_context[-(keep_chars // 2):]
+      </div>
+      <p>
+        <strong class="c-amber">Why middle-out slicing triggers hallucinated code:</strong> In a 600-line Python module or a multi-failure <code>pytest</code> log, <code>cap_tool_output()</code> deletes lines 120 to 380 right out of the middle. Blind to those deleted definitions, workers invented function bodies or looped on repeated file reads. <code>OmO</code>, <code>OpenCode</code>, and <code>Claude Code</code> never delete the middle of a file read; they paginate with explicit line <code>offset</code> and <code>limit</code> parameters so the model always sees contiguous line numbers.
+      </p>
+
+      <h3>Failure Cause 6: Hard-kill loop breaking and nested orchestrator overhead (<code>agy_workers.py:557</code>)</h3>
+      <p>
+        When <code>StreamLoopMonitor</code> saw three identical tool calls, <code>_run_worker()</code> executed <code>break</code> on the response stream and aborted the worker with <code>STATUS: FAILED</code>, discarding its entire working context. Worse, when <code>m9g-agent-corps</code> spawned <code>agy</code> or <code>omo</code> as a CLI worker without disabling inner delegation, it stacked one multi-agent orchestrator on top of another, paying double system-prompt overhead (142 s median latency on a 3-file refactor). By contrast, <strong>OmO</strong> injects in-stream TTSR (<code>&lt;system-interrupt&gt;</code>) nudges that redirect a stuck model without killing its session.
+      </p>
+
+      <h2 id="comparison" data-i18n="sec4Title">How OmO, OpenCode, Claude Code, and Antigravity solve these problems in-kernel</h2>
+      <p>
+        Auditing <code>m9g-agent-corps</code> against <strong>OmO (Oh-My-OpenAgent)</strong>, <strong>OpenCode</strong>, <strong>Claude Code</strong>, and <strong>Google Antigravity (<code>agy</code>)</strong> clarifies why mature harnesses invest so heavily in their inner execution kernels rather than outer multi-agent wrappers:
+      </p>
+
+      <div class="data-fig-grid">
+        <div class="data-fig">
+          <div class="data-fig-head">
+            <span class="data-fig-title" data-i18n="fig2aTitle">Figure 2A. End-to-End Harness Reliability and Inner-Loop Coupling Score (10-Pillar Audit)</span>
+            <span class="data-fig-unit">Composite Score / 10.0 • M9G-TR-2026-02</span>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">m9g-agent-corps Standalone CLI (Unwired hooks + regex handoff + 12k middle-slice)</span>
+              <span class="bar-metric-val"><strong>5.8 / 10</strong> (High unit-test coverage, brittle live loop)</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 58%; background: #d93025;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">Google Antigravity (<code>agy</code>: Sandboxed Linux Worker Container &amp; Skill/IDE Harness)</span>
+              <span class="bar-metric-val"><strong>8.2 / 10</strong> (Strong domain skills &amp; container sandbox)</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 82%; background: #e37400;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">OpenCode (Go/TS Client-Server Bus + Native LSP Diagnostics + SQLite Session Snapshots)</span>
+              <span class="bar-metric-val"><strong>8.8 / 10</strong> (Clean provider-agnostic TUI + LSP feedback)</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 88%; background: #1a73e8;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">Claude Code (Tight Single-Loop Kernel + Exact String Edit Verification + CoW Worktrees)</span>
+              <span class="bar-metric-val"><strong>9.2 / 10</strong> (Minimal delegation tax, high context fidelity)</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 92%; background: #1a73e8;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">OmO (Oh-My-OpenAgent) + <code>m9g-mcp</code> Power Tools (Persistent Eval Kernel + Live PTY + TTSR)</span>
+              <span class="bar-metric-val"><strong class="c-green">9.6 / 10</strong> (Programmatic eval batching + live subagent steering)</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 96%; background: #1e8e3e;"></div></div>
+          </div>
+        </div>
+
+        <div class="data-fig">
+          <div class="data-fig-head">
+            <span class="data-fig-title" data-i18n="fig2bTitle">Figure 2B. Median 3-File Refactor Latency and Context Fidelity Across Harnesses</span>
+            <span class="data-fig-unit">Wall-Clock Seconds (Lower is Better)</span>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">m9g-agent-corps Wrapping Full CLI Subagents (Nested Orchestrator + 300s Blocking Pipe)</span>
+              <span class="bar-metric-val"><strong class="c-red">142 s</strong> • Double summarization loss</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 100%; background: #d93025;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">m9g-agent-corps Standalone (Rule 1 Mandatory Delegation to Cold-Start Worker + Regex Report)</span>
+              <span class="bar-metric-val"><strong>78 s</strong> • 300-word Markdown bottleneck</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 55%; background: #e37400;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">OpenCode / Antigravity (Direct In-Loop Tool Calls + Per-File Edit &amp; Test Cycle)</span>
+              <span class="bar-metric-val"><strong>34 s</strong> • Full in-session context preserved</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 24%; background: #1a73e8;"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top">
+              <span class="bar-metric-name">OmO / Claude Code (Parallel In-Process Read/Edit Batching + Enforced LSP/Test Gate)</span>
+              <span class="bar-metric-val"><strong class="c-green">24 s (-69% vs. m9g)</strong> • 100% typed state survival</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width: 17%; background: #1e8e3e;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <div class="table-provenance-bar">
+          <span>M9G Cross-Harness Architectural Comparison • Ref: M9G-TR-2026-02</span>
+          <span>Author: Minsu Chang, Ph.D. (M9G)</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Architectural Dimension</th>
+              <th>m9g-agent-corps (Standalone v0.3)</th>
+              <th>OmO (Oh-My-OpenAgent)</th>
+              <th>OpenCode</th>
+              <th>Claude Code</th>
+              <th>Google Antigravity (<code>agy</code>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Primary Execution Kernel</strong></td>
+              <td>Python wrapper over <code>google.antigravity.Agent</code> + blocking CLI subprocesses</td>
+              <td><span class="c-green">Persistent JS (Bun) &amp; Python <code>eval</code> kernels</span> + PTY session manager</td>
+              <td>Go/TypeScript client-server event bus + provider-agnostic tool loop</td>
+              <td>Tight single-process Node/TS agent loop with native shell &amp; file tools</td>
+              <td>Remote Linux container (Interactions API) + Local IDE/Manager harness</td>
+            </tr>
+            <tr>
+              <td><strong>File Read &amp; Context Windowing</strong></td>
+              <td><span class="c-red">12k middle-out slice</span> (<code>4k</code> head + <code>8k</code> tail deletes lines 120 to 380); built AST skeletonizer</td>
+              <td><span class="c-green">Line-indexed <code>offset</code>/<code>limit</code></span> + parallel batch reads inside <code>eval</code></td>
+              <td>Line-paginated file reads + automatic LSP symbol &amp; diagnostic context</td>
+              <td>Line-numbered <code>offset</code>/<code>limit</code> reads + structural AST/ripgrep search</td>
+              <td>Windowed file view + container filesystem tools + inline skill context</td>
+            </tr>
+            <tr>
+              <td><strong>Code Mutation &amp; Edit Safety</strong></td>
+              <td>Built SHA-256 <code>HashlineEditor</code> (&plusmn;25-line drift), but <span class="c-red">unwired in default worker loop</span></td>
+              <td><span class="c-green">Exact disjoint multi-hunk <code>edit</code></span> + immediate <code>lsp_diagnostics</code> gate</td>
+              <td>Exact string replacement / patch application with automatic LSP check</td>
+              <td>Exact uniqueness-checked string replacement after mandatory file read</td>
+              <td>Container/workspace file mutation + test runner execution</td>
+            </tr>
+            <tr>
+              <td><strong>Subagent Delegation &amp; Handoffs</strong></td>
+              <td><span class="c-red">Rule 1 mandatory delegation</span>; regex on trailing prose (defaults missing status to <code>SUCCESS</code>)</td>
+              <td><span class="c-green">Typed async <code>task</code> / <code>workpool</code></span> + CoW worktree isolation + <code>task_output</code> peek</td>
+              <td>Scoped child session tasks sharing the local server event bus</td>
+              <td>Targeted <code>Task</code> subagents for parallel exploration; direct main-loop edits</td>
+              <td>Dynamic subagents in Manager mode, or stateless leaf worker via <code>agy -p</code></td>
+            </tr>
+            <tr>
+              <td><strong>Long-Running Process &amp; Terminal Control</strong></td>
+              <td><span class="c-red">Blocking 300s <code>subprocess.run</code></span> (<code>capture_output=True</code>); no mid-turn steering</td>
+              <td><span class="c-green">Live PTY sessions</span> (<code>bash_output</code>, <code>bash_input</code>, <code>monitor</code> event wakes)</td>
+              <td>Streaming command runner with user interrupt &amp; output tailing</td>
+              <td>Background bash jobs with live stdout/stderr polling</td>
+              <td>Sandboxed Linux container shell or local auto-mode command runner</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>Loop Recovery &amp; Verification Gate</strong></td>
+              <td>Hard <code>break</code> kills worker on 3 repeats; verification gates built in sidecar but unwired</td>
+              <td><span class="c-green">In-stream TTSR self-healing</span> + enforced V1/V2/V3 diagnostic/test gates</td>
+              <td>LSP error injection into tool result + interactive turn rollback</td>
+              <td>In-loop tool-error feedback + pre-commit hook &amp; test verification</td>
+              <td>Built-in policy hooks + container test verification</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="pivot" data-i18n="sec5Title">Why extracting seven stateless tools into m9g-mcp worked</h2>
+      <p>
+        The post-mortem left one clear conclusion: building a competing outer agent loop wastes effort when <code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>, and <code>Antigravity</code> already run tight in-process tool loops, live PTY terminals, and typed error recovery. At the same time, seven stateless modules from <code>src/ag_harness/</code> solved concrete gaps that those harnesses still encounter on large repositories: 75% to 90% AST token compression, shadow Git index checkpoints that leave staged files untouched, and SHA-256 line-hash batch edits.
+      </p>
+      <p>
+        In commit <code>cfa9395</code> (<code>ag_harness/agy_mcp_server.py</code>, 662 lines), we retired the outer orchestrator and shipped those modules as <strong><code>m9g-mcp</code> (<code>m9g-power-tools</code>)</strong>, a stateless JSON-RPC 2.0 <code>stdio</code> MCP server installed via <code>m9g --install-agy-mcp -w .</code>. Because each tool takes explicit inputs and returns a deterministic JSON payload inside the host harness's own validated tool loop, <code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>, and <code>Antigravity</code> gain all seven capabilities with zero extra delegation hops:
+      </p>
+      <ol>
+        <li><strong><code>m9g_skeletonize</code> (<code>context_controller.py</code>):</strong> Parses Python ASTs into function signatures and docstrings, cutting file read tokens by 75% to 90% before full-span inspection.</li>
+        <li><strong><code>m9g_checkpoint</code> (<code>checkpoint.py</code>):</strong> Creates, diffs, and restores workspace snapshots (<code>create</code>, <code>list</code>, <code>diff</code>, <code>undo</code>, <code>rollback</code>) through a temporary <code>GIT_INDEX_FILE</code> (<code>git write-tree</code> and <code>git read-tree</code>) without modifying the user's staged <code>.git/index</code>.</li>
+        <li><strong><code>m9g_hashline_read</code> (<code>hashline_tools.py</code>):</strong> Reads explicit line ranges with 4-character SHA-256 content hashes (<code>L{n}:{hash}|</code>) and loads subdirectory <code>AGENTS.md</code> rules once per session.</li>
+        <li><strong><code>m9g_hashline_edit</code> (<code>hashline_tools.py</code>):</strong> Applies bottom-up, hash-verified multi-file edits with <code>&plusmn;25</code>-line drift relocation and sub-millisecond Python <code>compile()</code> syntax checks.</li>
+        <li><strong><code>m9g_code_intel</code> (<code>hashline_tools.py</code>):</strong> Runs structural symbol search (<code>ast_grep</code>), definition lookup, reference lookup, document symbol listing, and docstring hover across Python, TypeScript, JavaScript, Rust, and Go.</li>
+        <li><strong><code>m9g_memory</code> (<code>memory_store.py</code>):</strong> Stores and updates YAML-frontmatter Markdown memory blocks (<code>decisions</code>, <code>architecture</code>, <code>learnings</code>) with automatic wikilink updates.</li>
+        <li><strong><code>m9g_gemini_media</code> (<code>gemini_api_cli_bridge.py</code>):</strong> Generates speech, images, and video clips (<code>tts</code>, <code>image</code>, <code>video</code>) directly to <code>output_path</code> on disk so binary base64 blobs never enter the model context window.</li>
+      </ol>
+
+      <section id="provenance" class="citation-card">
+        <div class="citation-title">Research Provenance, Prior Art Disclosure &amp; Anti-Scraping Notice</div>
+        <p style="font-size:13px; margin-bottom:8px;">
+          This technical report (<strong>M9G-TR-2026-02</strong>), the 28-module <code>m9g-agent-corps</code> codebase (<code>src/ag_harness/</code>), the six-flaw inner-loop post-mortem, the five-harness comparative audit (<code>m9g-agent-corps</code> vs. <code>OmO</code>, <code>OpenCode</code>, <code>Claude Code</code>, and <code>Antigravity</code>), and the seven-tool <code>m9g-mcp</code> server design constitute original published prior art by <strong>Minsu Chang, Ph.D. (장민수 / M9G)</strong> on <code>mincasurong.github.io</code>. Copying, paraphrasing, or repackaging this systems analysis or telemetry into third-party conference papers or arXiv preprints is prohibited.
+        </p>
+        <div class="citation-pre">Minsu Chang, Ph.D. (M9G), "Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity," M9G Technical Research Blog (M9G-TR-2026-02), Oct. 20, 2026 (Updated Oct. 25, 2026). URL: https://mincasurong.github.io/blog/m9g-agent/ | Repo: https://github.com/m9g-mincasurong/m9g-agent-corps</div>
+      </section> </article> </div> <div class="m9g-gotop-bar"> <button type="button" class="m9g-gotop-btn" id="gotop-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg> <span data-i18n="goTopLabel">Back to Top</span> </button> </div> <footer>
+© 2026 M9G (Minsu Chang, Ph.D.) • <a href="https://tamp.mincasurong.com" target="_blank" rel="noopener">tamp.mincasurong.com ↗</a> • <a href="/">mincasurong.github.io</a> • <a href="/blog/" data-i18n="footerBlogIndex">Research Blog Index</a> • <a href="https://github.com/mincasurong">GitHub</a> • <a href="https://www.linkedin.com/in/mincasurong/">LinkedIn</a> </footer> <script>(function(){const BLOG_I18N = {"en":{"articleTag":"M9G-TR-2026-02 • Agentic Systems & Harness Engineering","articleTitle":"Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity","articleLede":"We built m9g-agent-corps, a 28-module Python coding harness in src/ag_harness/ with 169 passing unit tests. On daily multi-file tasks, it lost on speed and reliability to Oh-My-OpenAgent, OpenCode, Claude Code, and Google Antigravity. Six inner-loop flaws caused that failure, including unwired edit hooks, regex status parsing, and 300-second buffered subprocesses. We retired the outer loop and extracted seven stateless tools into m9g-mcp.","takeawaysHeader":"TL;DR: Post-Mortem Summary and Architecture Pivot","takeaway1":"28 modules and 169 passing unit tests in src/ag_harness/. We built and unit-tested six core subsystems: ImmutablePrefixBuilder for 95% Gemini implicit cache hits ($0.10/1M vs. $2.00/1M), HashlineEditor (4-char SHA-256 line hashes, +-25-line drift relocation, under 1 ms AST compile checks) plus skeletonize_python_code() (75% to 90% AST token compression), shadow GIT_INDEX_FILE checkpoints (WorkspaceCheckpointManager) with SQLite WAL turn logs (SessionStore), FiveTierHookPipeline with IntentGate and GitMemoryFaultSidecar, topological wave execution (DAGEngine, TodoManager, BoulderEngine, and c1..c8 component checks), and a Windows-to-WSL2 bridge with a GF(2^8) terminal QR remote PWA.","takeaway2":"Six inner-loop kernel flaws broke daily reliability. Passing unit tests in isolation did not save the live loop. argon_omo_substrate.py sat unwired from main.py and agy_workers.py; WorkerHandoffReport.parse_from_markdown() defaulted truncated worker turns to SUCCESS; spawn_agy_worker() locked CLI subagents inside 300-second buffered subprocess.run black boxes; Rule-1 mandatory delegation and 19 bound tools added a 78 s to 142 s relay tax on 1-to-3 file edits; cap_tool_output() deleted lines 120 to 380 via middle-out slicing; and StreamLoopMonitor hard-killed workers on three repeated calls.","takeaway3":"Extracting seven stateless tools into m9g-mcp worked. Instead of maintaining a second outer loop against OmO's persistent Bun and Python eval kernels, OpenCode's Go/TS event bus and LSP loop, Claude Code's single-process exact-edit loop, and Antigravity's container runtime, we packaged our seven stateless tools into a JSON-RPC 2.0 stdio MCP server (m9g-power-tools) that runs inside those harnesses.","kpi1Label":"Engineered Scope","kpi1Note":"src/ag_harness/ (~640 KB, 169 unit tests)","kpi2Label":"Subsystems Built","kpi2Note":"Hashline, AST Skel, Shadow Git, WAL, DAG","kpi3Label":"Root Failure Modes","kpi3Note":"Unwired hooks, regex handoff, blocking CLI","kpi4Label":"Architectural Pivot","kpi4Note":"m9g-mcp stdio server for OmO/Claude/OpenCode","sec1Title":"Why we tried to build a standalone multi-agent coding harness","sec2Title":"What we built across 28 modules and 169 passing unit tests","sec3Title":"Six kernel mistakes that broke our standalone harness in daily work","sec4Title":"How OmO, OpenCode, Claude Code, and Antigravity solve these problems in-kernel","sec5Title":"Why extracting seven stateless tools into m9g-mcp worked","fig1Caption":"Figure 1 (M9G-TR-2026-02). Architecture of m9g-agent-corps (src/ag_harness/). Left: Tier 1 orchestrator (gemini-4-carbon / APEX) with immutable prefix caching, two-tier skill loading, and AST skeletonization. Center: Tier 2 (MIDDLE) and Tier 3 (WORKHORSE / SCOUT) workers. Right: the six inner-loop flaws that caused the standalone harness to trail OmO, OpenCode, Claude Code, and Antigravity.","fig2aTitle":"Figure 2A. End-to-End Harness Reliability and Inner-Loop Coupling Score (10-Pillar Audit)","fig2bTitle":"Figure 2B. Median 3-File Refactor Latency and Context Fidelity Across Harnesses"},"ko":{"articleTag":"M9G-TR-2026-02 • 에이전트 시스템 & 하네스 엔지니어링","articleTitle":"독자 멀티에이전트 코딩 하네스 구축과 실패 복기: m9g-agent-corps vs. OmO, OpenCode, Claude Code, Antigravity","articleLede":"우리는 src/ag_harness/에 28개 파이썬 모듈과 169개 통과 단위 테스트를 갖춘 독자 코딩 하네스 m9g-agent-corps를 직접 구현했습니다. 그러나 실제 다중 파일 개발에서는 Oh-My-OpenAgent(OmO), OpenCode, Claude Code, Google Antigravity보다 느리고 취약했습니다. 미연결 편집 훅, 정규식 상태 파싱, 300초 버퍼링 서브프로세스 등 6가지 내부 커널 결함이 원인이었으며, 우리는 외부 루프를 폐기하고 7개 무상태 도구를 m9g-mcp 서버로 분리했습니다.","takeawaysHeader":"TL;DR: 실패 복기(Post-Mortem) 요약 및 아키텍처 전환","takeaway1":"src/ag_harness/의 28개 모듈과 169개 단위 테스트. 95% 암묵적 캐시 적중($0.10/1M vs. $2.00/1M)을 위한 ImmutablePrefixBuilder, 4자 SHA-256 라인 해시 기반 HashlineEditor 및 75~90% AST 토큰 압축기 skeletonize_python_code(), 임시 GIT_INDEX_FILE 섀도우 체크포인트와 SQLite WAL 저널, FiveTierHookPipeline과 IntentGate, 위상 정렬 DAGEngine, WSL2 브리지 및 GF(2^8) 터미널 QR 리모트까지 6대 핵심 모듈을 구현했습니다.","takeaway2":"실전 신뢰성을 무너뜨린 6가지 내부 커널 결함. argon_omo_substrate.py가 main.py 및 agy_workers.py의 실제 실행 경로와 연결되지 않았고, parse_from_markdown() 정규식 파서는 잘린 응답을 SUCCESS로 오판했으며, 300초 블로킹 subprocess.run 블랙박스, Rule 1 강제 위임과 19개 도구 프롬프트 비대화(78~142초 지연), 120~380행을 잘라내는 중간 삭제 슬라이싱, 3회 반복 시 강제 종료가 결합되어 실전 루프가 흔들렸습니다.","takeaway3":"7개 무상태 도구의 m9g-mcp 서버 추출. OmO의 상주형 Bun/Python eval 커널, OpenCode의 Go/TS 이벤트 버스와 LSP, Claude Code의 단일 프로세스 정밀 편집 루프, Antigravity의 컨테이너 런타임과 외곽 루프로 경쟁하는 대신 7개 무상태 도구를 JSON-RPC 2.0 stdio 기반 m9g-mcp 서버로 분리해 기존 하네스 내부에 장착했습니다.","kpi1Label":"구현 코드 규모","kpi1Note":"src/ag_harness/ (~640 KB, 169개 단위 테스트)","kpi2Label":"구축한 구성요소","kpi2Note":"해시라인, AST 압축, 섀도우 Git, WAL, DAG","kpi3Label":"핵심 실패 원인","kpi3Note":"훅 미연결, 정규식 오판, 블로킹 CLI","kpi4Label":"아키텍처 전환","kpi4Note":"OmO/Claude/OpenCode용 m9g-mcp 서버","sec1Title":"왜 독자적인 멀티에이전트 코딩 하네스를 직접 만들려 했는가","sec2Title":"28개 파이썬 모듈과 169개 단위 테스트로 구현한 6대 핵심 모듈","sec3Title":"실전 개발에서 독자 하네스를 무너뜨린 6가지 내부 커널 결함","sec4Title":"OmO, OpenCode, Claude Code, Antigravity는 이를 커널 내부에서 어떻게 해결하는가","sec5Title":"외곽 오케스트레이터를 버리고 7개 무상태 도구를 m9g-mcp로 추출해 성공한 이유","fig1Caption":"그림 1 (M9G-TR-2026-02). m9g-agent-corps (src/ag_harness/) 아키텍처. 좌측: 고정 프리픽스 캐싱과 AST 압축을 갖춘 Tier 1 오케스트레이터(gemini-4-carbon). 중앙: Tier 2 및 Tier 3 워커. 우측: OmO, OpenCode, Claude Code, Antigravity 대비 성능 저하를 유발한 6가지 커널 결함.","fig2aTitle":"그림 2A. 하네스 종단간 신뢰성 및 내부 루프 결합도 점수 (10개 항목 감사)","fig2bTitle":"그림 2B. 하네스별 3개 파일 리팩토링 중앙 지연시간 및 컨텍스트 보존율"},"ja":{"articleTag":"M9G-TR-2026-02 • エージェントシステム & ハーネス工学","articleTitle":"マルチエージェント・コーディングハーネスの自作と失敗の記録: m9g-agent-corps vs. OmO、OpenCode、Claude Code、Antigravity","articleLede":"我々はsrc/ag_harness/に28個のPythonモジュールと169件の単体テストを備えた独自コーディングハーネスm9g-agent-corpsを構築しました。しかし日常の複数ファイル改修では、Oh-My-OpenAgent (OmO)、OpenCode、Claude Code、Google Antigravityに速度と信頼性で敗れました。未接続の編集フック、正規表現によるステータス判定、300秒バッファリング子プロセスなど6つの内部カーネル欠陥が原因であり、外部ループを廃止して7つのステートレスツールをm9g-mcpへ抽出しました。","takeawaysHeader":"TL;DR: ポストモーテム要約とアーキテクチャ転換","takeaway1":"src/ag_harness/の28モジュールと169件の単体テスト。95%暗黙キャッシュ維持 ($0.10/1M vs. $2.00/1M) のImmutablePrefixBuilder、4文字SHA-256行ハッシュ編集器HashlineEditorと75〜90% AST圧縮skeletonize_python_code()、一時GIT_INDEX_FILEシャドウチェックポイントとSQLite WAL履歴、FiveTierHookPipelineとIntentGate、トポロジカルDAGEngine、WSL2ブリッジとGF(2^8) QRリモートを実装しました。","takeaway2":"実運用を破綻させた6つの内部カーネル欠陥。argon_omo_substrate.pyがmain.pyとagy_workers.pyの本番ループに未接続だったこと、parse_from_markdown()が途中切断された応答をSUCCESSと誤判定したこと、300秒同期subprocess.runブラックボックス、Rule 1強制委譲と19ツール束縛による78〜142秒の遅延、cap_tool_output()による120〜380行目の中抜き削除、3回重複での強制breakが重なりました。","takeaway3":"7つのステートレスツールをm9g-mcpへ抽出。OmOの常駐Bun/Python evalカーネル、OpenCodeのGo/TSイベントバスとLSP、Claude Codeの単一プロセス厳密編集ループ、Antigravityのコンテナ実行基盤と競合する外側ループを捨て、JSON-RPC 2.0 stdio対応のm9g-mcpサーバーとして各ハーネス内部へ提供しました。","kpi1Label":"実装コード規模","kpi1Note":"src/ag_harness/ (~640 KB、169単体テスト)","kpi2Label":"実装コンポーネント","kpi2Note":"Hashline, AST圧縮, Shadow Git, WAL, DAG","kpi3Label":"主要な失敗要因","kpi3Note":"フック未接続、正規表現誤判定、同期CLI","kpi4Label":"アーキテクチャ転換","kpi4Note":"OmO/Claude/OpenCode向けm9g-mcpサーバー","sec1Title":"なぜスタンドアロンのマルチエージェント・コーディングハーネスを自作したのか","sec2Title":"28モジュールと169件の単体テストで構築した6つのコア機構","sec3Title":"実務の複数ファイル開発で独自ハーネスを破綻させた6つのカーネル欠陥","sec4Title":"OmO、OpenCode、Claude Code、Antigravityはこれらをカーネル内でどう解決しているか","sec5Title":"外側オーケストレータを廃止し7つのステートレスツールをm9g-mcpへ抽出した理由","fig1Caption":"図1 (M9G-TR-2026-02). m9g-agent-corps (src/ag_harness/) の構成図。左: 不変プレフィックスキャッシュとAST圧縮を備えるTier 1オーケストレータ (gemini-4-carbon)。中央: Tier 2およびTier 3ワーカー。右: OmO、OpenCode、Claude Code、Antigravityに劣後した6つの内部カーネル欠陥。","fig2aTitle":"図2A. ハーネス総合信頼性と内部ループ結合度スコア (10項目監査)","fig2bTitle":"図2B. ハーネス別 3ファイル改修の中央レイテンシとコンテキスト保持率"},"zh":{"articleTag":"M9G-TR-2026-02 • 智能体系统与编码框架工程","articleTitle":"从零构建多智能体编码框架及其失败复盘: m9g-agent-corps 对比 OmO、OpenCode、Claude Code 与 Antigravity","articleLede":"我们在 src/ag_harness/ 中构建了包含 28 个 Python 模块与 169 项通过单元测试的独立编码框架 m9g-agent-corps。但在日常多文件开发中，其速度与可靠性均落后于 Oh-My-OpenAgent (OmO)、OpenCode、Claude Code 与 Google Antigravity。未挂载编辑钩子、正则状态误判与 300 秒缓冲子进程等六项内核缺陷导致了失败；我们最终废弃外层编排器，将七项无状态工具提取为 m9g-mcp。","takeawaysHeader":"TL;DR: 失败复盘摘要与架构转型","takeaway1":"src/ag_harness/ 中的 28 个模块与 169 项通过测试。我们实现了六大核心模块: 保障 95% 隐式缓存命中的 ImmutablePrefixBuilder ($0.10/1M 对比 $2.00/1M)、4 字符 SHA-256 哈希行编辑器 HashlineEditor 与压缩率达 75% 至 90% 的 skeletonize_python_code()、基于临时 GIT_INDEX_FILE 的影子 Git 检查点与 SQLite WAL 日志、FiveTierHookPipeline 与 IntentGate、拓扑波次调度 DAGEngine，以及 WSL2 桥接与 GF(2^8) 终端二维码远程控制。","takeaway2":"六项内环内核缺陷击穿日常可靠性。单元测试通过并未挽救真实运行环路: argon_omo_substrate.py 未接入 main.py 与 agy_workers.py；parse_from_markdown() 将截断输出默认误判为 SUCCESS；spawn_agy_worker() 用 300 秒缓冲 subprocess.run 黑盒阻塞子智能体；Rule 1 强制委派与 19 个工具定义使 1 至 3 文件修改耗时增至 78 至 142 秒；cap_tool_output() 掐头去尾删掉了第 120 至 380 行代码；StreamLoopMonitor 在三次重复调用时直接硬中断会话。","takeaway3":"提取七项无状态工具至 m9g-mcp 取得实效。我们不再维护与 OmO 常驻 Bun/Python eval 内核、OpenCode Go/TS 事件总线与 LSP、Claude Code 单进程精确编辑环路以及 Antigravity 容器运行时竞争的外层循环，而是将七项无状态工具封装为 JSON-RPC 2.0 stdio MCP 服务 (m9g-power-tools) 供成熟框架直接调用。","kpi1Label":"自研工程规模","kpi1Note":"src/ag_harness/ (~640 KB, 169 项单元测试)","kpi2Label":"实现的组件数","kpi2Note":"哈希行编辑、AST 骨架、影子 Git、WAL、DAG","kpi3Label":"核心失败根源","kpi3Note":"钩子未挂载、正则假阳性、阻塞 CLI","kpi4Label":"架构转型","kpi4Note":"面向 OmO/Claude/OpenCode 的 m9g-mcp 服务","sec1Title":"为什么我们曾试图从零构建独立的多智能体编码框架","sec2Title":"跨越 28 个模块与 169 项单元测试构建的六大核心模块","sec3Title":"在日常多文件开发中击垮独立框架的六项内核失误","sec4Title":"OmO、OpenCode、Claude Code 与 Antigravity 如何在内核中解决这些问题","sec5Title":"为什么废弃外层循环并将七项无状态工具提取为 m9g-mcp 行之有效","fig1Caption":"图 1 (M9G-TR-2026-02). m9g-agent-corps (src/ag_harness/) 架构示意图。左: 具备固定前缀缓存与 AST 骨架化的 Tier 1 编排器 (gemini-4-carbon)。中: Tier 2 与 Tier 3 工作节点。右: 导致独立框架落后于 OmO、OpenCode、Claude Code 与 Antigravity 的六项内环缺陷。","fig2aTitle":"图 2A. 编码框架端到端可靠性与内环耦合度评分 (10 项系统审计)","fig2bTitle":"图 2B. 跨框架 3 文件重构中位延迟与上下文保真度对比"},"es":{"articleTag":"M9G-TR-2026-02 • Sistemas Agénticos e Ingeniería de Harnesses","articleTitle":"Construyendo un Harness de Codificación Multi-Agente desde Cero y Por Qué Fracasó: m9g-agent-corps frente a OmO, OpenCode, Claude Code y Antigravity","articleLede":"Construimos m9g-agent-corps, un harness de codificación en Python con 28 módulos en src/ag_harness/ y 169 pruebas unitarias superadas. En tareas diarias multi-archivo perdió en velocidad y fiabilidad frente a Oh-My-OpenAgent, OpenCode, Claude Code y Google Antigravity. Seis fallos del bucle interno causaron ese resultado, incluidos hooks desconectados, parseo regex y subprocesos bloqueantes de 300 segundos. Retiramos el orquestador externo y extrajimos siete herramientas sin estado en m9g-mcp.","takeawaysHeader":"TL;DR: Resumen Post-Mortem y Pivote Arquitectónico","takeaway1":"28 módulos y 169 pruebas unitarias en src/ag_harness/. Construimos seis módulos centrales: ImmutablePrefixBuilder para retener el 95% de caché implícita en Gemini ($0.10/1M vs. $2.00/1M), HashlineEditor (hashes SHA-256 de 4 caracteres, reubicación de +-25 líneas y chequeo AST en menos de 1 ms) junto con skeletonize_python_code() (75% a 90% menos tokens), puntos de control Git con GIT_INDEX_FILE temporal y SQLite WAL, FiveTierHookPipeline con IntentGate, DAGEngine topológico y puente WSL2 con control QR GF(2^8).","takeaway2":"Seis fallos del kernel interno rompieron la fiabilidad diaria. argon_omo_substrate.py quedó desconectado de main.py y agy_workers.py; WorkerHandoffReport.parse_from_markdown() marcó como SUCCESS respuestas truncadas; spawn_agy_worker() encerró subagentes CLI en subprocess.run bloqueantes de 300 s; la delegación obligatoria de la Regla 1 y 19 herramientas elevaron la latencia a 78-142 s; cap_tool_output() borró las líneas 120 a 380; y StreamLoopMonitor abortó turnos al tercer intento repetido.","takeaway3":"Extraer siete herramientas sin estado en m9g-mcp funcionó. En lugar de mantener un bucle externo frente a los kernels persistentes Bun/Python de OmO, el bus Go/TS con LSP de OpenCode, el bucle único de edición exacta de Claude Code y el contenedor de Antigravity, empaquetamos siete herramientas deterministas en un servidor MCP JSON-RPC 2.0 por stdio (m9g-power-tools).","kpi1Label":"Alcance Construido","kpi1Note":"src/ag_harness/ (~640 KB, 169 pruebas)","kpi2Label":"Componentes Creados","kpi2Note":"Hashline, AST Skel, Shadow Git, WAL, DAG","kpi3Label":"Fallos del Kernel","kpi3Note":"Hooks desconectados, regex, CLI bloqueante","kpi4Label":"Pivote Arquitectónico","kpi4Note":"Servidor stdio m9g-mcp para OmO/Claude/OpenCode","sec1Title":"Por qué intentamos construir un harness multi-agente independiente","sec2Title":"Qué construimos en 28 módulos y 169 pruebas unitarias superadas","sec3Title":"Seis errores del kernel que rompieron nuestro harness en el trabajo diario","sec4Title":"Cómo OmO, OpenCode, Claude Code y Antigravity resuelven esto en el kernel","sec5Title":"Por qué funcionó extraer siete herramientas sin estado hacia m9g-mcp","fig1Caption":"Figura 1 (M9G-TR-2026-02). Arquitectura de m9g-agent-corps (src/ag_harness/). Izquierda: orquestador Nivel 1 (gemini-4-carbon / APEX) con caché de prefijo inmutable y esqueletización AST. Centro: trabajadores Nivel 2 y Nivel 3. Derecha: los seis fallos del bucle interno frente a OmO, OpenCode, Claude Code y Antigravity.","fig2aTitle":"Figura 2A. Puntuación de Fiabilidad y Acoplamiento del Bucle Interno (Auditoría de 10 Pilares)","fig2bTitle":"Figura 2B. Latencia Mediana en Refactorización de 3 Archivos y Fidelidad de Contexto"}};
+
+    var CHROME_I18N = {
+      en: {
+        blogHeaderBrand: 'Technical Research Blog',
+        navCv: 'CV ↗',
+        navArchive: 'Archive',
+        navBlog: 'Blog',
+        navTutorials: 'Tutorials',
+        navPortfolio: 'Main Portal',
+        switcherIndexKicker: 'Research Index',
+        switcherIndexTitle: '← All M9G Research Reports (/blog)',
+        goTopLabel: 'Back to Top',
+        footerBlogIndex: 'Research Blog Index',
+        themeToggleLabel: 'Toggle light or dark theme',
+        langSelectLabel: 'Select language',
+        switcherNavLabel: 'Technical Research Blog Navigation'
+      },
+      ko: {
+        blogHeaderBrand: '기술 리서치 블로그',
+        navCv: '이력서 ↗',
+        navArchive: '아카이브',
+        navBlog: '블로그',
+        navTutorials: '튜토리얼',
+        navPortfolio: '메인 포털',
+        switcherIndexKicker: '리서치 인덱스',
+        switcherIndexTitle: '← 전체 M9G 기술 리포트 (/blog)',
+        goTopLabel: '맨 위로 이동',
+        footerBlogIndex: '리서치 블로그 인덱스',
+        themeToggleLabel: '라이트 및 다크 테마 전환',
+        langSelectLabel: '언어 선택',
+        switcherNavLabel: '기술 리서치 블로그 탐색'
+      },
+      ja: {
+        blogHeaderBrand: '技術リサーチブログ',
+        navCv: '経歴書 ↗',
+        navArchive: 'アーカイブ',
+        navBlog: 'ブログ',
+        navTutorials: 'チュートリアル',
+        navPortfolio: 'メインポータル',
+        switcherIndexKicker: 'リサーチ一覧',
+        switcherIndexTitle: '← M9G 技術レポート一覧 (/blog)',
+        goTopLabel: 'ページ上部へ',
+        footerBlogIndex: 'リサーチブログ一覧',
+        themeToggleLabel: 'ライトテーマとダークテーマを切り替え',
+        langSelectLabel: '言語を選択',
+        switcherNavLabel: '技術リサーチブログナビゲーション'
+      },
+      zh: {
+        blogHeaderBrand: '技术研究博客',
+        navCv: '简历 ↗',
+        navArchive: '档案库',
+        navBlog: '博客',
+        navTutorials: '教程',
+        navPortfolio: '主门户',
+        switcherIndexKicker: '研究索引',
+        switcherIndexTitle: '← 全部 M9G 技术报告 (/blog)',
+        goTopLabel: '返回顶部',
+        footerBlogIndex: '研究博客索引',
+        themeToggleLabel: '切换浅色或深色主题',
+        langSelectLabel: '选择语言',
+        switcherNavLabel: '技术研究博客导航'
+      },
+      es: {
+        blogHeaderBrand: 'Blog de Investigación Técnica',
+        navCv: 'CV ↗',
+        navArchive: 'Archivo',
+        navBlog: 'Blog',
+        navTutorials: 'Tutoriales',
+        navPortfolio: 'Portal Principal',
+        switcherIndexKicker: 'Índice de Investigación',
+        switcherIndexTitle: '← Todos los Informes Técnicos de M9G (/blog)',
+        goTopLabel: 'Volver arriba',
+        footerBlogIndex: 'Índice del Blog de Investigación',
+        themeToggleLabel: 'Alternar tema claro u oscuro',
+        langSelectLabel: 'Seleccionar idioma',
+        switcherNavLabel: 'Navegación del Blog de Investigación Técnica'
+      }
+    };
+
+    window.addEventListener('scroll', function() {
+      var doc = document.documentElement;
+      var top = doc.scrollTop || document.body.scrollTop;
+      var height = doc.scrollHeight - doc.clientHeight;
+      var bar = document.getElementById('progress-bar');
+      if (bar) bar.style.width = (height > 0 ? (top / height) * 100 : 0) + '%';
+    }, { passive: true });
+
+    window.toggleLangMenu = function(e) {
+      e.stopPropagation();
+      var popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.toggle('open');
+    };
+
+    document.addEventListener('click', function(e) {
+      var wrap = document.getElementById('lang-dropdown-wrap');
+      var popup = document.getElementById('lang-popup');
+      if (wrap && popup && !wrap.contains(e.target)) popup.classList.remove('open');
+    });
+
+    window.setLang = function(lang) {
+      if (!BLOG_I18N[lang]) lang = 'en';
+      try { localStorage.setItem('m9g_portfolio_lang', lang); } catch (e) {}
+      document.documentElement.lang = lang;
+      var lbl = document.getElementById('current-lang-label');
+      if (lbl) lbl.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(function(opt) {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      var popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.remove('open');
+      var dict = BLOG_I18N[lang];
+      var chrome = CHROME_I18N[lang] || CHROME_I18N.en;
+      var themeBtn = document.getElementById('theme-btn');
+      if (themeBtn) {
+        themeBtn.setAttribute('title', chrome.themeToggleLabel);
+        themeBtn.setAttribute('aria-label', chrome.themeToggleLabel);
+      }
+      var langBtn = document.getElementById('lang-select-btn');
+      if (langBtn) langBtn.setAttribute('aria-label', chrome.langSelectLabel);
+      var switcherNav = document.getElementById('blog-switcher-nav');
+      if (switcherNav) switcherNav.setAttribute('aria-label', chrome.switcherNavLabel);
+      var goTopBtn = document.getElementById('gotop-btn');
+      if (goTopBtn) goTopBtn.setAttribute('aria-label', chrome.goTopLabel);
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        if (el.dataset.origHtml === undefined) {
+          el.dataset.origHtml = el.innerHTML;
+        }
+        if (lang === 'en') {
+          if (el.innerHTML !== el.dataset.origHtml) {
+            el.innerHTML = el.dataset.origHtml;
+          }
+          return;
+        }
+        var key = el.getAttribute('data-i18n');
+        var val = (dict && dict[key]) || chrome[key];
+        if (val) el.textContent = val;
+      });
+    };
+
+    window.seekOmniVideo = function(vidId, seconds, btn) {
+      var vid = document.getElementById(vidId);
+      if (vid) {
+        try { vid.currentTime = seconds; vid.play(); } catch (e) {}
+      }
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      }
+    };
+
+    window.seekLocalVideo = function(seconds, btn) {
+      var vid = document.getElementById('stamp-video');
+      if (vid) {
+        try { vid.currentTime = seconds; vid.play(); } catch (e) {}
+      }
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      } else {
+        document.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        if (btn) btn.classList.add('active');
+      }
+    };
+
+    window.seekVideo = function(seconds, btn) {
+      var iframe = document.getElementById('yt-player');
+      if (iframe) {
+        iframe.src = 'https://www.youtube.com/embed/PPZ4vgVZlyA?start=' + seconds + '&autoplay=1&rel=0';
+      }
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      } else {
+        document.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        if (btn) btn.classList.add('active');
+      }
+    };
+
+    window.setLang((function() { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch (e) { return 'en'; } })());
+  })();</script> </body> </html>

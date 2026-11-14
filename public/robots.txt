@@ -1,10 +1,16 @@
 User-agent: *
 Allow: /
+Disallow: /src/
+Disallow: /scripts/
 
 User-agent: Googlebot
 Allow: /
+Disallow: /src/
+Disallow: /scripts/
 
 User-agent: Yeti
 Allow: /
+Disallow: /src/
+Disallow: /scripts/
 
 Sitemap: https://mincasurong.github.io/sitemap.xml

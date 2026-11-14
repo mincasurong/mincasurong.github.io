@@ -1,0 +1,486 @@
+<!DOCTYPE html><html lang="en" class="light"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Symbolic 3D /tf Grounding and Software-Pipelined VLA Planning | M9G Technical Research Blog</title><link rel="canonical" href="https://mincasurong.github.io/blog/VLA/"><meta name="robots" content="index, follow"><meta name="author" content="Minsu Chang, Ph.D. (M9G / mincasurong)"><meta name="description" content="M9G-TR-2026-01 by Minsu Chang, Ph.D.: Zero-RGB 3D /tf grounding plus Turn-0 Gemini 4 Carbon and 10x Gemini 3.5 Flash-Lite routing stack a 9-block tower across three Franka FR3 arms in 10 turns at $0.01972 (-76.6% API cost) in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy."><meta name="keywords" content="M9G-TR-2026-01, VLA, Vision-Language-Action, Symbolic 3D Grounding, Software-Pipelined Scheduling, Gemini Robotics-ER 2, Gemini 4 Carbon, Gemini 3.5 Flash-Lite, NVIDIA Isaac Sim 6.0, ROS 2 Jazzy, Franka Emika FR3, Minsu Chang, M9G, mincasurong"><meta property="og:type" content="article"><meta property="og:url" content="https://mincasurong.github.io/blog/VLA/"><meta property="og:title" content="Symbolic 3D /tf Grounding and Software-Pipelined VLA Planning | M9G Research"><meta property="og:description" content="Zero-RGB 3D /tf grounding and hybrid Carbon + Flash-Lite routing finish a 3-arm, 9-block tower in 10 turns and cut API cost from $0.08437 to $0.01972 (-76.6%) in Isaac Sim 6.0."><meta property="og:image" content="https://mincasurong.github.io/screenshots/blog1-vla-thumb-nanobanana.png"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="alternate" type="application/rss+xml" title="M9G (Minsu Chang / mincasurong) RSS Feed" href="https://mincasurong.github.io/rss.xml"><script>
+  (function() {
+    var t = 'light';
+    try {
+      if (localStorage.getItem('m9g_theme') === 'dark') t = 'dark';
+    } catch (e) {}
+    var root = document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(t);
+    root.dataset.theme = t;
+    root.style.colorScheme = t;
+    window.__m9gToggleTheme = function() {
+      var next = root.classList.contains('dark') ? 'light' : 'dark';
+      root.classList.remove('light', 'dark');
+      root.classList.add(next);
+      root.dataset.theme = next;
+      root.style.colorScheme = next;
+      try { localStorage.setItem('m9g_theme', next); } catch (e) {}
+      document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
+        var mode = btn.getAttribute('data-theme-toggle');
+        if (mode === 'icon-only') {
+          btn.textContent = next === 'light' ? '☀' : '☾';
+        } else {
+          btn.textContent = next === 'light' ? '☀ Light' : '☾ Dark';
+        }
+      });
+    };
+    window.addEventListener('DOMContentLoaded', function() {
+      var cur = root.classList.contains('dark') ? 'dark' : 'light';
+      document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
+        var mode = btn.getAttribute('data-theme-toggle');
+        if (mode === 'icon-only') {
+          btn.textContent = cur === 'light' ? '☀' : '☾';
+        } else {
+          btn.textContent = cur === 'light' ? '☀ Light' : '☾ Dark';
+        }
+      });
+    });
+  })();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Symbolic 3D /tf Grounding and Software-Pipelined VLA Planning for Multi-Arm Manipulation","identifier":"M9G-TR-2026-01","datePublished":"2026-10-18","dateModified":"2026-10-25","inLanguage":["en","ko","ja","zh","es"],"image":"https://mincasurong.github.io/screenshots/vla-architecture-nanobanana.png","author":{"@type":"Person","name":"Minsu Chang","honorificSuffix":"Ph.D.","alternateName":["장민수","M9G","mincasurong"],"url":"https://mincasurong.github.io/"},"publisher":{"@type":"Organization","name":"M9G Research & Systems Engineering","url":"https://mincasurong.github.io/"}}</script><link rel="stylesheet" href="/_astro/index.e0A4xEyy.css">
+<link rel="stylesheet" href="/_astro/_slug_.BgOG-Bis.css"></head> <body> <div id="progress-bar"></div> <header class="topbar"> <div class="topbar-inner"> <a href="/" class="brand"> <span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span> <span class="brand-sep">|</span> <span class="brand-sec" data-i18n="blogHeaderBrand">Technical Research Blog</span> </a> <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;"> <nav class="topnav"> <a href="/vcard/" class="topnav-pill" data-i18n="navCv">CV ↗</a> <a href="/archive/" class="topnav-pill" data-i18n="navArchive">Archive</a> <a href="/blog/" class="topnav-pill active" data-i18n="navBlog">Blog</a> <a href="/tutorials/" class="topnav-pill" data-i18n="navTutorials">Tutorials</a> <a href="/" class="back-link" data-i18n="navPortfolio">Main Portal</a> </nav> <button class="topbar-btn" id="theme-btn" data-theme-toggle="icon-only" onclick="window.__m9gToggleTheme()" title="Toggle light or dark theme" aria-label="Toggle light or dark theme">☀</button> <div class="lang-dropdown-wrap" id="lang-dropdown-wrap"> <button class="lang-box-btn" id="lang-select-btn" onclick="toggleLangMenu(arguments[0])" aria-label="Select language"> <span id="current-lang-label">EN</span> <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg> </button> <div class="lang-popup" id="lang-popup"> <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span><span>EN</span></button> <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span><span>KO</span></button> <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span><span>JA</span></button> <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span><span>ZH</span></button> <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span><span>ES</span></button> </div> </div> </div> </div> </header> <section class="article-hero"> <div class="hero-inner"> <nav class="blog-post-switcher" id="blog-switcher-nav" aria-label="Technical Research Blog Navigation"> <a href="/blog/" class="blog-post-tab"> <span class="blog-post-tab-kicker" data-i18n="switcherIndexKicker">Research Index</span> <span class="blog-post-tab-title" data-i18n="switcherIndexTitle">← All M9G Research Reports (/blog)</span> </a> <a href="/blog/VLA/" class="blog-post-tab active"> <span class="blog-post-tab-kicker">M9G-TR-2026-01 • Physical AI</span> <span class="blog-post-tab-title">Symbolic 3D Grounding &amp; VLA Planning</span> </a><a href="/blog/m9g-agent/" class="blog-post-tab"> <span class="blog-post-tab-kicker">M9G-TR-2026-02 • Agentic Systems</span> <span class="blog-post-tab-title">Building a New Harness &amp; Why It Failed</span> </a><a href="/blog/stamp/" class="blog-post-tab"> <span class="blog-post-tab-kicker">M9G-TR-2026-03 • Project STAMP</span> <span class="blog-post-tab-title">Deterministic Pre-Dispatch Gating &amp; Write-Back</span> </a><a href="/blog/sdl-survey/" class="blog-post-tab"> <span class="blog-post-tab-kicker">M9G-TR-2026-04 • Systems Survey</span> <span class="blog-post-tab-title">Isaac Sim Assembly, Deformables &amp; Self-Driving Labs</span> </a><a href="/blog/lazy-dash/" class="blog-post-tab"> <span class="blog-post-tab-kicker">M9G-TR-2026-05 • Lazy-DaSH × VLA</span> <span class="blog-post-tab-title">UIUC Lazy-DaSH (T-RO) &amp; IsaacSim_Gemini Roadmap</span> </a><a href="/blog/tamp-fast-sim/" class="blog-post-tab"> <span class="blog-post-tab-kicker">M9G-TR-2026-06 • 3D TAMP Lite-Sim</span> <span class="blog-post-tab-title">Browser-Native Multi-Robot &amp; Smart Factory WebGL</span> </a> </nav> <div class="dm-kicker-row"> <span class="dm-badge" data-i18n="articleTag">M9G-TR-2026-01 • Embodied Physical AI</span> <span>Published October 18, 2026</span>
+        <span>•</span>
+        <span>NVIDIA Isaac Sim 6.0 &amp; ROS 2 Jazzy</span> </div> <h1 data-i18n="articleTitle">Symbolic 3D /tf Grounding and Software-Pipelined VLA Planning for Multi-Arm Manipulation</h1> <p class="lede" data-i18n="articleLede">Streaming RGB frames on every planning turn stalls GPU rendering and bloats multi-turn token history. In our three-arm Franka Emika FR3 cell on NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy, 50 Hz <code>/tf</code> poses replace camera feeds with zero image tokens. One Turn-0 <code>gemini-4-carbon</code> call and ten <code>gemini-3.5-flash-lite</code> calls stack nine blocks in 10 turns at <code>$0.01972</code>, cutting API cost 76.6% from <code>$0.08437</code>.</p> <div class="byline-bar"> <div class="byline-cell"> <div class="byline-label">Author &amp; Principal Researcher</div> <div class="byline-val">Minsu Chang, Ph.D. (장민수 / M9G)</div> </div><div class="byline-cell"> <div class="byline-label">Primary Telemetry Log</div> <div class="byline-val"><code>CUSTOM_trial01_20261018_174106.jsonl</code></div> </div><div class="byline-cell"> <div class="byline-label">Hardware-in-the-Loop Stack</div> <div class="byline-val">Isaac Sim 6.0 + ROS 2 Jazzy + 3x FR3</div> </div><div class="byline-cell"> <div class="byline-label">Disclosure Status</div> <div class="byline-val">M9G Web-Native Prior Art (Non-arXiv)</div> </div> </div> </div> </section> <div class="layout"> <article> <div class="dm-takeaways">
+                <div class="tldr-thumb-wrap">
+          <picture><source srcset="/screenshots/blog1-vla-thumb-nanobanana.webp" type="image/webp" /><img src="/screenshots/blog1-vla-thumb-nanobanana.png" alt="M9G-TR-2026-01 • Cooperative 3-Arm FR3 Tower Stacking with Zero-RGB 3D /tf Grounding & 10-Turn Software-Pipelined VLA Schedule (-76.6% API Cost)" loading="eager" decoding="async" width="1376" height="768" /></picture>
+        </div>
+        <div class="dm-takeaways-title" data-i18n="takeawaysHeader">TL;DR: Key Findings and Telemetry</div>
+        <ul>
+          <li data-i18n="finding1"><strong class="c-blue">Zero-RGB 3D /tf grounding.</strong> Setting <code>latest_rgb = None</code> disables Isaac Sim Replicator viewport capture and drops visual input to <code>0</code> tokens. <code>RuleBasedTaskGenerator</code> and <code>RuleBasedTaskVerifier</code> read 50 Hz 3D <code>/tf</code> poses directly, stacking 9 of 9 blocks with zero collisions across all three stages.</li>
+          <li data-i18n="finding2"><strong class="c-green">Hybrid Brain-Executor routing (-76.6% API cost).</strong> One Turn-0 call to <code>gemini-4-carbon</code> (<code>thinking_budget=256</code>) builds the full schedule, and ten calls to <code>gemini-3.5-flash-lite</code> (<code>thinking_budget=0</code>) run Turns 1 to 10. Trial cost drops from <code>$0.08437</code> to <code>$0.01972</code>, and mean step latency on Turns 1 and 2 falls from <code>13.31 s</code> to <code>4.17 s</code> (-68.7%).</li>
+          <li data-i18n="finding3"><strong class="c-amber">10-turn software-pipelined schedule.</strong> <code>gemini-robotics-er-2-preview</code> stalls at wave-locked barriers across 13 turns (<code>50,190</code> tokens, <code>$0.07860</code>). <code>gemini-4-carbon</code> overlaps outer-table <code>pick</code> and <code>go_home</code> calls with central-tower <code>place</code> calls from Turn 3 onward, finishing in 10 turns and saving <code>10,929</code> cumulative input tokens.</li>
+        </ul>
+      </div>
+
+      <div class="spec-strip">
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi1Label">Stage 3 Trial Cost</div>
+          <div class="spec-val green">$0.01972</div>
+          <div class="spec-note" data-i18n="kpi1Note">-76.6% vs. Stage 2 ($0.08437)</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi2Label">Execution Horizon</div>
+          <div class="spec-val">10 Turns</div>
+          <div class="spec-note" data-i18n="kpi2Note">vs. 13 turns in ER-2 (-22.6% in tok)</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi3Label">Visual Input</div>
+          <div class="spec-val amber">0 Tokens</div>
+          <div class="spec-note" data-i18n="kpi3Note">50 Hz 3D /tf poses only</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-label" data-i18n="kpi4Label">Task Completion</div>
+          <div class="spec-val green">9 / 9 Blocks</div>
+          <div class="spec-note" data-i18n="kpi4Note">20 / 20 verifier checks passed</div>
+        </div>
+      </div>
+
+      <section id="video-walkthrough" class="media-block">
+        <div class="media-header">
+          <span data-i18n="videoHeader">Synchronized Simulation Proof: Gemini Robotics-ER 2 (Left) vs. Gemini 4 Carbon (Right)</span>
+          <a href="https://www.youtube.com/watch?v=PPZ4vgVZlyA" target="_blank" rel="noopener noreferrer">YouTube Verification (PPZ4vgVZlyA) ↗</a>
+        </div>
+        <div class="video-container">
+          <iframe id="yt-player" src="https://www.youtube.com/embed/PPZ4vgVZlyA?rel=0" title="Gemini Robotics ER-2 vs. Gemini 4 Carbon: Multi-Robot Task Planner Benchmark" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="timestamp-grid">
+          <button class="ts-btn active" onclick="seekVideo(0, this)">
+            <span class="ts-time">0:00 • Turn 0 &amp; Wave 1</span>
+            <span class="ts-title" data-i18n="ts1Title">Turn-0 Blueprint and Parallel Picks</span>
+            <span class="ts-sub" data-i18n="ts1Sub">Both planners read 50 Hz /tf poses and dispatch pick(R1,B1), pick(R2,B4), and pick(R3,B7) on Turn 1.</span>
+          </button>
+          <button class="ts-btn" onclick="seekVideo(6, this)">
+            <span class="ts-time">0:06 • Turn 3 Divergence</span>
+            <span class="ts-title" data-i18n="ts2Title">Wave Barrier vs. Pipelined Overlap</span>
+            <span class="ts-sub" data-i18n="ts2Sub">ER-2 drains placements one arm at a time. Carbon overlaps pick(R1,B2) on Table 1 with place(R2) at center.</span>
+          </button>
+          <button class="ts-btn" onclick="seekVideo(23, this)">
+            <span class="ts-time">0:23 • Turn 13 (ER-2 Final)</span>
+            <span class="ts-title" data-i18n="ts3Title">ER-2 Finishes Layer 9 Without Homing</span>
+            <span class="ts-sub" data-i18n="ts3Sub">ER-2 spends 13 turns, 50,190 tokens, and $0.07860, then exits with all three arms un-homed.</span>
+          </button>
+          <button class="ts-btn" onclick="seekVideo(31, this)">
+            <span class="ts-time">0:31 • Turn 10 (Carbon Final)</span>
+            <span class="ts-title" data-i18n="ts4Title">Carbon Finishes Layer 9 and Homes Arms</span>
+            <span class="ts-sub" data-i18n="ts4Sub">Carbon overlaps go_home(R1) and go_home(R2) during Layers 8 and 9, finishing in 10 turns (38,277 tokens).</span>
+          </button>
+        </div>
+      </section>
+
+      <h2 id="summary" data-i18n="sec1Title">Why 50 Hz /tf poses replace RGB streams in multi-arm cells</h2>
+      <p>
+        Streaming overhead RGB frames on every planning turn creates two bottlenecks in a multi-arm cell. First, NVIDIA Isaac Sim Replicator must render viewport textures on the GPU while PhysX TGS steps rigid-body contact at 240 Hz. Second, base64 image payloads append thousands of tokens to a multi-turn transcript that grows quadratically with turn count. Rigid blocks in a calibrated cell already publish 6-DoF poses on the ROS 2 <code>/tf</code> tree, so re-inferring geometry from pixels on every turn pays GPU and token overhead for coordinates the controller already tracks.
+      </p>
+      <p>
+        In <code>IsaacSim_GeminiRobotics</code> Mode 1 (<code>three_robot_tower.py</code>), three 7-DoF Franka Emika FR3 arms (<code>FR3_1</code>, <code>FR3_2</code>, <code>FR3_3</code>) surround a shared stacking pad at <code>[0.0, 0.0]</code> and draw nine numbered blocks (<code>B1</code> to <code>B9</code>) from three outer tables. We run Isaac Sim 6.0 with <code>--enable-cameras</code> off (<code>latest_rgb = None</code>, <code>0</code> image tokens) over FastDDS unicast to ROS 2 Jazzy. On Turn 0, <code>RuleBasedTaskGenerator</code> reads 50 Hz <code>/tf</code> poses into <code>WorkspaceState</code> and builds a text spatial blueprint. Before any action reaches the 50 Hz damped least-squares (DLS) inverse kinematics controller, <code>RuleBasedTaskVerifier</code> checks arm reach, block ownership, and central-zone occupancy, rejecting out-of-reach picks before IK runs.
+      </p>
+
+      <h2 id="architecture" data-i18n="sec2Title">Separating Turn-0 planning from step execution across three stages</h2>
+      <p data-i18n="sec2Intro">
+        <code>GeminiRoboticsNode._run_automated_comparison_workflow()</code> runs three consecutive stages inside one simulation process so physics timing and FastDDS transport remain identical. Between stages, the node publishes <code>Empty()</code> to <code>/reset_simulation</code>, restores all nine blocks to Tables 1 to 3, and homes <code>FR3_1</code> through <code>FR3_3</code> across a 4.0-second mechanical settle window:
+      </p>
+      <ul>
+        <li><strong>Stage 1: Homogeneous ER-2 loop (<code>gemini-robotics-er-2-preview</code>).</strong> Calls <code>gemini-robotics-er-2-preview</code> for Turn-0 strategy generation (<code>thinking_budget=256</code>) and every subsequent tool-dispatch turn (<code>thinking_budget=512</code>).</li>
+        <li><strong>Stage 2: Homogeneous Carbon loop (<code>gemini-4-carbon</code>).</strong> Calls <code>gemini-4-carbon</code> on Turn 0 (<code>thinking_budget=256</code>) and on every step turn (<code>thinking_budget=512</code>) to measure schedule compression against frontier step latency.</li>
+        <li><strong>Stage 3: Hybrid Brain-Executor routing (<code>1x gemini-4-carbon</code> + <code>10x gemini-3.5-flash-lite</code>).</strong> Calls <code>gemini-4-carbon</code> once on Turn 0 (<code>thinking_budget=256</code>) to build the 10-turn pipelined schedule, then delegates Turns 1 to 10 to <code>gemini-3.5-flash-lite</code> with <code>thinking_budget=0</code>. If a pick fault or <code>RuleBasedTaskVerifier</code> rejection occurs, the router escalates that turn back to <code>gemini-4-carbon</code>.</li>
+      </ul>
+
+      <figure class="figure-box">
+        <picture><source srcset="/screenshots/vla-architecture-nanobanana.webp" type="image/webp" /><img src="/screenshots/vla-architecture-nanobanana.png" alt="M9G 3-Stage VLA Task Planner Architecture in Isaac Sim 6.0 and ROS 2 Jazzy" width="1408" height="768" /></picture>
+        <figcaption class="figure-caption" data-i18n="fig1Caption">
+          Figure 1 (M9G-TR-2026-01). Three-stage hardware-in-the-loop architecture in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy comparing Stage 1 (ER-2), Stage 2 (pure Gemini 4 Carbon), and Stage 3 (Turn-0 Carbon Brain plus 10x Flash-Lite Executor).
+        </figcaption>
+      </figure>
+
+      <h2 id="metrics" data-i18n="sec3Title">Three-stage telemetry: horizon, step latency, and API cost</h2>
+      <p>
+        All three stages stacked 9 of 9 blocks on the central tower and passed 100% of <code>RuleBasedTaskVerifier</code> checks (<code>19/19</code> in Stage 1, <code>20/20</code> in Stages 2 and 3). Symbolic 3D <code>/tf</code> poses gave every model enough spatial precision for collision-free multi-arm assembly. Schedule horizon, step latency, and per-trial API cost separated the three designs:
+      </p>
+
+      <div class="data-fig-grid">
+        <div class="data-fig">
+          <div class="data-fig-head">
+            <span class="data-fig-title" data-i18n="fig2aTitle">Figure 2A. API Cost per 9-Block Trial (M9G Telemetry)</span>
+            <span class="data-fig-unit">USD • Trace: CUSTOM_trial01_20261018</span>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">Stage 1: Legacy ER-2 (14 calls)</span><span class="bar-metric-val"><strong>$0.07860</strong> ($0.0605 in + $0.0181 out/think)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:93.1%; background:var(--dm-amber);"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">Stage 2: Pure Gemini 4 Carbon (11 calls)</span><span class="bar-metric-val"><strong>$0.08437</strong> ($0.0757 in + $0.0087 out)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%; background:var(--dm-blue);"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">Stage 3: M9G Hybrid (1x Carbon Brain + 10x Flash-Lite)</span><span class="bar-metric-val"><strong style="color:var(--dm-green-dark);">$0.01972</strong> (-76.6% vs. Stage 2)</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:23.4%; background:var(--dm-green);"></div></div>
+          </div>
+        </div>
+
+        <div class="data-fig">
+          <div class="data-fig-head">
+            <span class="data-fig-title" data-i18n="fig2bTitle">Figure 2B. Token Volume and Early-Turn Step Latency</span>
+            <span class="data-fig-unit">Total tokens &amp; Turns 1 to 2 mean latency</span>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">Stage 1: Legacy ER-2 (13 turns)</span><span class="bar-metric-val"><strong>50,190 tok</strong> (48,377 in / 1,086 think / 727 out) • 2.58 s</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:96.4%; background:#5f6368;"></div><div class="bar-fill" style="width:2.2%; background:var(--dm-red);"></div><div class="bar-fill" style="width:1.4%; background:var(--dm-amber);"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">Stage 2: Pure Gemini 4 Carbon (10 turns)</span><span class="bar-metric-val"><strong>38,713 tok</strong> (37,845 in / 868 out) • 13.31 s</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:75.4%; background:var(--dm-blue);"></div><div class="bar-fill" style="width:1.7%; background:var(--dm-amber);"></div></div>
+          </div>
+          <div class="bar-metric-row">
+            <div class="bar-metric-top"><span class="bar-metric-name">Stage 3: M9G Hybrid Carbon + Flash-Lite (10 turns)</span><span class="bar-metric-val"><strong style="color:var(--dm-green-dark);">38,277 tok</strong> (37,448 in / 829 out) • <strong style="color:var(--dm-green-dark);">4.17 s (-68.7%)</strong></span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:74.6%; background:var(--dm-green);"></div><div class="bar-fill" style="width:1.6%; background:var(--dm-blue);"></div></div>
+          </div>
+        </div>
+
+        <div class="data-fig">
+          <div class="data-fig-head">
+            <span class="data-fig-title" data-i18n="fig2cTitle">Figure 2C. Cumulative Input Token Trajectory (Turns 0 to 13)</span>
+            <span class="data-fig-unit">Quadratic history accumulation</span>
+          </div>
+          <svg viewBox="0 0 600 225" width="100%" height="auto" role="img" aria-label="Cumulative input tokens from Turn 0 to Turn 13">
+            <line x1="48" y1="20" x2="570" y2="20" stroke="#e8eaed" stroke-dasharray="3,3" />
+            <line x1="48" y1="65" x2="570" y2="65" stroke="#e8eaed" stroke-dasharray="3,3" />
+            <line x1="48" y1="110" x2="570" y2="110" stroke="#e8eaed" stroke-dasharray="3,3" />
+            <line x1="48" y1="155" x2="570" y2="155" stroke="#e8eaed" stroke-dasharray="3,3" />
+            <line x1="48" y1="190" x2="570" y2="190" stroke="#dadce0" />
+            <text x="42" y="24" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">50k</text>
+            <text x="42" y="69" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">37.5k</text>
+            <text x="42" y="114" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">25k</text>
+            <text x="42" y="159" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">12.5k</text>
+            <text x="42" y="193" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="end">0</text>
+            <rect x="448" y="20" width="122" height="170" fill="#e6f4ea" opacity="0.65" />
+            <line x1="448" y1="20" x2="448" y2="190" stroke="#1e8e3e" stroke-dasharray="4,3" />
+            <text x="509" y="36" fill="#137333" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="600" text-anchor="middle">T11–T13 Avoided</text>
+            <text x="509" y="49" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="9" text-anchor="middle">(-10,929 in tok)</text>
+            <polyline fill="none" stroke="#e37400" stroke-width="2.4" points="48,185 88,175 128,165 168,154 208,142 248,130 288,117 328,104 368,90 408,75 448,61 488,49 528,37 568,25" />
+            <polyline fill="none" stroke="#1e8e3e" stroke-width="2.6" points="48,180 88,171 128,160 168,149 208,137 248,125 288,112 328,99 368,85 408,74 448,63" />
+            <circle cx="568" cy="25" r="4" fill="#e37400" />
+            <circle cx="448" cy="63" r="4.5" fill="#1e8e3e" />
+            <text x="562" y="17" fill="#e37400" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" text-anchor="end">ER-2: 48,377 (T13)</text>
+            <text x="442" y="57" fill="#137333" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" text-anchor="end">Stage 3: 37,448 (T10)</text>
+            <text x="56" y="34" fill="#70757a" font-family="JetBrains Mono, monospace" font-size="8.5">© M9G-TR-2026-01 (Minsu Chang, Ph.D.)</text>
+            <text x="48" y="208" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">T0</text>
+            <text x="248" y="208" fill="#5f6368" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">T5</text>
+            <text x="448" y="208" fill="#137333" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" text-anchor="middle">T10</text>
+            <text x="568" y="208" fill="#e37400" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" text-anchor="middle">T13</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <div class="table-provenance-bar">
+          <span>M9G Telemetry Record • <code>CUSTOM_trial01_20261018_174106.jsonl</code></span>
+          <span>Author: Minsu Chang, Ph.D. (M9G)</span>
+        </div>
+        <table>
+          <thead>
+            <tr><th>System Telemetry Metric</th><th class="num">Stage 1: Legacy ER-2</th><th class="num">Stage 2: Pure Carbon</th><th class="num">Stage 3: M9G Hybrid (1C + 10F)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Visual Input Source</td><td class="num">0 RGB tok (3D <code>/tf</code>)</td><td class="num">0 RGB tok (3D <code>/tf</code>)</td><td class="num"><strong>0 RGB tok (3D <code>/tf</code>)</strong></td></tr>
+            <tr><td>Turn-0 Strategic Brain Model</td><td class="num"><code>gemini-robotics-er-2-preview</code></td><td class="num"><code>gemini-4-carbon</code></td><td class="num"><code>gemini-4-carbon</code> (1 call)</td></tr>
+            <tr><td>Turns 1..N Step Executor Model</td><td class="num"><code>gemini-robotics-er-2-preview</code></td><td class="num"><code>gemini-4-carbon</code></td><td class="num"><code>gemini-3.5-flash-lite</code> (10 calls)</td></tr>
+            <tr><td>Turn-0 / Step Thinking Budget</td><td class="num">256 / 512 tok</td><td class="num">256 / 512 tok</td><td class="num"><strong>256 / 0 tok (Disabled on steps)</strong></td></tr>
+            <tr><td>Execution Horizon &amp; API Calls</td><td class="num">13 turns (14 calls)</td><td class="num">10 turns (11 calls)</td><td class="num"><strong>10 turns (11 calls)</strong></td></tr>
+            <tr><td>Cumulative Input Tokens</td><td class="num">48,377</td><td class="num">37,845 (-21.8%)</td><td class="num"><strong>37,448 (-22.6%)</strong></td></tr>
+            <tr><td>Thinking / Output Action Tokens</td><td class="num">1,086 / 727</td><td class="num">0 / 868</td><td class="num"><strong>0 / 829</strong></td></tr>
+            <tr><td>Total Episode Tokens</td><td class="num">50,190</td><td class="num">38,713 (-22.9%)</td><td class="num"><strong>38,277 (-23.7%)</strong></td></tr>
+            <tr><td>Turn-0 Brain Synthesis Latency</td><td class="num">1,987 ms</td><td class="num">8,870 ms</td><td class="num"><strong>4,670 ms (-47.4%)</strong></td></tr>
+            <tr><td>Turns 1 to 2 Mean Step Latency</td><td class="num">2.58 s</td><td class="num">13.31 s</td><td class="num"><strong>4.17 s (-68.7%)</strong></td></tr>
+            <tr><td>Tower Completion &amp; Verifier Pass</td><td class="num">9/9 blk | 19/19 (100%)</td><td class="num">9/9 blk | 20/20 (100%)</td><td class="num"><strong>9/9 blk | 20/20 (100%)</strong></td></tr>
+            <tr><td>Multi-Arm Workload Gini Index</td><td class="num">0.0351 (6, 7, 6)</td><td class="num">0.0342 (7, 7, 6)</td><td class="num"><strong>0.0339 (7, 7, 6)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>Total Trial Cost ($ USD)</strong></td><td class="num">$0.07860</td><td class="num">$0.08437</td><td class="num" style="color:var(--dm-green-dark); font-weight:700;">$0.01972 (-76.6%)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="scaling-model" data-i18n="sec3SubTitle">Quadratic input-token scaling and thinking-budget cost</h3>
+      <p>
+        Input tokens account for 96.4% to 97.8% of total token volume across all three stages even with camera capture disabled. Every API call resends a static base prefix of roughly <code>2,800 tokens</code>: <code>SYSTEM_PROMPT</code> and <code>ROBOT_TOOLS</code> JSON schemas (<code>~1,450 tokens</code>) plus the Turn-0 <code>RuleBasedTaskGenerator</code> 3D blueprint and strategy (<code>~1,350 tokens</code>). Each completed turn appends another <code>250 to 380 tokens</code> of <code>function_call</code> and controller <code>function_response</code> records. Re-sending that growing tool history on every turn makes cumulative input tokens scale quadratically with turn horizon <em>T</em>:
+      </p>
+      <div class="telemetry-formula-box">
+        <div class="telemetry-formula-header">
+          <span>M9G Context Scaling Rule (IsaacSim_GeminiRobotics Mode 1)</span>
+          <span>Ref: M9G-TR-2026-01</span>
+        </div>
+        <strong>Cumulative Input Tokens (for <em>T</em> turns)</strong> = (<em>T</em> &times; 2,800 Base Context Tokens) + [ <em>T</em> &times; (<em>T</em> &minus; 1) / 2 ] &times; (250 to 380 Per-Turn History Tokens)
+      </div>
+      <p>
+        Cutting the schedule from 13 turns in Stage 1 to 10 turns in Stages 2 and 3 drops Turns 11, 12, and 13, where each call carries more than <code>4,500</code> input tokens. That shorter horizon saves <code>10,929</code> input tokens on its own. Reasoning budgets add a second cost gap. In Stage 1, <code>gemini-robotics-er-2-preview</code> spent <code>1,086</code> internal thinking tokens billed at the <code>$10.00/1M</code> output rate (<code>$0.01086</code>, or 13.8% of Stage 1 trial cost). In Stage 2, keeping <code>thinking_budget=512</code> on <code>gemini-4-carbon</code> during routine step turns pushed mean latency on Turns 1 and 2 to <code>13.31 s</code>. Stage 3 runs reasoning once on Turn 0 with <code>gemini-4-carbon</code> (<code>$2.00/1M</code> input, <code>$10.00/1M</code> output) and executes Turns 1 to 10 on <code>gemini-3.5-flash-lite</code> (<code>$0.30/1M</code> input, <code>$2.50/1M</code> output, <code>thinking_budget=0</code>):
+      </p>
+      <div class="telemetry-formula-box">
+        <div class="telemetry-formula-header">
+          <span>M9G Stage 3 Hybrid Cost Breakdown (CUSTOM_trial01_20261018_174106.jsonl)</span>
+          <span>Total: $0.01972 (-76.6%)</span>
+        </div>
+        <div><strong class="c-blue">1. Turn 0 Global Brain (Gemini 4 Carbon, 1 Call):</strong> 2,800 input tokens (&times; $2.00 / 1M) + 220 output tokens (&times; $10.00 / 1M) = <strong>$0.00780</strong></div>
+        <div><strong class="c-green">2. Turns 1 to 10 Step Executor (Gemini 3.5 Flash-Lite, 10 Calls):</strong> 34,648 input tokens (&times; $0.30 / 1M) + 609 output tokens (&times; $2.50 / 1M) = <strong>$0.01192</strong></div>
+        <div><strong>Total Stage 3 Episode Cost:</strong> $0.00780 + $0.01192 = <strong class="c-green">$0.01972 (&minus;76.6% vs. Stage 2 Pure Carbon)</strong></div>
+      </div>
+
+      <h2 id="schedule-trace" data-i18n="sec4Title">Why ER-2 stalls at wave barriers while Carbon pipelines pick and place</h2>
+      <p>
+        <code>RuleBasedTaskVerifier</code> guards the central tower at <code>[0.0, 0.0]</code> with a spatial mutex (<code>center_occupied_by</code>). Only one arm can execute a central <code>place</code> on any turn, while outer-table <code>pick</code> and <code>go_home</code> motions run in disjoint workspaces on Tables 1, 2, and 3. The JSONL trace from <code>CUSTOM_trial01_20261018_174106.jsonl</code> shows how <code>gemini-4-carbon</code> pipelines those zones while <code>gemini-robotics-er-2-preview</code> waits at wave barriers:
+      </p>
+
+      <div class="table-scroll">
+        <div class="table-provenance-bar">
+          <span>M9G Multi-Manipulator Schedule Trace • 3x Franka Emika FR3</span>
+          <span>Source: <code>CUSTOM_trial01_20261018_174106.jsonl</code></span>
+        </div>
+        <table>
+          <thead><tr><th>Turn</th><th>Stage 1: Legacy ER-2 (13 Turns, Wave-Locked Barrier)</th><th>Stages 2 &amp; 3: M9G Carbon Schedule (10 Turns, Pipelined)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>T1</strong></td><td><code>pick(R1,B1) || pick(R2,B4) || pick(R3,B7)</code></td><td><code>pick(R1,B1) || pick(R2,B4) || pick(R3,B7)</code></td></tr>
+            <tr><td><strong>T2</strong></td><td><code>place(R1)</code> (Layer 1)</td><td><code>place(R1)</code> (Layer 1)</td></tr>
+            <tr class="highlight-row"><td><strong>T3</strong></td><td><code>place_relative(R2,B1)</code> (redundant call)</td><td><strong><code>pick(R1,B2) || place(R2)</code> (Layer 2)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>T4</strong></td><td><code>place(R2)</code> (Layer 2)</td><td><strong><code>pick(R2,B5) || place(R3)</code> (Layer 3)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>T5</strong></td><td><code>place(R3)</code> (Layer 3, R1 and R2 idle)</td><td><strong><code>pick(R3,B8) || place(R1)</code> (Layer 4)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>T6</strong></td><td><code>pick(R1,B2) || pick(R2,B5) || pick(R3,B8)</code></td><td><strong><code>pick(R1,B3) || place(R2)</code> (Layer 5)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>T7</strong></td><td><code>place(R1)</code> (Layer 4)</td><td><strong><code>pick(R2,B6) || place(R3)</code> (Layer 6)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>T8</strong></td><td><code>place(R2)</code> (Layer 5)</td><td><strong><code>pick(R3,B9) || place(R1)</code> (Layer 7)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>T9</strong></td><td><code>place(R3)</code> (Layer 6, R1 and R2 idle)</td><td><strong><code>go_home(R1) || place(R2)</code> (Layer 8)</strong></td></tr>
+            <tr class="highlight-row"><td><strong>T10</strong></td><td><code>pick(R1,B3) || pick(R2,B6) || pick(R3,B9)</code></td><td><strong><code>go_home(R2) || place(R3)</code> (Layer 9, done)</strong></td></tr>
+            <tr><td><strong>T11</strong></td><td><code>place(R1)</code> (Layer 7)</td><td>Idle</td></tr>
+            <tr><td><strong>T12</strong></td><td><code>place(R2)</code> (Layer 8)</td><td>Idle</td></tr>
+            <tr><td><strong>T13</strong></td><td><code>place(R3)</code> (Layer 9, done, arms left un-homed)</td><td>Idle</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        <code>gemini-robotics-er-2-preview</code> plans in synchronous waves. It picks three blocks on Turn 1, wastes Turn 3 on a redundant <code>place_relative(R2,B1)</code> call, and waits for all three arms to empty their grippers before dispatching the next pick wave on Turns 6 and 10. That barrier leaves two arms idle on Turns 4, 5, 8, 9, 12, and 13, ending at 13 turns (<code>50,190</code> tokens, <code>$0.07860</code>) with un-homed manipulators. <code>gemini-4-carbon</code> treats the center mutex as a single-slot pipeline stage. Because only one arm can occupy <code>[0.0, 0.0]</code> per turn, overlapping one central <code>place</code> with one outer-table <code>pick</code> or <code>go_home</code> from Turn 3 onward reaches the 10-turn lower bound for a nine-block shared-center tower. On Turns 9 and 10, <code>gemini-3.5-flash-lite</code> executes the planned <code>go_home(R1)</code> and <code>go_home(R2)</code> calls during Layers 8 and 9, clearing the workspace in 20 verified tool calls (workload Gini <code>0.0339</code> across <code>7, 7, 6</code> actions) at <code>$0.01972</code>.
+      </p>
+
+      <section id="provenance" class="citation-card">
+        <div class="citation-title">Research Provenance, Prior Art Disclosure &amp; Anti-Scraping Notice</div>
+        <p style="font-size:13px; margin-bottom:8px;">
+          This technical report (<strong>M9G-TR-2026-01</strong>), its three-stage evaluation protocol, the 10-turn software-pipelined multi-arm schedule, and the telemetry in <code>CUSTOM_trial01_20261018_174106.jsonl</code> constitute original published prior art by <strong>Minsu Chang, Ph.D. (장민수 / M9G)</strong> on <code>mincasurong.github.io</code>. Copying, translating, or repackaging these tables, schedules, or analyses into third-party conference submissions (IEEE ICRA, IROS, RA-L) or arXiv preprints is prohibited.
+        </p>
+        <div class="citation-pre">Minsu Chang, Ph.D. (M9G), "Symbolic 3D /tf Grounding and Software-Pipelined VLA Planning for Multi-Arm Manipulation," M9G Technical Research Blog (M9G-TR-2026-01), Oct. 18, 2026. URL: https://mincasurong.github.io/blog/VLA/ | Video Proof: https://youtu.be/PPZ4vgVZlyA</div>
+      </section> </article> </div> <div class="m9g-gotop-bar"> <button type="button" class="m9g-gotop-btn" id="gotop-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg> <span data-i18n="goTopLabel">Back to Top</span> </button> </div> <footer>
+© 2026 M9G (Minsu Chang, Ph.D.) • <a href="https://tamp.mincasurong.com" target="_blank" rel="noopener">tamp.mincasurong.com ↗</a> • <a href="/">mincasurong.github.io</a> • <a href="/blog/" data-i18n="footerBlogIndex">Research Blog Index</a> • <a href="https://github.com/mincasurong">GitHub</a> • <a href="https://www.linkedin.com/in/mincasurong/">LinkedIn</a> </footer> <script>(function(){const BLOG_I18N = {"en":{"articleTag":"M9G-TR-2026-01 • Embodied Physical AI","articleTitle":"Symbolic 3D /tf Grounding and Software-Pipelined VLA Planning for Multi-Arm Manipulation","articleLede":"Streaming RGB frames on every planning turn stalls GPU rendering and bloats multi-turn token history. In our three-arm Franka Emika FR3 cell on NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy, 50 Hz /tf poses replace camera feeds with zero image tokens. One Turn-0 gemini-4-carbon call and ten gemini-3.5-flash-lite calls stack nine blocks in 10 turns at $0.01972, cutting API cost 76.6% from $0.08437.","takeawaysHeader":"TL;DR: Key Findings and Telemetry","finding1":"Zero-RGB 3D /tf grounding. Setting latest_rgb = None disables Isaac Sim Replicator viewport capture and drops visual input to 0 tokens. RuleBasedTaskGenerator and RuleBasedTaskVerifier read 50 Hz 3D /tf poses directly, stacking 9 of 9 blocks with zero collisions across all three stages.","finding2":"Hybrid Brain-Executor routing (-76.6% API cost). One Turn-0 call to gemini-4-carbon (thinking_budget=256) builds the full schedule, and ten calls to gemini-3.5-flash-lite (thinking_budget=0) run Turns 1 to 10. Trial cost drops from $0.08437 to $0.01972, and mean step latency on Turns 1 and 2 falls from 13.31 s to 4.17 s (-68.7%).","finding3":"10-turn software-pipelined schedule. gemini-robotics-er-2-preview stalls at wave-locked barriers across 13 turns (50,190 tokens, $0.07860). gemini-4-carbon overlaps outer-table pick and go_home calls with central-tower place calls from Turn 3 onward, finishing in 10 turns and saving 10,929 cumulative input tokens.","kpi1Label":"Stage 3 Trial Cost","kpi1Note":"-76.6% vs. Stage 2 ($0.08437)","kpi2Label":"Execution Horizon","kpi2Note":"vs. 13 turns in ER-2 (-22.6% in tok)","kpi3Label":"Visual Input","kpi3Note":"50 Hz 3D /tf poses only","kpi4Label":"Task Completion","kpi4Note":"20 / 20 verifier checks passed","videoHeader":"Synchronized Simulation Proof: Gemini Robotics-ER 2 (Left) vs. Gemini 4 Carbon (Right)","ts1Title":"Turn-0 Blueprint and Parallel Picks","ts1Sub":"Both planners read 50 Hz /tf poses and dispatch pick(R1,B1), pick(R2,B4), and pick(R3,B7) on Turn 1.","ts2Title":"Wave Barrier vs. Pipelined Overlap","ts2Sub":"ER-2 drains placements one arm at a time. Carbon overlaps pick(R1,B2) on Table 1 with place(R2) at center.","ts3Title":"ER-2 Finishes Layer 9 Without Homing","ts3Sub":"ER-2 spends 13 turns, 50,190 tokens, and $0.07860, then exits with all three arms un-homed.","ts4Title":"Carbon Finishes Layer 9 and Homes Arms","ts4Sub":"Carbon overlaps go_home(R1) and go_home(R2) during Layers 8 and 9, finishing in 10 turns (38,277 tokens).","sec1Title":"Why 50 Hz /tf poses replace RGB streams in multi-arm cells","sec2Title":"Separating Turn-0 planning from step execution across three stages","sec2Intro":"GeminiRoboticsNode._run_automated_comparison_workflow() runs three consecutive stages inside one simulation process so physics timing and FastDDS transport remain identical. Between stages, the node publishes Empty() to /reset_simulation, restores all nine blocks to Tables 1 to 3, and homes FR3_1 through FR3_3 across a 4.0-second mechanical settle window:","fig1Caption":"Figure 1 (M9G-TR-2026-01). Three-stage hardware-in-the-loop architecture in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy comparing Stage 1 (ER-2), Stage 2 (pure Gemini 4 Carbon), and Stage 3 (Turn-0 Carbon Brain plus 10x Flash-Lite Executor).","sec3Title":"Three-stage telemetry: horizon, step latency, and API cost","fig2aTitle":"Figure 2A. API Cost per 9-Block Trial (M9G Telemetry)","fig2bTitle":"Figure 2B. Token Volume and Early-Turn Step Latency","fig2cTitle":"Figure 2C. Cumulative Input Token Trajectory (Turns 0 to 13)","sec3SubTitle":"Quadratic input-token scaling and thinking-budget cost","sec4Title":"Why ER-2 stalls at wave barriers while Carbon pipelines pick and place"},"ko":{"articleTag":"M9G-TR-2026-01 • 피지컬 AI & 다중 로봇 제어","articleTitle":"다중 로봇 팔 매니퓰레이션을 위한 3D /tf 심볼릭 그라운딩과 소프트웨어 파이프라인 VLA 플래닝","articleLede":"매 플래닝 턴마다 상단 RGB 프레임을 전송하면 GPU 렌더링이 지연되고 멀티턴 입력 토큰이 제곱으로 누적됩니다. NVIDIA Isaac Sim 6.0과 ROS 2 Jazzy 기반 3대 Franka Emika FR3 워크셀에서 카메라 대신 50 Hz /tf 좌표를 사용해 이미지 토큰을 0개로 줄였습니다. Turn 0의 gemini-4-carbon 1회 호출과 gemini-3.5-flash-lite 10회 스텝 실행으로 9블록 타워를 10턴에 조립하고 API 비용을 $0.08437에서 $0.01972로 76.6% 절감했습니다.","takeawaysHeader":"TL;DR: 핵심 실험 결과 및 텔레메트리 요약","finding1":"이미지 토큰 0개의 3D /tf 심볼릭 그라운딩. latest_rgb = None 설정으로 Isaac Sim Replicator 카메라 캡처를 끄고, RuleBasedTaskGenerator와 RuleBasedTaskVerifier가 50 Hz 3D /tf 좌표를 직접 읽어 3단계 모두 9/9 블록을 무충돌 조립했습니다.","finding2":"하이브리드 Brain-Executor 라우팅 (-76.6% API 비용). Turn 0에서 gemini-4-carbon(thinking_budget=256)이 10턴 전체 스케줄을 생성하고 Turn 1부터 10까지는 gemini-3.5-flash-lite(thinking_budget=0)가 실행하여 비용을 $0.01972로 낮추고 초기 스텝 지연을 13.31초에서 4.17초(-68.7%)로 줄였습니다.","finding3":"10턴 소프트웨어 파이프라인 스케줄. gemini-robotics-er-2-preview는 웨이브 배리어 대기로 13턴(50,190 토큰, $0.07860)을 소비한 반면, gemini-4-carbon은 3턴부터 외곽 테이블 pick·go_home과 중앙 타워 place를 중첩 실행해 10턴 만에 완료하고 입력 토큰 10,929개를 절감했습니다.","kpi1Label":"Stage 3 실행 비용","kpi1Note":"Stage 2($0.08437) 대비 -76.6%","kpi2Label":"실행 턴 수","kpi2Note":"ER-2 13턴 대비 10턴 (-22.6% 토큰)","kpi3Label":"시각 입력","kpi3Note":"50 Hz 3D /tf 좌표만 사용 (0 RGB)","kpi4Label":"조립 및 검증 통과","kpi4Note":"20 / 20 검증기 체크 100% 통과","videoHeader":"동기화 시뮬레이션 검증 영상: Gemini Robotics-ER 2 (좌측) vs. Gemini 4 Carbon (우측)","ts1Title":"Turn-0 공간 블루프린트 및 병렬 파지","ts1Sub":"두 플래너 모두 50 Hz /tf 좌표를 읽고 1턴에 pick(R1,B1), pick(R2,B4), pick(R3,B7)을 동시 실행합니다.","ts2Title":"웨이브 배리어 대기 vs. 파이프라인 중첩","ts2Sub":"ER-2는 순차 적재 중 대기하지만 Carbon은 테이블 1의 pick(R1,B2)과 중앙 타워 place(R2)를 같은 턴에 중첩합니다.","ts3Title":"ER-2 9층 적재 완료 후 미복귀 종료","ts3Sub":"ER-2는 13턴(50,190 토큰, $0.07860)을 소비한 뒤 로봇 팔 홈 복귀 없이 종료합니다.","ts4Title":"Carbon 9층 적재 및 홈 복귀 동시 완료","ts4Sub":"8층과 9층 적재 중 go_home(R1), go_home(R2)를 중첩 실행해 10턴(38,277 토큰) 만에 완료합니다.","sec1Title":"다중 로봇 워크셀에서 50 Hz /tf 좌표가 RGB 스트리밍을 대체하는 이유","sec2Title":"단일 시뮬레이션 내 Turn-0 전략 합성과 스텝 실행의 3단계 분리 평가","sec2Intro":"GeminiRoboticsNode._run_automated_comparison_workflow()는 물리 조건과 FastDDS 전송 환경을 동일하게 유지한 채 단일 프로세스에서 3단계를 연속 실행하며, 단계 사이마다 /reset_simulation으로 9개 블록과 FR3_1..3을 4.0초 동안 초기화합니다:","fig1Caption":"그림 1 (M9G-TR-2026-01). NVIDIA Isaac Sim 6.0 및 ROS 2 Jazzy 환경에서 Stage 1(ER-2), Stage 2(순수 Gemini 4 Carbon), Stage 3(Turn-0 Carbon Brain + 10회 Flash-Lite Executor)를 비교하는 3단계 아키텍처.","sec3Title":"3단계 텔레메트리 비교: 스케줄 턴 수, 스텝 지연시간, API 비용","fig2aTitle":"그림 2A. 9블록 타워 조립 당 API 비용 비교 (M9G 텔레메트리)","fig2bTitle":"그림 2B. 총 토큰 사용량 및 1~2턴 평균 스텝 지연시간","fig2cTitle":"그림 2C. 턴 진행에 따른 누적 입력 토큰 추이 (Turn 0부터 13까지)","sec3SubTitle":"멀티턴 입력 토큰의 2차 함수적 증가와 추론 예산 비용 분석","sec4Title":"ER-2의 웨이브 배리어 정체 원인과 Carbon의 pick·place 파이프라인 분석"},"ja":{"articleTag":"M9G-TR-2026-01 • 身体性フィジカルAI","articleTitle":"マルチアーム操作のための3D /tfシンボリック接地とソフトウェアパイプラインVLA計画","articleLede":"毎ターンのRGBカメラ画像送信はGPU描画を停滞させ、マルチターン履歴トークンを二次関数的に膨張させます。NVIDIA Isaac Sim 6.0とROS 2 Jazzy上の3台Franka Emika FR3セルにおいて、カメラ画像を廃止して50 Hzの/tf座標のみを入力しました。Turn 0でgemini-4-carbonを1回、Turn 1から10でgemini-3.5-flash-liteを10回呼び出す構成により、9ブロックの組立を10ターン・$0.01972で完了し、APIコストを$0.08437から76.6%削減しました。","takeawaysHeader":"TL;DR: 主要な実験結果とテレメトリ要約","finding1":"画像トークンゼロの3D /tfシンボリック接地。latest_rgb = NoneでIsaac Sim ReplicatorのRGB描画を停止し、RuleBasedTaskGeneratorとRuleBasedTaskVerifierが50 Hzの3D /tf座標を直接読み取ることで、全3ステージで9/9ブロックの無衝突組立を達成しました。","finding2":"ハイブリッドBrain-Executorルーティング (-76.6% APIコスト)。Turn 0でgemini-4-carbon (thinking_budget=256) が全体計画を生成し、Turn 1から10をgemini-3.5-flash-lite (thinking_budget=0) が実行することで、試算コストを$0.01972へ下げ、Turn 1と2の平均遅延を13.31秒から4.17秒 (-68.7%) に短縮しました。","finding3":"10ターンのソフトウェアパイプライン計画。gemini-robotics-er-2-previewがウェーブバリア待機で13ターン (50,190トークン、$0.07860) を要したのに対し、gemini-4-carbonはTurn 3以降で外周テーブルのpick・go_homeと中央タワーのplaceを並列化し、10ターン完了と10,929入力トークン削減を実現しました。","kpi1Label":"Stage 3 試行コスト","kpi1Note":"Stage 2 ($0.08437) 比 -76.6%","kpi2Label":"実行ターン数","kpi2Note":"ER-2の13ターンに対し10ターン","kpi3Label":"視覚入力","kpi3Note":"50 Hz 3D /tf座標のみ (0 RGB)","kpi4Label":"組立完了・検証通過","kpi4Note":"20 / 20 検証チェック通過","videoHeader":"同期シミュレーション検証映像: Gemini Robotics-ER 2 (左) vs. Gemini 4 Carbon (右)","ts1Title":"Turn-0 空間設計図と並列ピック","ts1Sub":"両プランナーとも50 Hzの/tf座標を読み取り、Turn 1でpick(R1,B1)、pick(R2,B4)、pick(R3,B7)を同時発行します。","ts2Title":"ウェーブバリア待機 vs. パイプライン並列実行","ts2Sub":"ER-2は1台ずつ直列配置して待機しますが、Carbonはテーブル1のpick(R1,B2)と中央place(R2)を並列実行します。","ts3Title":"ER-2がレイヤー9完了後に未復帰で終了","ts3Sub":"ER-2は13ターン・50,190トークン・$0.07860を費やし、アームをホーム復帰させずに終了します。","ts4Title":"Carbonがレイヤー9完了とホーム復帰を同時達成","ts4Sub":"レイヤー8と9の配置中にgo_home(R1)とgo_home(R2)を重ね、10ターン (38,277トークン) で完了します。","sec1Title":"マルチアーム作業セルで50 Hz /tf座標がRGB画像ストリームを置き換える理由","sec2Title":"Turn-0計画生成とステップ実行を分離する3ステージ評価プロトコル","sec2Intro":"GeminiRoboticsNode._run_automated_comparison_workflow()は同一シミュレーションプロセス内で3ステージを連続実行し、ステージ間で/reset_simulationを発行して9個のブロックとFR3_1..3を4.0秒かけて初期位置へ戻します:","fig1Caption":"図1 (M9G-TR-2026-01). NVIDIA Isaac Sim 6.0とROS 2 JazzyにおけるStage 1 (ER-2)、Stage 2 (純粋なGemini 4 Carbon)、Stage 3 (Turn-0 Carbon Brain + 10回Flash-Lite Executor) の比較アーキテクチャ。","sec3Title":"3ステージの実測テレメトリ: ターン数、ステップ遅延、APIコスト","fig2aTitle":"図2A. 9ブロック組立あたりのAPIコスト (M9Gテレメトリ)","fig2bTitle":"図2B. 総トークン量とTurn 1〜2の平均ステップ遅延","fig2cTitle":"図2C. 累積入力トークン推移 (Turn 0からTurn 13)","sec3SubTitle":"マルチターン履歴による入力トークンの二次関数的増加と推論バジェットコスト","sec4Title":"ER-2がウェーブバリアで停滞する理由とCarbonのpick・placeパイプライン"},"zh":{"articleTag":"M9G-TR-2026-01 • 具身物理 AI","articleTitle":"面向多机械臂操作的 3D /tf 符号接地与软件流水线 VLA 任务规划","articleLede":"每轮规划传输 RGB 相机画面会拖慢 GPU 渲染，并使多轮历史输入 Token 呈二次方膨胀。在基于 NVIDIA Isaac Sim 6.0 与 ROS 2 Jazzy 的三台 Franka Emika FR3 工站中，我们用 50 Hz /tf 位姿替代相机画面，实现零图像 Token 输入。通过第 0 轮调用 1 次 gemini-4-carbon 并在第 1 至 10 轮调用 10 次 gemini-3.5-flash-lite，系统在 10 轮内完成 9 块积木搭塔，单次 API 成本从 $0.08437 降至 $0.01972 (-76.6%)。","takeawaysHeader":"TL;DR: 核心实验结果与遥测摘要","finding1":"零图像 Token 的 3D /tf 符号接地。设置 latest_rgb = None 关闭 Isaac Sim Replicator 相机捕获，由 RuleBasedTaskGenerator 与 RuleBasedTaskVerifier 直接读取 50 Hz 3D /tf 位姿，在全部三个阶段实现 9/9 积木零碰撞装配。","finding2":"混合 Brain-Executor 路由 (-76.6% API 成本)。第 0 轮调用 1 次 gemini-4-carbon (thinking_budget=256) 生成全局流水线计划，第 1 至 10 轮交由 gemini-3.5-flash-lite (thinking_budget=0) 执行，总成本从 $0.08437 降至 $0.01972，前两轮平均步进延迟从 13.31 秒降至 4.17 秒 (-68.7%)。","finding3":"10 轮软件流水线调度。gemini-robotics-er-2-preview 受困于波次屏障等待，耗时 13 轮 (50,190 Token, $0.07860)；gemini-4-carbon 从第 3 轮起将外侧桌面 pick、go_home 与中央塔台 place 并行重叠，10 轮完成装配并省去 10,929 个累积输入 Token。","kpi1Label":"Stage 3 单次成本","kpi1Note":"较 Stage 2 ($0.08437) 降低 76.6%","kpi2Label":"执行轮数","kpi2Note":"10 轮 vs. ER-2 13 轮 (-22.6% 输入 Token)","kpi3Label":"视觉输入","kpi3Note":"仅用 50 Hz 3D /tf 位姿 (0 RGB)","kpi4Label":"装配与校验通过","kpi4Note":"20 / 20 安全校验通过","videoHeader":"同步仿真验证视频: Gemini Robotics-ER 2 (左) vs. Gemini 4 Carbon (右)","ts1Title":"第 0 轮空间蓝图与并行抓取","ts1Sub":"两个规划器均读取 50 Hz /tf 位姿，并在第 1 轮同时下发 pick(R1,B1)、pick(R2,B4) 与 pick(R3,B7)。","ts2Title":"波次屏障等待 vs. 流水线交错重叠","ts2Sub":"ER-2 逐台串行放置导致空闲，Carbon 则将桌面 1 的 pick(R1,B2) 与中央 place(R2) 同轮并行执行。","ts3Title":"ER-2 完成第 9 层但未归位机械臂","ts3Sub":"ER-2 消耗 13 轮、50,190 Token 与 $0.07860，结束时三台机械臂均停留在工作区未归位。","ts4Title":"Carbon 完成第 9 层并同步归位","ts4Sub":"在第 8、9 层放置期间并行执行 go_home(R1) 与 go_home(R2)，10 轮 (38,277 Token) 完成全部装配。","sec1Title":"为什么多机械臂工站应以 50 Hz /tf 位姿替代 RGB 图像流","sec2Title":"在同一仿真进程中解耦第 0 轮全局规划与步进执行的三阶段协议","sec2Intro":"GeminiRoboticsNode._run_automated_comparison_workflow() 在单一仿真进程内连续运行三个阶段，并在阶段切换时向 /reset_simulation 发布重置信号，在 4.0 秒稳定窗口内将 9 块积木与 FR3_1..3 恢复至初始状态:","fig1Caption":"图 1 (M9G-TR-2026-01). NVIDIA Isaac Sim 6.0 与 ROS 2 Jazzy 下的三阶段硬件在环架构对比: Stage 1 (ER-2)、Stage 2 (纯 Gemini 4 Carbon) 与 Stage 3 (第 0 轮 Carbon Brain 加 10 次 Flash-Lite Executor)。","sec3Title":"三阶段实测遥测: 调度轮数、步进延迟与 API 成本","fig2aTitle":"图 2A. 9 积木塔单次实验 API 成本 (M9G 遥测)","fig2bTitle":"图 2B. 总 Token 消耗量与第 1 至 2 轮平均步进延迟","fig2cTitle":"图 2C. 累积输入 Token 增长轨迹 (第 0 至 13 轮)","sec3SubTitle":"多轮工具历史的二次方输入扩容与推理预算成本拆解","sec4Title":"为什么 ER-2 停滞于波次屏障而 Carbon 能流水线重叠 pick 与 place"},"es":{"articleTag":"M9G-TR-2026-01 • IA Física Corporizada","articleTitle":"Anclaje Simbólico 3D /tf y Planificación VLA Segmentada para Manipulación Multi-Brazo","articleLede":"Transmitir imágenes RGB en cada turno de planificación frena el renderizado GPU e infla cuadráticamente el historial de tokens. En nuestra celda de tres brazos Franka Emika FR3 sobre NVIDIA Isaac Sim 6.0 y ROS 2 Jazzy, las poses /tf a 50 Hz reemplazan las cámaras con cero tokens visuales. Una llamada inicial a gemini-4-carbon y diez llamadas a gemini-3.5-flash-lite apilan nueve bloques en 10 turnos por $0.01972, un 76.6% menos que $0.08437.","takeawaysHeader":"TL;DR: Hallazgos Clave y Telemetría","finding1":"Anclaje simbólico 3D /tf sin cámaras RGB. Fijar latest_rgb = None desactiva el renderizado de Isaac Sim Replicator y reduce la entrada visual a 0 tokens. RuleBasedTaskGenerator y RuleBasedTaskVerifier leen poses 3D /tf a 50 Hz y apilan 9 de 9 bloques sin colisiones en las tres etapas.","finding2":"Enrutamiento híbrido Cerebro-Ejecutor (-76.6% en costo API). Una llamada en el Turno 0 a gemini-4-carbon (thinking_budget=256) genera el plan completo y diez llamadas a gemini-3.5-flash-lite (thinking_budget=0) ejecutan los Turnos 1 a 10, bajando el costo de $0.08437 a $0.01972 y la latencia media inicial de 13.31 s a 4.17 s (-68.7%).","finding3":"Cronograma segmentado de 10 turnos. gemini-robotics-er-2-preview espera en barreras por oleada durante 13 turnos (50,190 tokens, $0.07860), mientras gemini-4-carbon solapa pick y go_home externos con place centrales desde el Turno 3, terminando en 10 turnos y ahorrando 10,929 tokens de entrada.","kpi1Label":"Costo Etapa 3","kpi1Note":"-76.6% vs. Etapa 2 ($0.08437)","kpi2Label":"Horizonte de Turnos","kpi2Note":"10 turnos vs. 13 en ER-2 (-22.6% tok)","kpi3Label":"Entrada Visual","kpi3Note":"Poses 3D /tf a 50 Hz (0 RGB)","kpi4Label":"Bloques Apilados","kpi4Note":"20 / 20 verificaciones superadas","videoHeader":"Prueba de Simulación Sincronizada: Gemini Robotics-ER 2 (Izquierda) vs. Gemini 4 Carbon (Derecha)","ts1Title":"Plano del Turno 0 y Picks Paralelos","ts1Sub":"Ambos planificadores leen poses /tf a 50 Hz y lanzan pick(R1,B1), pick(R2,B4) y pick(R3,B7) en el Turno 1.","ts2Title":"Barrera de Oleada vs. Solapamiento Segmentado","ts2Sub":"ER-2 coloca bloques de uno en uno. Carbon solapa pick(R1,B2) en la Mesa 1 con place(R2) en el centro.","ts3Title":"ER-2 Termina la Capa 9 sin Homing","ts3Sub":"ER-2 consume 13 turnos, 50,190 tokens y $0.07860, y finaliza dejando los tres brazos extendidos.","ts4Title":"Carbon Termina la Capa 9 con Homing","ts4Sub":"Carbon solapa go_home(R1) y go_home(R2) en las capas 8 y 9, completando la torre en 10 turnos (38,277 tokens).","sec1Title":"Por qué las poses /tf a 50 Hz reemplazan el video RGB en celdas multi-brazo","sec2Title":"Separando la planificación del Turno 0 de la ejecución por pasos en tres etapas","sec2Intro":"GeminiRoboticsNode._run_automated_comparison_workflow() ejecuta tres etapas consecutivas en un mismo proceso de simulación y publica Empty() en /reset_simulation entre etapas para restaurar los nueve bloques y enviar FR3_1..3 a casa durante 4.0 segundos:","fig1Caption":"Figura 1 (M9G-TR-2026-01). Arquitectura de evaluación en tres etapas sobre NVIDIA Isaac Sim 6.0 y ROS 2 Jazzy comparando Etapa 1 (ER-2), Etapa 2 (Gemini 4 Carbon puro) y Etapa 3 (Cerebro Carbon en Turno 0 más 10x Ejecutor Flash-Lite).","sec3Title":"Telemetría de tres etapas: horizonte, latencia por paso y costo API","fig2aTitle":"Figura 2A. Costo API por Prueba de 9 Bloques (Telemetría M9G)","fig2bTitle":"Figura 2B. Volumen de Tokens y Latencia Media en Turnos 1 a 2","fig2cTitle":"Figura 2C. Trayectoria Acumulada de Tokens de Entrada (Turnos 0 a 13)","sec3SubTitle":"Escalamiento cuadrático de tokens de entrada y costo del presupuesto de razonamiento","sec4Title":"Por qué ER-2 se detiene en barreras mientras Carbon segmenta pick y place"}};
+
+    var CHROME_I18N = {
+      en: {
+        blogHeaderBrand: 'Technical Research Blog',
+        navCv: 'CV ↗',
+        navArchive: 'Archive',
+        navBlog: 'Blog',
+        navTutorials: 'Tutorials',
+        navPortfolio: 'Main Portal',
+        switcherIndexKicker: 'Research Index',
+        switcherIndexTitle: '← All M9G Research Reports (/blog)',
+        goTopLabel: 'Back to Top',
+        footerBlogIndex: 'Research Blog Index',
+        themeToggleLabel: 'Toggle light or dark theme',
+        langSelectLabel: 'Select language',
+        switcherNavLabel: 'Technical Research Blog Navigation'
+      },
+      ko: {
+        blogHeaderBrand: '기술 리서치 블로그',
+        navCv: '이력서 ↗',
+        navArchive: '아카이브',
+        navBlog: '블로그',
+        navTutorials: '튜토리얼',
+        navPortfolio: '메인 포털',
+        switcherIndexKicker: '리서치 인덱스',
+        switcherIndexTitle: '← 전체 M9G 기술 리포트 (/blog)',
+        goTopLabel: '맨 위로 이동',
+        footerBlogIndex: '리서치 블로그 인덱스',
+        themeToggleLabel: '라이트 및 다크 테마 전환',
+        langSelectLabel: '언어 선택',
+        switcherNavLabel: '기술 리서치 블로그 탐색'
+      },
+      ja: {
+        blogHeaderBrand: '技術リサーチブログ',
+        navCv: '経歴書 ↗',
+        navArchive: 'アーカイブ',
+        navBlog: 'ブログ',
+        navTutorials: 'チュートリアル',
+        navPortfolio: 'メインポータル',
+        switcherIndexKicker: 'リサーチ一覧',
+        switcherIndexTitle: '← M9G 技術レポート一覧 (/blog)',
+        goTopLabel: 'ページ上部へ',
+        footerBlogIndex: 'リサーチブログ一覧',
+        themeToggleLabel: 'ライトテーマとダークテーマを切り替え',
+        langSelectLabel: '言語を選択',
+        switcherNavLabel: '技術リサーチブログナビゲーション'
+      },
+      zh: {
+        blogHeaderBrand: '技术研究博客',
+        navCv: '简历 ↗',
+        navArchive: '档案库',
+        navBlog: '博客',
+        navTutorials: '教程',
+        navPortfolio: '主门户',
+        switcherIndexKicker: '研究索引',
+        switcherIndexTitle: '← 全部 M9G 技术报告 (/blog)',
+        goTopLabel: '返回顶部',
+        footerBlogIndex: '研究博客索引',
+        themeToggleLabel: '切换浅色或深色主题',
+        langSelectLabel: '选择语言',
+        switcherNavLabel: '技术研究博客导航'
+      },
+      es: {
+        blogHeaderBrand: 'Blog de Investigación Técnica',
+        navCv: 'CV ↗',
+        navArchive: 'Archivo',
+        navBlog: 'Blog',
+        navTutorials: 'Tutoriales',
+        navPortfolio: 'Portal Principal',
+        switcherIndexKicker: 'Índice de Investigación',
+        switcherIndexTitle: '← Todos los Informes Técnicos de M9G (/blog)',
+        goTopLabel: 'Volver arriba',
+        footerBlogIndex: 'Índice del Blog de Investigación',
+        themeToggleLabel: 'Alternar tema claro u oscuro',
+        langSelectLabel: 'Seleccionar idioma',
+        switcherNavLabel: 'Navegación del Blog de Investigación Técnica'
+      }
+    };
+
+    window.addEventListener('scroll', function() {
+      var doc = document.documentElement;
+      var top = doc.scrollTop || document.body.scrollTop;
+      var height = doc.scrollHeight - doc.clientHeight;
+      var bar = document.getElementById('progress-bar');
+      if (bar) bar.style.width = (height > 0 ? (top / height) * 100 : 0) + '%';
+    }, { passive: true });
+
+    window.toggleLangMenu = function(e) {
+      e.stopPropagation();
+      var popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.toggle('open');
+    };
+
+    document.addEventListener('click', function(e) {
+      var wrap = document.getElementById('lang-dropdown-wrap');
+      var popup = document.getElementById('lang-popup');
+      if (wrap && popup && !wrap.contains(e.target)) popup.classList.remove('open');
+    });
+
+    window.setLang = function(lang) {
+      if (!BLOG_I18N[lang]) lang = 'en';
+      try { localStorage.setItem('m9g_portfolio_lang', lang); } catch (e) {}
+      document.documentElement.lang = lang;
+      var lbl = document.getElementById('current-lang-label');
+      if (lbl) lbl.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(function(opt) {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      var popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.remove('open');
+      var dict = BLOG_I18N[lang];
+      var chrome = CHROME_I18N[lang] || CHROME_I18N.en;
+      var themeBtn = document.getElementById('theme-btn');
+      if (themeBtn) {
+        themeBtn.setAttribute('title', chrome.themeToggleLabel);
+        themeBtn.setAttribute('aria-label', chrome.themeToggleLabel);
+      }
+      var langBtn = document.getElementById('lang-select-btn');
+      if (langBtn) langBtn.setAttribute('aria-label', chrome.langSelectLabel);
+      var switcherNav = document.getElementById('blog-switcher-nav');
+      if (switcherNav) switcherNav.setAttribute('aria-label', chrome.switcherNavLabel);
+      var goTopBtn = document.getElementById('gotop-btn');
+      if (goTopBtn) goTopBtn.setAttribute('aria-label', chrome.goTopLabel);
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        if (el.dataset.origHtml === undefined) {
+          el.dataset.origHtml = el.innerHTML;
+        }
+        if (lang === 'en') {
+          if (el.innerHTML !== el.dataset.origHtml) {
+            el.innerHTML = el.dataset.origHtml;
+          }
+          return;
+        }
+        var key = el.getAttribute('data-i18n');
+        var val = (dict && dict[key]) || chrome[key];
+        if (val) el.textContent = val;
+      });
+    };
+
+    window.seekOmniVideo = function(vidId, seconds, btn) {
+      var vid = document.getElementById(vidId);
+      if (vid) {
+        try { vid.currentTime = seconds; vid.play(); } catch (e) {}
+      }
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      }
+    };
+
+    window.seekLocalVideo = function(seconds, btn) {
+      var vid = document.getElementById('stamp-video');
+      if (vid) {
+        try { vid.currentTime = seconds; vid.play(); } catch (e) {}
+      }
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      } else {
+        document.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        if (btn) btn.classList.add('active');
+      }
+    };
+
+    window.seekVideo = function(seconds, btn) {
+      var iframe = document.getElementById('yt-player');
+      if (iframe) {
+        iframe.src = 'https://www.youtube.com/embed/PPZ4vgVZlyA?start=' + seconds + '&autoplay=1&rel=0';
+      }
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      } else {
+        document.querySelectorAll('.ts-btn').forEach(function(b) { b.classList.remove('active'); });
+        if (btn) btn.classList.add('active');
+      }
+    };
+
+    window.setLang((function() { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch (e) { return 'en'; } })());
+  })();</script> </body> </html>

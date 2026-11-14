@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>M9G | Minsu Chang, Ph.D. (장민수 · mincasurong) · Robotics, Multi-Robot TAMP &amp; Agentic Systems</title>
+    <link>https://mincasurong.github.io/</link>
+    <description>Research and systems engineering feed of Minsu Chang, Ph.D. (장민수, mincasurong, M9G): 1st Place at Google Gemini 3 Seoul Hackathon 2026, multi-robot VLA benchmarks in NVIDIA Isaac Sim 6.0 &amp; ROS 2 ($0.01972, -76.6%, 610/610), browser 3D WebGL Fast-Sim (&lt;25 ms IK, 720.0/h), 12 ROS/MoveIt/Jetson Nano tutorials, 21 peer-reviewed papers, and 14+ US/KR patents.</description>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Nov 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://mincasurong.github.io/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>Engineering tamp.mincasurong.com: Browser-Native 3D Multi-Robot TAMP and a 6-Cell Smart Factory in 60 FPS WebGL</title>
+      <link>https://mincasurong.github.io/blog/tamp-fast-sim/</link>
+      <guid>https://mincasurong.github.io/blog/tamp-fast-sim/</guid>
+      <pubDate>Mon, 09 Nov 2026 00:00:00 GMT</pubDate>
+      <description>M9G-TR-2026-06 by Minsu Chang, Ph.D.: Engineering tamp.mincasurong.com, a 60 FPS Three.js WebGL Multi-Robot TAMP and 6-Cell Smart Factory simulator with a 134 KB binary STL mesh pack, sub-25 ms TypeScript 7-DoF MDH FK and DLS IK in fr3Kinematics.ts, 128 Hz swept-capsule gating, and 27.1–34.7 ms Lazy-DaSH replanning.</description>
+    </item>
+
+    <item>
+      <title>UIUC Lazy-DaSH (IEEE T-RO) and Upgrading IsaacSim_Gemini: Four-Layer Hypergraph Orchestration with Gemini 4 Carbon, Robotics-ER 2, and Flash-Lite</title>
+      <link>https://mincasurong.github.io/blog/lazy-dash/</link>
+      <guid>https://mincasurong.github.io/blog/lazy-dash/</guid>
+      <pubDate>Sun, 08 Nov 2026 00:00:00 GMT</pubDate>
+      <description>M9G-TR-2026-05 by Minsu Chang, Ph.D.: Technical analysis of UIUC Parasol Lab&apos;s Lazy-DaSH (Seongwon &apos;Scott&apos; Lee et al., IEEE T-RO, arXiv:2504.05552) and our 4-phase roadmap mapping its 4-layer hypergraph onto Gemini 4 Carbon, Gemini Robotics-ER 2, and Gemini 3.5 Flash-Lite with 7 measurable KPIs.</description>
+    </item>
+
+    <item>
+      <title>Multi-Robot Manipulation in NVIDIA Isaac Sim (2025–2026): Cooperative Assembly, Deformable Handling, and Self-Driving Labs</title>
+      <link>https://mincasurong.github.io/blog/sdl-survey/</link>
+      <guid>https://mincasurong.github.io/blog/sdl-survey/</guid>
+      <pubDate>Sun, 01 Nov 2026 00:00:00 GMT</pubDate>
+      <description>M9G-TR-2026-04 by Minsu Chang, Ph.D.: Architectural synthesis of 14 multi-robot assembly, deformable handling, and Self-Driving Lab systems (APEX-MR, RoboFactory, RoCo, IndustReal, cuRobo, DexGarmentLab, GarmentLab, MoDeSuite, SOI, MATTERIX, ORGANA, A-Lab GPSS, AlabOS, Isaac Lab) unified in Project STAMP.</description>
+    </item>
+
+    <item>
+      <title>Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Planning | M9G Research</title>
+      <link>https://mincasurong.github.io/blog/stamp/</link>
+      <guid>https://mincasurong.github.io/blog/stamp/</guid>
+      <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
+      <description>M9G-TR-2026-03 by Minsu Chang, Ph.D.: Project STAMP decouples Gemini 4 Carbon from ROS 2 Jazzy and MoveIt 2 via a four-stage Plan -&gt; Gate -&gt; Execute -&gt; Write-Back loop, blocking 610/610 fault episodes and raising completion from 39.0% to 100.0% across 1,000 STAMP-Bench-V1 episodes.</description>
+    </item>
+
+    <item>
+      <title>Building a Coding Harness from Scratch and Why It Failed: m9g-agent-corps vs. OmO, OpenCode, Claude Code &amp; Antigravity</title>
+      <link>https://mincasurong.github.io/blog/m9g-agent/</link>
+      <guid>https://mincasurong.github.io/blog/m9g-agent/</guid>
+      <pubDate>Tue, 20 Oct 2026 00:00:00 GMT</pubDate>
+      <description>M9G-TR-2026-02 by Minsu Chang, Ph.D.: Source-level post-mortem of m9g-agent-corps (28 Python modules, 169 passing unit tests), the six inner-loop kernel flaws that caused it to lose to OmO, OpenCode, Claude Code, and Antigravity, and why we extracted seven stateless tools into m9g-mcp.</description>
+    </item>
+
+    <item>
+      <title>Symbolic 3D /tf Grounding and Software-Pipelined VLA Planning | M9G Research</title>
+      <link>https://mincasurong.github.io/blog/VLA/</link>
+      <guid>https://mincasurong.github.io/blog/VLA/</guid>
+      <pubDate>Sun, 18 Oct 2026 00:00:00 GMT</pubDate>
+      <description>M9G-TR-2026-01 by Minsu Chang, Ph.D.: Zero-RGB 3D /tf grounding plus Turn-0 Gemini 4 Carbon and 10x Gemini 3.5 Flash-Lite routing stack a 9-block tower across three Franka FR3 arms in 10 turns at $0.01972 (-76.6% API cost) in NVIDIA Isaac Sim 6.0 and ROS 2 Jazzy.</description>
+    </item>
+
+    <item>
+      <title>ROS 2, MoveIt 2 &amp; NVIDIA Jetson Nano Camera Vision Tutorials (12 Modules)</title>
+      <link>https://mincasurong.github.io/tutorials/</link>
+      <guid>https://mincasurong.github.io/tutorials/</guid>
+      <pubDate>Sat, 24 Oct 2026 09:00:00 GMT</pubDate>
+      <description>Twelve hands-on tutorials covering native ROS 2 Foxy and MoveIt 2 motion planning on Windows 10, ROS 1 Melodic navigation in WSL2, and NVIDIA Jetson Nano CSI camera vision with PyTorch-to-TensorRT transfer learning by Minsu Chang, Ph.D. (장민수 · mincasurong · M9G).</description>
+    </item>
+
+    <item>
+      <title>Patents, Publications, Rehabilitation Exoskeletons (SUBAR) &amp; Research Archive | Minsu Chang, Ph.D. (M9G)</title>
+      <link>https://mincasurong.github.io/archive/</link>
+      <guid>https://mincasurong.github.io/archive/</guid>
+      <pubDate>Sun, 01 Nov 2026 09:00:00 GMT</pubDate>
+      <description>Consolidated archive of 14+ US/KR patents, 21 peer-reviewed papers (IEEE ICRA, IEEE/RSJ IROS, IEEE TNSRE, ICORR), KFDA-certified SUBAR lower-limb rehabilitation exoskeleton and AI Therapist demonstrations, Google Gemini 3 Seoul Hackathon notes, and Sogang University LQR/MATLAB control lectures.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="en" class="light" data-astro-cid-zetdm5md> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>M9G | Route Directory &amp; Redirect</title><meta name="robots" content="noindex, follow"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="alternate" type="application/rss+xml" title="M9G (Minsu Chang / mincasurong) RSS Feed" href="https://mincasurong.github.io/rss.xml"><script>
+  (function() {
+    var t = 'light';
+    try {
+      if (localStorage.getItem('m9g_theme') === 'dark') t = 'dark';
+    } catch (e) {}
+    var root = document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(t);
+    root.dataset.theme = t;
+    root.style.colorScheme = t;
+    window.__m9gToggleTheme = function() {
+      var next = root.classList.contains('dark') ? 'light' : 'dark';
+      root.classList.remove('light', 'dark');
+      root.classList.add(next);
+      root.dataset.theme = next;
+      root.style.colorScheme = next;
+      try { localStorage.setItem('m9g_theme', next); } catch (e) {}
+      document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
+        var mode = btn.getAttribute('data-theme-toggle');
+        if (mode === 'icon-only') {
+          btn.textContent = next === 'light' ? '☀' : '☾';
+        } else {
+          btn.textContent = next === 'light' ? '☀ Light' : '☾ Dark';
+        }
+      });
+    };
+    window.addEventListener('DOMContentLoaded', function() {
+      var cur = root.classList.contains('dark') ? 'dark' : 'light';
+      document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
+        var mode = btn.getAttribute('data-theme-toggle');
+        if (mode === 'icon-only') {
+          btn.textContent = cur === 'light' ? '☀' : '☾';
+        } else {
+          btn.textContent = cur === 'light' ? '☀ Light' : '☾ Dark';
+        }
+      });
+    });
+  })();
+</script><script>(function(){const redirectMap = {"/home":"/","/blog/vla":"/blog/VLA/","/blog/m9g-agent-corps":"/blog/m9g-agent/","/blog/sota-isaacsim-multi-robot-sdl-survey":"/blog/sdl-survey/","/fast-sim":"https://tamp.mincasurong.com","/research2022":"/archive/#research-2022","/gemini3-hackathon-epilogue":"/archive/#hackathon-epilogue","/out-of-research":"/tutorials/","/out-of-research/basic-robotics":"/tutorials/#track-ros","/out-of-research/basic-robotics/ros2-on-win10":"/tutorials/#ros2-windows10","/out-of-research/basic-robotics/moveit2-on-win10":"/tutorials/#moveit2-windows10","/out-of-research/basic-robotics/ros1-on-win10-with-wsl2":"/tutorials/#ros1-moveit1-wsl2","/out-of-research/basic-robotics/mobile-robot":"/tutorials/#mobile-robot-nav","/out-of-research/jetson-nano-camera-vision":"/tutorials/#track-jetson","/out-of-research/jetson-nano-camera-vision/1-os-install-settings":"/tutorials/#jetson-1-prep","/out-of-research/jetson-nano-camera-vision/2-1-ros-install-basic-nodes":"/tutorials/#jetson-intro","/out-of-research/jetson-nano-camera-vision/2-2-useful-site-before-studying":"/tutorials/#jetson-intro","/out-of-research/jetson-nano-camera-vision/2-3-making-custom-ros-package":"/tutorials/#jetson-intro","/out-of-research/jetson-nano-camera-vision/3-0-docker-for-object-detection":"/tutorials/#jetson-2-docker","/out-of-research/jetson-nano-camera-vision/3-1-camera-interface":"/tutorials/#jetson-1-prep","/out-of-research/jetson-nano-camera-vision/3-2-object-detection":"/tutorials/#jetson-3-detectnet","/out-of-research/jetson-nano-camera-vision/4-making-custom-object-model":"/tutorials/#jetson-4-1-tl-prep","/out-of-research/google-cloud-onboard-google-skills-edition":"/archive/#cloud-onboard","/out-of-research/teaching-assistant":"/archive/#teaching-assistant","/out-of-research/app-dev":"/archive/#app-dev","/out-of-research/aiesec-exchange":"/archive/#aiesec"};
+
+      (function () {
+        var path = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+        if (redirectMap[path]) {
+          window.location.replace(redirectMap[path]);
+          return;
+        }
+        if (
+          path.indexOf('jetson-nano') !== -1 ||
+          path.indexOf('basic-robotics') !== -1 ||
+          path.indexOf('ros') !== -1 ||
+          path.indexOf('moveit') !== -1
+        ) {
+          window.location.replace('/tutorials/');
+          return;
+        }
+        if (
+          path.indexOf('research2022') !== -1 ||
+          path.indexOf('hackathon') !== -1 ||
+          path.indexOf('out-of-research') !== -1
+        ) {
+          window.location.replace('/archive/');
+          return;
+        }
+      })();
+    })();</script><link rel="stylesheet" href="/_astro/index.e0A4xEyy.css">
+<link rel="stylesheet" href="/_astro/index.DaOVPMUZ.css">
+<style>.notfound-wrap[data-astro-cid-zetdm5md]{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:var(--m9g-bg);color:var(--m9g-text)}.notfound-card[data-astro-cid-zetdm5md]{max-width:36rem;width:100%;border:1px solid var(--m9g-border);border-radius:1.25rem;background:var(--m9g-bg-card);box-shadow:var(--m9g-shadow-md);padding:2.25rem 2rem;text-align:center}.notfound-badge[data-astro-cid-zetdm5md]{display:inline-block;padding:.3rem .85rem;border-radius:9999px;font-size:.72rem;font-family:JetBrains Mono Variable,JetBrains Mono,monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--m9g-accent);background:var(--m9g-bg-accent-soft);border:1px solid var(--m9g-accent-border);margin-bottom:1rem}.notfound-title[data-astro-cid-zetdm5md]{font-family:Plus Jakarta Sans Variable,Plus Jakarta Sans,-apple-system,BlinkMacSystemFont,sans-serif;font-size:1.55rem;font-weight:800;margin:0 0 .75rem;color:var(--m9g-text)}.notfound-desc[data-astro-cid-zetdm5md]{color:var(--m9g-text-secondary);font-size:.94rem;line-height:1.6;margin:0 0 1.5rem}.notfound-links[data-astro-cid-zetdm5md]{display:flex;flex-wrap:wrap;gap:.65rem;justify-content:center}.notfound-link[data-astro-cid-zetdm5md]{text-decoration:none;padding:.6rem 1.1rem;border-radius:.65rem;font-size:.82rem;font-weight:700;border:1px solid var(--m9g-border);color:var(--m9g-text);background:var(--m9g-bg-card-solid);transition:all .15s ease}.notfound-link[data-astro-cid-zetdm5md]:hover{border-color:var(--m9g-accent);color:var(--m9g-accent)}.notfound-link[data-astro-cid-zetdm5md].primary{background:var(--m9g-accent);color:var(--m9g-accent-contrast);border-color:var(--m9g-accent)}.notfound-link[data-astro-cid-zetdm5md].primary:hover{background:var(--m9g-accent-hover);border-color:var(--m9g-accent-hover);color:var(--m9g-accent-contrast)}
+</style></head> <body data-astro-cid-zetdm5md> <main class="notfound-wrap" data-astro-cid-zetdm5md> <div class="notfound-card" data-astro-cid-zetdm5md> <div class="notfound-badge" data-astro-cid-zetdm5md>M9G • Route Directory</div> <h1 class="notfound-title" data-astro-cid-zetdm5md>Looking for a page from mincasurong.com?</h1> <p class="notfound-desc" data-astro-cid-zetdm5md>
+Legacy routes from <strong data-astro-cid-zetdm5md>mincasurong.com</strong> and <strong data-astro-cid-zetdm5md>mincasurong.github.io</strong> redirect automatically where mapped. Select a section below to navigate directly.
+</p> <div class="notfound-links" data-astro-cid-zetdm5md> <a href="/" class="notfound-link primary" data-astro-cid-zetdm5md>M9G Main Portal</a> <a href="/vcard/" class="notfound-link" data-astro-cid-zetdm5md>Researcher CV (/vcard/)</a> <a href="/tutorials/" class="notfound-link" data-astro-cid-zetdm5md>ROS / MoveIt / Jetson Tutorials</a> <a href="/archive/" class="notfound-link" data-astro-cid-zetdm5md>Research &amp; Patent Archive</a> <a href="/blog/" class="notfound-link" data-astro-cid-zetdm5md>Technical Blog (/blog/)</a> <a href="https://tamp.mincasurong.com" class="notfound-link" data-astro-cid-zetdm5md>3D Fast-Sim ↗</a> </div> </div> </main> </body></html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html><html lang="en" class="light"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>M9G | Technical Research Blog</title><link rel="canonical" href="https://mincasurong.github.io/blog/"><meta name="robots" content="index, follow"><meta name="author" content="Minsu (Max) Chang, Ph.D."><meta name="description" content="Technical research and engineering reports by Minsu (Max) Chang, Ph.D. (M9G): browser-native 3D WebGL TAMP at tamp.mincasurong.com (<25 ms IK, 720.0/h), UIUC Lazy-DaSH hypergraph planning, Self-Driving Labs (SDLs), Project STAMP deterministic safety gating (610/610 fault interception), 3-arm VLA benchmarks in Isaac Sim 6.0 & ROS 2 ($0.01972, -76.6%), and agentic coding tools."><meta property="og:type" content="website"><meta property="og:url" content="https://mincasurong.github.io/blog/"><meta property="og:title" content="M9G | Technical Research Blog"><meta property="og:description" content="Engineering reports and benchmarks on browser-native 3D WebGL TAMP (tamp.mincasurong.com, <25 ms IK, 720.0/h), UIUC Lazy-DaSH hypergraphs, Self-Driving Labs, Project STAMP safety gating (610/610), multi-arm VLA planning in Isaac Sim 6.0 ($0.01972, -76.6%), and coding agent tools."><meta property="og:image" content="https://mincasurong.github.io/screenshots/blog6-fastsim-thumb-nanobanana.png"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="alternate" type="application/rss+xml" title="M9G (Minsu Chang / mincasurong) RSS Feed" href="https://mincasurong.github.io/rss.xml"><script>
+  (function() {
+    var t = 'light';
+    try {
+      if (localStorage.getItem('m9g_theme') === 'dark') t = 'dark';
+    } catch (e) {}
+    var root = document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(t);
+    root.dataset.theme = t;
+    root.style.colorScheme = t;
+    window.__m9gToggleTheme = function() {
+      var next = root.classList.contains('dark') ? 'light' : 'dark';
+      root.classList.remove('light', 'dark');
+      root.classList.add(next);
+      root.dataset.theme = next;
+      root.style.colorScheme = next;
+      try { localStorage.setItem('m9g_theme', next); } catch (e) {}
+      document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
+        var mode = btn.getAttribute('data-theme-toggle');
+        if (mode === 'icon-only') {
+          btn.textContent = next === 'light' ? '☀' : '☾';
+        } else {
+          btn.textContent = next === 'light' ? '☀ Light' : '☾ Dark';
+        }
+      });
+    };
+    window.addEventListener('DOMContentLoaded', function() {
+      var cur = root.classList.contains('dark') ? 'dark' : 'light';
+      document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
+        var mode = btn.getAttribute('data-theme-toggle');
+        if (mode === 'icon-only') {
+          btn.textContent = cur === 'light' ? '☀' : '☾';
+        } else {
+          btn.textContent = cur === 'light' ? '☀ Light' : '☾ Dark';
+        }
+      });
+    });
+  })();
+</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"M9G Technical Research & Engineering Blog","url":"https://mincasurong.github.io/blog/","description":"Technical research and engineering reports by Minsu (Max) Chang, Ph.D. (M9G): browser-native 3D WebGL TAMP at tamp.mincasurong.com (<25 ms IK, 720.0/h), UIUC Lazy-DaSH hypergraph planning, Self-Driving Labs (SDLs), Project STAMP deterministic safety gating (610/610 fault interception), 3-arm VLA benchmarks in Isaac Sim 6.0 and ROS 2 ($0.01972, -76.6%), and agentic coding tools.","author":{"@type":"Person","name":"Minsu (Max) Chang","honorificSuffix":"Ph.D.","url":"https://mincasurong.github.io/"},"blogPost":[{"@type":"TechArticle","headline":"Engineering tamp.mincasurong.com: Zero-Install 3D Multi-Robot TAMP and a 6-Cell Smart Factory in 60 FPS WebGL","identifier":"M9G-TR-2026-06","datePublished":"2026-11-09","dateModified":"2026-11-09","url":"https://mincasurong.github.io/blog/tamp-fast-sim/"},{"@type":"TechArticle","headline":"UIUC Lazy-DaSH (IEEE T-RO) and Our Multi-Model VLA Hypergraph Roadmap for IsaacSim_Gemini","identifier":"M9G-TR-2026-05","datePublished":"2026-11-08","dateModified":"2026-11-08","url":"https://mincasurong.github.io/blog/lazy-dash/"},{"@type":"TechArticle","headline":"Multi-Robot Manipulation in NVIDIA Isaac Sim (2025–2026): Cooperative Assembly, Deformable Handling, and Self-Driving Labs","identifier":"M9G-TR-2026-04","datePublished":"2026-11-01","dateModified":"2026-11-01","url":"https://mincasurong.github.io/blog/sdl-survey/"},{"@type":"TechArticle","headline":"Project STAMP: Deterministic Verification Gates and Closed-Loop Context Repair for Multi-Arm VLA Task and Motion Planning","identifier":"M9G-TR-2026-03","datePublished":"2026-10-25","dateModified":"2026-10-25","url":"https://mincasurong.github.io/blog/stamp/"},{"@type":"TechArticle","headline":"Building a Multi-Agent Coding Harness from Scratch and Why It Failed: Inside m9g-agent-corps vs. OmO, OpenCode, Claude Code, and Antigravity","identifier":"M9G-TR-2026-02","datePublished":"2026-10-20","dateModified":"2026-10-25","url":"https://mincasurong.github.io/blog/m9g-agent/"},{"@type":"TechArticle","headline":"Symbolic 3D /tf Grounding and Software-Pipelined VLA Planning for Multi-Arm Manipulation","identifier":"M9G-TR-2026-01","datePublished":"2026-10-18","dateModified":"2026-10-25","url":"https://mincasurong.github.io/blog/VLA/"}]}</script><link rel="stylesheet" href="/_astro/index.e0A4xEyy.css">
+<link rel="stylesheet" href="/_astro/index.2GyEuEtG.css"></head> <body> <div id="progress-bar"></div> <div id="cursor-ring" class="cursor-ring"></div> <div id="cursor-dot" class="cursor-dot"></div> <canvas id="fluid-canvas"></canvas> <header class="topbar"> <div class="topbar-inner"> <a href="/" class="brand"> <span><span class="g-m">M</span><span class="g-9">9</span><span class="g-g">G</span></span> <span class="brand-sep">|</span> <span class="brand-sec" data-i18n="blogHeaderBrand">Blog</span> </a> <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; justify-content:flex-end;"> <nav class="topnav"> <a href="/vcard/" class="hero-pill-btn hero-pill-github"><span>CV</span><span style="font-size:11px;opacity:0.8;">↗</span></a> <a href="/archive/" class="hero-pill-btn hero-pill-github"><span data-i18n="navArchive">Archive</span><span style="font-size:11px;opacity:0.8;">↗</span></a> <a href="/blog/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navBlog">Blog</span><span style="font-size:11px;opacity:0.8;">↗</span></a> <a href="/tutorials/" class="hero-pill-btn hero-pill-github"><span data-i18n="navTutorials">Tutorials</span><span style="font-size:11px;opacity:0.8;">↗</span></a> <a href="/" class="hero-pill-btn hero-pill-linkedin"><span data-i18n="navPortfolio">Main Portal</span><span style="font-size:11px;opacity:0.8;">↗</span></a> </nav> <button class="topbar-btn" id="theme-btn" data-theme-toggle="icon-only" onclick="window.__m9gToggleTheme()" title="Toggle Light / Dark Theme">☀</button> <div class="lang-dropdown-wrap" id="lang-dropdown-wrap"> <button class="topbar-btn" onclick="toggleLangMenu(arguments[0])" aria-label="Select Language"> <span id="current-lang-label">EN</span> <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg> </button> <div class="lang-popup" id="lang-popup"> <button class="lang-option active" onclick="setLang('en')" data-lang="en"><span>English</span></button> <button class="lang-option" onclick="setLang('ko')" data-lang="ko"><span>한국어</span></button> <button class="lang-option" onclick="setLang('ja')" data-lang="ja"><span>日本語</span></button> <button class="lang-option" onclick="setLang('es')" data-lang="es"><span>Español</span></button> <button class="lang-option" onclick="setLang('zh')" data-lang="zh"><span>中文</span></button> </div> </div> </div> </div> </header> <main class="main-wrap"> <div class="sec-head"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg> <h1 class="sec-eyebrow" data-i18n="hubTitle">M9G Technical Research &amp; Engineering Blog</h1> </div> <p class="sec-sub" data-i18n="hubSub">
+Technical reports, architecture diagrams, and benchmark data on multi-robot TAMP, Vision-Language-Action (VLA) planning, and agentic coding tools.
+</p> <div class="sub-bar"> <div class="sub-bar-left"> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg> <span data-i18n="feedHeader">Technical Reports (6)</span> </div> <div class="filter-pills"> <button class="filter-pill active" onclick="filterFeed('all', this)" data-i18n="tabAll">All (6)</button> <button class="filter-pill" onclick="filterFeed('robotics', this)" data-i18n="tabRobotics">Physical AI &amp; Robotics (5)</button> <button class="filter-pill" onclick="filterFeed('agents', this)" data-i18n="tabAgents">Coding Agents (1)</button> </div> </div> <div class="showcase-list"> <div class="showcase-card featured-hero-card" data-topic="robotics"> <a href="/blog/tamp-fast-sim/" class="card-thumb"> <picture> <source srcset="/screenshots/blog6-fastsim-thumb-nanobanana.webp" type="image/webp"> <img src="/screenshots/blog6-fastsim-thumb-nanobanana.png" alt="Building a Browser-Native 3D Multi-Robot &#38; Smart Factory Lite-Sim (tamp.mincasurong.com): Real-Time WebGL TAMP Architecture" width="1376" height="768" loading="eager" decoding="async"> </picture> <span class="card-type-badge">Blog 06 • 3D TAMP Lite-Sim</span> <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + Live App</span> </a> <div class="card-body"> <div> <div class="card-meta"> <span class="card-badge">tamp.mincasurong.com • 60 FPS WebGL • 7-DoF DLS IK &lt;25 ms</span> <a href="/blog/tamp-fast-sim/" class="card-icon-btn" aria-label="Open Blog 06"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"></path><path d="M7 7h10v10"></path></svg> </a> </div> <h2 class="card-title"><a href="/blog/tamp-fast-sim/" data-i18n="b6Title">Building a Browser-Native 3D Multi-Robot &amp; Smart Factory Lite-Sim (tamp.mincasurong.com): Real-Time WebGL TAMP Architecture</a></h2> <p class="card-desc" data-i18n="b6Desc">134 KB binary STL meshes, pure TypeScript 7-DoF DLS IK (&lt;25 ms), 128 Hz swept-capsule collision gate, and a 6-cell (18 FR3 + 4 AMR) smart factory at 720.0/h throughput.</p> </div> </div> </div><div class="showcase-card" data-topic="robotics"> <a href="/blog/lazy-dash/" class="card-thumb"> <picture> <source srcset="/screenshots/blog5-lazydash-thumb-nanobanana.webp" type="image/webp"> <img src="/screenshots/blog5-lazydash-thumb-nanobanana.png" alt="UIUC Lazy-DaSH (IEEE T-RO) Applied to IsaacSim_Gemini: Hierarchical Hypergraph TAMP &#38; Multi-Model VLA Roadmap" width="1376" height="768" loading="lazy" decoding="async"> </picture> <span class="card-type-badge">Blog 05 • Lazy-DaSH × VLA</span> <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + TL;DR</span> </a> <div class="card-body"> <div> <div class="card-meta"> <span class="card-badge">IEEE T-RO (UIUC) • 16 Arms &amp; 60+ Obj • 100× Faster</span> <a href="/blog/lazy-dash/" class="card-icon-btn" aria-label="Open Blog 05"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"></path><path d="M7 7h10v10"></path></svg> </a> </div> <h2 class="card-title"><a href="/blog/lazy-dash/" data-i18n="b5Title">UIUC Lazy-DaSH (IEEE T-RO) Applied to IsaacSim_Gemini: Hierarchical Hypergraph TAMP &amp; Multi-Model VLA Roadmap</a></h2> <p class="card-desc" data-i18n="b5Desc">Four-layer lazy task-to-motion hypergraphs and scoped constraint feedback mapped onto Gemini 4 Carbon, Robotics-ER 2, and Flash-Lite across 7 KPIs.</p> </div> </div> </div><div class="showcase-card" data-topic="robotics"> <a href="/blog/sdl-survey/" class="card-thumb"> <picture> <source srcset="/screenshots/blog4-sdl-thumb-nanobanana.webp" type="image/webp"> <img src="/screenshots/blog4-sdl-thumb-nanobanana.png" alt="SOTA Survey (2025-2026): Multi-Robot Assembly, Deformable Manipulation &#38; Self-Driving Labs in Isaac Sim" width="1376" height="768" loading="lazy" decoding="async"> </picture> <span class="card-type-badge">Blog 04 • SDL Survey</span> <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + TL;DR</span> </a> <div class="card-body"> <div> <div class="card-meta"> <span class="card-badge">14 Robotics Systems • Assembly, Deformables &amp; SDLs</span> <a href="/blog/sdl-survey/" class="card-icon-btn" aria-label="Open Blog 04"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"></path><path d="M7 7h10v10"></path></svg> </a> </div> <h2 class="card-title"><a href="/blog/sdl-survey/" data-i18n="b4Title">SOTA Survey (2025-2026): Multi-Robot Assembly, Deformable Manipulation &amp; Self-Driving Labs in Isaac Sim</a></h2> <p class="card-desc" data-i18n="b4Desc">Comparative synthesis of 14 neuro-symbolic and GPU physics systems, including MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, and Project STAMP.</p> </div> </div> </div><div class="showcase-card" data-topic="robotics"> <a href="/blog/stamp/" class="card-thumb"> <picture> <source srcset="/screenshots/blog3-stamp-thumb-nanobanana.webp" type="image/webp"> <img src="/screenshots/blog3-stamp-thumb-nanobanana.png" alt="Project STAMP: 4-Stage Deterministic Pre-Dispatch Gate &#38; Closed-Loop Write-Back for Multi-Arm VLA" width="1376" height="768" loading="lazy" decoding="async"> </picture> <span class="card-type-badge">Blog 03 • STAMP</span> <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + TL;DR</span> </a> <div class="card-body"> <div> <div class="card-meta"> <span class="card-badge">100% Fault Shield (610/610) • 1,000 Episodes</span> <a href="/blog/stamp/" class="card-icon-btn" aria-label="Open Blog 03"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"></path><path d="M7 7h10v10"></path></svg> </a> </div> <h2 class="card-title"><a href="/blog/stamp/" data-i18n="b3Title">Project STAMP: 4-Stage Deterministic Pre-Dispatch Gate &amp; Closed-Loop Write-Back for Multi-Arm VLA</a></h2> <p class="card-desc" data-i18n="b3Desc">Intercepts 610/610 kinematic, collision, torque, and zone-lock faults across 1,000 episodes and raises task completion from 39% to 100%.</p> </div> </div> </div><div class="showcase-card" data-topic="agents"> <a href="/blog/m9g-agent/" class="card-thumb"> <picture> <source srcset="/screenshots/blog2-agent-thumb-nanobanana.webp" type="image/webp"> <img src="/screenshots/blog2-agent-thumb-nanobanana.png" alt="Why Our 28-Module Coding Harness Failed Against OmO, OpenCode &#38; Claude Code (and Extracting m9g-mcp)" width="1376" height="768" loading="lazy" decoding="async"> </picture> <span class="card-type-badge">Blog 02 • Agents</span> <span class="card-duration-badge"><span class="card-duration-dot"></span>0:40 Video + TL;DR</span> </a> <div class="card-body"> <div> <div class="card-meta"> <span class="card-badge">28 Modules • Pivot to m9g-mcp Server</span> <a href="/blog/m9g-agent/" class="card-icon-btn" aria-label="Open Blog 02"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"></path><path d="M7 7h10v10"></path></svg> </a> </div> <h2 class="card-title"><a href="/blog/m9g-agent/" data-i18n="b2Title">Why Our 28-Module Coding Harness Failed Against OmO, OpenCode &amp; Claude Code (and Extracting m9g-mcp)</a></h2> <p class="card-desc" data-i18n="b2Desc">Post-mortem of 6 architectural failure modes in a from-scratch 28-module harness and how we extracted 7 deterministic verification tools into m9g-mcp.</p> </div> </div> </div><div class="showcase-card" data-topic="robotics"> <a href="/blog/VLA/" class="card-thumb"> <picture> <source srcset="/screenshots/blog1-vla-thumb-nanobanana.webp" type="image/webp"> <img src="/screenshots/blog1-vla-thumb-nanobanana.png" alt="Symbolic 3D /tf Grounding &#38; 10-Turn Pipelined VLA Planning: Gemini Robotics-ER 2 vs. Gemini 4 Carbon" width="1376" height="768" loading="lazy" decoding="async"> </picture> <span class="card-type-badge">Blog 01 • VLA</span> <span class="card-duration-badge"><span class="card-duration-dot"></span>0:38 Video + TL;DR</span> </a> <div class="card-body"> <div> <div class="card-meta"> <span class="card-badge">3-Arm FR3 Tower • -76.6% API Cost ($0.01972)</span> <a href="/blog/VLA/" class="card-icon-btn" aria-label="Open Blog 01"> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7"></path><path d="M7 7h10v10"></path></svg> </a> </div> <h2 class="card-title"><a href="/blog/VLA/" data-i18n="b1Title">Symbolic 3D /tf Grounding &amp; 10-Turn Pipelined VLA Planning: Gemini Robotics-ER 2 vs. Gemini 4 Carbon</a></h2> <p class="card-desc" data-i18n="b1Desc">Hardware-in-the-loop 3-arm FR3 benchmark in Isaac Sim 6.0: 0 RGB tokens and a 10-turn pipelined schedule cut API cost to $0.01972 (-76.6%).</p> </div> </div> </div> </div> </main> <div class="m9g-gotop-bar"> <button type="button" class="m9g-gotop-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Go to Top"> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg> <span>Go to Top</span> </button> </div> <footer> <div class="footer-inner"> <p class="footer-copy">© 2026 M9G • Build in Public</p> <div style="display:inline-flex; align-items:center; gap:10px;"> <a href="https://www.linkedin.com/in/mincasurong/" target="_blank" rel="noopener" class="hero-pill-btn hero-pill-linkedin"><span>LinkedIn</span><span>↗</span></a> <a href="https://github.com/mincasurong" target="_blank" rel="noopener" class="hero-pill-btn hero-pill-github"><span>GitHub</span><span>↗</span></a> </div> </div> </footer> <script>
+    window.addEventListener('scroll', function() {
+      var doc = document.documentElement;
+      var top = doc.scrollTop || document.body.scrollTop;
+      var height = doc.scrollHeight - doc.clientHeight;
+      var bar = document.getElementById('progress-bar');
+      if (bar) bar.style.width = (height > 0 ? (top / height) * 100 : 0) + '%';
+    }, { passive: true });
+
+    (function initInteractiveCursor() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var ring = document.getElementById('cursor-ring');
+      var dot = document.getElementById('cursor-dot');
+      if (!ring || !dot || window.matchMedia('(pointer: coarse)').matches) return;
+      var mx = -100, my = -100, rx = -100, ry = -100;
+      window.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = 'translate3d(' + (mx - 3) + 'px,' + (my - 3) + 'px,0)';
+      }, { passive: true });
+      function tickCursor() {
+        if (!document.hidden) {
+          rx += (mx - rx) * 0.18;
+          ry += (my - ry) * 0.18;
+          ring.style.transform = 'translate3d(' + (rx - 16) + 'px,' + (ry - 16) + 'px,0)';
+        }
+        requestAnimationFrame(tickCursor);
+      }
+      requestAnimationFrame(tickCursor);
+    })();
+
+    (function initFluidCanvas() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var canvas = document.getElementById('fluid-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var width = canvas.width = window.innerWidth;
+      var height = canvas.height = window.innerHeight;
+      window.addEventListener('resize', function() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+      var mouse = { x: -1000, y: -1000 };
+      window.addEventListener('mousemove', function(e) {
+        mouse.x = e.clientX; mouse.y = e.clientY;
+      }, { passive: true });
+      var count = Math.min(64, Math.max(28, Math.floor((width * height) / 22000)));
+      var particles = [];
+      for (var i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * width, y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.55, vy: (Math.random() - 0.5) * 0.55,
+          r: Math.random() * 1.9 + 0.9, gold: i % 3 === 0
+        });
+      }
+      function renderParticles() {
+        if (document.hidden) {
+          requestAnimationFrame(renderParticles);
+          return;
+        }
+        ctx.clearRect(0, 0, width, height);
+        var isLight = document.documentElement.classList.contains('light');
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+          var dxm = p.x - mouse.x, dym = p.y - mouse.y;
+          var distMouse = Math.sqrt(dxm * dxm + dym * dym);
+          if (distMouse < 140 && distMouse > 0) {
+            p.x += (dxm / distMouse) * 1.25; p.y += (dym / distMouse) * 1.25;
+          }
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.gold
+            ? (isLight ? 'rgba(26, 115, 232, 0.55)' : 'rgba(212, 175, 55, 0.65)')
+            : (isLight ? 'rgba(95, 99, 104, 0.35)' : 'rgba(96, 165, 250, 0.45)');
+          ctx.fill();
+          for (var j = i + 1; j < particles.length; j++) {
+            var q = particles[j];
+            var dx = p.x - q.x, dy = p.y - q.y;
+            var d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 130) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+              var alpha = (1 - d / 130) * (isLight ? 0.16 : 0.2);
+              ctx.strokeStyle = (p.gold || q.gold)
+                ? (isLight ? 'rgba(26, 115, 232, ' + alpha + ')' : 'rgba(212, 175, 55, ' + alpha + ')')
+                : (isLight ? 'rgba(95, 99, 104, ' + alpha + ')' : 'rgba(148, 163, 184, ' + alpha + ')');
+              ctx.lineWidth = 0.75;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(renderParticles);
+      }
+      requestAnimationFrame(renderParticles);
+    })();
+
+    function filterFeed(topic, btnEl) {
+      document.querySelectorAll('.filter-pill').forEach(function(b) { b.classList.remove('active'); });
+      if (btnEl) btnEl.classList.add('active');
+      document.querySelectorAll('.showcase-card').forEach(function(card) {
+        var t = card.getAttribute('data-topic');
+        card.classList.toggle('hidden', topic !== 'all' && t !== topic);
+      });
+    }
+
+    var HUB_I18N = {
+      en: {
+        blogHeaderBrand: "Blog", navTutorials: "Tutorials", navBlog: "Blog", navArchive: "Archive", navPortfolio: "Main Portal",
+        hubTitle: "M9G Technical Research & Engineering Blog",
+        hubSub: "Technical reports, architecture diagrams, and benchmark data on multi-robot TAMP, Vision-Language-Action (VLA) planning, and agentic coding tools.",
+        feedHeader: "Technical Reports (6)",
+        tabAll: "All (6)", tabRobotics: "Physical AI & Robotics (5)", tabAgents: "Coding Agents (1)",
+        b6Title: "Building a Browser-Native 3D Multi-Robot & Smart Factory Lite-Sim (tamp.mincasurong.com): Real-Time WebGL TAMP Architecture",
+        b6Desc: "134 KB binary STL meshes, pure TypeScript 7-DoF DLS IK (<25 ms), 128 Hz swept-capsule collision gate, and a 6-cell (18 FR3 + 4 AMR) smart factory at 720.0/h throughput.",
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) Applied to IsaacSim_Gemini: Hierarchical Hypergraph TAMP & Multi-Model VLA Roadmap",
+        b5Desc: "Four-layer lazy task-to-motion hypergraphs and scoped constraint feedback mapped onto Gemini 4 Carbon, Robotics-ER 2, and Flash-Lite across 7 KPIs.",
+        b4Title: "SOTA Survey (2025-2026): Multi-Robot Assembly, Deformable Manipulation & Self-Driving Labs in Isaac Sim",
+        b4Desc: "Comparative synthesis of 14 neuro-symbolic and GPU physics systems, including MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, and Project STAMP.",
+        b3Title: "Project STAMP: 4-Stage Deterministic Pre-Dispatch Gate & Closed-Loop Write-Back for Multi-Arm VLA",
+        b3Desc: "Intercepts 610/610 kinematic, collision, torque, and zone-lock faults across 1,000 episodes and raises task completion from 39% to 100%.",
+        b2Title: "Why Our 28-Module Coding Harness Failed Against OmO, OpenCode & Claude Code (and Extracting m9g-mcp)",
+        b2Desc: "Post-mortem of 6 architectural failure modes in a from-scratch 28-module harness and how we extracted 7 deterministic verification tools into m9g-mcp.",
+        b1Title: "Symbolic 3D /tf Grounding & 10-Turn Pipelined VLA Planning: Gemini Robotics-ER 2 vs. Gemini 4 Carbon",
+        b1Desc: "Hardware-in-the-loop 3-arm FR3 benchmark in Isaac Sim 6.0: 0 RGB tokens and a 10-turn pipelined schedule cut API cost to $0.01972 (-76.6%)."
+      },
+      ko: {
+        blogHeaderBrand: "블로그", navTutorials: "튜토리얼", navBlog: "블로그", navArchive: "아카이브", navPortfolio: "메인 포털",
+        hubTitle: "M9G 기술 리서치 & 엔지니어링 블로그",
+        hubSub: "다중 로봇 TAMP, 비전-언어-행동(VLA) 플래닝, 에이전트 개발 도구에 관한 기술 리포트와 아키텍처·벤치마크 분석.",
+        feedHeader: "발행된 기술 리포트 (6편)",
+        tabAll: "전체 (6)", tabRobotics: "피지컬 AI & 로보틱스 (5)", tabAgents: "코딩 에이전트 (1)",
+        b6Title: "브라우저 네이티브 3D 다중 로봇 & 스마트 팩토리 Lite-Sim (tamp.mincasurong.com): 실시간 WebGL TAMP 아키텍처",
+        b6Desc: "134 KB 바이너리 STL 메쉬, 순수 TypeScript 7자유도 DLS 역기구학(<25 ms), 128 Hz 스웹 캡슐 충돌 게이트 및 720.0/h 처리량의 6셀(18 FR3 + 4 AMR) 스마트 팩토리.",
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini: 계층형 하이퍼그래프 TAMP 및 멀티모델 VLA 로드맵",
+        b5Desc: "4계층 지연 평가 하이퍼그래프와 범위 제한 제약 피드백을 Gemini 4 Carbon, Robotics-ER 2, Flash-Lite 및 7개 핵심 KPI에 매핑한 설계안.",
+        b4Title: "SOTA 서베이 (2025-2026): Isaac Sim 기반 다중 로봇 조립, 유연체 조작 및 자율 실험실(SDL)",
+        b4Desc: "MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA, Project STAMP 등 14개 뉴로-심볼릭 및 GPU 물리 시스템 비교 분석.",
+        b3Title: "Project STAMP: 다중 로봇 팔 VLA를 위한 4단계 결정론적 사전 검증 게이트 & 폐루프 Write-Back",
+        b3Desc: "1,000 에피소드에서 기구학·충돌·토크·구역 잠금 결함 610/610건을 사전 차단하고 폐루프 피드백으로 완수율을 39%에서 100%로 개선.",
+        b2Title: "28모듈 자체 제작 코딩 하네스 실패 부검: OmO, OpenCode, Claude Code 비교 및 m9g-mcp 분리",
+        b2Desc: "자체 구축한 28모듈 하네스의 6가지 구조적 실패 원인을 분석하고, 7개 결정론적 검증 도구를 m9g-mcp 서버로 분리한 엔지니어링 기록.",
+        b1Title: "심볼릭 3D /tf 그라운딩 및 10턴 파이프라인 VLA 플래닝: Gemini Robotics-ER 2 vs. Gemini 4 Carbon",
+        b1Desc: "Isaac Sim 6.0 3대 FR3 벤치마크: 0 RGB 토큰과 10턴 파이프라인 스케줄링으로 에피소드당 API 비용을 $0.01972(-76.6%)로 절감."
+      },
+      ja: {
+        blogHeaderBrand: "ブログ", navTutorials: "チュートリアル", navBlog: "ブログ", navArchive: "アーカイブ", navPortfolio: "メインポータル",
+        hubTitle: "M9G 技術リサーチ & エンジニアリングブログ",
+        hubSub: "マルチロボットTAMP、VLA（視覚・言語・行動）計画、コーディングエージェント基盤に関する技術レポートとベンチマーク検証。",
+        feedHeader: "公開技術レポート (6本)",
+        tabAll: "すべて (6)", tabRobotics: "フィジカルAI & ロボティクス (5)", tabAgents: "コーディングエージェント (1)",
+        b6Title: "ブラウザネイティブ 3D マルチロボット＆スマート工場 Lite-Sim (tamp.mincasurong.com)：リアルタイム WebGL TAMP 設計",
+        b6Desc: "134 KBバイナリSTLメッシュ、TypeScript製7自由度DLS逆運動学(<25 ms)、128 Hzスイープカプセル衝突ゲート、720.0/hの6セル(18 FR3 + 4 AMR)スマート工場。",
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini：階層型ハイパーグラフTAMPとマルチモデルVLAロードマップ",
+        b5Desc: "4層遅延評価ハイパーグラフとスコープ付き制約フィードバックを、Gemini 4 Carbon・Robotics-ER 2・Flash-Liteと7つの評価指標(KPI)へ統合。",
+        b4Title: "SOTAサーベイ (2025-2026)：Isaac Simにおけるマルチロボット組立・柔軟物操作・自律実験室 (SDL)",
+        b4Desc: "MATTERIX、APEX-MR、RoboFactory、DexGarmentLab、ORGANA、Project STAMPを含む14のニューロシンボリック＋GPU物理システムを体系比較。",
+        b3Title: "Project STAMP：マルチアームVLA向け4段階決定論的事前安全ゲートと閉ループ Write-Back",
+        b3Desc: "1,000エピソード中の運動学・干渉・トルク・ゾーン競合エラー610/610件を事前遮断し、閉ループ修復によりタスク完遂率を39%から100%へ改善。",
+        b2Title: "28モジュール自作コーディングハーネスの失敗分析：OmO・OpenCode・Claude Code比較と m9g-mcp への再設計",
+        b2Desc: "フルスクラッチ実装した28モジュール基盤における6つの失敗要因を検証し、7つの決定論的検証ツールを m9g-mcp サーバーへ切り出した記録。",
+        b1Title: "3D /tf シンボリック接地と10ターンパイプラインVLA計画：Gemini Robotics-ER 2 vs. Gemini 4 Carbon",
+        b1Desc: "Isaac Sim 6.0上のFR3×3台ベンチマーク：0 RGBトークンと10ターン並列スケジュールによりAPIコストを$0.01972 (-76.6%)へ削減。"
+      },
+      zh: {
+        blogHeaderBrand: "技术博客", navTutorials: "工程教程", navBlog: "技术博客", navArchive: "研究档案", navPortfolio: "主门户",
+        hubTitle: "M9G 技术研究与系统工程博客",
+        hubSub: "围绕多机器人任务与运动规划 (TAMP)、视觉-语言-动作 (VLA) 调度及编码智能体工具链的技术报告、架构图解与基准评测。",
+        feedHeader: "已发布技术报告 (6)",
+        tabAll: "全部 (6)", tabRobotics: "物理 AI 与机器人 (5)", tabAgents: "编码智能体 (1)",
+        b6Title: "构建浏览器原生 3D 多机器人与智能工厂 Lite-Sim (tamp.mincasurong.com)：实时 WebGL TAMP 架构解析",
+        b6Desc: "134 KB 二进制 STL 网格、纯 TypeScript 7-DoF DLS 逆运动学 (<25 ms)、128 Hz 扫掠胶囊碰撞门控与 720.0/h 吞吐量的 6 单元 (18 FR3 + 4 AMR) 智能工厂。",
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) × IsaacSim_Gemini：分层超图 TAMP 与多模型 VLA 演进路线",
+        b5Desc: "将四层惰性求值超图与局部约束反馈机制映射至 Gemini 4 Carbon、Robotics-ER 2 与 Flash-Lite，并定义 7 项连续评估指标。",
+        b4Title: "前沿综述 (2025-2026)：Isaac Sim 多机器人装配、柔性物体操作与自动驾驶实验室 (SDL)",
+        b4Desc: "横向对比 MATTERIX、APEX-MR、RoboFactory、DexGarmentLab、ORGANA 与 Project STAMP 等 14 套神经符号及 GPU 物理仿真系统。",
+        b3Title: "Project STAMP：面向多臂 VLA 的四阶段确定性前置安全门控与闭环 Write-Back",
+        b3Desc: "在 1,000 轮测试中实现 610/610 次运动学、碰撞、力矩与防区锁冲突拦截，并通过闭环约束回写将任务完成率从 39% 提升至 100%。",
+        b2Title: "28 模块自研编码框架复盘：对比 OmO、OpenCode 与 Claude Code 及抽离 m9g-mcp",
+        b2Desc: "剖析从零构建 28 模块编码框架的 6 类架构失效模式，并将其中 7 项确定性静态检查与导航工具抽离为 m9g-mcp 服务器。",
+        b1Title: "符号化 3D /tf 接地与 10 轮流水线 VLA 规划：Gemini Robotics-ER 2 对比 Gemini 4 Carbon",
+        b1Desc: "Isaac Sim 6.0 三台 FR3 硬件在环基准：零 RGB 图像 Token 配合 10 轮流水线调度，将单轮 API 成本降至 $0.01972 (-76.6%)。"
+      },
+      es: {
+        blogHeaderBrand: "Blog", navTutorials: "Tutoriales", navBlog: "Blog", navArchive: "Archivo", navPortfolio: "Portal Principal",
+        hubTitle: "Blog de Investigación e Ingeniería de Sistemas M9G",
+        hubSub: "Informes técnicos, diagramas de arquitectura y benchmarks sobre TAMP multirrobot, planificación VLA y herramientas para agentes de código.",
+        feedHeader: "Informes Técnicos Publicados (6)",
+        tabAll: "Todos (6)", tabRobotics: "IA Física y Robótica (5)", tabAgents: "Agentes de Código (1)",
+        b6Title: "Lite-Sim 3D Multirrobot y de Fábrica Inteligente en el Navegador (tamp.mincasurong.com): Arquitectura TAMP en WebGL",
+        b6Desc: "Mallas binarias STL de 134 KB, cinemática inversa DLS de 7 GDL en TypeScript (<25 ms), compuerta de cápsulas barridas a 128 Hz y fábrica de 6 celdas (18 FR3 + 4 AMR) a 720.0/h.",
+        b5Title: "UIUC Lazy-DaSH (IEEE T-RO) en IsaacSim_Gemini: TAMP Jerárquico con Hipergrafos y Hoja de Ruta VLA Multimodelo",
+        b5Desc: "Hipergrafo de evaluación diferida de 4 capas y retroalimentación acotada de restricciones integrados con Gemini 4 Carbon, Robotics-ER 2 y Flash-Lite en 7 KPIs.",
+        b4Title: "Revisión SOTA (2025-2026): Ensamblaje Multirrobot, Objetos Deformables y Laboratorios Autónomos (SDL) en Isaac Sim",
+        b4Desc: "Comparativa de 14 sistemas neurosimbólicos y de física en GPU, incluidos MATTERIX, APEX-MR, RoboFactory, DexGarmentLab, ORGANA y Project STAMP.",
+        b3Title: "Project STAMP: Compuerta Determinista de 4 Etapas y Write-Back en Lazo Cerrado para VLA Multibrazo",
+        b3Desc: "Intercepta 610/610 fallos cinemáticos, de colisión, par y bloqueo de zona en 1,000 episodios, elevando la tasa de éxito del 39% al 100%.",
+        b2Title: "Análisis del Fracaso de Nuestro Entorno de 28 Módulos frente a OmO, OpenCode y Claude Code (y Extracción de m9g-mcp)",
+        b2Desc: "Diagnóstico de 6 modos de fallo al construir un entorno de agentes desde cero y extracción de 7 herramientas deterministas al servidor m9g-mcp.",
+        b1Title: "Anclaje Simbólico 3D /tf y Planificación VLA Segmentada en 10 Turnos: Gemini Robotics-ER 2 vs. Gemini 4 Carbon",
+        b1Desc: "Benchmark con 3 brazos FR3 en Isaac Sim 6.0: 0 tokens RGB y planificación segmentada en 10 turnos reducen el costo de API a $0.01972 (-76.6%)."
+      }
+    };
+
+    function toggleLangMenu(e) {
+      e.stopPropagation();
+      document.getElementById('lang-popup').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      var wrap = document.getElementById('lang-dropdown-wrap');
+      if (wrap && !wrap.contains(e.target)) document.getElementById('lang-popup').classList.remove('open');
+    });
+    function setLang(lang) {
+      if (!HUB_I18N[lang]) lang = 'en';
+      try { localStorage.setItem('m9g_portfolio_lang', lang); } catch (e) {}
+      document.documentElement.lang = lang;
+      var lbl = document.getElementById('current-lang-label');
+      if (lbl) lbl.textContent = lang.toUpperCase();
+      document.querySelectorAll('.lang-option').forEach(function(opt) {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      var popup = document.getElementById('lang-popup');
+      if (popup) popup.classList.remove('open');
+      var dict = HUB_I18N[lang];
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        if (el.dataset.origHtml === undefined) {
+          el.dataset.origHtml = el.innerHTML;
+        }
+        if (lang === 'en') {
+          if (el.innerHTML !== el.dataset.origHtml) {
+            el.innerHTML = el.dataset.origHtml;
+          }
+          return;
+        }
+        var key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+    setLang((function() { try { return localStorage.getItem('m9g_portfolio_lang') || 'en'; } catch (e) { return 'en'; } })());
+  </script> </body> </html>

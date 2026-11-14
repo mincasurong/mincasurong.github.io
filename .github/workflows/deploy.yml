@@ -1,7 +1,10 @@
-name: Deploy to GitHub Pages
+name: Build, Verify & Deploy Pages
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
   workflow_dispatch:
@@ -18,6 +21,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      pages_workflow_enabled: ${{ steps.pages_mode.outputs.enabled }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -38,18 +43,33 @@ jobs:
         run: npm run build
 
       - name: Verify production build output
-        run: node scripts/verify-build.mjs
+        run: npm run verify
+
+      - name: Detect GitHub Pages build mode
+        id: pages_mode
+        if: github.event_name != 'pull_request'
+        run: |
+          MODE=$(curl -s -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages" | jq -r '.build_type // "legacy"')
+          echo "Detected Pages build_type=${MODE}"
+          if [ "${MODE}" = "workflow" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Configure Pages
+        if: steps.pages_mode.outputs.enabled == 'true'
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
+        if: steps.pages_mode.outputs.enabled == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
   deploy:
     needs: build
+    if: needs.build.outputs.pages_workflow_enabled == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
